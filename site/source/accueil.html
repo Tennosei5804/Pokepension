@@ -77,86 +77,28 @@
       </div>
     </div>
 
-    <!-- LA VITRINE. Neuf cases du Pokédex, dans leur vrai état : possédé en
-         normal (vert), possédé en chromatique (or), et manquant. Les noms
-         français et les numéros nationaux sont relevés sur la réserve du
-         dépôt, les rendus viennent de la même source que la grille.
-
-         Ce ne sont PAS les vraies cartes de dex.css : y aller coûterait
-         60 Ko de feuille pour un seul composant décoratif. C'est un portrait
-         d'après nature, tenu aux mêmes jetons de couleur — si la palette
-         bouge, il bouge avec elle. -->
-    <div class="acc-vitrine" aria-hidden="true">
-      <div class="acc-vitrine-cadre">
-        <div class="acc-vitrine-barre">
-          <span class="acc-vitrine-onglet is-actif">Pokédex National</span>
-          <span class="acc-vitrine-jauge"><i style="width:66%"></i></span>
-          <span class="acc-vitrine-compte">6 / 9</span>
-        </div>
-        <div class="acc-vitrine-grille">
-          <div class="acc-case is-pris">
-            <div class="acc-case-image"><img loading="lazy" decoding="async" alt=""
-              src="https://play.pokemonshowdown.com/sprites/home/bulbasaur.png"></div>
-            <span class="acc-case-nom">Bulbizarre</span><span class="acc-case-num">N° 001</span>
-          </div>
-          <div class="acc-case is-pris">
-            <div class="acc-case-image"><img loading="lazy" decoding="async" alt=""
-              src="https://play.pokemonshowdown.com/sprites/home/charizard.png"></div>
-            <span class="acc-case-nom">Dracaufeu</span><span class="acc-case-num">N° 006</span>
-          </div>
-          <div class="acc-case">
-            <div class="acc-case-image"><img loading="lazy" decoding="async" alt=""
-              src="https://play.pokemonshowdown.com/sprites/home/gengar.png"></div>
-            <span class="acc-case-nom">Ectoplasma</span><span class="acc-case-num">N° 094</span>
-          </div>
-          <div class="acc-case is-pris">
-            <div class="acc-case-image"><img loading="lazy" decoding="async" alt=""
-              src="https://play.pokemonshowdown.com/sprites/home/pikachu.png"></div>
-            <span class="acc-case-nom">Pikachu</span><span class="acc-case-num">N° 025</span>
-          </div>
-          <div class="acc-case is-shiny">
-            <div class="acc-case-image"><img loading="lazy" decoding="async" alt=""
-              src="https://play.pokemonshowdown.com/sprites/home-shiny/umbreon.png"></div>
-            <span class="acc-case-nom">Noctali</span><span class="acc-case-num">✨ N° 197</span>
-          </div>
-          <div class="acc-case is-pris">
-            <div class="acc-case-image"><img loading="lazy" decoding="async" alt=""
-              src="https://play.pokemonshowdown.com/sprites/home/eevee.png"></div>
-            <span class="acc-case-nom">Évoli</span><span class="acc-case-num">N° 133</span>
-          </div>
-          <div class="acc-case is-pris">
-            <div class="acc-case-image"><img loading="lazy" decoding="async" alt=""
-              src="https://play.pokemonshowdown.com/sprites/home/dragonite.png"></div>
-            <span class="acc-case-nom">Dracolosse</span><span class="acc-case-num">N° 149</span>
-          </div>
-          <div class="acc-case">
-            <div class="acc-case-image"><img loading="lazy" decoding="async" alt=""
-              src="https://play.pokemonshowdown.com/sprites/home/lucario.png"></div>
-            <span class="acc-case-nom">Lucario</span><span class="acc-case-num">N° 448</span>
-          </div>
-          <div class="acc-case is-pris">
-            <div class="acc-case-image"><img loading="lazy" decoding="async" alt=""
-              src="https://play.pokemonshowdown.com/sprites/home/greninja.png"></div>
-            <span class="acc-case-nom">Amphinobi</span><span class="acc-case-num">N° 658</span>
-          </div>
-        </div>
-      </div>
-      <p class="acc-vitrine-legende">
-        <b class="acc-pastille acc-pastille-vert"></b> possédé en normal
-        <b class="acc-pastille acc-pastille-or"></b> possédé en chromatique
-        <b class="acc-pastille acc-pastille-vide"></b> manquant
-      </p>
-    </div>
   </header>
 
   <!-- ═══ CE QUE ÇA COUVRE ═══════════════════════════════════════════════
        Des nombres, pas des adjectifs. « Complet » ne veut rien dire ;
        « 1 025 espèces » se vérifie. -->
   <section class="acc-chiffres" aria-label="Ce que le Pokédex couvre">
-    <div class="acc-chiffre"><b>1 025</b><span>espèces</span></div>
-    <div class="acc-chiffre"><b>23</b><span>jeux, de Rouge à Z-A</span></div>
-    <div class="acc-chiffre"><b>9</b><span>générations</span></div>
-    <div class="acc-chiffre"><b>2</b><span>formes comptées à part</span></div>
+    <div class="acc-chiffre">
+      <b>1 025</b><span>espèces</span>
+      <em>du Pokédex national, de Bulbizarre à Pêchaminus</em>
+    </div>
+    <div class="acc-chiffre">
+      <b>1 281</b><span>à cocher</span>
+      <em>formes régionales et variantes comprises</em>
+    </div>
+    <div class="acc-chiffre">
+      <b>23</b><span>jeux</span>
+      <em>de Rouge à Légendes Z-A, plus Cobblemon</em>
+    </div>
+    <div class="acc-chiffre">
+      <b>9</b><span>générations</span>
+      <em>de Kanto à Paldea, chacune avec sa jauge</em>
+    </div>
   </section>
 
   <!-- ═══ LES JEUX ═══════════════════════════════════════════════════════
@@ -259,15 +201,6 @@
           l'autre.
         </p>
       </article>
-    </div>
-  </section>
-
-  <!-- ═══ LES TYPES ══════════════════════════════════════════════════════
-       Décoratif, et honnêtement peu coûteux : les dix-huit logos pèsent
-       47 Ko à eux tous, et ils sont déjà livrés pour l'application. -->
-  <section class="acc-types-bloc" aria-label="Les dix-huit types">
-    <div class="acc-types">
-      <img loading="lazy" src="types/normal.png" alt="Normal"><img loading="lazy" src="types/feu.png" alt="Feu"><img loading="lazy" src="types/eau.png" alt="Eau"><img loading="lazy" src="types/plante.png" alt="Plante"><img loading="lazy" src="types/electrik.png" alt="Électrik"><img loading="lazy" src="types/glace.png" alt="Glace"><img loading="lazy" src="types/combat.png" alt="Combat"><img loading="lazy" src="types/poison.png" alt="Poison"><img loading="lazy" src="types/sol.png" alt="Sol"><img loading="lazy" src="types/vol.png" alt="Vol"><img loading="lazy" src="types/psy.png" alt="Psy"><img loading="lazy" src="types/insecte.png" alt="Insecte"><img loading="lazy" src="types/roche.png" alt="Roche"><img loading="lazy" src="types/spectre.png" alt="Spectre"><img loading="lazy" src="types/dragon.png" alt="Dragon"><img loading="lazy" src="types/tenebres.png" alt="Ténèbres"><img loading="lazy" src="types/acier.png" alt="Acier"><img loading="lazy" src="types/fee.png" alt="Fée">
     </div>
   </section>
 

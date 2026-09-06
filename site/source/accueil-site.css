@@ -39,11 +39,13 @@ body.page-accueil{
 
 /* ════ L'entrée ═══════════════════════════════════════════════════════════ */
 
+/* UNE SEULE COLONNE, DONC CENTRÉE. L'en-tête tenait sur deux colonnes tant
+   qu'une vitrine occupait la droite ; sans elle, un bloc aligné à gauche sur
+   une page de 1 080 px laisse une moitié vide qui ne dit rien. */
 .acc-tete{
-  display:grid;
-  grid-template-columns:minmax(0, 1.05fr) minmax(0, .95fr);
-  gap:44px;
-  align-items:center;
+  display:flex; flex-direction:column; align-items:center;
+  text-align:center;
+  padding:14px 0 8px;
 }
 
 .acc-marque{ display:flex; align-items:center; gap:16px; }
@@ -64,13 +66,13 @@ body.page-accueil{
   margin:0; line-height:1.02;
 }
 .acc-phrase{
-  font-size:clamp(15px, 1.5vw, 17.5px); line-height:1.55; color:var(--ink-soft);
-  margin:20px 0 26px; max-width:52ch;
+  font-size:clamp(15px, 1.6vw, 18px); line-height:1.55; color:var(--ink-soft);
+  margin:22px auto 28px; max-width:56ch;
 }
 
 /* ---- Les portes ---- */
 
-.acc-portes{ display:flex; flex-direction:column; gap:12px; align-items:flex-start; }
+.acc-portes{ display:flex; flex-direction:column; gap:12px; align-items:center; }
 
 /* Le bleu de Discord, et pas une couleur du projet : c'est le bouton d'un
    service tiers, et le reconnaître avant de le lire fait partie de ce qui
@@ -129,138 +131,53 @@ body.page-accueil{
 
 .acc-note{
   font-size:13px; line-height:1.55; color:var(--ink-faint);
-  margin:4px 0 0; max-width:56ch;
+  margin:6px auto 0; max-width:54ch;
 }
-
-/* ---- La vitrine : neuf cases du Pokédex ---- */
-
-.acc-vitrine{ display:flex; flex-direction:column; gap:11px; }
-/* Le cadre rouge du boîtier, en plus sobre : la page n'imite pas le Pokédex,
-   elle en montre l'écran. */
-.acc-vitrine-cadre{
-  background:var(--dex-red-darker);
-  border-radius:18px;
-  padding:9px;
-  box-shadow:0 40px 70px -34px rgba(0,0,0,.65);
-}
-.acc-vitrine-barre{
-  display:flex; align-items:center; gap:10px;
-  padding:9px 11px 10px;
-}
-.acc-vitrine-onglet{
-  font-family:var(--font-data); font-size:10px; letter-spacing:.1em;
-  text-transform:uppercase; font-weight:600;
-  color:#fff; opacity:.92;
-  white-space:nowrap;
-}
-.acc-vitrine-jauge{
-  flex:1; height:6px; min-width:40px;
-  border-radius:99px;
-  background:rgba(0,0,0,.34);
-  overflow:hidden;
-}
-.acc-vitrine-jauge i{
-  display:block; height:100%;
-  background:linear-gradient(90deg, var(--caught), color-mix(in srgb, var(--caught) 55%, var(--gold)));
-}
-.acc-vitrine-compte{
-  font-family:var(--font-data); font-size:11px; font-weight:600;
-  color:#fff; opacity:.85; font-variant-numeric:tabular-nums;
-}
-.acc-vitrine-grille{
-  display:grid;
-  grid-template-columns:repeat(3, 1fr);
-  gap:8px;
-  background:linear-gradient(180deg, var(--screen) 0%, var(--screen-edge) 100%);
-  border-radius:12px;
-  padding:10px;
-}
-
-/* La case du Pokédex. CE N'EST PAS .card de dex.css — y aller coûterait
-   60 Ko de feuille pour un composant décoratif — mais elle en reprend les
-   jetons : mêmes fonds, même vert de « possédé », même or de la forme
-   chromatique. Si la palette bouge, la vitrine bouge avec elle. */
-.acc-case{
-  display:flex; flex-direction:column; align-items:center; gap:2px;
-  background:var(--card);
-  border:1px solid var(--card-border);
-  border-radius:12px;
-  padding:8px 6px 7px;
-}
-.acc-case-image{
-  width:100%; aspect-ratio:1 / 1;
-  border-radius:9px;
-  background:radial-gradient(120% 120% at 50% 14%, var(--card) 0%, var(--screen) 68%);
-  box-shadow:inset 0 0 0 1px var(--card-border);
-  display:grid; place-items:center;
-  overflow:hidden;
-}
-.acc-case-image img{
-  width:84%; height:84%; object-fit:contain;
-  image-rendering:auto;
-}
-.acc-case-nom{
-  font-size:11.5px; font-weight:700; color:var(--ink);
-  text-align:center; line-height:1.2;
-  margin-top:3px;
-}
-.acc-case-num{
-  font-family:var(--font-data); font-size:9.5px; font-weight:500;
-  color:var(--ink-faint); font-variant-numeric:tabular-nums;
-}
-/* Possédé en forme normale : le vert de l'application. */
-.acc-case.is-pris{
-  background:var(--caught-soft);
-  border-color:color-mix(in srgb, var(--caught) 40%, var(--card-border));
-}
-/* Possédé en chromatique : l'or, avec le liseré intérieur du mode shiny. */
-.acc-case.is-shiny{
-  background:color-mix(in srgb, var(--gold) 16%, var(--card));
-  border-color:var(--gold);
-  box-shadow:0 0 0 1px var(--gold) inset;
-}
-/* Manquant : rien de rouge, rien d'alarmant. Le sujet s'efface simplement,
-   comme dans la grille — un dex incomplet n'est pas une faute. */
-.acc-case:not(.is-pris):not(.is-shiny) .acc-case-image img{
-  filter:grayscale(1); opacity:.42;
-}
-
-.acc-vitrine-legende{
-  display:flex; align-items:center; justify-content:center;
-  gap:14px; flex-wrap:wrap;
-  margin:0;
-  font-family:var(--font-data); font-size:10.5px; color:var(--ink-faint);
-}
-.acc-pastille{
-  display:inline-block; width:9px; height:9px; border-radius:3px;
-  margin-right:4px; vertical-align:-1px;
-}
-.acc-pastille-vert{ background:var(--caught); }
-.acc-pastille-or{ background:var(--gold); }
-.acc-pastille-vide{ background:transparent; box-shadow:inset 0 0 0 1.5px var(--ink-faint); }
 
 /* ════ Les chiffres ═══════════════════════════════════════════════════════ */
 
+/* CE BLOC A CHANGÉ DE RÔLE. Il complétait une vitrine ; il est maintenant la
+   première chose qu'on voit après le titre, et c'est lui qui doit donner sa
+   mesure au projet. D'où un seul panneau plutôt que quatre cartes flottantes :
+   quatre chiffres séparés par un filet se lisent comme un relevé, quatre
+   cartes se lisent comme quatre choses sans rapport.
+
+   Le nombre vient d'abord et en grand, l'unité juste dessous, et la précision
+   en petit — on doit pouvoir ne lire que les chiffres et avoir compris. */
 .acc-chiffres{
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
-  gap:12px;
-}
-.acc-chiffre{
+  grid-template-columns:repeat(4, 1fr);
   background:var(--card);
   border:1px solid var(--card-border);
-  border-radius:13px;
-  padding:18px 20px;
-  display:flex; flex-direction:column; gap:2px;
+  border-radius:16px;
+  overflow:hidden;
 }
+.acc-chiffre{
+  display:flex; flex-direction:column; align-items:center;
+  gap:2px;
+  padding:26px 18px 24px;
+  text-align:center;
+  /* Le filet vit sur la case, pas sur le conteneur : il disparaît tout seul
+     quand la grille se replie en deux colonnes. */
+  border-left:1px solid var(--card-border);
+}
+.acc-chiffre:first-child{ border-left:none; }
 .acc-chiffre b{
   font-family:var(--font-body);
-  font-size:30px; font-weight:800; letter-spacing:-.025em;
+  font-size:clamp(30px, 3.4vw, 40px); font-weight:800; letter-spacing:-.03em;
   color:var(--ink); line-height:1;
   font-variant-numeric:tabular-nums;
 }
 .acc-chiffre span{
-  font-size:12.5px; color:var(--ink-soft); line-height:1.35;
+  font-family:var(--font-data);
+  font-size:10.5px; letter-spacing:.16em; text-transform:uppercase;
+  font-weight:600; color:var(--gold);
+  margin-top:8px;
+}
+.acc-chiffre em{
+  font-style:normal;
+  font-size:12px; line-height:1.45; color:var(--ink-faint);
+  margin-top:7px; max-width:22ch;
 }
 
 /* ════ Les titres de section ══════════════════════════════════════════════ */
@@ -333,23 +250,6 @@ body.page-accueil{
   font-size:13.5px; line-height:1.6; color:var(--ink-soft);
   margin:0;
 }
-
-/* ════ Les types ══════════════════════════════════════════════════════════ */
-
-.acc-types{
-  display:flex; flex-wrap:wrap; justify-content:center;
-  gap:9px;
-  padding:22px;
-  background:var(--card);
-  border:1px solid var(--card-border);
-  border-radius:14px;
-}
-.acc-types img{
-  height:26px; width:auto;
-  opacity:.9;
-  transition:opacity 150ms, transform 120ms;
-}
-.acc-types img:hover{ opacity:1; transform:translateY(-2px); }
 
 /* ════ Le téléchargement ══════════════════════════════════════════════════ */
 
@@ -459,11 +359,14 @@ body.page-accueil{
      caractères. Ils passent l'un sous l'autre, pleine largeur. */
   .acc-portes-secondaires{ flex-direction:column; align-items:stretch; width:100%; }
   .acc-section-titre{ font-size:20px; }
-  .acc-chiffre{ padding:14px 16px; }
-  .acc-chiffre b{ font-size:25px; }
+  .acc-chiffres{ grid-template-columns:repeat(2, 1fr); }
+  /* En deux colonnes, le filet de gauche revient sur la troisieme case :
+     c'est la premiere de sa rangee. */
+  .acc-chiffre:nth-child(odd){ border-left:none; }
+  .acc-chiffre:nth-child(n+3){ border-top:1px solid var(--card-border); }
+  .acc-chiffre{ padding:18px 12px 16px; }
+  .acc-chiffre em{ font-size:11px; }
   .acc-jeux{ grid-template-columns:repeat(auto-fill, minmax(136px, 1fr)); gap:8px; }
   .acc-deux{ padding:19px 18px; }
   .acc-telecharger{ padding:22px 19px; }
-  .acc-types{ padding:16px; gap:7px; }
-  .acc-types img{ height:22px; }
 }
