@@ -84,7 +84,19 @@ self.addEventListener('fetch', function(e){
         return await fetch(req);
       }catch(err){
         const c = await caches.open(CACHE);
-        return (await c.match('./index.html')) || (await c.match('./')) || Response.error();
+        // DEUX PAGES, DEUX REPLIS. Le site a une page d'accueil sur « / » et le
+        // Pokedex sur « /dex ». Rendre l'accueil a quelqu'un qui rouvre son
+        // Pokedex dans le metro serait lui reprendre l'application pour lui
+        // remettre la vitrine — hors ligne, c'est le Pokedex qu'on veut.
+        const versLeDex = url.pathname.indexOf('/dex') !== -1;
+        const replis = versLeDex
+          ? ['./dex.html', './dex', './index.html']
+          : ['./index.html', './'];
+        for(const r of replis){
+          const p = await c.match(r);
+          if(p) return p;
+        }
+        return Response.error();
       }
     })());
     return;

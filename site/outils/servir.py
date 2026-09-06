@@ -55,10 +55,28 @@ class Serveur(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *a, **kw):
         super().__init__(*a, directory=str(PUBLIC), **kw)
 
+    # Les pages sans extension : « /dex » rend dex.html. Le site a deux pages,
+    # l'accueil sur la racine et le Pokedex a cote, et une adresse propre vaut
+    # mieux qu'un « .html » dans la barre pour une page qu'on met en favori.
+    # Caddy fait la meme chose en production, par try_files.
+    SANS_EXTENSION = {"/dex": "/dex.html"}
+
+    def _reecrire(self):
+        chemin = self.path.split("?")[0].rstrip("/") or "/"
+        cible = self.SANS_EXTENSION.get(chemin)
+        if cible:
+            reste = self.path[len(self.path.split("?")[0]):]
+            self.path = cible + reste
+
     def do_GET(self):
         if self.path.split("?")[0] == "/session":
             return self.page_session()
+        self._reecrire()
         return super().do_GET()
+
+    def do_HEAD(self):
+        self._reecrire()
+        return super().do_HEAD()
 
     def page_session(self):
         """Ouvrir une session d essai d un clic, sans passer par la console.
@@ -147,7 +165,7 @@ class Serveur(http.server.SimpleHTTPRequestHandler):
         self.send_header("Content-Type", self.guess_type(str(chemin)))
         self.send_header("Content-Encoding", "gzip")
         self.send_header("Content-Length", str(len(corps)))
-        if self.path in ("/", "/index.html"):
+        if self.path in ("/", "/index.html", "/dex", "/dex.html"):
             self.send_header("Cache-Control", "no-store, must-revalidate")
         self.end_headers()
         return io.BytesIO(corps)
@@ -160,7 +178,7 @@ class Serveur(http.server.SimpleHTTPRequestHandler):
         #
         # send_head() pose deja l'en-tete quand il compresse : on ne le repete
         # pas, un doublon dans la reponse serait au mieux ignore.
-        if self.path in ("/", "/index.html") and "Content-Encoding" not in self._headers_buffer_noms():
+        if self.path in ("/", "/index.html", "/dex", "/dex.html") and "Content-Encoding" not in self._headers_buffer_noms():
             self.send_header("Cache-Control", "no-store, must-revalidate")
         super().end_headers()
 

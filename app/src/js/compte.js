@@ -366,39 +366,6 @@ function afficherEtatCompte(connecte){
   compteMenu.hidden = !connecte;
   var b = document.getElementById('btnConnexion');
   if (b) b.hidden = connecte;
-  majInviteAccueil(connecte);
-}
-
-/**
- * L'invitation de l'accueil : se connecter, et prendre l'application.
- *
- * DEUX CHOSES DIFFERENTES DANS UNE SEULE CARTE, et chacune a sa condition.
- * Le bouton Discord ne sert qu'a qui n'est pas connecte. Le telechargement
- * ne sert qu'a qui est dans un navigateur — le proposer DANS l'application
- * serait proposer ce qu'on a deja. `window.PONT_HTTP` est pose par le pont
- * du site et par lui seul : c'est ce qui distingue les deux mondes.
- *
- * Quand il ne reste rien a proposer — connecte, dans l'application — la
- * carte entiere s'efface plutot que de garder un cadre vide.
- */
-function majInviteAccueil(connecte){
-  var bloc = document.getElementById('homeInvite');
-  if(!bloc) return;
-  var surLeWeb = Boolean(window.PONT_HTTP);
-  var co = document.getElementById('homeConnexion');
-  var dl = document.getElementById('homeTelecharger');
-  if(co) co.hidden = connecte;
-  if(dl) dl.hidden = !surLeWeb;
-
-  var mot = document.getElementById('homeInviteMot');
-  if(mot) mot.textContent = connecte
-    ? 'PokéPension existe aussi en application de bureau : ta collection hors '
-      + 'ligne, les notifications, et l’overlay pour ton stream.'
-    : 'Ta collection ne tient qu’à ce navigateur, et ne te suivra pas '
-      + 'ailleurs. Connecte-toi avec Discord pour la retrouver d’un '
-      + 'ordinateur à l’autre, et la comparer à celle de tes amis.';
-
-  bloc.hidden = connecte && !surLeWeb;
 }
 
 /**
@@ -1433,7 +1400,7 @@ document.getElementById('menuReset').addEventListener('click', async function(){
 // Sans message : la modale dit deja ce qu'elle propose, et le seul endroit ou
 // elle sait ecrire un mot est la ligne d'erreur. Y poser une invitation la
 // ferait lire comme une panne.
-['btnConnexion', 'homeConnexion'].forEach(function(id){
+['btnConnexion'].forEach(function(id){
   var b = document.getElementById(id);
   if (b) b.addEventListener('click', function(){ ouvrirAuthModal(); });
 });

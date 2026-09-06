@@ -1,0 +1,183 @@
+/* La page d'accueil du site — et elle seule.
+ *
+ * LES COULEURS NE SONT PAS REDÉFINIES ICI. base.css porte la palette et le
+ * basculement clair/sombre pour toute l'application ; en réécrire une seconde
+ * ici ferait deux vérités à tenir d'accord, et c'est exactement la dérive que
+ * le projet a déjà payée sur les menus. On emprunte, on ne recopie pas.
+ *
+ * En revanche, base.css met <body> en display:flex pour centrer le boîtier du
+ * Pokédex. Cette page-ci n'a pas de boîtier : elle reprend la main dessus. */
+
+body.page-accueil{
+  display:block;
+  min-height:100vh;
+  margin:0;
+  padding:0;
+  background:
+    radial-gradient(1100px 620px at 50% -10%,
+      color-mix(in srgb, var(--dex-red) 22%, transparent) 0%, transparent 70%),
+    var(--screen-edge);
+  color:var(--ink);
+  font-family:var(--font-body);
+}
+
+.acc{
+  max-width:900px;
+  margin:0 auto;
+  padding:52px 22px 40px;
+  display:flex;
+  flex-direction:column;
+  gap:38px;
+}
+
+/* ---- L'en-tête ---------------------------------------------------------- */
+
+.acc-marque{ display:flex; align-items:center; gap:15px; }
+/* .dex-lens vient de base.css : c'est l'objectif du boîtier, et le site n'a
+   aucune raison d'en dessiner un second. Il est un peu plus grand ici, la
+   page n'ayant pas la contrainte de hauteur de la barre du Pokédex. */
+.acc-marque .dex-lens{ width:54px; height:54px; }
+.acc-titres{ display:flex; flex-direction:column; gap:3px; }
+.acc-eyebrow{
+  font-family:var(--font-data);
+  font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+  font-weight:600; color:var(--ink-faint);
+}
+.acc-titre{
+  font-family:var(--font-body);
+  font-size:38px; font-weight:800; letter-spacing:-.02em;
+  color:var(--ink);
+  margin:0; line-height:1.05;
+}
+.acc-phrase{
+  font-size:17px; line-height:1.55; color:var(--ink-soft);
+  margin:18px 0 0; max-width:62ch;
+}
+
+/* ---- Les trois portes --------------------------------------------------- */
+
+.acc-portes{ display:flex; flex-direction:column; gap:12px; align-items:flex-start; }
+
+/* Le bleu de Discord, et pas une couleur du projet : c'est le bouton d'un
+   service tiers, et le reconnaître avant de le lire fait partie de ce qui
+   rassure au moment de confier un compte. */
+.acc-discord{
+  display:inline-flex; align-items:center; justify-content:center; gap:11px;
+  font-family:var(--font-body); font-size:16px; font-weight:700;
+  color:#fff; background:#5865f2;
+  border:none; border-radius:11px;
+  padding:15px 26px;
+  cursor:pointer;
+  transition:background 120ms, transform 80ms;
+}
+.acc-discord:hover:not(:disabled){ background:#4752c4; }
+.acc-discord:active:not(:disabled){ transform:translateY(1px); }
+.acc-discord:focus-visible{ outline:2.5px solid var(--ink); outline-offset:3px; }
+.acc-discord:disabled{ opacity:.7; cursor:progress; }
+.acc-discord svg{ width:24px; height:auto; flex-shrink:0; }
+/* Déjà connecté : le bouton n'ouvre plus une session, il ouvre le Pokédex.
+   Il quitte donc le bleu de Discord, qui ne veut plus rien dire ici. */
+.acc-discord-ouvrir{ background:var(--dex-red); }
+.acc-discord-ouvrir:hover:not(:disabled){ background:var(--dex-red-deep); }
+
+.acc-erreur{
+  margin:0;
+  font-size:13.5px; line-height:1.5;
+  color:var(--danger);
+  background:color-mix(in srgb, var(--danger) 12%, transparent);
+  border-radius:8px;
+  padding:9px 12px;
+  max-width:52ch;
+}
+
+.acc-portes-secondaires{ display:flex; gap:10px; flex-wrap:wrap; }
+/* Un lien qui porte la mise en forme d'un bouton. Pas .toggle-btn : celui-là
+   ne pose pas de display, et il est taillé pour la barre d'outils du Pokédex,
+   où il voisine des boutons de 13 px. */
+.acc-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  font-family:var(--font-body); font-size:14.5px; font-weight:600;
+  color:var(--ink); text-decoration:none;
+  background:var(--card);
+  border:1.5px solid var(--card-border);
+  border-radius:11px;
+  padding:14px 20px;
+  transition:border-color 150ms, background 150ms;
+}
+.acc-btn:hover{ border-color:var(--chrome-lo); }
+.acc-btn:focus-visible{ outline:2.5px solid var(--dex-red); outline-offset:2px; }
+
+.acc-note{
+  font-size:13px; line-height:1.55; color:var(--ink-faint);
+  margin:2px 0 0; max-width:58ch;
+}
+
+/* ---- Ce que ça fait ----------------------------------------------------- */
+
+.acc-quoi{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
+  gap:14px;
+}
+.acc-carte{
+  background:var(--card);
+  border:1px solid var(--card-border);
+  border-radius:13px;
+  padding:18px 20px;
+}
+.acc-carte h2{
+  font-family:var(--font-body);
+  font-size:15.5px; font-weight:700; color:var(--ink);
+  margin:0 0 7px;
+}
+.acc-carte p{
+  font-size:13.5px; line-height:1.6; color:var(--ink-soft);
+  margin:0;
+}
+
+/* ---- Le site et l'application ------------------------------------------- */
+
+.acc-deux{
+  background:var(--card);
+  border:1px solid var(--card-border);
+  border-radius:13px;
+  padding:22px 24px;
+}
+.acc-section-titre{
+  font-family:var(--font-data);
+  font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+  font-weight:600; color:var(--ink-faint);
+  margin:0 0 12px;
+}
+.acc-deux p{
+  font-size:14px; line-height:1.62; color:var(--ink-soft);
+  margin:0 0 11px; max-width:70ch;
+}
+.acc-deux p:last-child{ margin-bottom:0; }
+.acc-deux b{ color:var(--ink); font-weight:700; }
+.acc-pwa{ color:var(--ink-faint) !important; font-size:13px !important; }
+
+/* ---- Le pied ------------------------------------------------------------ */
+
+.acc-pied{
+  display:flex; flex-direction:column; gap:5px;
+  border-top:1px solid var(--card-border);
+  padding-top:20px;
+  font-family:var(--font-data);
+  font-size:11.5px; line-height:1.6; color:var(--ink-faint);
+}
+.acc-pied-releve{ opacity:.78; }
+
+/* ---- Étroit ------------------------------------------------------------- */
+
+@media (max-width:560px){
+  .acc{ padding:30px 16px 28px; gap:28px; }
+  .acc-titre{ font-size:30px; }
+  .acc-marque .dex-lens{ width:44px; height:44px; }
+  .acc-phrase{ font-size:15px; margin-top:14px; }
+  .acc-discord{ width:100%; }
+  /* Deux boutons côte à côte à 375 px donnent deux colonnes de six
+     caractères. Ils passent l'un sous l'autre, pleine largeur. */
+  .acc-portes-secondaires{ flex-direction:column; align-items:stretch; width:100%; }
+  .acc-deux{ padding:18px 17px; }
+}

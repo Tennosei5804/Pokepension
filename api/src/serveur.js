@@ -145,6 +145,31 @@ const opaque = (v, max = 128) => {
   return /^[A-Za-z0-9_-]{16,}$/.test(s) && s.length <= max ? s : '';
 };
 
+// LA FENETRE DE CONNEXION DOIT GARDER SON OUVREUR, DES LE PREMIER SAUT.
+//
+// helmet pose « Cross-Origin-Opener-Policy: same-origin » sur TOUTES les
+// reponses, redirections comprises. Le navigateur applique cette politique a
+// chaque navigation, y compris a un 302 : des le depart vers Discord, il
+// deplace la fenetre surgissante dans un autre groupe de contextes. Le lien
+// avec la page qui l'a ouverte est alors coupe pour de bon.
+//
+// LE SYMPTOME EST TROMPEUR AU POINT D ACCUSER LA PERSONNE. Cote site, la
+// fenetre coupee se lit comme une fenetre FERMEE — « fen.closed » vaut vrai
+// aussitot. La veille de pont-api.js conclut donc, une demi-seconde apres le
+// clic et avant meme que Discord ait fini de s afficher, que la connexion a
+// ete abandonnee a la main. Et au retour, « window.opener » etant nul, le
+// postMessage ne part jamais : desserrer la politique sur la seule page de
+// retour ne suffisait pas, le mal etait fait au premier saut.
+//
+// On desserre donc sur tout le parcours d authentification, et sur lui seul.
+// Ces routes-ci n ont pas d autre raison d exister que de faire voyager une
+// fenetre et de reparler a son ouvreur ; le reste du service garde la
+// politique de helmet.
+app.use('/auth', (req, res, suite) => {
+  res.set('Cross-Origin-Opener-Policy', 'unsafe-none');
+  suite();
+});
+
 app.get('/auth/discord', (req, res) => {
   if (!discord.actif()) return res.status(503).type('txt').send('Discord non configuré.');
   const etat = discord.nouvelEtat();
@@ -220,23 +245,10 @@ app.get('/auth/discord/retour', async (req, res) => {
       const nonce = randomBytes(16).toString('base64');
       res.set('Content-Security-Policy',
         `default-src 'none'; script-src 'nonce-${nonce}'; style-src 'unsafe-inline'`);
-      // MEME HISTOIRE QUE LE NONCE, UN CRAN PLUS LOIN. helmet pose aussi
-      // `Cross-Origin-Opener-Policy: same-origin`, qui COUPE le lien
-      // `window.opener` des que la fenetre surgissante est sur une autre
-      // origine que la page qui l'a ouverte — et c'est exactement notre
-      // cas : l'API est sur api.<domaine>, le site sur <domaine>.
-      //
-      // Le symptome est trompeur : Discord authentifie, le compte est
-      // cree, la session ouverte, et le site affiche quand meme
-      // « Connexion annulee » — car `window.opener` vaut null, le
-      // postMessage n'est jamais emis, la fenetre se ferme, et la veille
-      // conclut que la personne a renonce. Rien dans le journal du
-      // serveur ne le laisse deviner : cote API, tout s'est bien passe.
-      //
-      // On desserre pour CETTE REPONSE seulement. Le reste du service
-      // garde sa politique : cette page-ci ne fait rien d'autre que
-      // reparler a son ouvreur, c'est toute sa raison d'etre.
-      res.set('Cross-Origin-Opener-Policy', 'unsafe-none');
+      // Le desserrement de COOP, lui, ne se joue pas ici : il vaut pour
+      // tout le parcours /auth, des le premier saut. Voir le middleware
+      // pose au-dessus de /auth/discord — le poser sur cette seule page
+      // arrivait une navigation trop tard.
       return res.type('html').send(pageWeb(params, nonce));
     }
     if (port) return res.redirect(302, `http://127.0.0.1:${port}/retour?${params}`);

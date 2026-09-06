@@ -111,7 +111,7 @@ ICONES = {"32.png": "32x32.png", "128.png": "128x128.png",
           "256.png": "128x128@2x.png", "512.png": "icon.png"}
 
 
-def coquille(html: str) -> list:
+def coquille(html: str, accueil: str = "") -> list:
     """Ce qu'il faut avoir en cache pour que l'application s'ouvre sans reseau.
 
     La liste se LIT dans la page qu'on vient d'ecrire, elle ne se tient pas a
@@ -119,14 +119,23 @@ def coquille(html: str) -> list:
     que personne n'ait a y penser. Une liste manuelle aurait derive des le
     premier ajout — c'est deja arrive a la liste des menus deroulants.
     """
-    fichiers = ["./", "./index.html", "./manifeste.webmanifest"]
+    # LES DEUX ADRESSES DE LA PAGE D'ACCUEIL, et les deux du Pokedex.
+    # « ./dex » est ce que porte le lien ; « ./dex.html » est le fichier que le
+    # serveur rend derriere. Le service worker met en cache par ADRESSE : ne
+    # garder que l'une des deux laisse l'autre hors ligne sur un ecran de
+    # dinosaure.
+    fichiers = ["./", "./index.html", "./dex", "./dex.html",
+                "./manifeste.webmanifest"]
 
-    for chemin in re.findall(r'<script src="([^"?]+)', html):
-        if any(chemin.endswith(n) for n in A_LA_DEMANDE):
+    for page in (html, accueil):
+        if not page:
             continue
-        fichiers.append("./" + chemin)
-    for chemin in re.findall(r'<link[^>]+href="([^"?]+\.css)', html):
-        fichiers.append("./" + chemin)
+        for chemin in re.findall(r'<script src="([^"?]+)', page):
+            if any(chemin.endswith(n) for n in A_LA_DEMANDE):
+                continue
+            fichiers.append("./" + chemin)
+        for chemin in re.findall(r'<link[^>]+href="([^"?]+\.css)', page):
+            fichiers.append("./" + chemin)
 
     # Les polices, les bannieres et les logos de type : sans eux l'application
     # s'ouvre hors ligne mais sans son allure, ce qui donne l'impression d'un
@@ -148,7 +157,7 @@ def coquille(html: str) -> list:
     return sortie
 
 
-def poser_pwa(html: str) -> str:
+def poser_pwa(html: str, accueil: str) -> tuple:
     """Le manifeste, les icones, le service worker, et son inscription.
 
     Tout est ECRIT ICI plutot que dans app/src/index.html : une application de
@@ -170,11 +179,11 @@ def poser_pwa(html: str) -> str:
     m = SOURCE / "manifeste.webmanifest"
     if not m.is_file():
         print("Manquant : site/source/manifeste.webmanifest")
-        return html
+        return html, accueil
     shutil.copyfile(m, PUBLIC / "manifeste.webmanifest")
 
     # 3. Le service worker, sa coquille et sa version.
-    liste = coquille(html)
+    liste = coquille(html, accueil)
     # La version est celle des FICHIERS, pas un numero tenu a la main : un
     # numero s'oublie, et un cache qu'on oublie de purger sert du code mort en
     # croyant bien faire.
@@ -204,7 +213,11 @@ def poser_pwa(html: str) -> str:
         '<meta name="apple-mobile-web-app-title" content="PokéPension">\n'
         '<link rel="apple-touch-icon" href="icones/256.png">\n'
     )
+    # SUR LES DEUX PAGES. Le manifeste et le service worker valent pour le
+    # site entier : quelqu'un qui arrive sur l'accueil et l'installe depuis la
+    # doit obtenir la meme application que depuis le Pokedex.
     html = html.replace("</head>", tete + "</head>", 1)
+    accueil = accueil.replace("</head>", tete + "</head>", 1)
 
     inscription = (
         "\n<script>\n"
@@ -222,7 +235,8 @@ def poser_pwa(html: str) -> str:
         "</script>\n"
     )
     html = html.replace("</body>", inscription + "</body>", 1)
-    return html
+    accueil = accueil.replace("</body>", inscription + "</body>", 1)
+    return html, accueil
 
 
 def batir() -> int:
@@ -261,6 +275,7 @@ def batir() -> int:
     # d'indisponibilite.
     for source, dest in [("pont-api.js", PUBLIC / "js" / "pont-api.js"),
                          ("site.css", PUBLIC / "css" / "site.css"),
+                         ("accueil-site.css", PUBLIC / "css" / "accueil-site.css"),
                          ("essai.html", PUBLIC / "essai.html")]:
         f = SOURCE / source
         if not f.is_file():
@@ -282,11 +297,8 @@ def batir() -> int:
     # window.location serait faux dans les deux cas : le site local tourne sur
     # 8130 et l'API sur 8787, la production sur deux sous-domaines.
     api = os.environ.get("POKEPENSION_API", "http://127.0.0.1:8787").rstrip("/")
-    injection = (
-        '<script>window.POKEPENSION_API = %s;</script>' % json.dumps(api)
-        + chr(10)
-        + '<script src="js/pont-api.js"></script>'
-        + chr(10))
+    balise_api = '<script>window.POKEPENSION_API = %s;</script>' % json.dumps(api)
+    injection = balise_api + chr(10) + '<script src="js/pont-api.js"></script>' + chr(10)
     html = html.replace(ancre, injection + ancre, 1)
     print("  %-10s API visee : %s" % ("=", api))
 
@@ -322,13 +334,38 @@ def batir() -> int:
 
     html = horodater(html, PUBLIC)
 
-    # 4. De quoi s'installer et s'ouvrir hors ligne. Voir poser_pwa().
-    html = poser_pwa(html)
+    # 4. LA PAGE D'ACCUEIL DU SITE. Elle prend l'adresse racine ; l'application,
+    #    elle, descend sur dex.html. Un visiteur arrive donc sur une page qui
+    #    dit ce que c'est, et entre dans le Pokedex quand il le decide — au
+    #    lieu de recevoir treize megaoctets et une modale de connexion avant
+    #    d'avoir lu une ligne.
+    #
+    #    L'application de bureau n'a pas de page d'accueil et n'en veut pas :
+    #    elle S'OUVRE sur le Pokedex, on l'a lancee pour ca. C'est pourquoi
+    #    cette page vit dans site/source et non dans app/src.
+    f_accueil = SOURCE / "accueil.html"
+    if not f_accueil.is_file():
+        print("Manquant : site/source/accueil.html")
+        return 1
+    accueil = f_accueil.read_text(encoding="utf-8")
+    ancre_pont = '<script src="js/pont-api.js"></script>'
+    if ancre_pont not in accueil:
+        print("Le pont a change d'ancre dans accueil.html : %s" % ancre_pont)
+        return 1
+    # Meme adresse d'API que l'application : la page d'accueil ouvre une vraie
+    # session, avec le vrai pont, et non une connexion ecrite a part.
+    accueil = accueil.replace(ancre_pont, balise_api + chr(10) + ancre_pont, 1)
+    accueil = horodater(accueil, PUBLIC)
 
-    (PUBLIC / "index.html").write_text(html, encoding="utf-8")
+    # 5. De quoi s'installer et s'ouvrir hors ligne. Voir poser_pwa().
+    html, accueil = poser_pwa(html, accueil)
+
+    (PUBLIC / "dex.html").write_text(html, encoding="utf-8")
+    (PUBLIC / "index.html").write_text(accueil, encoding="utf-8")
+    print("  %-10s index.html (accueil)  +  dex.html (le Pokedex)" % "+")
 
     print()
-    print("public/ bati en %.1f s — %.1f Mo, index.html compris."
+    print("public/ bati en %.1f s — %.1f Mo, les deux pages comprises."
           % (time.time() - depart, poids / 1048576))
     print("Pour l'ouvrir :  py outils/servir.py")
     return 0

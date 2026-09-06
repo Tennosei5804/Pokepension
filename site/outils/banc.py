@@ -41,7 +41,9 @@ class Banc(ServeurCompressant):
     """
 
     def do_GET(self):
-        if self.path.split("?")[0] in ("/", "/index.html"):
+        # Le banc s'ouvre a la racine, comme avant : c'est l'adresse qu'on
+        # tape. Ce qu'il y sert, en revanche, est le Pokedex.
+        if self.path.split("?")[0] in ("/", "/index.html", "/dex", "/dex.html"):
             return self.page()
         if self.path.split("?")[0] == "/outils/banc-site.js":
             return self.script()
@@ -65,7 +67,12 @@ class Banc(ServeurCompressant):
         self.wfile.write(corps)
 
     def page(self):
-        html = (PUBLIC / "index.html").read_text(encoding="utf-8")
+        # C'EST LE POKEDEX QU'ON VERIFIE, pas la page d'accueil du site.
+        # Depuis que le site a deux pages, index.html est la vitrine et
+        # dex.html l'application : lire la premiere ferait echouer les vingt
+        # verifications d'un coup, sur une page qui n'a jamais pretendu porter
+        # showPage ni le pont.
+        html = (PUBLIC / "dex.html").read_text(encoding="utf-8")
         # Apres tous les scripts de l'application : les verifications se servent
         # de showPage, de invoke et du pont, qui doivent exister avant elles.
         # LE PONT SIMULE REMPLACE LE PONT HTTP, et c'est ce qui rend ce banc

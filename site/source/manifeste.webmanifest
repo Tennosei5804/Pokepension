@@ -1,10 +1,10 @@
 {
-  "name": "PokéArchive",
-  "short_name": "PokéArchive",
+  "name": "PokéPension",
+  "short_name": "PokéPension",
   "description": "Ta collection Pokémon, du Rouge à Légendes Z-A. Un Pokédex par jeu, la forme normale et la chromatique, et l'endroit exact où croiser ce qui te manque.",
   "lang": "fr",
   "dir": "ltr",
-  "start_url": "./",
+  "start_url": "./dex",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
