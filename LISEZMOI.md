@@ -1,4 +1,4 @@
-# PokéArchive
+# PokéPension
 
 Application de bureau de suivi de collection Pokémon, par **Tennosei_**.
 Connexion par Discord, données en MySQL, partage de l'avancement entre amis.
@@ -24,7 +24,7 @@ des autres. La connexion Discord n'y changerait rien : elle vérifie l'identité
 ## Le dossier
 
 ```
-PokéArchive/
+PokéPension/
 ├── api/                  → le service (Node) : Discord, sessions, MySQL
 │   ├── .env              → les secrets. JAMAIS partagé ni versionné
 │   ├── .env.exemple
@@ -778,7 +778,7 @@ deux endroits les fait diverger. C'est déjà arrivé — la casquette partenair
 
 ## Relire une sauvegarde
 
-C'était la pièce qui manquait. `pokearchive-1` est défini par `exporter()`,
+C'était la pièce qui manquait. `pokepension-1` est défini par `exporter()`,
 versionné, complet, et **produit des deux côtés** — l'application et le site.
 Il n'était lu par personne : le site et l'application ne pouvaient pas se
 rejoindre, un vidage de navigateur effaçait tout sans recours, et quiconque
@@ -923,7 +923,7 @@ Huit champs facultatifs — Ball, nature, surnom, jeu d'origine, date, ruban,
 dresseur d'origine, note — rangés par Pokédex puis par nom dans
 `donnees.detailsCapture`. **Aucune table de plus** : ils voyagent dans la
 sauvegarde du dex, l'API les range verbatim, `compterEspeces()` les ignore, et
-`pokearchive-1` les emporte gratuitement.
+`pokepension-1` les emporte gratuitement.
 
 **Repliée par défaut, et absente tant que l'entrée n'est pas cochée.** C'est la
 condition pour que ça n'abîme rien : quelqu'un qui découvre l'application ne
@@ -948,7 +948,7 @@ une rareté, c'est un hasard, et l'API renvoie alors une table vide.
 
 ## Les échanges
 
-**Un accord, pas un transfert.** PokéArchive ne déplace aucun Pokémon et n'en
+**Un accord, pas un transfert.** PokéPension ne déplace aucun Pokémon et n'en
 vérifie aucun : c'est un carnet, pas une console. Ce qui est enregistré est une
 intention — deux joueurs se mettent d'accord, puis se retrouvent dans leur jeu
 pour le faire vraiment. D'où l'état **« fait »**, posé à la main par l'un des
@@ -984,7 +984,7 @@ l'abonnement n'a jamais eu à demander.
 
 La règle est donc : on ne peut écrire qu'à quelqu'un **qui a accepté un échange
 avec soi**. Un échange conclu reste lisible — on relit ce qu'on s'est dit — un
-refus ferme la porte. Il n'y a pas de messagerie dans PokéArchive, seulement la
+refus ferme la porte. Il n'y a pas de messagerie dans PokéPension, seulement la
 discussion d'un accord.
 
 ## Ce qui te bloquera
@@ -1204,7 +1204,7 @@ d'une aventure privée.
 `process.cwd()` a été une erreur, et elle s'est vue en production : un service
 n'est pas lancé depuis le dossier où il vit. Chez alwaysdata le répertoire
 courant est le dossier personnel, et la première photo est partie dans
-`~/donnees/images` au lieu de `~/PokeArchive/api/donnees/images`.
+`~/donnees/images` au lieu de `~/PokePension/api/donnees/images`.
 
 Le contournement évident — poser `IMAGES_DOSSIER` dans `api/.env` — ne servait à
 rien non plus : **le service ne lit pas ce fichier**. `npm start` passe
@@ -1345,7 +1345,7 @@ destiné à être diffusé en direct.
 ## Les raccourcis globaux
 
 `Ctrl+Alt+↑` et `Ctrl+Alt+↓` comptent une rencontre, **fenêtre en
-arrière-plan**. C'est le point : pendant qu'on chasse, la fenêtre de PokéArchive
+arrière-plan**. C'est le point : pendant qu'on chasse, la fenêtre de PokéPension
 n'est pas au premier plan — le jeu l'est. Un raccourci de fenêtre ne servirait
 que pendant les pauses.
 
@@ -1603,13 +1603,13 @@ cargo tauri build
 ```
 
 Le résultat sort dans
-`app/src-tauri/target/release/bundle/nsis/PokéArchive_0.1.0_x64-setup.exe`.
+`app/src-tauri/target/release/bundle/nsis/PokéPension_0.1.0_x64-setup.exe`.
 
 > **Avant de distribuer**, l'application doit pointer vers une API publique et
 > non vers `127.0.0.1`. L'adresse est fixée à la compilation :
 >
 > ```
-> set POKEARCHIVE_API=https://api.ton-domaine.fr
+> set POKEPENSION_API=https://api.ton-domaine.fr
 > cargo tauri build
 > ```
 >
@@ -1644,7 +1644,7 @@ Trois variables décident de tout, et deux d'entre elles ne viennent pas de nous
 ### La marche à suivre
 
 1. **Un compte** sur <https://www.alwaysdata.com>, plan gratuit 100 Mo. Le nom
-   du compte devient le sous-domaine : `pokearchive.alwaysdata.net`.
+   du compte devient le sous-domaine : `pokepension.alwaysdata.net`.
 
 2. **La base**, dans *Bases de données → MySQL → Ajouter*. Notez le serveur,
    l'utilisateur, le mot de passe et le nom — ils vont dans les variables.
@@ -1653,8 +1653,8 @@ Trois variables décident de tout, et deux d'entre elles ne viennent pas de nous
 3. **Le code**, en SSH (les identifiants sont dans *Accès distant → SSH*) :
 
    ```
-   git clone https://github.com/Tennosei5804/PokeArchive.git
-   cd PokeArchive/api
+   git clone https://github.com/Tennosei5804/PokePension.git
+   cd PokePension/api
    npm install --omit=dev
    ```
 
@@ -1662,8 +1662,8 @@ Trois variables décident de tout, et deux d'entre elles ne viennent pas de nous
 
    | | |
    |---|---|
-   | Commande | `node /home/<compte>/PokeArchive/api/src/serveur.js` |
-   | Adresse | `pokearchive.alwaysdata.net` |
+   | Commande | `node /home/<compte>/PokePension/api/src/serveur.js` |
+   | Adresse | `pokepension.alwaysdata.net` |
 
    > **Le chemin doit être absolu.** Le champ « répertoire de travail » n'a
    > pas d'effet sur un site Node : alwaysdata lance la commande depuis la
@@ -1681,7 +1681,7 @@ Trois variables décident de tout, et deux d'entre elles ne viennent pas de nous
    *OAuth2 → Redirects*. Ajoutez l'adresse de retour **exactement** :
 
    ```
-   https://pokearchive.alwaysdata.net/auth/discord/retour
+   https://pokepension.alwaysdata.net/auth/discord/retour
    ```
 
    Discord compare caractère par caractère : un `http` au lieu de `https`, une
@@ -1689,20 +1689,20 @@ Trois variables décident de tout, et deux d'entre elles ne viennent pas de nous
    pourquoi.
 
 6. **Le dépôt**, enfin : dans *Settings → Secrets and variables → Actions →
-   Variables*, posez `POKEARCHIVE_API` à `https://pokearchive.alwaysdata.net`.
+   Variables*, posez `POKEPENSION_API` à `https://pokepension.alwaysdata.net`.
    Le workflow refuse de publier sans elle — un installeur compilé sans cette
    adresse chercherait l'API sur la machine de chaque personne l'installant.
 
 ### Vérifier que ça tourne
 
 ```
-curl https://pokearchive.alwaysdata.net/api/etat
+curl https://pokepension.alwaysdata.net/api/etat
 ```
 
 Doit répondre quelque chose comme :
 
 ```json
-{"service":"pokearchive","discord":true,
+{"service":"pokepension","discord":true,
  "commit":"1ae51c3","demarreLe":"2026-08-25T18:04:11.882Z","deboutDepuis":93}
 ```
 
@@ -1717,7 +1717,7 @@ donc pas mentir. `deboutDepuis` est en secondes.
 
 ```
 ssh <compte>@ssh-<compte>.alwaysdata.net
-cd PokeArchive && git pull && cd api && npm install --omit=dev
+cd PokePension && git pull && cd api && npm install --omit=dev
 ```
 
 Puis *redémarrer* le site depuis le panneau. Le service ne se recharge pas
@@ -1726,7 +1726,7 @@ tout seul : sans redémarrage, il continue de servir l'ancien code.
 ### Vérifier qu'une mise à jour est bien passée
 
 ```
-curl -s https://pokearchive.alwaysdata.net/api/etat
+curl -s https://pokepension.alwaysdata.net/api/etat
 ```
 
 Le `commit` doit être celui qu'on vient de pousser, et `deboutDepuis` doit être
@@ -1866,7 +1866,7 @@ les tâches planifiées sont faites pour ça. Chez alwaysdata, *Avancé → Tâc
 planifiées*, une fois par jour :
 
 ```
-node /home/<compte>/PokeArchive/api/outils/sauvegarder.js
+node /home/<compte>/PokePension/api/outils/sauvegarder.js
 ```
 
 Les variables d'environnement de la tâche doivent porter les `DB_*` — une tâche
@@ -1879,7 +1879,7 @@ avant une opération risquée, ou simplement pour vérifier que ça marche — l
 court est un fichier `.env` à côté de `.env.exemple`, qu'on remplit une fois :
 
 ```
-cd ~/PokeArchive/api && node --env-file=.env outils/sauvegarder.js
+cd ~/PokePension/api && node --env-file=.env outils/sauvegarder.js
 ```
 
 Le chemin est donné depuis `api/` exprès : `--env-file` cherche le fichier
@@ -1893,14 +1893,14 @@ trouverait rien. Ce `.env` porte le mot de passe de la base — il est dans le
 
 ## Publier une version
 
-Le dépôt est <https://github.com/Tennosei5804/PokeArchive>. Livrer une version
+Le dépôt est <https://github.com/Tennosei5804/PokePension>. Livrer une version
 tient en trois gestes, et le dernier est le seul qui compte :
 
 ```
 # 1. monter le numéro AUX TROIS ENDROITS — ils doivent rester d'accord
 #    app/src-tauri/tauri.conf.json   "version": "0.2.0"
 #    app/src-tauri/Cargo.toml        version = "0.2.0"
-#    app/src-tauri/Cargo.lock        version = "0.2.0"  (sous name = "pokearchive")
+#    app/src-tauri/Cargo.lock        version = "0.2.0"  (sous name = "pokepension")
 #
 #    Le troisième s'oublie : cargo le remonte tout seul à la compilation
 #    suivante, ce qui salit le commit d'après plutôt que de casser celui-ci.
@@ -1932,14 +1932,14 @@ programme — et il serait installé sans un mot.
 | | |
 |---|---|
 | clé publique | dans `tauri.conf.json`, `plugins.updater.pubkey`. Elle se versionne, c'est son rôle |
-| clé privée | `~/.tauri/pokearchive.key`, **hors du dépôt**, plus une copie dans les secrets GitHub |
+| clé privée | `~/.tauri/pokepension.key`, **hors du dépôt**, plus une copie dans les secrets GitHub |
 
 Le dépôt a besoin d'**un seul secret**, dans *Settings → Secrets and
 variables → Actions* :
 
 | Nom du secret | Valeur |
 |---|---|
-| `TAURI_SIGNING_PRIVATE_KEY` | le contenu entier de `~/.tauri/pokearchive.key` |
+| `TAURI_SIGNING_PRIVATE_KEY` | le contenu entier de `~/.tauri/pokepension.key` |
 
 Le workflow lit aussi `TAURI_SIGNING_PRIVATE_KEY_PASSWORD`, mais **il ne faut
 pas le créer** : un secret absent se résout en chaîne vide, et la clé a été
@@ -1993,7 +1993,7 @@ Trois détails qui coûtent cher si on les défait :
 ## La base
 
 L'utilisateur MySQL actuel n'a de droits que sur `s4_tenno_test`, une base qui
-héberge déjà autre chose. Les tables de PokéArchive sont donc **préfixées
+héberge déjà autre chose. Les tables de PokéPension sont donc **préfixées
 `pa_`** pour cohabiter sans se marcher dessus :
 
 | Table | Contenu |
@@ -2091,13 +2091,13 @@ Rien de tout cela n'est du code : les trois se règlent ailleurs que dans le
 dépôt.
 
 - [ ] déclarer `http://127.0.0.1:8787/auth/discord/retour` dans le portail Discord ;
-- [ ] renommer l'application Discord en « PokéArchive » (elle s'appelle encore
+- [ ] renommer l'application Discord en « PokéPension » (elle s'appelle encore
       « LivingDex », et c'est ce nom que voient tes amis) ;
 - [ ] héberger l'API quelque part de joignable en permanence.
 
 ### Fait depuis
 
-- [x] **l'import de `pokearchive-1`**, des deux côtés. C'était la seule pièce
+- [x] **l'import de `pokepension-1`**, des deux côtés. C'était la seule pièce
       absente pour une synchro par fichier : le format était produit par
       l'application ET par le site, et relu par personne. Le dex se réunit,
       l'historique se dédoublonne, `maj_le` départage — et l'opération est

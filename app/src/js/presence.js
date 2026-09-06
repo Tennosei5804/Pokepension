@@ -5,7 +5,7 @@
 //
 // Deux lignes, pas plus. Discord n'en affiche pas davantage :
 //
-//     PokéArchive
+//     PokéPension
 //     Pokédex de Rouge / Bleu        ← ce qu'on fait
 //     Tennosei — Aventure 1          ← qui
 //     depuis 42 minutes
@@ -94,7 +94,7 @@ function presenceActive(){ return presenceMode() !== 'non'; }
 
 /** Ce qu'on fait, en une ligne. */
 function presenceQuoi(){
-  if(typeof currentPage === 'undefined') return 'Ouvre PokéArchive';
+  if(typeof currentPage === 'undefined') return 'Ouvre PokéPension';
 
   if(currentPage === 'dex' || currentPage === 'home'){
     // Sur un Pokédex de jeu, c'est le jeu qui compte. Sur celui d'ensemble,
@@ -104,7 +104,7 @@ function presenceQuoi(){
     if(currentPage === 'home') return PRESENCE_ECRANS.home;
     return 'Sa collection complète';
   }
-  return PRESENCE_ECRANS[currentPage] || 'Sur PokéArchive';
+  return PRESENCE_ECRANS[currentPage] || 'Sur PokéPension';
 }
 
 /** Qui, en une ligne. */

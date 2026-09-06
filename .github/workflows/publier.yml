@@ -41,20 +41,20 @@ jobs:
       # se voit que chez les autres, après distribution. On arrête donc la
       # publication plutôt que de livrer un installeur inutilisable.
       #
-      # POKEARCHIVE_API est une VARIABLE de dépôt, pas un secret : c'est une
+      # POKEPENSION_API est une VARIABLE de dépôt, pas un secret : c'est une
       # adresse publique, et un secret dans un binaire distribué n'en est plus
       # un. Settings → Secrets and variables → Actions → onglet Variables.
       - name: Vérifier que l'adresse de l'API est définie
         shell: bash
         run: |
-          if [ -z "${{ vars.POKEARCHIVE_API }}" ]; then
-            echo "::error::La variable de dépôt POKEARCHIVE_API n'est pas définie."
+          if [ -z "${{ vars.POKEPENSION_API }}" ]; then
+            echo "::error::La variable de dépôt POKEPENSION_API n'est pas définie."
             echo "::error::Sans elle, l'installeur pointerait vers 127.0.0.1 et"
             echo "::error::ne fonctionnerait chez personne d'autre que vous."
             echo "::error::À poser dans Settings > Secrets and variables > Actions > Variables."
             exit 1
           fi
-          echo "API visée : ${{ vars.POKEARCHIVE_API }}"
+          echo "API visée : ${{ vars.POKEPENSION_API }}"
 
       - name: Installer Rust
         uses: dtolnay/rust-toolchain@stable
@@ -76,13 +76,13 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
           # Lu par option_env! dans lib.rs, donc gravé dans le binaire.
-          POKEARCHIVE_API: ${{ vars.POKEARCHIVE_API }}
+          POKEPENSION_API: ${{ vars.POKEPENSION_API }}
         with:
           projectPath: app
           tagName: v__VERSION__
-          releaseName: PokéArchive v__VERSION__
+          releaseName: PokéPension v__VERSION__
           releaseBody: |
-            Installeur Windows ci-dessous — `PokéArchive_x.y.z_x64-setup.exe`.
+            Installeur Windows ci-dessous — `PokéPension_x.y.z_x64-setup.exe`.
 
             Les versions déjà installées se mettront à jour toutes seules au
             prochain lancement : l'application propose, vous décidez.

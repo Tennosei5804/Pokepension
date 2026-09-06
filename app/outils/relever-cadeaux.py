@@ -95,7 +95,7 @@ JEUX = {
 # Mew. Vu a l'ecran, pas devine — et c'est bien pire qu'une carte vide, parce
 # qu'une valeur fausse a l'air d'une reponse.
 API = "https://www.pokepedia.fr/api.php"
-ENTETE = {"User-Agent": "PokeArchive/1.0 (releve personnel de collection)"}
+ENTETE = {"User-Agent": "PokePension/1.0 (releve personnel de collection)"}
 
 # Le cache vit dans le dossier temporaire du systeme, jamais dans le depot : ce
 # sont des pages d'un wiki communautaire, pas des donnees du projet.

@@ -1,4 +1,4 @@
-// Le service worker du site : PokéArchive hors ligne, et sur l'écran d'accueil.
+// Le service worker du site : PokéPension hors ligne, et sur l'écran d'accueil.
 //
 // GABARIT — outils/assembler.py y injecte la version et la liste de la
 // coquille au moment de l'assemblage, en remplaçant les deux marqueurs
@@ -34,7 +34,7 @@
 // cache local de l'application.
 
 const VERSION = '__VERSION__';
-const CACHE = 'pokearchive-' + VERSION;
+const CACHE = 'pokepension-' + VERSION;
 const COQUILLE = __COQUILLE__;
 
 self.addEventListener('install', function(e){
@@ -59,7 +59,7 @@ self.addEventListener('activate', function(e){
     await Promise.all(noms.map(function(n){
       // Tout ce qui porte notre préfixe sans être la version du jour part :
       // c'est la purge, et elle se déclenche d'elle-même à chaque assemblage.
-      return (n.indexOf('pokearchive-') === 0 && n !== CACHE) ? caches.delete(n) : null;
+      return (n.indexOf('pokepension-') === 0 && n !== CACHE) ? caches.delete(n) : null;
     }));
     await self.clients.claim();
   })());

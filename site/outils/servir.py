@@ -177,7 +177,7 @@ class Serveur(http.server.SimpleHTTPRequestHandler):
 
 
 def main() -> int:
-    p = argparse.ArgumentParser(description="Servir le site PokeArchive en local.")
+    p = argparse.ArgumentParser(description="Servir le site PokePension en local.")
     p.add_argument("--port", type=int, default=8130)
     p.add_argument("--sans-navigateur", action="store_true",
                    help="ne pas ouvrir de fenetre")

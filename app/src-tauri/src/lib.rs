@@ -1,4 +1,4 @@
-//! PokéArchive — cœur de l'application.
+//! PokéPension — cœur de l'application.
 //!
 //! L'application ne connaît **jamais** la base de données. Elle parle à l'API,
 //! qui seule détient le mot de passe MySQL. Tout ce qu'elle garde en propre est
@@ -19,11 +19,11 @@ mod overlay;
 mod presence;
 
 /// Adresse de l'API. Fixée à la compilation pour la version distribuée :
-///   set POKEARCHIVE_API=https://api.exemple.fr && cargo tauri build
+///   set POKEPENSION_API=https://api.exemple.fr && cargo tauri build
 const API_DEFAUT: &str = "http://127.0.0.1:8787";
 
 fn api() -> String {
-    option_env!("POKEARCHIVE_API")
+    option_env!("POKEPENSION_API")
         .unwrap_or(API_DEFAUT)
         .trim_end_matches('/')
         .to_string()
@@ -258,7 +258,7 @@ fn ouvrir_ecoute() -> Result<(u16, tiny_http::Server), String> {
 }
 
 const PAGE: &str = r#"<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8">
-<title>PokéArchive</title><style>
+<title>PokéPension</title><style>
 body{margin:0;min-height:100vh;display:grid;place-items:center;background:#0e0f14;color:#e8e9f0;
 font-family:"Segoe UI",system-ui,sans-serif;text-align:center;padding:24px}
 .r{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;font-size:27px;
@@ -311,7 +311,7 @@ fn attendre(serveur: tiny_http::Server, nonce: &str) -> Result<String, String> {
                 "refus" => "Tu as refusé l'autorisation Discord.",
                 "etat" => "La connexion a expiré en route. Relance-la.",
                 "discord" => "Discord n'a pas répondu correctement.",
-                "obsolete" => "Cette version de PokéArchive est trop ancienne pour \
+                "obsolete" => "Cette version de PokéPension est trop ancienne pour \
 la connexion sécurisée. Mets-la à jour.",
                 _ => "La connexion n'a pas abouti.",
             };
@@ -345,7 +345,7 @@ la connexion sécurisée. Mets-la à jour.",
                     "#1d3b2b",
                     "✓",
                     "Presque fini",
-                    "Tu peux fermer cet onglet et revenir à PokéArchive.",
+                    "Tu peux fermer cet onglet et revenir à PokéPension.",
                 ),
             );
             return Ok(code.clone());
@@ -1201,7 +1201,7 @@ async fn qui_a(
 /// Les raccourcis globaux du compteur de chasse.
 ///
 /// POURQUOI GLOBAUX, ET PAS SEULEMENT DANS LA FENÊTRE. Un compteur se frappe
-/// cent fois par heure, et la fenêtre de PokéArchive n'est PAS au premier plan
+/// cent fois par heure, et la fenêtre de PokéPension n'est PAS au premier plan
 /// pendant ce temps-là : le jeu l'est. Un raccourci qui ne marche que fenêtre
 /// active ne sert que pendant les pauses, c'est-à-dire jamais.
 ///
@@ -1350,5 +1350,5 @@ pub fn run() {
             overlay::overlay_adresse
         ])
         .run(tauri::generate_context!())
-        .expect("erreur au lancement de PokéArchive");
+        .expect("erreur au lancement de PokéPension");
 }

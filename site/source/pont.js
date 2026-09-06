@@ -4,7 +4,7 @@
 // window.__TAURI__ avant que compte.js ne le cherche, sans quoi l'application
 // affiche « Le pont Tauri est absent » et s'arrête là.
 //
-// POURQUOI CE FICHIER SUFFIT. Le frontend de PokéArchive est du web ordinaire :
+// POURQUOI CE FICHIER SUFFIT. Le frontend de PokéPension est du web ordinaire :
 // sur ses trente-sept scripts, cinq seulement nomment window.__TAURI__, et
 // quatre le font derrière une garde qui les fait se taire s'il manque. Le seul vrai point
 // de contact est invoke(), trente-huit commandes. Les recréer ici suffit à
@@ -548,7 +548,7 @@
       const contenu = (a && a.contenu) || null;
       if(!contenu || typeof contenu !== 'object') throw new Error('Fichier illisible.');
       if(contenu.format !== 'pokearchive-1'){
-        throw new Error('Ce fichier n\'est pas une sauvegarde PokéArchive '
+        throw new Error('Ce fichier n\'est pas une sauvegarde PokéPension '
           + '(format « pokearchive-1 » attendu).');
       }
       const aventures = Array.isArray(contenu.aventures) ? contenu.aventures : [];

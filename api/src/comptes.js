@@ -126,7 +126,7 @@ export async function depuisDiscord(profil) {
     d = { id: r.insertId, pseudo, avatar: profil.avatar || '', cree_le: horodatage() };
   } else {
     // L'avatar et le nom Discord ont pu changer chez Discord, et se
-    // rafraîchissent donc à chaque connexion. Jamais le pseudo PokéArchive :
+    // rafraîchissent donc à chaque connexion. Jamais le pseudo PokéPension :
     // une fois choisi, il appartient au dresseur, et se renommer sur Discord
     // ne doit pas renommer son dex dans le dos de ses potes.
     await ecrire(
@@ -951,6 +951,9 @@ export async function exporter(dresseurId) {
 
   return {
     exporteLe: horodatage(),
+    // LE NOM DU FORMAT NE SUIT PAS CELUI DU PROJET, et c'est deliberé : il est
+    // ecrit dans chaque fichier deja exporte. Le changer rendrait illisibles
+    // toutes les sauvegardes en circulation pour ne gagner qu'un mot juste.
     format: 'pokearchive-1',
     dresseur: { pseudo: d.pseudo, avatar: d.avatar, creeLe: d.cree_le },
     aventures: profils,
@@ -1143,7 +1146,7 @@ export async function importer(dresseurId, contenu) {
   }
   if (contenu.format !== 'pokearchive-1') {
     throw new ErreurCompte(
-      'Ce fichier n\'est pas une sauvegarde PokéArchive (format « pokearchive-1 » attendu).');
+      'Ce fichier n\'est pas une sauvegarde PokéPension (format « pokearchive-1 » attendu).');
   }
   const aventures = Array.isArray(contenu.aventures) ? contenu.aventures : [];
   if (!aventures.length) throw new ErreurCompte('Ce fichier ne contient aucune aventure.');

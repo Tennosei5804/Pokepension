@@ -36,7 +36,7 @@
   // L'adresse de l'API. Posée par assembler.py au moment de la construction :
   // le site de production et le site local ne parlent pas au même serveur, et
   // le deviner depuis window.location serait faux dans les deux cas.
-  const API = (window.POKEARCHIVE_API || 'http://127.0.0.1:8787').replace(/\/+$/, '');
+  const API = (window.POKEPENSION_API || 'http://127.0.0.1:8787').replace(/\/+$/, '');
 
   // Le jeton, dans le stockage local. Voir l'avertissement en tête.
   const CLE_JETON = 'pokearchive-jeton';
@@ -243,7 +243,7 @@
         const surMessage = function(e){
           if(e.origin !== new URL(API).origin) return;   // l'origine, d'abord
           const d = e.data || {};
-          if(d.pokearchive !== 'auth' || d.nonce !== nonce) return;
+          if(d.pokepension !== 'auth' || d.nonce !== nonce) return;
           fini = true;
           window.removeEventListener('message', surMessage);
           clearInterval(veille);
@@ -254,11 +254,18 @@
 
         // La fenêtre fermée à la main ne renvoie rien : sans cette veille, on
         // attendrait indéfiniment un message qui ne viendra jamais.
+        //
+        // CE QUE CE MESSAGE DOIT DIRE. « Connexion annulée » décrivait la
+        // conclusion et non le fait : la fenêtre s'est fermée avant d'avoir
+        // rien renvoyé. Tant que le serveur renvoyait la mauvaise page, cette
+        // veille était le SEUL retour visible d'une connexion qui avait
+        // pourtant réussi — et elle accusait la personne d'avoir renoncé.
         const veille = setInterval(function(){
           if(fini || !fen.closed) return;
           clearInterval(veille);
           window.removeEventListener('message', surMessage);
-          rejeter(new Error('Connexion annulée.'));
+          rejeter(new Error('La fenêtre Discord s’est fermée avant la fin de '
+            + 'l’autorisation. Tu peux réessayer.'));
         }, 500);
       });
 

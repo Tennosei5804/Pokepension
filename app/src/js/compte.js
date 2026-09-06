@@ -332,6 +332,10 @@ async function ouvrirSession(){
   if(!sessionOuverte){
     ouvrirAuthModal();
     marquerSansCompte();
+    // ET L'EN-TETE AVEC. Sans cette ligne, « Annuler » laissait une barre sans
+    // badge ni bouton : plus aucune porte visible tant qu'on ne relancait pas
+    // l'application. C'est aussi ce qui allume l'invitation de l'accueil.
+    afficherEtatCompte(false);
     return SESSION_SANS_COMPTE;
   }
 
@@ -351,6 +355,65 @@ async function ouvrirSession(){
   }
 }
 
+/**
+ * Le menu de compte et le bouton de connexion occupent la meme place et
+ * s'excluent : connecte, on voit son pseudo ; deconnecte, on voit par ou
+ * entrer. Passer par une seule fonction empeche l'etat batard ou les deux
+ * sont masques — c'est ce qui arrivait apres « Annuler », et l'interface
+ * n'offrait alors plus aucune issue.
+ */
+function afficherEtatCompte(connecte){
+  compteMenu.hidden = !connecte;
+  var b = document.getElementById('btnConnexion');
+  if (b) b.hidden = connecte;
+  majInviteAccueil(connecte);
+}
+
+/**
+ * L'invitation de l'accueil : se connecter, et prendre l'application.
+ *
+ * DEUX CHOSES DIFFERENTES DANS UNE SEULE CARTE, et chacune a sa condition.
+ * Le bouton Discord ne sert qu'a qui n'est pas connecte. Le telechargement
+ * ne sert qu'a qui est dans un navigateur — le proposer DANS l'application
+ * serait proposer ce qu'on a deja. `window.PONT_HTTP` est pose par le pont
+ * du site et par lui seul : c'est ce qui distingue les deux mondes.
+ *
+ * Quand il ne reste rien a proposer — connecte, dans l'application — la
+ * carte entiere s'efface plutot que de garder un cadre vide.
+ */
+function majInviteAccueil(connecte){
+  var bloc = document.getElementById('homeInvite');
+  if(!bloc) return;
+  var surLeWeb = Boolean(window.PONT_HTTP);
+  var co = document.getElementById('homeConnexion');
+  var dl = document.getElementById('homeTelecharger');
+  if(co) co.hidden = connecte;
+  if(dl) dl.hidden = !surLeWeb;
+
+  var mot = document.getElementById('homeInviteMot');
+  if(mot) mot.textContent = connecte
+    ? 'PokéPension existe aussi en application de bureau : ta collection hors '
+      + 'ligne, les notifications, et l’overlay pour ton stream.'
+    : 'Ta collection ne tient qu’à ce navigateur, et ne te suivra pas '
+      + 'ailleurs. Connecte-toi avec Discord pour la retrouver d’un '
+      + 'ordinateur à l’autre, et la comparer à celle de tes amis.';
+
+  bloc.hidden = connecte && !surLeWeb;
+}
+
+/**
+ * Le texte d'une erreur, sans l'emballage du langage.
+ *
+ * `String(e)` sur un objet Error rend « Error: Connexion annulee. » : le mot
+ * « Error » vient de JavaScript, pas de nous, et il s'affichait tel quel dans
+ * la modale de connexion. Le Rust, lui, rejette des chaines nues — les deux
+ * passent ici et en ressortent dans la meme langue.
+ */
+function messageErreur(e){
+  var t = (e && e.message) ? e.message : String(e === null || e === undefined ? '' : e);
+  return t.replace(/^[A-Za-z]*Error\s*:\s*/, '').trim();
+}
+
 function appliquerDresseur(d){
   dresseurCourant = d;
   sessionOuverte = true;
@@ -363,7 +426,7 @@ function appliquerDresseur(d){
   const img = document.getElementById('avatar');
   img.src = avatarDiscord(d.discordId, d.avatar);
   img.alt = 'Avatar de ' + d.pseudo;
-  compteMenu.hidden = false;
+  afficherEtatCompte(true);
 
   // La carte de dresseur vit dans ses propres tables, hors de la sauvegarde
   // d'aventure : elle a donc son propre moment pour descendre, et c'est ici —
@@ -443,7 +506,7 @@ async function perdreSession(){
   profilCourant = null;
   profilsConnus = [];
   playerName = '';
-  compteMenu.hidden = true;
+  afficherEtatCompte(false);
   fermerCompteMenu();
   ouvrirAuthModal('Ta session a expiré. Reconnecte-toi.');
 }
@@ -530,7 +593,7 @@ authConnexion.addEventListener('click', async function(){
   // double authentification, changement de compte — l'application paraissait
   // figée pendant tout ce temps.
   authErreur.textContent = 'Discord peut te demander de te connecter d’abord : '
-    + 'prends le temps qu’il faut, PokéArchive attend dix minutes. Reviens ici '
+    + 'prends le temps qu’il faut, PokéPension attend dix minutes. Reviens ici '
     + 'une fois l’autorisation donnée.';
   authErreur.classList.add('visible', 'patiente');
   try{
@@ -549,7 +612,7 @@ authConnexion.addEventListener('click', async function(){
   }catch(e){
     if(mienne !== authTentative) return;   // on a renoncé : on ne dit rien
     authErreur.classList.remove('patiente');
-    authErreur.textContent = String(e);
+    authErreur.textContent = messageErreur(e) || 'Connexion impossible.';
     authErreur.classList.add('visible');
     authConnexion.disabled = false;
     authLibelle.textContent = 'Réessayer avec Discord';
@@ -577,7 +640,7 @@ document.getElementById('quitter').addEventListener('click', async function(e){
   profilCourant = null;
   profilsConnus = [];
   playerName = '';
-  compteMenu.hidden = true;
+  afficherEtatCompte(false);
   fermerCompteMenu();
   resetAllProgress();
   updateProgress();
@@ -1361,6 +1424,18 @@ document.getElementById('menuReset').addEventListener('click', async function(){
   updateProgress();
   renderList(true);
   await writeServerSave();
+});
+
+// LES DEUX BOUTONS QUI RAMENENT A LA CONNEXION : celui de l'en-tete et celui
+// de l'accueil. Ils ouvrent la MEME modale — une seule facon de se connecter,
+// un seul endroit a corriger le jour ou elle change.
+//
+// Sans message : la modale dit deja ce qu'elle propose, et le seul endroit ou
+// elle sait ecrire un mot est la ligne d'erreur. Y poser une invitation la
+// ferait lire comme une panne.
+['btnConnexion', 'homeConnexion'].forEach(function(id){
+  var b = document.getElementById(id);
+  if (b) b.addEventListener('click', function(){ ouvrirAuthModal(); });
 });
 
 // « Annuler » sur la connexion : sans lui, la modale n'a aucune issue tant que

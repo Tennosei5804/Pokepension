@@ -1,4 +1,4 @@
-# Le site PokéArchive
+# Le site PokéPension
 
 La même application, dans un navigateur.
 
@@ -44,7 +44,7 @@ coûté une modification perdue.
 
 ## Pourquoi il n'y a qu'une source
 
-Le frontend de PokéArchive est déjà du web ordinaire. Sur ses trente-sept
+Le frontend de PokéPension est déjà du web ordinaire. Sur ses trente-sept
 scripts, **cinq seulement** nomment `window.__TAURI__`, et quatre d'entre eux
 vérifient sa présence avant de s'en servir — ils se taisent proprement quand il manque.
 Le seul vrai point de contact est `invoke()`, trente-huit commandes.
@@ -84,7 +84,7 @@ méthode, un chemin et un corps :
 ecrire_dex: ['POST', a => '/api/dex' + paramProfil(a.profil), a => a.donnees],
 ```
 
-L'adresse de l'API est posée **à l'assemblage** par `POKEARCHIVE_API`, jamais
+L'adresse de l'API est posée **à l'assemblage** par `POKEPENSION_API`, jamais
 déduite de `window.location` : le site local tourne sur 8130 et l'API sur 8787,
 la production sur deux domaines. Ni l'un ni l'autre ne se devine.
 
@@ -158,7 +158,7 @@ avait gardé.
 
 ### Le format existe, et il est versionné
 
-`pokearchive-1` est défini par l'API dans `exporter()`. Il porte **tout** ce
+`pokepension-1` est défini par l'API dans `exporter()`. Il porte **tout** ce
 qu'il faut pour reconstruire un compte :
 
 ```
@@ -179,7 +179,7 @@ manque du projet et non du site : l'application exportait depuis toujours sans
 jamais savoir relire.
 
 Le bouton **⬆ Importer une sauvegarde**, dans le Profil, avale un fichier
-`pokearchive-1` d'où qu'il vienne. Côté application il part à
+`pokepension-1` d'où qu'il vienne. Côté application il part à
 `POST /api/import` ; côté site il est traité par la commande `importer` du
 pont, **avec la même règle de fusion**, recopiée à la lettre — une union qui
 différerait d'un côté ferait diverger les deux collections dès le premier

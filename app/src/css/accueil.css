@@ -108,6 +108,35 @@
   }
   .home-sub{ font-size:13px; color:var(--ink-soft); margin:0; line-height:1.45; }
 
+  /* L'invitation de l'accueil : se connecter, et prendre l'application.
+     Le ton d'une carte ordinaire, pas d'une banniere — elle vit au milieu des
+     autres blocs de l'accueil et ne doit pas leur passer devant. Elle
+     disparait entierement dans l'application une fois connecte : il n'y reste
+     alors plus rien a proposer. */
+  .home-invite{
+    background:var(--card);
+    border:1px solid var(--card-border);
+    border-radius:11px;
+    padding:14px 16px;
+    margin-bottom:18px;
+  }
+  .home-invite-mot{
+    font-size:13px; color:var(--ink-soft); line-height:1.5;
+    margin:0 0 12px;
+  }
+  .home-invite-actions{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  /* Le bouton Discord est taille pour une modale, ou il occupe toute la
+     largeur. Ici il partage la rangee avec le telechargement. */
+  .home-invite-actions .discord-btn{ width:auto; margin:0; flex:1 1 240px; }
+  /* Un lien porte la mise en forme d'un bouton : .toggle-btn ne pose pas de
+     display, et un <a> reste en ligne — d'ou la hauteur qui ne tombait pas
+     juste a cote du bouton Discord. */
+  .home-invite-app{
+    display:inline-flex; align-items:center; justify-content:center;
+    text-decoration:none; padding:12px 16px;
+  }
+
+
   .home-gauges{ display:flex; gap:12px; flex-wrap:wrap; margin-bottom:18px; }
   .home-gauge{
     flex:1; min-width:190px;

@@ -53,7 +53,7 @@ async function exporterMesDonnees() {
   try {
     const contenu = await invoke('exporter');
     const jour = String(contenu.exporteLe || '').slice(0, 10) || 'export';
-    await telecharger('pokearchive-' + jour + '.json', JSON.stringify(contenu, null, 2));
+    await telecharger('pokepension-' + jour + '.json', JSON.stringify(contenu, null, 2));
     const n = (contenu.aventures || []).length;
     exportEtat.textContent = n + ' aventure' + (n > 1 ? 's' : '') + ' enregistrée'
       + (n > 1 ? 's' : '') + ' dans le fichier.';
@@ -141,7 +141,7 @@ async function importerUnFichier(fichier) {
 
   if (!contenu || contenu.format !== 'pokearchive-1') {
     importEtat.textContent = '';
-    prevenirErreur('Ce n\'est pas une sauvegarde PokéArchive',
+    prevenirErreur('Ce n\'est pas une sauvegarde PokéPension',
       'Le fichier doit porter le format « pokearchive-1 ». C\'est celui que '
       + 'produit le bouton « Télécharger mes données », ici comme sur le site.');
     return;

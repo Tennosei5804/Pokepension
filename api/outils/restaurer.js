@@ -1,6 +1,6 @@
 // Restauration d'une sauvegarde.
 //
-//   node outils/restaurer.js sauvegardes/pokearchive-2026-08-24T21-00-00.json
+//   node outils/restaurer.js sauvegardes/pokepension-2026-08-24T21-00-00.json
 //   node outils/restaurer.js <fichier> --vraiment
 //
 // Sans « --vraiment », le script ne fait que dire ce qu'il ferait. C'est le

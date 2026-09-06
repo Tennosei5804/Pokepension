@@ -527,7 +527,7 @@ const NOUVEAUTES = [
       + 'de faire défiler une liste qui n’est plus là.',
       '**Le bas de l’écran dit l’essentiel.** Trois lignes de coulisses — où va la '
       + 'sauvegarde, la taille de la réserve, la date du relevé — ont laissé la '
-      + 'place à la mention qui doit y figurer : **PokéArchive est un projet '
+      + 'place à la mention qui doit y figurer : **PokéPension est un projet '
       + 'indépendant, sans lien avec Nintendo, Game Freak ou The Pokémon '
       + 'Company.** Les sources restent créditées.',
     ],
@@ -656,7 +656,7 @@ const NOUVEAUTES = [
       '**⇄ Proposer un échange.** Dans 🤝 Entraide, face à un dresseur, '
       + 'clique un nom dans chaque colonne : ce que tu veux, ce que tu donnes. La '
       + 'proposition part avec le jeu, et un mot si tu veux. **Rien ne bouge tout '
-      + 'seul** : PokéArchive note l’accord, vous vous retrouvez ensuite dans le '
+      + 'seul** : PokéPension note l’accord, vous vous retrouvez ensuite dans le '
       + 'jeu pour le faire.',
       '**Accepter, refuser, discuter.** Une proposition reçue s’accepte ou se '
       + 'refuse depuis la page 📣 Amis. Une fois **acceptée**, une discussion '
@@ -850,7 +850,7 @@ const NOUVEAUTES = [
     version: '0.11.0', date: '2026-08-25', titre: 'Le pseudo Discord, en plus du tien',
     points: [
       'Le profil d’un dresseur montre maintenant **trois lignes** : son pseudo '
-      + 'Discord, son pseudo PokéArchive, puis son aventure.',
+      + 'Discord, son pseudo PokéPension, puis son aventure.',
       'Ce nom ne se change pas depuis l’application — c’est ce qui permet de '
       + 'reconnaître quelqu’un qui s’est renommé ici.',
       'Il n’apparaît qu’après une reconnexion : on ne le gardait pas jusqu’ici.',
@@ -954,7 +954,7 @@ const NOUVEAUTES = [
   {
     version: '0.1.0', date: '2026-08-24', titre: 'Première version',
     points: [
-      'PokéArchive s’installe et se met à jour tout seul.',
+      'PokéPension s’installe et se met à jour tout seul.',
     ],
   },
 ];

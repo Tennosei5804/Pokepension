@@ -1,12 +1,12 @@
 [package]
-name = "pokearchive"
+name = "pokepension"
 version = "0.42.1"
-description = "PokéArchive — suivi de collection Pokémon"
+description = "PokéPension — suivi de collection Pokémon"
 authors = ["Tennosei_"]
 edition = "2021"
 
 [lib]
-name = "pokearchive_lib"
+name = "pokepension_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]
@@ -33,7 +33,7 @@ tauri-plugin-process = "2"
 tauri-plugin-notification = "2"
 
 # Les raccourcis globaux du compteur de chasse. « Globaux » est le point :
-# la fenêtre de PokéArchive n'est pas au premier plan pendant qu'on chasse,
+# la fenêtre de PokéPension n'est pas au premier plan pendant qu'on chasse,
 # le jeu l'est. Un raccourci de fenêtre ne servirait que pendant les pauses.
 #
 # En dépendance ordinaire et non sous cfg(desktop) : c'est ainsi que le

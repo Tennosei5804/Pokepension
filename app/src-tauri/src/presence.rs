@@ -32,7 +32,7 @@ use std::time::{SystemTime, UNIX_EPOCH};
 /// Un identifiant client est public par nature : il voyage dans chaque adresse
 /// d'autorisation OAuth. Il se remplace à la compilation, comme l'adresse de
 /// l'API, pour qui reprendrait le projet avec sa propre application.
-const APPLICATION: &str = match option_env!("POKEARCHIVE_DISCORD_ID") {
+const APPLICATION: &str = match option_env!("POKEPENSION_DISCORD_ID") {
     Some(v) => v,
     None => "1538934470646694030",
 };
@@ -116,8 +116,8 @@ pub fn presence_maj(etat: Etat, presence: tauri::State<'_, Presence>) -> bool {
                 // La clé de l'image se déclare dans le portail Discord, onglet
                 // Rich Presence > Art Assets. Absente, Discord n'affiche
                 // simplement pas d'image — rien ne casse.
-                .large_image("pokearchive")
-                .large_text("PokéArchive"),
+                .large_image("pokepension")
+                .large_text("PokéPension"),
         )
         .timestamps(Timestamps::new().start(presence.depuis));
 

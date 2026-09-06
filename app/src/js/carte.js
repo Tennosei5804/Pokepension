@@ -234,7 +234,7 @@ async function enregistrerCarte(){
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'pokearchive-' + (playerName || 'dresseur').toLowerCase()
+    a.download = 'pokepension-' + (playerName || 'dresseur').toLowerCase()
       .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
       + '-' + new Date().toISOString().slice(0, 10) + '.png';
     document.body.appendChild(a);

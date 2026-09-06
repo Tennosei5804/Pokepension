@@ -1,0 +1,31 @@
+# L'adresse de l'API, pour les compilations de cette machine.
+#
+# `lib.rs` la lit avec `option_env!("POKEPENSION_API")` et retombe sinon
+# sur http://127.0.0.1:8787 — l'API lancée à la main pendant le
+# développement. Ce fichier évite d'avoir à s'en souvenir : Cargo pose la
+# variable pour rustc, et `cargo tauri build` produit une application qui
+# parle au serveur.
+#
+# MÊME ADRESSE QUE LE SITE, ET C'EST TOUT L'INTÉRÊT. Le site web et
+# l'application de bureau tapent sur la même API, donc la même base :
+# même compte Discord, même dresseur, même Pokédex, mêmes amis. On
+# commence sur l'ordinateur, on continue dans le navigateur.
+#
+# L'APPLICATION N'EST PAS BLOQUÉE PAR L'ABSENCE DE DOMAINE, contrairement
+# au site. Le site fabrique son défi PKCE avec `crypto.subtle`, que le
+# navigateur ne fournit qu'en contexte sécurisé — donc pas en http:// sur
+# une IP. L'application, elle, fait sa connexion en Rust et reçoit le
+# retour sur 127.0.0.1 : une boucle locale est un contexte sécurisé, et
+# Discord l'accepte (RFC 8252). Elle fonctionne dès aujourd'hui.
+#
+# LE JOUR DU DOMAINE : remplacer la ligne ci-dessous par
+#     POKEPENSION_API = "https://api.mon-domaine.fr"
+# puis recompiler. `deploiement/passer-au-domaine.sh`, côté serveur, le
+# rappelle à la fin de son exécution.
+#
+# La variable d'environnement, si elle est posée, l'emporte sur ce
+# fichier : une compilation ponctuelle vers une autre API reste possible
+# sans rien modifier ici.
+
+[env]
+POKEPENSION_API = "https://api.pokepension.fr"

@@ -1,4 +1,4 @@
-// API PokéArchive.
+// API PokéPension.
 //
 //   npm start   → http://127.0.0.1:8787
 //
@@ -220,11 +220,28 @@ app.get('/auth/discord/retour', async (req, res) => {
       const nonce = randomBytes(16).toString('base64');
       res.set('Content-Security-Policy',
         `default-src 'none'; script-src 'nonce-${nonce}'; style-src 'unsafe-inline'`);
+      // MEME HISTOIRE QUE LE NONCE, UN CRAN PLUS LOIN. helmet pose aussi
+      // `Cross-Origin-Opener-Policy: same-origin`, qui COUPE le lien
+      // `window.opener` des que la fenetre surgissante est sur une autre
+      // origine que la page qui l'a ouverte — et c'est exactement notre
+      // cas : l'API est sur api.<domaine>, le site sur <domaine>.
+      //
+      // Le symptome est trompeur : Discord authentifie, le compte est
+      // cree, la session ouverte, et le site affiche quand meme
+      // « Connexion annulee » — car `window.opener` vaut null, le
+      // postMessage n'est jamais emis, la fenetre se ferme, et la veille
+      // conclut que la personne a renonce. Rien dans le journal du
+      // serveur ne le laisse deviner : cote API, tout s'est bien passe.
+      //
+      // On desserre pour CETTE REPONSE seulement. Le reste du service
+      // garde sa politique : cette page-ci ne fait rien d'autre que
+      // reparler a son ouvreur, c'est toute sa raison d'etre.
+      res.set('Cross-Origin-Opener-Policy', 'unsafe-none');
       return res.type('html').send(pageWeb(params, nonce));
     }
     if (port) return res.redirect(302, `http://127.0.0.1:${port}/retour?${params}`);
     return res.type('html').send(page(params.startsWith('erreur')
-      ? ['✕', 'Connexion impossible', 'Relance la connexion depuis PokéArchive.']
+      ? ['✕', 'Connexion impossible', 'Relance la connexion depuis PokéPension.']
       : ['✓', 'Connecté', 'Tu peux fermer cet onglet.']));
   };
 
@@ -246,9 +263,21 @@ app.get('/auth/discord/retour', async (req, res) => {
   const { dresseur, jeton, nouveau } = await comptes.depuisDiscord(profil);
   journal(`${nouveau ? 'inscription' : 'connexion'} : ${dresseur.pseudo}`);
 
-  if (!port) {
+  // LE SITE N'A PAS DE PORT, ET N'EN A PAS BESOIN. Seule l'application Tauri
+  // annonce un port : elle écoute en local, et le retour va la trouver là.
+  // Le site, lui, a ouvert une fenêtre et attend un `postMessage` — c'est
+  // `web` qui le dit, pas le port.
+  //
+  // Ce garde-fou testait le port SEUL. Une connexion venue du site tombait
+  // donc ici, juste après que Discord ait dit oui : la fenêtre affichait
+  // « Bonjour untel », `fin()` n'était jamais appelée, aucun code d'échange
+  // n'était émis, et le site — qui n'avait rien reçu — concluait au bout du
+  // compte « Connexion annulée ». Le compte était bel et bien créé : c'est
+  // pour cela que le journal du serveur annonçait une réussite à chaque
+  // tentative ratée.
+  if (!attendu.web && !port) {
     return res.type('html').send(page(['✓', `Bonjour ${dresseur.pseudo}`,
-      "Aucune application n'attendait cette connexion. Relance-la depuis PokéArchive."]));
+      "Aucune application n'attendait cette connexion. Relance-la depuis PokéPension."]));
   }
 
   // Sans défi annoncé au départ, l'application est trop ancienne pour l'échange
@@ -271,7 +300,7 @@ app.get('/auth/discord/retour', async (req, res) => {
 });
 
 const page = ([icone, titre, texte]) => `<!DOCTYPE html><html lang="fr"><head>
-<meta charset="utf-8"><title>PokéArchive</title><style>
+<meta charset="utf-8"><title>PokéPension</title><style>
 body{margin:0;min-height:100vh;display:grid;place-items:center;background:#0e0f14;color:#e8e9f0;
      font-family:"Segoe UI",system-ui,sans-serif;text-align:center;padding:24px}
 .r{width:56px;height:56px;border-radius:50%;background:#1d3b2b;display:grid;place-items:center;
@@ -297,13 +326,13 @@ h1{font-size:21px;margin:0 0 8px}p{color:#a0a4b4;margin:0;line-height:1.6}
 const pageWeb = (params, nonce) => {
   const cible = JSON.stringify(config.siteOrigines);
   return `<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8">
-<title>PokéArchive</title><style>
+<title>PokéPension</title><style>
 body{margin:0;min-height:100vh;display:grid;place-items:center;background:#0e0f14;
      color:#e8e9f0;font-family:"Segoe UI",system-ui,sans-serif;text-align:center;padding:24px}
 </style></head><body><p>Connexion en cours…</p><script nonce="${nonce}">
 (function(){
   var p = new URLSearchParams(${JSON.stringify(params)});
-  var m = { pokearchive: 'auth', nonce: p.get('nonce') || '',
+  var m = { pokepension: 'auth', nonce: p.get('nonce') || '',
             code: p.get('code') || '', erreur: p.get('erreur') || '' };
   var cibles = ${cible};
   if (window.opener) cibles.forEach(function(o){
@@ -722,7 +751,7 @@ app.get('/api/export', route(async (req, res) => {
   // mur de JSON dans le navigateur.
   const jour = contenu.exporteLe.slice(0, 10);
   res.setHeader('Content-Disposition',
-    `attachment; filename="pokearchive-${jour}.json"`);
+    `attachment; filename="pokepension-${jour}.json"`);
   res.json(contenu);
 }));
 
@@ -792,7 +821,7 @@ app.post('/api/admin/renommer', route(async (req, res) => {
 // nouveau code tourne. Le depot est public, le numero de commit ne revele rien
 // de plus que lui.
 app.get('/api/etat', (req, res) => res.json({
-  service: 'pokearchive',
+  service: 'pokepension',
   discord: discord.actif(),
   ...etatVersion(),
 }));

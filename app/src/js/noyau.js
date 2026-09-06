@@ -108,7 +108,7 @@ const scopeSecondNom = document.getElementById('scopeSecondNom');
 const scopeNote = document.getElementById('scopeNote');
 const pageDexEl = document.getElementById('page-dex');
 const pageHomeEl = document.getElementById('page-home');
-// Propres à PokéArchive : la page de partage et la connexion Discord.
+// Propres à PokéPension : la page de partage et la connexion Discord.
 const pageDresseursEl = document.getElementById('page-dresseurs');
 const pageAmisEl = document.getElementById('page-amis');
 const amisQ = document.getElementById('amisQ');

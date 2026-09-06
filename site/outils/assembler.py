@@ -3,7 +3,7 @@
 
     cd site && py outils/assembler.py
 
-UNE SEULE SOURCE, ET C'EST app/src. Le frontend de PokeArchive est deja du web
+UNE SEULE SOURCE, ET C'EST app/src. Le frontend de PokePension est deja du web
 ordinaire : sur ses trente-sept scripts, cinq seulement nomment __TAURI__, et
 trois se taisent proprement s'il manque. Le recopier a la main dans site/ en
 ferait un second client a maintenir, et deux clients divergent toujours — le
@@ -201,7 +201,7 @@ def poser_pwa(html: str) -> str:
         '<link rel="manifest" href="manifeste.webmanifest">\n'
         '<meta name="theme-color" content="#b5211f">\n'
         '<meta name="apple-mobile-web-app-capable" content="yes">\n'
-        '<meta name="apple-mobile-web-app-title" content="PokéArchive">\n'
+        '<meta name="apple-mobile-web-app-title" content="PokéPension">\n'
         '<link rel="apple-touch-icon" href="icones/256.png">\n'
     )
     html = html.replace("</head>", tete + "</head>", 1)
@@ -281,9 +281,9 @@ def batir() -> int:
     # production ne parlent pas au meme serveur, et la deduire de
     # window.location serait faux dans les deux cas : le site local tourne sur
     # 8130 et l'API sur 8787, la production sur deux sous-domaines.
-    api = os.environ.get("POKEARCHIVE_API", "http://127.0.0.1:8787").rstrip("/")
+    api = os.environ.get("POKEPENSION_API", "http://127.0.0.1:8787").rstrip("/")
     injection = (
-        '<script>window.POKEARCHIVE_API = %s;</script>' % json.dumps(api)
+        '<script>window.POKEPENSION_API = %s;</script>' % json.dumps(api)
         + chr(10)
         + '<script src="js/pont-api.js"></script>'
         + chr(10))

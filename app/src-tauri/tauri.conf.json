@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "PokéArchive",
+  "productName": "PokéPension",
   "version": "0.42.1",
   "identifier": "fr.tennosei.pokearchive",
   "build": {
@@ -10,7 +10,7 @@
     "withGlobalTauri": true,
     "windows": [
       {
-        "title": "PokéArchive",
+        "title": "PokéPension",
         "width": 1100,
         "height": 800,
         "minWidth": 880,
@@ -26,7 +26,7 @@
   "plugins": {
     "updater": {
       "endpoints": [
-        "https://github.com/Tennosei5804/PokeArchive/releases/latest/download/latest.json"
+        "https://github.com/Tennosei5804/Pokepension/releases/latest/download/latest.json"
       ],
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEI0QzdDQkU1OUExNDI1RDMKUldUVEpSU2E1Y3ZIdEVONFJwN3dFSDczNkpSQ0Eya3hVSVZBdGh1R2U0RUZkOGdpTlNFYWNweUoK",
       "windows": {
@@ -42,7 +42,7 @@
     "copyright": "© Tennosei_",
     "category": "Utility",
     "shortDescription": "Suivi de collection Pokémon",
-    "longDescription": "PokéArchive suit ta progression vers un Living Dex complet, en forme normale comme en chromatique, et te permet de comparer ton avancée avec celle de tes amis.",
+    "longDescription": "PokéPension suit ta progression vers un Living Dex complet, en forme normale comme en chromatique, et te permet de comparer ton avancée avec celle de tes amis.",
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PokéArchive</title>
+<title>PokéPension</title>
 <link rel="stylesheet" href="css/polices.css">
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/accueil.css">
@@ -19,8 +19,16 @@
     <div class="dex-lens"></div>
     <div class="dex-titleblock">
       <span class="dex-eyebrow">Terminal de collecte</span>
-      <span class="dex-title">PokéArchive</span>
+      <span class="dex-title">PokéPension</span>
     </div>
+    <!-- Deconnecte, le menu de compte est masque et cette place reste
+         vide : on ne sait plus par ou entrer. Ce bouton l'occupe, et les
+         deux ne sont jamais visibles en meme temps. -->
+    <button class="player-badge" id="btnConnexion" type="button" hidden
+            title="Se connecter avec Discord pour retrouver ton dex partout">
+      <span aria-hidden="true">👤</span>
+      <span>Se connecter</span>
+    </button>
     <div class="compte-menu" id="compteMenu" hidden>
       <button class="player-badge" id="playerBadge" type="button"
               aria-haspopup="menu" aria-expanded="false" title="Ton compte et tes aventures">
@@ -118,6 +126,33 @@
           <div class="home-eyebrow">Terminal de collecte</div>
           <h2 class="home-title">Bonjour, <span id="homePlayer">Dresseur</span></h2>
           <p class="home-sub" id="homeSummary">Chargement du Pokédex national…</p>
+        </div>
+
+        <!-- LES DEUX PORTES QU'ON NE RETROUVAIT PLUS.
+             « Annuler » sur la connexion ferme la modale, et elle ne revient
+             pas d'elle-meme : rien, ensuite, ne disait comment se connecter
+             plus tard. Et le site ne disait nulle part que l'application de
+             bureau existe. Les deux manquaient au meme endroit — la premiere
+             page qu'on voit — donc les voici, ensemble.
+
+             Ce que chacun montre est decide par majInviteAccueil(), dans
+             compte.js : le bouton Discord tant qu'on n'est pas connecte, le
+             telechargement tant qu'on est dans un navigateur. -->
+        <div class="home-invite" id="homeInvite" hidden>
+          <p class="home-invite-mot" id="homeInviteMot"></p>
+          <div class="home-invite-actions">
+            <button class="discord-btn" id="homeConnexion" type="button" hidden>
+              <svg viewBox="0 0 127 96" aria-hidden="true" focusable="false">
+                <path fill="currentColor" d="M107.7 8.07A105.15 105.15 0 0 0 81.47 0a72.06 72.06 0 0 0-3.36 6.83 97.68 97.68 0 0 0-29.11 0A72.37 72.37 0 0 0 45.64 0a105.89 105.89 0 0 0-26.25 8.09C2.79 32.65-1.71 56.6.54 80.21a105.73 105.73 0 0 0 32.17 16.15 77.7 77.7 0 0 0 6.89-11.11 68.42 68.42 0 0 1-10.85-5.18c.91-.66 1.8-1.34 2.66-2a75.57 75.57 0 0 0 64.32 0c.87.71 1.76 1.39 2.66 2a68.68 68.68 0 0 1-10.87 5.19 77 77 0 0 0 6.89 11.1 105.25 105.25 0 0 0 32.19-16.14c2.64-27.38-4.51-51.11-18.9-72.15ZM42.45 65.69C36.18 65.69 31 60 31 53s5-12.74 11.43-12.74S54 46 53.89 53s-5.05 12.69-11.44 12.69Zm42.24 0C78.41 65.69 73.25 60 73.25 53s5-12.74 11.44-12.74S96.23 46 96.12 53s-5.04 12.69-11.43 12.69Z"/>
+              </svg>
+              <span>Se connecter avec Discord</span>
+            </button>
+            <!-- Un lien, pas un bouton : c'est une adresse, et le navigateur
+                 sait deja l'ouvrir dans un onglet ou la copier. -->
+            <a class="toggle-btn home-invite-app" id="homeTelecharger" hidden
+               href="https://github.com/Tennosei5804/Pokepension/releases/latest"
+               target="_blank" rel="noopener noreferrer">⬇ Télécharger l'application</a>
+          </div>
         </div>
 
         <button class="accueil-aventure" id="accueilAventure" type="button" style="display:none;"></button>
@@ -1689,7 +1724,7 @@
      aria-modal="true" aria-labelledby="majFenetreTitre">
   <div class="modal-card maj-fenetre">
     <div class="modal-eyebrow">Mise a jour</div>
-    <h3 class="modal-title" id="majFenetreTitre">PokeArchive</h3>
+    <h3 class="modal-title" id="majFenetreTitre">PokePension</h3>
 
     <!-- Deux éléments, deux rôles : le cadre porte l'état (plein ou
          indéterminé), la barre porte la largeur. -->
@@ -1930,7 +1965,7 @@
       </svg>
       <span id="authLibelle">Se connecter avec Discord</span>
     </button>
-    <p class="auth-note">Ton mot de passe Discord ne passe jamais par PokéArchive.</p>
+    <p class="auth-note">Ton mot de passe Discord ne passe jamais par PokéPension.</p>
     <div class="modal-actions">
       <button class="toggle-btn" id="authAnnuler" type="button">Annuler</button>
     </div>

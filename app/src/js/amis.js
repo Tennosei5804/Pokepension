@@ -141,7 +141,7 @@ async function annoncerAuSysteme(annonces){
   if(reste > 0){
     try{
       pont.sendNotification({
-        title: 'PokéArchive',
+        title: 'PokéPension',
         body: reste + ' autre' + (reste > 1 ? 's' : '') + ' nouveauté'
               + (reste > 1 ? 's' : '') + ' chez tes amis.',
       });

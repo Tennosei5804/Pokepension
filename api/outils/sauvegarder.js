@@ -109,7 +109,7 @@ async function main() {
     console.log(`  ${table.padEnd(16)} ${String(lignes.length).padStart(6)} ligne(s)`);
   }
 
-  const fichier = path.join(dossier, `pokearchive-${horodatage()}.json`);
+  const fichier = path.join(dossier, `pokepension-${horodatage()}.json`);
   await fs.writeFile(fichier, JSON.stringify(contenu), 'utf8');
   const { size } = await fs.stat(fichier);
 
@@ -118,7 +118,7 @@ async function main() {
   // Le ménage vient APRÈS l'écriture réussie : échouer à sauvegarder puis
   // supprimer l'ancienne serait le pire des deux mondes.
   const anciennes = (await fs.readdir(dossier))
-    .filter((f) => f.startsWith('pokearchive-') && f.endsWith('.json'))
+    .filter((f) => f.startsWith('pokepension-') && f.endsWith('.json'))
     .sort();
   const aJeter = anciennes.slice(0, Math.max(0, anciennes.length - A_GARDER));
   for (const f of aJeter) {
@@ -150,7 +150,7 @@ main()
       console.error("DB_HOTE est vide : les variables d'environnement ne sont pas là.");
       console.error("Ni SSH ni une tâche planifiée n'hérite de celles du site.");
       console.error('');
-      console.error("  À la main   cd ~/PokeArchive/api \\");
+      console.error("  À la main   cd ~/PokePension/api \\");
       console.error("              && node --env-file=.env outils/sauvegarder.js");
       console.error("              (un .env à côté de .env.exemple, portant les DB_*)");
       console.error("");

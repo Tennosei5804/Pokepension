@@ -403,7 +403,7 @@ function rendreSession() {
 
 const nettoyage = process.argv.includes('--nettoyer');
 
-console.log(`\nPokéArchive — ${nettoyage ? 'ménage' : 'décor'} local`);
+console.log(`\nPokéPension — ${nettoyage ? 'ménage' : 'décor'} local`);
 console.log(`base : ${description()}\n`);
 
 await creerSchema(journal);
