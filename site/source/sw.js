@@ -102,6 +102,24 @@ self.addEventListener('fetch', function(e){
     return;
   }
 
+  // LES TELECHARGEMENTS NE PASSENT PAS PAR LE CACHE, et pour deux raisons
+  // qui vont dans le meme sens.
+  //
+  //   · derniere.json dit QUELLE version est servie. Le rendre depuis le
+  //     cache, c'est annoncer indefiniment la version d'avant : la page
+  //     affichait « 0.42.1 » alors que le serveur servait deja la 0.42.2.
+  //     Un fichier dont tout le role est d'etre a jour ne se met pas en
+  //     reserve.
+  //
+  //   · l'installateur pese neuf megaoctets. Le garder reviendrait a
+  //     remplir le stockage de chaque visiteur avec un binaire qu'on ne
+  //     telecharge qu'une fois, et que le navigateur a deja ecrit sur le
+  //     disque.
+  if(url.pathname.indexOf('/telechargements/') !== -1
+     || url.pathname === '/telecharger'){
+    return;                       // au reseau, sans nous
+  }
+
   e.respondWith((async function(){
     const c = await caches.open(CACHE);
     const enCache = await c.match(req, { ignoreSearch: true });
