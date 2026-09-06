@@ -20,6 +20,30 @@ const NOUVEAUTES_VUES_KEY = 'pokearchive-nouveautes-vues';
 
 const NOUVEAUTES = [
   {
+    version: '0.42.2', date: '2026-09-06',
+    titre: 'PokéArchive devient PokéPension, et la connexion du site aboutit',
+    points: [
+      '**🏷️ Le projet change de nom.** PokéArchive devient **PokéPension**, et '
+      + 'le site vit désormais sur **pokepension.fr** — avec une vraie page '
+      + 'd’accueil, et le Pokédex sur /dex. Rien ne bouge dans ta collection : '
+      + 'ni ton compte, ni tes aventures, ni tes sauvegardes.',
+      '**🔌 Se connecter depuis le site ne marchait pas, et ce n’était pas ta '
+      + 'faute.** La fenêtre Discord annonçait « connexion annulée » une '
+      + 'demi-seconde après le clic, avant même d’avoir fini de s’afficher. Le '
+      + 'serveur, lui, créait bien le compte : c’est le lien entre la fenêtre '
+      + 'et la page qui était coupé dès le premier saut. Il est rétabli.',
+      '**🚪 Une porte quand on a répondu « plus tard ».** Fermer la fenêtre de '
+      + 'connexion laissait la barre du haut vide : plus aucun moyen de se '
+      + 'connecter avant de relancer l’application. Un bouton **Se connecter** '
+      + 'occupe maintenant cette place tant qu’on n’a pas de session.',
+      '**🧾 Les messages d’erreur ne commencent plus par « Error: ».** Ce mot-là '
+      + 'venait du langage, pas de nous. Et « connexion annulée » disait ce '
+      + 'qu’on en concluait, pas ce qui s’était passé.',
+      '**⬇️ L’application se télécharge depuis pokepension.fr**, sans passer par '
+      + 'une forge ni par un compte ailleurs.',
+    ]
+  },
+  {
     version: '0.42.1', date: '2026-09-04',
     titre: 'Le bouton qui propose un échange fonctionne',
     points: [

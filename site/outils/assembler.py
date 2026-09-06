@@ -107,6 +107,10 @@ A_LA_DEMANDE = ("donnees-lieux.js", "donnees-attaques.js",
 
 # Les icones de l'application Tauri font aussi celles du site : c'est le meme
 # produit, et en tenir deux jeux les ferait diverger a la premiere retouche.
+# La largeur des vignettes de la page d'accueil. 300 pour 150 affiches :
+# les ecrans a deux pixels par point restent nets.
+LARGEUR_VIGNETTE = 300
+
 ICONES = {"32.png": "32x32.png", "128.png": "128x128.png",
           "256.png": "128x128@2x.png", "512.png": "icon.png"}
 
@@ -155,6 +159,53 @@ def coquille(html: str, accueil: str = "") -> list:
             vus.add(f)
             sortie.append(f)
     return sortie
+
+
+def vignettes_jeux() -> int:
+    """Les logos des jeux, en petit, pour la page d'accueil.
+
+    LES ORIGINAUX FONT 698 PIXELS DE LARGE ET 4,7 Mo A EUX VINGT-QUATRE.
+    L'application les affiche un a la fois, en tete d'un Pokedex ouvert :
+    ce poids ne se voit pas. La page d'accueil, elle, les montre TOUS, et
+    servir quatre megaoctets et demi a quelqu'un qui decouvre le site
+    serait lui faire payer la visite au prix de l'application.
+
+    On en pose donc une copie a 300 px, en WebP. Mesure : de 4,7 Mo a
+    environ 400 Ko, sans difference visible a la taille d'affichage.
+
+    SANS PILLOW, ON NE CASSE PAS L'ASSEMBLAGE : la page retombe sur les
+    originaux, qui sont deja copies dans logos/. Elle sera lourde, elle ne
+    sera pas absente — et le message dit quoi installer.
+    """
+    origine = PUBLIC / "logos"
+    if not origine.is_dir():
+        return 0
+    try:
+        from PIL import Image
+    except ImportError:
+        print("  %-10s vignettes : Pillow absent, la page d'accueil servira "
+              "les logos en pleine taille (py -m pip install Pillow)" % "!")
+        return 0
+
+    cible = PUBLIC / "vignettes"
+    cible.mkdir(exist_ok=True)
+    n = 0
+    for f in sorted(origine.glob("*.png")):
+        try:
+            im = Image.open(f).convert("RGBA")
+            ratio = LARGEUR_VIGNETTE / im.width
+            if ratio < 1:
+                im = im.resize((LARGEUR_VIGNETTE, max(1, round(im.height * ratio))),
+                               Image.LANCZOS)
+            im.save(cible / (f.stem + ".webp"), "WEBP", quality=82, method=5)
+            n += 1
+        except OSError:
+            continue          # un fichier illisible ne fait pas tomber le reste
+    poids = sum(x.stat().st_size for x in cible.iterdir())
+    print("  %-10s vignettes/ (%d logos, %.0f Ko au lieu de %.0f)"
+          % ("+", n, poids / 1024,
+             sum(x.stat().st_size for x in origine.glob("*.png")) / 1024))
+    return n
 
 
 def poser_pwa(html: str, accueil: str) -> tuple:
@@ -343,6 +394,8 @@ def batir() -> int:
     #    L'application de bureau n'a pas de page d'accueil et n'en veut pas :
     #    elle S'OUVRE sur le Pokedex, on l'a lancee pour ca. C'est pourquoi
     #    cette page vit dans site/source et non dans app/src.
+    vignettes_jeux()
+
     f_accueil = SOURCE / "accueil.html"
     if not f_accueil.is_file():
         print("Manquant : site/source/accueil.html")

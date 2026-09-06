@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PokéPension — ta collection Pokémon, du Rouge à Légendes Z-A</title>
-<meta name="description" content="Un Pokédex par jeu, la forme normale et la chromatique, et l'endroit exact où croiser ce qui te manque. Site web et application de bureau, même compte, mêmes données.">
+<title>PokéPension — ta collection Pokémon, de Rouge à Légendes Z-A</title>
+<meta name="description" content="Un Pokédex par jeu, la forme normale et la chromatique suivies séparément, et l'endroit exact où croiser ce qui te manque. 1 025 espèces, 23 jeux, neuf générations. Site et application, même compte.">
 
 <!-- LA PAGE D'ACCUEIL DU SITE, ET RIEN D'AUTRE.
      Elle ne charge PAS l'application : trente-sept scripts et treize méga-
@@ -12,6 +12,11 @@
      lui faire payer le Pokédex avant d'avoir dit ce qu'il contient. Elle
      n'emprunte que les polices et la palette — une seule source pour les
      couleurs, sinon le site et l'application dérivent l'un de l'autre.
+
+     TOUS LES CHIFFRES D'ICI SONT RELEVÉS, PAS ESTIMÉS : 1 025 espèces,
+     9 générations et 18 types viennent de js/donnees-embarquees.js, les
+     23 jeux et leurs machines de la table GAMES de js/donnees.js. Une page
+     d'accueil qui arrondit finit par mentir sur le produit.
 
      Le Pokédex vit à côté, sur /dex. Voir outils/assembler.py : c'est lui qui
      écrit cette page-ci en index.html et l'application en dex.html. -->
@@ -24,104 +29,307 @@
 
 <main class="acc">
 
+  <!-- ═══ L'ENTRÉE ═══════════════════════════════════════════════════════
+       À gauche ce que c'est et par où entrer ; à droite ce que ça donne.
+       Une page qui ne montre pas son produit demande de la croire sur
+       parole, et sur un Pokédex, ça se voit tout de suite. -->
   <header class="acc-tete">
-    <div class="acc-marque">
-      <div class="dex-lens" aria-hidden="true"></div>
-      <div class="acc-titres">
-        <span class="acc-eyebrow">Terminal de collecte</span>
-        <h1 class="acc-titre">PokéPension</h1>
+
+    <div class="acc-mot">
+      <div class="acc-marque">
+        <div class="dex-lens" aria-hidden="true"></div>
+        <div class="acc-titres">
+          <span class="acc-eyebrow">Terminal de collecte</span>
+          <h1 class="acc-titre">PokéPension</h1>
+        </div>
+      </div>
+
+      <p class="acc-phrase">
+        Ta collection Pokémon, de Rouge à Légendes Z-A. Un Pokédex par jeu,
+        la forme normale et la chromatique comptées séparément, et l'endroit
+        exact où croiser ce qui te manque.
+      </p>
+
+      <!-- LES TROIS PORTES, DANS L'ORDRE DE CE QU'ON VIENT CHERCHER.
+           Se connecter d'abord : c'est ce qui fait suivre la collection d'un
+           appareil à l'autre. Entrer sans compte ensuite, parce qu'on a le
+           droit de regarder avant. L'application en dernier : elle se
+           télécharge une fois, pas à chaque visite. -->
+      <div class="acc-portes">
+        <button class="acc-discord" id="accDiscord" type="button">
+          <svg viewBox="0 0 127 96" aria-hidden="true" focusable="false">
+            <path fill="currentColor" d="M107.7 8.07A105.15 105.15 0 0 0 81.47 0a72.06 72.06 0 0 0-3.36 6.83 97.68 97.68 0 0 0-29.11 0A72.37 72.37 0 0 0 45.64 0a105.89 105.89 0 0 0-26.25 8.09C2.79 32.65-1.71 56.6.54 80.21a105.73 105.73 0 0 0 32.17 16.15 77.7 77.7 0 0 0 6.89-11.11 68.42 68.42 0 0 1-10.85-5.18c.91-.66 1.8-1.34 2.66-2a75.57 75.57 0 0 0 64.32 0c.87.71 1.76 1.39 2.66 2a68.68 68.68 0 0 1-10.87 5.19 77 77 0 0 0 6.89 11.1 105.25 105.25 0 0 0 32.19-16.14c2.64-27.38-4.51-51.11-18.9-72.15ZM42.45 65.69C36.18 65.69 31 60 31 53s5-12.74 11.43-12.74S54 46 53.89 53s-5.05 12.69-11.44 12.69Zm42.24 0C78.41 65.69 73.25 60 73.25 53s5-12.74 11.44-12.74S96.23 46 96.12 53s-5.04 12.69-11.43 12.69Z"/>
+          </svg>
+          <span id="accDiscordTexte">Se connecter avec Discord</span>
+        </button>
+        <p class="acc-erreur" id="accErreur" role="alert" hidden></p>
+
+        <div class="acc-portes-secondaires">
+          <a class="acc-btn" href="dex">📖 Entrer dans le Pokédex</a>
+          <a class="acc-btn" id="accTelecharger" href="telecharger">⬇ Télécharger l'application</a>
+        </div>
+
+        <p class="acc-note">
+          Ton mot de passe Discord ne passe jamais par PokéPension. Sans
+          compte, le Pokédex fonctionne aussi — la collection reste alors
+          dans ce navigateur, et n'en sort pas.
+        </p>
       </div>
     </div>
-    <p class="acc-phrase">
-      Ta collection Pokémon, du Rouge à Légendes Z-A. Un Pokédex par jeu, la
-      forme normale et la chromatique, et l'endroit exact où croiser ce qui
-      te manque.
-    </p>
+
+    <!-- LA VITRINE. Neuf cases du Pokédex, dans leur vrai état : possédé en
+         normal (vert), possédé en chromatique (or), et manquant. Les noms
+         français et les numéros nationaux sont relevés sur la réserve du
+         dépôt, les rendus viennent de la même source que la grille.
+
+         Ce ne sont PAS les vraies cartes de dex.css : y aller coûterait
+         60 Ko de feuille pour un seul composant décoratif. C'est un portrait
+         d'après nature, tenu aux mêmes jetons de couleur — si la palette
+         bouge, il bouge avec elle. -->
+    <div class="acc-vitrine" aria-hidden="true">
+      <div class="acc-vitrine-cadre">
+        <div class="acc-vitrine-barre">
+          <span class="acc-vitrine-onglet is-actif">Pokédex National</span>
+          <span class="acc-vitrine-jauge"><i style="width:66%"></i></span>
+          <span class="acc-vitrine-compte">6 / 9</span>
+        </div>
+        <div class="acc-vitrine-grille">
+          <div class="acc-case is-pris">
+            <div class="acc-case-image"><img loading="lazy" decoding="async" alt=""
+              src="https://play.pokemonshowdown.com/sprites/home/bulbasaur.png"></div>
+            <span class="acc-case-nom">Bulbizarre</span><span class="acc-case-num">N° 001</span>
+          </div>
+          <div class="acc-case is-pris">
+            <div class="acc-case-image"><img loading="lazy" decoding="async" alt=""
+              src="https://play.pokemonshowdown.com/sprites/home/charizard.png"></div>
+            <span class="acc-case-nom">Dracaufeu</span><span class="acc-case-num">N° 006</span>
+          </div>
+          <div class="acc-case">
+            <div class="acc-case-image"><img loading="lazy" decoding="async" alt=""
+              src="https://play.pokemonshowdown.com/sprites/home/gengar.png"></div>
+            <span class="acc-case-nom">Ectoplasma</span><span class="acc-case-num">N° 094</span>
+          </div>
+          <div class="acc-case is-pris">
+            <div class="acc-case-image"><img loading="lazy" decoding="async" alt=""
+              src="https://play.pokemonshowdown.com/sprites/home/pikachu.png"></div>
+            <span class="acc-case-nom">Pikachu</span><span class="acc-case-num">N° 025</span>
+          </div>
+          <div class="acc-case is-shiny">
+            <div class="acc-case-image"><img loading="lazy" decoding="async" alt=""
+              src="https://play.pokemonshowdown.com/sprites/home-shiny/umbreon.png"></div>
+            <span class="acc-case-nom">Noctali</span><span class="acc-case-num">✨ N° 197</span>
+          </div>
+          <div class="acc-case is-pris">
+            <div class="acc-case-image"><img loading="lazy" decoding="async" alt=""
+              src="https://play.pokemonshowdown.com/sprites/home/eevee.png"></div>
+            <span class="acc-case-nom">Évoli</span><span class="acc-case-num">N° 133</span>
+          </div>
+          <div class="acc-case is-pris">
+            <div class="acc-case-image"><img loading="lazy" decoding="async" alt=""
+              src="https://play.pokemonshowdown.com/sprites/home/dragonite.png"></div>
+            <span class="acc-case-nom">Dracolosse</span><span class="acc-case-num">N° 149</span>
+          </div>
+          <div class="acc-case">
+            <div class="acc-case-image"><img loading="lazy" decoding="async" alt=""
+              src="https://play.pokemonshowdown.com/sprites/home/lucario.png"></div>
+            <span class="acc-case-nom">Lucario</span><span class="acc-case-num">N° 448</span>
+          </div>
+          <div class="acc-case is-pris">
+            <div class="acc-case-image"><img loading="lazy" decoding="async" alt=""
+              src="https://play.pokemonshowdown.com/sprites/home/greninja.png"></div>
+            <span class="acc-case-nom">Amphinobi</span><span class="acc-case-num">N° 658</span>
+          </div>
+        </div>
+      </div>
+      <p class="acc-vitrine-legende">
+        <b class="acc-pastille acc-pastille-vert"></b> possédé en normal
+        <b class="acc-pastille acc-pastille-or"></b> possédé en chromatique
+        <b class="acc-pastille acc-pastille-vide"></b> manquant
+      </p>
+    </div>
   </header>
 
-  <!-- LES TROIS PORTES, DANS L'ORDRE DE CE QU'ON VIENT CHERCHER.
-       Se connecter d'abord : c'est ce qui fait suivre la collection d'un
-       appareil à l'autre, et tout le reste en dépend. Entrer sans compte
-       ensuite, parce qu'on a le droit de regarder avant. L'application en
-       dernier : elle se télécharge une fois, pas à chaque visite. -->
-  <section class="acc-portes" aria-label="Commencer">
-    <button class="acc-discord" id="accDiscord" type="button">
-      <svg viewBox="0 0 127 96" aria-hidden="true" focusable="false">
-        <path fill="currentColor" d="M107.7 8.07A105.15 105.15 0 0 0 81.47 0a72.06 72.06 0 0 0-3.36 6.83 97.68 97.68 0 0 0-29.11 0A72.37 72.37 0 0 0 45.64 0a105.89 105.89 0 0 0-26.25 8.09C2.79 32.65-1.71 56.6.54 80.21a105.73 105.73 0 0 0 32.17 16.15 77.7 77.7 0 0 0 6.89-11.11 68.42 68.42 0 0 1-10.85-5.18c.91-.66 1.8-1.34 2.66-2a75.57 75.57 0 0 0 64.32 0c.87.71 1.76 1.39 2.66 2a68.68 68.68 0 0 1-10.87 5.19 77 77 0 0 0 6.89 11.1 105.25 105.25 0 0 0 32.19-16.14c2.64-27.38-4.51-51.11-18.9-72.15ZM42.45 65.69C36.18 65.69 31 60 31 53s5-12.74 11.43-12.74S54 46 53.89 53s-5.05 12.69-11.44 12.69Zm42.24 0C78.41 65.69 73.25 60 73.25 53s5-12.74 11.44-12.74S96.23 46 96.12 53s-5.04 12.69-11.43 12.69Z"/>
-      </svg>
-      <span id="accDiscordTexte">Se connecter avec Discord</span>
-    </button>
-    <p class="acc-erreur" id="accErreur" role="alert" hidden></p>
-
-    <div class="acc-portes-secondaires">
-      <a class="acc-btn" href="dex">📖 Entrer dans le Pokédex</a>
-      <a class="acc-btn" id="accTelecharger"
-         href="https://github.com/Tennosei5804/Pokepension/releases/latest"
-         target="_blank" rel="noopener noreferrer">⬇ Télécharger l'application</a>
-    </div>
-    <p class="acc-note">
-      Ton mot de passe Discord ne passe jamais par PokéPension. Sans compte,
-      le Pokédex fonctionne aussi — la collection reste alors dans ce
-      navigateur, et n'en sort pas.
-    </p>
+  <!-- ═══ CE QUE ÇA COUVRE ═══════════════════════════════════════════════
+       Des nombres, pas des adjectifs. « Complet » ne veut rien dire ;
+       « 1 025 espèces » se vérifie. -->
+  <section class="acc-chiffres" aria-label="Ce que le Pokédex couvre">
+    <div class="acc-chiffre"><b>1 025</b><span>espèces</span></div>
+    <div class="acc-chiffre"><b>23</b><span>jeux, de Rouge à Z-A</span></div>
+    <div class="acc-chiffre"><b>9</b><span>générations</span></div>
+    <div class="acc-chiffre"><b>2</b><span>formes comptées à part</span></div>
   </section>
 
-  <section class="acc-quoi" aria-label="Ce que ça fait">
-    <div class="acc-carte">
-      <h2>Un Pokédex par jeu</h2>
-      <p>
-        Vingt-trois jeux, du Rouge à Légendes Z-A, chacun avec sa numérotation
-        régionale, sa boîte et ses sprites d'époque. Et par-dessus, la
-        collection Pokémon HOME qui les réunit tous.
+  <!-- ═══ LES JEUX ═══════════════════════════════════════════════════════
+       C'est l'argument central, et il se montre mieux qu'il ne s'énonce.
+       Les logos sont ceux de l'application, en vignettes de 300 px posées
+       par l'assembleur — les originaux font 4,7 Mo à eux tous. -->
+  <section class="acc-jeux-bloc">
+    <div class="acc-section-tete">
+      <h2 class="acc-section-titre">Un Pokédex par jeu</h2>
+      <p class="acc-section-mot">
+        Chacun avec sa numérotation régionale, sa boîte et ses sprites
+        d'époque. Et par-dessus, la collection Pokémon HOME qui les réunit
+        tous : ce que tu coches dans un jeu se retrouve dans le total.
       </p>
     </div>
-    <div class="acc-carte">
-      <h2>Le normal et le chromatique, séparément</h2>
-      <p>
-        Deux jauges, deux listes, deux avancements. Un Pokémon possédé en
-        normal qui attend encore sa version shiny se voit d'un coup d'œil, et
-        c'est en général ce qu'on cherche.
-      </p>
+    <ul class="acc-jeux">
+      <li class="acc-jeu"><img loading="lazy" decoding="async" src="vignettes/rouge-bleu.webp" alt="Pokémon Rouge / Bleu"><b>Rouge / Bleu</b><span>Game Boy</span></li>
+      <li class="acc-jeu"><img loading="lazy" decoding="async" src="vignettes/jaune.webp" alt="Pokémon Jaune"><b>Jaune</b><span>Game Boy</span></li>
+      <li class="acc-jeu"><img loading="lazy" decoding="async" src="vignettes/or-argent.webp" alt="Pokémon Or / Argent"><b>Or / Argent</b><span>Game Boy Color</span></li>
+      <li class="acc-jeu"><img loading="lazy" decoding="async" src="vignettes/cristal.webp" alt="Pokémon Cristal"><b>Cristal</b><span>Game Boy Color</span></li>
+      <li class="acc-jeu"><img loading="lazy" decoding="async" src="vignettes/rubis-saphir.webp" alt="Pokémon Rubis / Saphir"><b>Rubis / Saphir</b><span>Game Boy Advance</span></li>
+      <li class="acc-jeu"><img loading="lazy" decoding="async" src="vignettes/emeraude.webp" alt="Pokémon Émeraude"><b>Émeraude</b><span>Game Boy Advance</span></li>
+      <li class="acc-jeu"><img loading="lazy" decoding="async" src="vignettes/rouge-feu-vert-feuille.webp" alt="Pokémon Rouge Feu / Vert Feuille"><b>Rouge Feu / Vert Feuille</b><span>Game Boy Advance</span></li>
+      <li class="acc-jeu"><img loading="lazy" decoding="async" src="vignettes/diamant-perle.webp" alt="Pokémon Diamant / Perle"><b>Diamant / Perle</b><span>Nintendo DS</span></li>
+      <li class="acc-jeu"><img loading="lazy" decoding="async" src="vignettes/platine.webp" alt="Pokémon Platine"><b>Platine</b><span>Nintendo DS</span></li>
+      <li class="acc-jeu"><img loading="lazy" decoding="async" src="vignettes/heartgold-soulsilver.webp" alt="Pokémon Or HeartGold / Argent SoulSilver"><b>HeartGold / SoulSilver</b><span>Nintendo DS</span></li>
+      <li class="acc-jeu"><img loading="lazy" decoding="async" src="vignettes/noire-blanche.webp" alt="Pokémon Noir / Blanc"><b>Noir / Blanc</b><span>Nintendo DS</span></li>
+      <li class="acc-jeu"><img loading="lazy" decoding="async" src="vignettes/noire-2-blanche-2.webp" alt="Pokémon Noir 2 / Blanc 2"><b>Noir 2 / Blanc 2</b><span>Nintendo DS</span></li>
+      <li class="acc-jeu"><img loading="lazy" decoding="async" src="vignettes/x-y.webp" alt="Pokémon X / Y"><b>X / Y</b><span>Nintendo 3DS</span></li>
+      <li class="acc-jeu"><img loading="lazy" decoding="async" src="vignettes/rubis-omega-saphir-alpha.webp" alt="Pokémon Rubis Oméga / Saphir Alpha"><b>Rubis Oméga / Saphir Alpha</b><span>Nintendo 3DS</span></li>
+      <li class="acc-jeu"><img loading="lazy" decoding="async" src="vignettes/soleil-lune.webp" alt="Pokémon Soleil / Lune"><b>Soleil / Lune</b><span>Nintendo 3DS</span></li>
+      <li class="acc-jeu"><img loading="lazy" decoding="async" src="vignettes/ultra-soleil-ultra-lune.webp" alt="Pokémon Ultra-Soleil / Ultra-Lune"><b>Ultra-Soleil / Ultra-Lune</b><span>Nintendo 3DS</span></li>
+      <li class="acc-jeu"><img loading="lazy" decoding="async" src="vignettes/lets-go-pikachu-evoli.webp" alt="Pokémon Let's Go Pikachu / Évoli"><b>Let's Go Pikachu / Évoli</b><span>Nintendo Switch</span></li>
+      <li class="acc-jeu"><img loading="lazy" decoding="async" src="vignettes/epee-bouclier.webp" alt="Pokémon Épée / Bouclier"><b>Épée / Bouclier</b><span>Nintendo Switch</span></li>
+      <li class="acc-jeu"><img loading="lazy" decoding="async" src="vignettes/diamant-etincelant-perle-scintillante.webp" alt="Pokémon Diamant Étincelant / Perle Scintillante"><b>Diamant Étincelant / Perle Scintillante</b><span>Nintendo Switch</span></li>
+      <li class="acc-jeu"><img loading="lazy" decoding="async" src="vignettes/legendes-arceus.webp" alt="Légendes Pokémon : Arceus"><b>Légendes : Arceus</b><span>Nintendo Switch</span></li>
+      <li class="acc-jeu"><img loading="lazy" decoding="async" src="vignettes/ecarlate-violet.webp" alt="Pokémon Écarlate / Violet"><b>Écarlate / Violet</b><span>Nintendo Switch</span></li>
+      <li class="acc-jeu"><img loading="lazy" decoding="async" src="vignettes/legendes-z-a.webp" alt="Légendes Pokémon : Z-A"><b>Légendes : Z-A</b><span>Nintendo Switch</span></li>
+      <li class="acc-jeu"><img loading="lazy" decoding="async" src="vignettes/cobblemon.webp" alt="Cobblemon (Minecraft)"><b>Cobblemon</b><span>Mod Minecraft Java</span></li>
+    </ul>
+  </section>
+
+  <!-- ═══ CE QUE ÇA FAIT ═════════════════════════════════════════════════ -->
+  <section class="acc-quoi-bloc">
+    <div class="acc-section-tete">
+      <h2 class="acc-section-titre">Ce que ça fait</h2>
     </div>
-    <div class="acc-carte">
-      <h2>Où le croiser</h2>
-      <p>
-        Les lieux, les heures, la météo et ce qui change les rencontres. Le
-        programme du soir sort de là : quoi attraper, et où, sans rouvrir
-        trois onglets de wiki.
-      </p>
+    <div class="acc-quoi">
+      <article class="acc-carte">
+        <div class="acc-carte-icone" aria-hidden="true">⬤ ✨</div>
+        <h3>Le normal et le chromatique, séparément</h3>
+        <p>
+          Deux jauges, deux listes, deux avancements. Un Pokémon possédé en
+          normal qui attend encore sa version shiny se voit d'un coup d'œil,
+          et c'est en général exactement ce qu'on cherche.
+        </p>
+      </article>
+      <article class="acc-carte">
+        <div class="acc-carte-icone" aria-hidden="true">📍</div>
+        <h3>Où le croiser</h3>
+        <p>
+          Les lieux, les heures, la météo et ce qui change les rencontres.
+          Le programme du soir sort de là : quoi attraper et où, sans
+          rouvrir trois onglets de wiki.
+        </p>
+      </article>
+      <article class="acc-carte">
+        <div class="acc-carte-icone" aria-hidden="true">👥</div>
+        <h3>Tes amis, tes échanges</h3>
+        <p>
+          Un profil public, la comparaison de deux dex, des messages et des
+          propositions d'échange. Rien n'est automatique : c'est un carnet
+          commun, pas un serveur de jeu.
+        </p>
+      </article>
+      <article class="acc-carte">
+        <div class="acc-carte-icone" aria-hidden="true">✨</div>
+        <h3>La chasse, comptée</h3>
+        <p>
+          Un compteur de rencontres par chasse, la méthode, le taux réel, et
+          la photo de la prise quand elle tombe. Sur l'application, un
+          overlay pose le compteur dans ton stream.
+        </p>
+      </article>
+      <article class="acc-carte">
+        <div class="acc-carte-icone" aria-hidden="true">🎁</div>
+        <h3>Cadeaux Mystère et verrous</h3>
+        <p>
+          Les distributions relevées et datées, et les espèces qu'un jeu ne
+          permet pas d'obtenir en chromatique — pour ne pas chasser des
+          heures ce qui n'existe pas.
+        </p>
+      </article>
+      <article class="acc-carte">
+        <div class="acc-carte-icone" aria-hidden="true">🧰</div>
+        <h3>Avant d'y aller</h3>
+        <p>
+          Stratégie, reproduction et transferts : ce qu'il faut savoir avant
+          de lancer une chasse ou de faire remonter une équipe d'un jeu à
+          l'autre.
+        </p>
+      </article>
     </div>
-    <div class="acc-carte">
-      <h2>Tes amis, tes échanges</h2>
+  </section>
+
+  <!-- ═══ LES TYPES ══════════════════════════════════════════════════════
+       Décoratif, et honnêtement peu coûteux : les dix-huit logos pèsent
+       47 Ko à eux tous, et ils sont déjà livrés pour l'application. -->
+  <section class="acc-types-bloc" aria-label="Les dix-huit types">
+    <div class="acc-types">
+      <img loading="lazy" src="types/normal.png" alt="Normal"><img loading="lazy" src="types/feu.png" alt="Feu"><img loading="lazy" src="types/eau.png" alt="Eau"><img loading="lazy" src="types/plante.png" alt="Plante"><img loading="lazy" src="types/electrik.png" alt="Électrik"><img loading="lazy" src="types/glace.png" alt="Glace"><img loading="lazy" src="types/combat.png" alt="Combat"><img loading="lazy" src="types/poison.png" alt="Poison"><img loading="lazy" src="types/sol.png" alt="Sol"><img loading="lazy" src="types/vol.png" alt="Vol"><img loading="lazy" src="types/psy.png" alt="Psy"><img loading="lazy" src="types/insecte.png" alt="Insecte"><img loading="lazy" src="types/roche.png" alt="Roche"><img loading="lazy" src="types/spectre.png" alt="Spectre"><img loading="lazy" src="types/dragon.png" alt="Dragon"><img loading="lazy" src="types/tenebres.png" alt="Ténèbres"><img loading="lazy" src="types/acier.png" alt="Acier"><img loading="lazy" src="types/fee.png" alt="Fée">
+    </div>
+  </section>
+
+  <!-- ═══ LE TÉLÉCHARGEMENT ══════════════════════════════════════
+       LE FICHIER VIENT DE POKÉPENSION, PAS D'UNE FORGE. Un lien qui part
+       chez un tiers ajoute une page à traverser, un compte à ne pas avoir,
+       et une adresse qui cassera le jour où le dépôt change de nom — ce qui
+       vient précisément d'arriver deux fois.
+
+       La version et le poids ne sont pas écrits en dur : ils sont lus dans
+       telechargements/derniere.json, posé à côté du binaire. Une page qui
+       annonce une version et en sert une autre est pire que muette. -->
+  <section class="acc-telecharger" id="telecharger">
+    <div class="acc-tel-mot">
+      <h2 class="acc-section-titre">L'application de bureau</h2>
       <p>
-        Un profil public, la comparaison de deux dex, des messages, et des
-        propositions d'échange. Rien n'est automatique : c'est un carnet
-        commun, pas un serveur de jeu.
+        Le Pokédex hors ligne, les notifications, et l'overlay de chasse à
+        poser dans un stream. Même compte et mêmes données que le site : ce
+        qu'on coche ici se retrouve là, et l'inverse.
+      </p>
+      <p class="acc-tel-detail" id="accTelDetail">Installateur Windows 64 bits</p>
+    </div>
+    <div class="acc-tel-action">
+      <a class="acc-tel-btn" href="telecharger" id="accTelPrincipal">
+        <span aria-hidden="true">⬇</span>
+        <span>Télécharger pour Windows</span>
+      </a>
+      <p class="acc-tel-note">
+        Servi par pokepension.fr. L'installation se fait pour ton compte
+        seul : ni mot de passe administrateur, ni service en arrière-plan.
       </p>
     </div>
   </section>
 
-  <!-- LA DIFFÉRENCE ENTRE LES DEUX, DITE FRANCHEMENT.
-       Un site qui ne dit pas ce que sa version installée fait de plus laisse
-       croire soit que l'application est inutile, soit que le site est amputé.
-       Ni l'un ni l'autre : il manque une chose, elle est nommée. -->
-  <section class="acc-deux" aria-label="Site ou application">
+  <!-- ═══ SITE OU APPLICATION ════════════════════════════════════════════
+       Un site qui ne dit pas ce que sa version installée fait de plus
+       laisse croire soit que l'application est inutile, soit que le site
+       est amputé. Ni l'un ni l'autre : il manque une chose, elle est
+       nommée. -->
+  <section class="acc-deux">
     <h2 class="acc-section-titre">Le site et l'application</h2>
-    <p>
-      <b>Même compte, même base, mêmes données.</b> On commence sur
-      l'ordinateur, on continue dans le navigateur du téléphone posé à côté de
-      la console — la collection, les amis, les échanges et les messages
-      suivent.
-    </p>
-    <p>
-      Une seule chose manque au site : <b>l'overlay OBS</b>, pour afficher son
-      compteur de chasse en direct. Il demande une écoute locale, ce qu'un
-      navigateur ne sait pas faire. Tout le reste est là.
-    </p>
-    <p class="acc-pwa">
-      Le site s'installe aussi sur l'écran d'accueil du téléphone, et s'ouvre
-      alors sans réseau.
-    </p>
+    <div class="acc-deux-corps">
+      <div>
+        <p>
+          <b>Même compte, même base, mêmes données.</b> On commence sur
+          l'ordinateur, on continue dans le navigateur du téléphone posé à
+          côté de la console — la collection, les amis, les échanges et les
+          messages suivent.
+        </p>
+        <p>
+          Une seule chose manque au site : <b>l'overlay OBS</b>, pour poser
+          son compteur de chasse dans un stream. Il demande une écoute
+          locale, ce qu'un navigateur ne sait pas faire. Tout le reste est
+          là.
+        </p>
+      </div>
+      <ul class="acc-deux-liste">
+        <li><b>Site</b> — rien à installer, s'ajoute à l'écran d'accueil du téléphone, s'ouvre hors ligne</li>
+        <li><b>Application</b> — Windows, l'overlay de chasse, les notifications de bureau</li>
+        <li><b>Sans compte</b> — le Pokédex fonctionne, la collection reste dans le navigateur</li>
+      </ul>
+    </div>
   </section>
 
   <footer class="acc-pied">
@@ -173,6 +381,25 @@
       bouton.dataset.ouvrir = '1';
     }
   }).catch(function(){ /* API injoignable : le bouton reste une connexion */ });
+
+  // LA VERSION SERVIE, ANNONCÉE TELLE QUELLE. Le fichier garde toujours le
+  // même nom sur le disque pour que l'adresse /telecharger ne bouge jamais ;
+  // c'est donc ce petit fichier-là qui dit ce qu'il y a dedans. S'il manque,
+  // la ligne garde son texte d'origine plutôt que d'inventer un numéro.
+  (function(){
+    var ligne = document.getElementById('accTelDetail');
+    if(!ligne) return;
+    fetch('telechargements/derniere.json', { cache: 'no-cache' })
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(d){
+        if(!d || !d.version) return;
+        var mo = d.octets ? (d.octets / 1048576).toFixed(1).replace('.', ',') + ' Mo' : '';
+        ligne.textContent = 'Version ' + d.version
+          + (mo ? ' · ' + mo : '')
+          + ' · installateur Windows 64 bits';
+      })
+      .catch(function(){ /* pas de réseau : la ligne reste ce qu'elle est */ });
+  })();
 
   bouton.addEventListener('click', function(){
     if(bouton.dataset.ouvrir === '1'){ location.href = 'dex'; return; }

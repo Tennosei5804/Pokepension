@@ -61,6 +61,13 @@ class Serveur(http.server.SimpleHTTPRequestHandler):
     # Caddy fait la meme chose en production, par try_files.
     SANS_EXTENSION = {"/dex": "/dex.html"}
 
+    # L'INSTALLATEUR VIT HORS DE public/, ICI COMME SUR LE SERVEUR.
+    # L'assemblage efface public/ en entier a chaque passage : un binaire de
+    # huit megaoctets pose dedans disparaitrait au premier assemblage. Il vit
+    # donc dans site/telechargements/, que Caddy monte de la meme facon.
+    TELECHARGEMENTS = ICI / "telechargements"
+    FICHIER_APP = "PokePension-Windows-x64.exe"
+
     def _reecrire(self):
         chemin = self.path.split("?")[0].rstrip("/") or "/"
         cible = self.SANS_EXTENSION.get(chemin)
@@ -69,10 +76,34 @@ class Serveur(http.server.SimpleHTTPRequestHandler):
             self.path = cible + reste
 
     def do_GET(self):
-        if self.path.split("?")[0] == "/session":
+        chemin = self.path.split("?")[0]
+        if chemin == "/session":
             return self.page_session()
+        if chemin == "/telecharger" or chemin.startswith("/telechargements/"):
+            return self.telechargement(chemin)
         self._reecrire()
         return super().do_GET()
+
+    def telechargement(self, chemin):
+        """Servir l'installateur comme le fait Caddy, pour voir la meme page.
+
+        Sans cela, le bloc de telechargement de la page d'accueil ne se
+        verifie qu'en production — c'est-a-dire trop tard.
+        """
+        nom = self.FICHIER_APP if chemin == "/telecharger" else chemin.split("/")[-1]
+        f = self.TELECHARGEMENTS / nom
+        if ".." in nom or "/" in nom or not f.is_file():
+            self.send_error(404, "Rien a telecharger ici")
+            return
+        corps = f.read_bytes()
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json; charset=utf-8"
+                         if nom.endswith(".json") else "application/octet-stream")
+        if nom.endswith(".exe"):
+            self.send_header("Content-Disposition", "attachment")
+        self.send_header("Content-Length", str(len(corps)))
+        self.end_headers()
+        self.wfile.write(corps)
 
     def do_HEAD(self):
         self._reecrire()
