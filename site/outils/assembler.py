@@ -120,6 +120,15 @@ ICONES = {"32.png": "32x32.png", "128.png": "128x128.png",
 # journal du serveur.
 ICONE_RACINE = ("favicon.ico", "icon.ico")
 
+# Les liens d'icone, seuls — sans manifeste ni service worker. La page de
+# partage les veut ; elle ne veut pas installer une application a quelqu'un
+# qui a juste clique sur un lien.
+ICONES_TETE = (
+    '<link rel="icon" href="/favicon.ico" sizes="any">\n'
+    '<link rel="icon" type="image/png" href="/icones/32.png" sizes="32x32">\n'
+    '<meta name="theme-color" content="#b5211f">\n'
+)
+
 
 def coquille(html: str, accueil: str = "") -> list:
     """Ce qu'il faut avoir en cache pour que l'application s'ouvre sans reseau.
@@ -345,6 +354,8 @@ def batir() -> int:
     for source, dest in [("pont-api.js", PUBLIC / "js" / "pont-api.js"),
                          ("site.css", PUBLIC / "css" / "site.css"),
                          ("accueil-site.css", PUBLIC / "css" / "accueil-site.css"),
+                         ("partage-site.css", PUBLIC / "css" / "partage-site.css"),
+                         ("partage-site.js", PUBLIC / "js" / "partage-site.js"),
                          ("essai.html", PUBLIC / "essai.html")]:
         f = SOURCE / source
         if not f.is_file():
@@ -431,9 +442,28 @@ def batir() -> int:
     # 5. De quoi s'installer et s'ouvrir hors ligne. Voir poser_pwa().
     html, accueil = poser_pwa(html, accueil)
 
+    # LA PAGE D'UN LIEN DE PARTAGE. Elle n'inscrit PAS le service worker :
+    # c'est une page pour quelqu'un de passage, qui a cliqué sur un lien reçu
+    # dans un salon. Lui installer une application hors ligne au passage serait
+    # prendre une décision à sa place. Elle reçoit l'adresse de l'API et
+    # l'icône, rien de plus.
+    f_partage = SOURCE / "partage.html"
+    if not f_partage.is_file():
+        print("Manquant : site/source/partage.html")
+        return 1
+    partage = f_partage.read_text(encoding="utf-8")
+    ancre_p = '<script src="/js/donnees.js"></script>'
+    if ancre_p not in partage:
+        print("L'ancre des donnees a change dans partage.html : %s" % ancre_p)
+        return 1
+    partage = partage.replace(ancre_p, balise_api + chr(10) + ancre_p, 1)
+    partage = partage.replace("</head>", ICONES_TETE + "</head>", 1)
+    partage = horodater(partage, PUBLIC)
+    (PUBLIC / "partage.html").write_text(partage, encoding="utf-8")
+
     (PUBLIC / "dex.html").write_text(html, encoding="utf-8")
     (PUBLIC / "index.html").write_text(accueil, encoding="utf-8")
-    print("  %-10s index.html (accueil)  +  dex.html (le Pokedex)" % "+")
+    print("  %-10s index.html  +  dex.html  +  partage.html" % "+")
 
     print()
     print("public/ bati en %.1f s — %.1f Mo, les deux pages comprises."

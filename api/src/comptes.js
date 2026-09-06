@@ -1542,3 +1542,193 @@ export async function renommerDresseur(pseudoActuel, nouveau) {
   if (!d) throw new ErreurCompte('Dresseur introuvable.', 404);
   return { id: d.id, pseudo: await changerPseudo(d.id, nouveau) };
 }
+
+// --- Partager le Pokédex d'un jeu --------------------------------------------
+//
+// CE QU'ON DONNE, ET CE QU'ON NE DONNE PAS. Le dex d'une aventure est un seul
+// JSON qui contient TOUS les jeux, plus les chasses. Un lien de partage ne
+// laisse sortir qu'un seul seau — celui du jeu nommé dans le lien. Partager son
+// Rouge Feu ne montre ni son Écarlate, ni ses chasses en cours, ni le reste.
+// C'est découpé ici, dans la couche qui lit la base, et non dans la page : une
+// page peut être réécrite, une réponse d'API part telle qu'elle est construite.
+//
+// Le lecteur n'a pas de compte et n'en aura pas. Ces trois fonctions-ci sont
+// donc les seules du fichier dont la sortie est visible sans jeton.
+
+// L'alphabet d'un code qu'on lit à voix haute et qu'on retape à la main : ni O
+// ni 0, ni I ni 1, ni L. Les confondre ferait échouer un lien sans que personne
+// comprenne pourquoi — et le premier réflexe serait d'accuser le partage.
+const PARTAGE_ALPHABET = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+const PARTAGE_LONGUEUR = 8;
+
+/**
+ * Un code de partage : huit caractères, en deux groupes de quatre.
+ *
+ * Le tiret n'est pas dans le code, il est dans son écriture — on le retire à la
+ * lecture. Quelqu'un qui recopie « K7M2QX4P » sans tiret doit tomber juste.
+ */
+function nouveauCodePartage() {
+  const octets = randomBytes(PARTAGE_LONGUEUR);
+  let code = '';
+  for (let i = 0; i < PARTAGE_LONGUEUR; i++) {
+    code += PARTAGE_ALPHABET[octets[i] % PARTAGE_ALPHABET.length];
+  }
+  return code;
+}
+
+/**
+ * L'adresse de l'avatar Discord, composee ici plutot que chez le lecteur.
+ *
+ * Meme regle que `avatarDiscord()` cote application, aux memes bornes : avec
+ * un hash, l'avatar choisi ; sans, celui que Discord attribue d'office. La
+ * difference est qu'ici l'identifiant ne quitte pas le serveur.
+ */
+function avatarDiscordUrl(discordId, hash, taille = 96) {
+  if (!discordId) return '';
+  if (hash) {
+    const ext = String(hash).startsWith('a_') ? 'gif' : 'png';
+    return `https://cdn.discordapp.com/avatars/${discordId}/${hash}.${ext}?size=${taille}`;
+  }
+  let n = 0;
+  try { n = Number((BigInt(discordId) >> 22n) % 6n); } catch { n = 0; }
+  return `https://cdn.discordapp.com/embed/avatars/${n}.png`;
+}
+
+/** La forme lisible : « K7M2-QX4P ». */
+export function ecrireCodePartage(code) {
+  return code.slice(0, 4) + '-' + code.slice(4);
+}
+
+/**
+ * Le code tel qu'il est rangé, à partir de ce qu'on a tapé.
+ *
+ * On accepte les minuscules, les tirets et les espaces : un code se recopie
+ * depuis un salon Discord, pas depuis un presse-papier propre.
+ */
+export function normaliserCodePartage(brut) {
+  const c = String(brut || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+  return c.length === PARTAGE_LONGUEUR ? c : '';
+}
+
+/**
+ * Ouvrir — ou rouvrir — le partage du Pokédex d'un jeu.
+ *
+ * IDEMPOTENT PAR AVENTURE ET PAR JEU. Repartager le même Pokédex rend le même
+ * code : sinon chaque clic sèmerait un lien de plus, et celui qu'on a déjà collé
+ * quelque part deviendrait un mort-vivant qu'on ne saurait plus retrouver pour
+ * le révoquer. Un lien révoqué puis redemandé, en revanche, repart sous un code
+ * NEUF — révoquer doit vouloir dire quelque chose.
+ */
+export async function creerPartage(dresseurId, profilId, jeu) {
+  const cleJeu = String(jeu || '').trim().slice(0, 32);
+  if (!cleJeu) throw new ErreurCompte('Aucun jeu à partager.');
+
+  const p = await une('SELECT id FROM pa_profils WHERE id = ? AND dresseur_id = ?',
+    [profilId, dresseurId]);
+  if (!p) throw new ErreurCompte('Cette aventure n\'est pas la tienne.');
+
+  // Le lien VIVANT, s'il y en a un. On ne regarde pas les éteints : ils
+  // gardent leur code pour pouvoir répondre « retiré », et rouvrir doit
+  // donner un code neuf — sans quoi révoquer ne voudrait rien dire.
+  const vivant = await une(
+    'SELECT code FROM pa_partages WHERE profil_id = ? AND jeu = ? AND actif = 1',
+    [p.id, cleJeu]);
+  if (vivant) return { code: vivant.code, neuf: false };
+
+  const code = nouveauCodePartage();
+  await ecrire(
+    `INSERT INTO pa_partages (code, dresseur_id, profil_id, jeu, cree_le)
+     VALUES (?, ?, ?, ?, ?)`,
+    [code, dresseurId, p.id, cleJeu, horodatage()]);
+  return { code, neuf: true };
+}
+
+/** Les liens qu'on a ouverts, actifs comme éteints. */
+export async function partagesDe(dresseurId) {
+  const l = await lire(
+    `SELECT p.code, p.jeu, p.actif, p.vues, p.cree_le, p.vu_le,
+            pr.id AS profil_id, pr.nom AS profil
+       FROM pa_partages p
+       JOIN pa_profils pr ON pr.id = p.profil_id
+      WHERE p.dresseur_id = ?
+      ORDER BY p.actif DESC, p.cree_le DESC`, [dresseurId]);
+  return l.map((x) => ({
+    code: x.code, lisible: ecrireCodePartage(x.code),
+    jeu: x.jeu, profilId: x.profil_id, profil: x.profil,
+    actif: x.actif !== 0, vues: x.vues, creeLe: x.cree_le, vuLe: x.vu_le,
+  }));
+}
+
+/**
+ * Éteindre un lien.
+ *
+ * On garde la ligne plutôt que de l'effacer : le code doit continuer de
+ * répondre « ce lien a été retiré », et non « inconnu ». Qui l'a reçu de bonne
+ * foi mérite de savoir que ce n'est pas lui qui s'est trompé.
+ */
+export async function revoquerPartage(dresseurId, code) {
+  const c = normaliserCodePartage(code);
+  if (!c) throw new ErreurCompte('Code de partage invalide.');
+  const r = await ecrire(
+    'UPDATE pa_partages SET actif = 0 WHERE code = ? AND dresseur_id = ?', [c, dresseurId]);
+  if (!r.affectedRows) throw new ErreurCompte('Ce lien n\'est pas le tien, ou n\'existe plus.');
+  return { ok: true };
+}
+
+/**
+ * Lire un partage. SANS JETON — c'est le seul endroit du fichier dans ce cas.
+ *
+ * Rend le strict nécessaire pour dessiner la page : qui, quelle aventure, quel
+ * jeu, et le seau de CE jeu. Pas le reste du dex, pas les chasses, pas l'adresse
+ * Discord, pas les autres aventures, pas le journal.
+ */
+export async function lirePartage(code) {
+  const c = normaliserCodePartage(code);
+  if (!c) return null;
+
+  const p = await une(
+    `SELECT p.id, p.jeu, p.actif, p.cree_le,
+            d.pseudo, d.avatar, d.discord_id,
+            pr.id AS profil_id, pr.nom AS profil, pr.mode, pr.niveau_formes
+       FROM pa_partages p
+       JOIN pa_dresseurs d ON d.id = p.dresseur_id
+       JOIN pa_profils  pr ON pr.id = p.profil_id
+      WHERE p.code = ?`, [c]);
+  if (!p) return null;
+  if (!p.actif) return { retire: true };
+
+  const l = await une('SELECT donnees, maj_le FROM pa_dex WHERE profil_id = ?', [p.profil_id]);
+  let seau = { caught: [], shiny: [] };
+  if (l) {
+    try {
+      const tout = JSON.parse(l.donnees);
+      // LE DÉCOUPAGE, ET IL EST ICI. `tout.dex` porte un seau par jeu ; on n'en
+      // sort qu'un. Rendre `tout` et laisser la page choisir aurait envoyé la
+      // collection entière sur le réseau à chaque visite.
+      const b = tout && tout.dex && tout.dex[p.jeu];
+      if (b) {
+        seau = { caught: Array.isArray(b.caught) ? b.caught : [],
+                 shiny: Array.isArray(b.shiny) ? b.shiny : [] };
+      }
+    } catch { /* dex illisible : on rend un seau vide plutôt qu'une erreur */ }
+  }
+
+  await ecrire('UPDATE pa_partages SET vues = vues + 1, vu_le = ? WHERE id = ?',
+    [horodatage(), p.id]);
+
+  return {
+    pseudo: p.pseudo,
+    // L'ADRESSE DE L'AVATAR, ET PAS L'IDENTIFIANT DISCORD. Le lien se colle
+    // n'importe ou, et se lit sans compte : y faire figurer un identifiant
+    // Discord donnerait a n'importe quel passant de quoi remonter au compte.
+    // Il ne servait qu'a composer cette adresse-la — on la compose ici.
+    avatar: avatarDiscordUrl(p.discord_id, p.avatar),
+    profil: p.profil,
+    mode: p.mode,
+    niveauFormes: p.niveau_formes,
+    jeu: p.jeu,
+    dex: seau,
+    majLe: l ? l.maj_le : null,
+    partageLe: p.cree_le,
+  };
+}

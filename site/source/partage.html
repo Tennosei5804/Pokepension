@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Un Pokédex partagé — PokéPension</title>
+<!-- Un lien de partage se colle dans un salon Discord, et Discord dépliera
+     l'aperçu. Mais il ne doit pas finir dans un moteur de recherche : la
+     collection de quelqu'un n'a rien à faire dans un index public. -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Un Pokédex partagé sur PokéPension.">
+
+<!-- LA PAGE D'UN LIEN DE PARTAGE.
+     Elle se lit SANS COMPTE : c'est tout l'intérêt du lien. Elle n'ouvre donc
+     aucune session, ne charge pas le pont, et n'a rien à demander qu'un seul
+     appel — GET /api/partage/<code>, la seule route du service ouverte sans
+     jeton.
+
+     ELLE DRESSE LA LISTE DEPUIS LA MÊME RÉSERVE QUE L'APPLICATION.
+     donnees.js porte GAMES — quel Pokédex régional appartient à quel jeu —
+     et donnees-embarquees.js porte les espèces et les listes régionales sous
+     la forme [[espèce, n° régional], …]. Recopier ces listes ici en ferait
+     une seconde vérité qui dériverait au premier jeu ajouté. -->
+<link rel="stylesheet" href="/css/polices.css">
+<link rel="stylesheet" href="/css/base.css">
+<link rel="stylesheet" href="/css/accueil-site.css">
+<link rel="stylesheet" href="/css/partage-site.css">
+</head>
+<body class="page-partage">
+
+<main class="pt" id="pt">
+
+  <header class="pt-tete">
+    <a class="pt-marque" href="/">
+      <span class="dex-lens" aria-hidden="true"></span>
+      <span class="pt-marque-mot">
+        <span class="pt-eyebrow">Terminal de collecte</span>
+        <span class="pt-nom">PokéPension</span>
+      </span>
+    </a>
+  </header>
+
+  <!-- Trois états, et un seul visible à la fois : on charge, on a échoué, ou
+       on affiche. Les trois sont écrits ici plutôt que fabriqués en JS —
+       une page qui se construit entièrement au script montre une page blanche
+       à qui n'a pas de JavaScript, et ne dit alors rien du tout. -->
+  <section class="pt-attente" id="ptAttente">
+    <p>Ouverture du Pokédex partagé…</p>
+  </section>
+
+  <section class="pt-echec" id="ptEchec" hidden>
+    <h1 class="pt-echec-titre" id="ptEchecTitre">Ce lien ne mène à rien</h1>
+    <p class="pt-echec-mot" id="ptEchecMot"></p>
+    <a class="acc-btn" href="/">Découvrir PokéPension</a>
+  </section>
+
+  <div id="ptContenu" hidden>
+    <div class="pt-carte">
+      <img class="pt-avatar" id="ptAvatar" alt="" width="56" height="56">
+      <div class="pt-qui">
+        <span class="pt-qui-eyebrow" id="ptQuiEyebrow">Le Pokédex de</span>
+        <h1 class="pt-qui-nom" id="ptPseudo">—</h1>
+        <span class="pt-qui-sous" id="ptSous"></span>
+      </div>
+      <img class="pt-logo" id="ptLogo" alt="" hidden>
+    </div>
+
+    <section class="pt-jauges" id="ptJauges"></section>
+
+    <section class="pt-grille-bloc" id="ptGrilleBloc" hidden>
+      <div class="pt-grille-tete">
+        <h2 class="pt-grille-titre" id="ptGrilleTitre">Le Pokédex</h2>
+        <div class="pt-filtres">
+          <button class="toggle-btn pt-filtre" id="ptTous" type="button" aria-pressed="true">Tout</button>
+          <button class="toggle-btn pt-filtre" id="ptManquants" type="button" aria-pressed="false">Ce qui manque</button>
+        </div>
+      </div>
+      <div class="pt-grille" id="ptGrille"></div>
+    </section>
+
+    <p class="pt-fraicheur" id="ptFraicheur"></p>
+
+    <section class="pt-appel">
+      <p>
+        <b>Ce lien suit son avancée.</b> Il montre ce Pokédex-là et rien
+        d'autre — ni les autres jeux, ni les chasses en cours — et son auteur
+        peut le retirer quand il veut.
+      </p>
+      <div class="pt-appel-actions">
+        <a class="acc-btn" href="/dex">📖 Ouvrir mon propre Pokédex</a>
+        <a class="acc-btn" href="/telecharger">⬇ Télécharger l'application</a>
+      </div>
+    </section>
+  </div>
+
+  <footer class="acc-pied">
+    <span>Projet indépendant, sans lien avec Nintendo, Game Freak ou The
+      Pokémon Company. Pokémon est une marque déposée de ses propriétaires
+      respectifs.</span>
+    <span class="acc-pied-releve">Données : PokeAPI, Poképédia · Sprites :
+      rendus Pokémon HOME</span>
+  </footer>
+
+</main>
+
+<script src="/js/donnees.js"></script>
+<script src="/js/donnees-embarquees.js"></script>
+<script src="/js/partage-site.js"></script>
+</body>
+</html>

@@ -711,6 +711,38 @@ async fn dresseurs(
 }
 
 /// Les aventures publiques d'un autre dresseur.
+/// Partager le Pokedex d'un jeu : un lien qu'on donne, et qu'on reprend.
+///
+/// Trois commandes seulement, et aucune pour LIRE un partage : la lecture se
+/// fait sans jeton, depuis le site, par quelqu'un qui n'a pas l'application.
+/// L'application n'a donc rien a demander la.
+#[tauri::command]
+async fn partage_creer(
+    etat: State<'_, Etat>,
+    profil: i64,
+    jeu: String,
+) -> Result<serde_json::Value, String> {
+    let jeton = etat.jeton()?;
+    let corps = serde_json::json!({ "profil": profil, "jeu": jeu });
+    appeler(reqwest::Method::POST, "/api/partages", &jeton, Some(corps)).await
+}
+
+#[tauri::command]
+async fn partages(etat: State<'_, Etat>) -> Result<serde_json::Value, String> {
+    let jeton = etat.jeton()?;
+    appeler(reqwest::Method::GET, "/api/partages", &jeton, None).await
+}
+
+#[tauri::command]
+async fn partage_revoquer(
+    etat: State<'_, Etat>,
+    code: String,
+) -> Result<serde_json::Value, String> {
+    let jeton = etat.jeton()?;
+    let chemin = format!("/api/partages/{}", urlencode(&code));
+    appeler(reqwest::Method::DELETE, &chemin, &jeton, None).await
+}
+
 #[tauri::command]
 async fn profils_de(etat: State<'_, Etat>, pseudo: String) -> Result<serde_json::Value, String> {
     let jeton = etat.jeton()?;
@@ -1300,6 +1332,9 @@ pub fn run() {
             supprimer_profil,
             historique,
             dresseurs,
+            partage_creer,
+            partages,
+            partage_revoquer,
             profils_de,
             dex_de,
             changer_pseudo,

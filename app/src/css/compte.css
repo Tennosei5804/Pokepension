@@ -2901,3 +2901,78 @@ html[data-theme="light"] .partie-date::-webkit-calendar-picker-indicator{ filter
 .releve-jauge.vide i{ background:var(--danger); }
 .releve-legende{ margin-top:14px; font-size:12.5px; }
 .releve-legende b{ font-family:var(--font-data); color:var(--ink); }
+
+/* ---- Le lien de partage d'un Pokédex -----------------------------------
+   Voir js/lien.js. La fenêtre reprend la carte des autres modales ; ce qui
+   lui appartient, c'est le code — il doit se lire à voix haute et se retaper
+   sans hésiter, d'où la chasse fixe, l'espacement et la taille. */
+
+.lien-card{ max-width:520px; }
+
+.lien-sous{
+  font-size:13px; line-height:1.5; color:var(--ink-soft);
+  margin:0 0 16px;
+}
+
+.lien-boite{
+  background:var(--screen);
+  border:1px solid var(--card-border);
+  border-radius:12px;
+  padding:16px;
+  margin-bottom:14px;
+}
+
+/* Le code, et c'est lui qu'on regarde. Chasse fixe pour que les caractères
+   s'alignent, et une lettre espacée : « KB6M » lu de travers devient un lien
+   mort, et personne ne saurait dire pourquoi. */
+.lien-code{
+  font-family:var(--font-data);
+  font-size:27px; font-weight:700; letter-spacing:.14em;
+  color:var(--ink); text-align:center;
+  user-select:all;
+  margin-bottom:6px;
+}
+.lien-adresse{
+  font-family:var(--font-data);
+  font-size:11.5px; color:var(--ink-faint);
+  text-align:center; word-break:break-all;
+  user-select:all;
+  margin-bottom:14px;
+}
+.lien-actions{ display:flex; gap:8px; flex-wrap:wrap; }
+.lien-actions .toggle-btn{ flex:1 1 0; min-width:0; justify-content:center; }
+.lien-etat{
+  font-size:12px; line-height:1.45; color:var(--ink-soft);
+  margin:10px 0 0; min-height:1em;
+}
+
+.lien-note{
+  font-size:12.5px; line-height:1.55; color:var(--ink-faint);
+  margin:0 0 16px;
+}
+
+.lien-existants{
+  border-top:1px solid var(--card-border);
+  padding-top:14px;
+  margin-bottom:14px;
+}
+.lien-existants-titre{
+  font-family:var(--font-data);
+  font-size:10px; letter-spacing:.16em; text-transform:uppercase;
+  font-weight:600; color:var(--ink-faint);
+  margin-bottom:9px;
+}
+.lien-ligne{
+  display:flex; align-items:center; gap:10px;
+  padding:9px 0;
+  border-top:1px solid var(--card-border);
+}
+.lien-ligne:first-child{ border-top:none; }
+.lien-ligne-quoi{ flex:1; min-width:0; display:flex; flex-direction:column; gap:1px; }
+.lien-ligne-quoi b{ font-size:13px; color:var(--ink); }
+.lien-ligne-quoi span{
+  font-family:var(--font-data); font-size:10.5px; color:var(--ink-faint);
+}
+/* Un lien éteint reste lisible : il dit ce qui a existé, il ne crie pas. */
+.lien-ligne.eteint{ opacity:.55; }
+.lien-ligne.eteint b{ text-decoration:line-through; }

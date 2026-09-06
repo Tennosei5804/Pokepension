@@ -97,6 +97,11 @@ app.use('/auth', limiter({ nom: 'auth', max: 30, fenetre: 10 * 60_000 }));
 // Le reste suit l'application : elle lit son dex à l'ouverture, l'écrit à
 // chaque coche, consulte des dresseurs. Large, donc, pour ne jamais gêner
 // quelqu'un de réel — et bien assez bas pour arrêter un martelage.
+// LA SEULE PORTE SANS JETON A SA PROPRE LIMITE, plus serree que le reste.
+// Huit caracteres sur trente et un font mille milliards de codes : les
+// deviner un par un est deja sans espoir, et soixante essais par cinq
+// minutes rendent la tentative absurde plutot que seulement vaine.
+app.use('/api/partage', limiter({ nom: 'partage', max: 60, fenetre: 5 * 60_000 }));
 app.use('/api', limiter({ nom: 'api', max: 600, fenetre: 5 * 60_000 }));
 
 // --- Connexion Discord ------------------------------------------------------
@@ -522,6 +527,49 @@ app.get('/api/rarete', route(async (req, res) => {
 app.get('/api/retrospective', route(async (req, res) => {
   const d = await exiger(req, res); if (!d) return;
   res.json(await comptes.retrospective(d.id));
+}));
+
+
+// ── Partager le Pokédex d'un jeu ────────────────────────────────────────────
+//
+// Trois routes qui exigent un jeton, et UNE qui n'en exige pas. Celle-là est la
+// seule de tout le service à rendre quelque chose à qui n'a pas de compte :
+// c'est le but même du partage, et c'est aussi pour ça qu'elle est écrite ici,
+// groupée et commentée, plutôt que noyée au milieu des autres.
+
+app.post('/api/partages', route(async (req, res) => {
+  const d = await exiger(req, res); if (!d) return;
+  const profil = profilDemande(req);
+  if (!profil) return res.status(400).json({ erreur: 'Aventure manquante.' });
+  const r = await comptes.creerPartage(d.id, profil, req.body?.jeu);
+  res.json({ ...r, lisible: comptes.ecrireCodePartage(r.code) });
+}));
+
+app.get('/api/partages', route(async (req, res) => {
+  const d = await exiger(req, res); if (!d) return;
+  res.json({ partages: await comptes.partagesDe(d.id) });
+}));
+
+app.delete('/api/partages/:code', route(async (req, res) => {
+  const d = await exiger(req, res); if (!d) return;
+  res.json(await comptes.revoquerPartage(d.id, req.params.code));
+}));
+
+// SANS JETON, ET C'EST TOUT L'INTÉRÊT. Quelqu'un reçoit un lien dans un salon
+// Discord, l'ouvre, et voit le Pokédex — sans compte, sans installer quoi que
+// ce soit. Le code est la seule clé ; `lirePartage` ne laisse sortir que le
+// seau du jeu partagé, jamais le reste de la collection.
+//
+// 404 pour un code inconnu, 410 pour un lien retiré : la nuance est celle qu'on
+// doit à quelqu'un de bonne foi. « Ce lien a été retiré » se comprend ; « page
+// introuvable » laisse croire qu'on a mal recopié.
+app.get('/api/partage/:code', route(async (req, res) => {
+  const r = await comptes.lirePartage(req.params.code);
+  if (!r) return res.status(404).json({ erreur: 'Ce lien de partage n\'existe pas.' });
+  if (r.retire) {
+    return res.status(410).json({ erreur: 'Ce lien de partage a été retiré par son auteur.' });
+  }
+  res.json(r);
 }));
 
 // Figurer ou non dans la liste des dresseurs. Voir changerVisibilite().

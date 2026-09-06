@@ -21,7 +21,8 @@
 
 import { lire, une, ecrire, creerSchema, description } from '../src/base.js';
 import { ecrireDex, lireDex, horodatage, changerEchangesOuverts, changerMessagesDe,
-         lireCarte, ecrireCarte, profilsPublics }
+         lireCarte, ecrireCarte, profilsPublics, creerProfil, supprimerProfil,
+         creerPartage, partagesDe, revoquerPartage, lirePartage, ecrireCodePartage }
   from '../src/comptes.js';
 import { suivre, quiA, nouveautes } from '../src/amis.js';
 import { proposer, repondre, annuler, mesEchanges, messages, ecrireMessage }
@@ -1280,12 +1281,180 @@ async function tout(ids) {
       }
       return 'les deux tables suivent la suppression du compte';
     });
+  console.log('\nLe partage d’un Pokédex');
+
+  await verifier(
+    'Un lien s’ouvre sur un jeu, et rend un code lisible',
+    async () => {
+      await ecrireDex(un, {
+        version: 1, caught: [], shiny: [],
+        dex: {
+          frlg: { caught: ['bulbasaur', 'charmander'], shiny: ['squirtle'] },
+          sv: { caught: ['sprigatito'], shiny: [] },
+        },
+      }, profilUn);
+      const p = await creerPartage(un, profilUn, 'frlg');
+      if (!p.code || p.code.length !== 8) return `échec : code « ${p.code} »`;
+      if (!/^[A-Z0-9]{8}$/.test(p.code)) return `échec : alphabet inattendu (${p.code})`;
+      if (/[OIL01]/.test(p.code)) return `échec : caractère ambigu dans ${p.code}`;
+      const lisible = ecrireCodePartage(p.code);
+      if (lisible !== `${p.code.slice(0, 4)}-${p.code.slice(4)}`) {
+        return `échec : écriture « ${lisible} »`;
+      }
+      return `code ${lisible}, huit caractères sans O ni I ni L ni 0 ni 1`;
+    });
+
+  await verifier(
+    'Le lien ne laisse sortir QUE le jeu partagé',
+    async () => {
+      // C'est la vérification qui compte. Le dex est un seul JSON qui porte
+      // tous les jeux et les chasses ; partager son Rouge Feu ne doit rien
+      // dire de son Écarlate. Une régression ici ne se verrait nulle part à
+      // l'écran — elle ne se verrait que dans la réponse HTTP.
+      const p = await creerPartage(un, profilUn, 'frlg');
+      const vu = await lirePartage(p.code);
+      if (!vu || vu.retire) return 'échec : le lien ne s’ouvre pas';
+      if (vu.jeu !== 'frlg') return `échec : jeu rendu « ${vu.jeu} »`;
+      if (vu.dex.caught.length !== 2) return `échec : ${vu.dex.caught.length} captures`;
+      if (vu.dex.shiny.length !== 1) return `échec : ${vu.dex.shiny.length} chromatiques`;
+      const brut = JSON.stringify(vu);
+      if (brut.includes('sprigatito')) return 'échec : Écarlate / Violet a fui dans la réponse';
+      if (brut.includes('"sv"')) return 'échec : la clé d’un autre jeu est dans la réponse';
+      if (brut.includes('chasses')) return 'échec : les chasses sont parties avec';
+      // L'identifiant Discord ne doit pas voyager non plus : le lien se colle
+      // n'importe ou et se lit sans compte.
+      if (brut.includes(vu.pseudo) === false) return 'échec : le pseudo manque';
+      if (/"discordId"/.test(brut)) return 'échec : l’identifiant Discord est dans la réponse';
+      return 'frlg seul : 2 captures, 1 chromatique, aucune trace de sv';
+    });
+
+  await verifier(
+    'Repartager le même Pokédex rend le même code',
+    async () => {
+      // Sinon chaque clic sèmerait un lien de plus, et celui qu'on a déjà collé
+      // dans un salon deviendrait introuvable au moment de le révoquer.
+      const a = await creerPartage(un, profilUn, 'frlg');
+      const b = await creerPartage(un, profilUn, 'frlg');
+      if (a.code !== b.code) return `échec : ${a.code} puis ${b.code}`;
+      if (b.neuf) return 'échec : le second passage se croit neuf';
+      const autre = await creerPartage(un, profilUn, 'sv');
+      if (autre.code === a.code) return 'échec : deux jeux, un seul code';
+      return `un code par jeu — frlg ${a.code}, sv ${autre.code}`;
+    });
+
+  await verifier(
+    'Le lien suit l’avancée, il ne la fige pas',
+    async () => {
+      const p = await creerPartage(un, profilUn, 'frlg');
+      await ecrireDex(un, {
+        version: 1, caught: [], shiny: [],
+        dex: { frlg: { caught: ['bulbasaur', 'charmander', 'pikachu'], shiny: ['squirtle'] } },
+      }, profilUn);
+      const vu = await lirePartage(p.code);
+      if (vu.dex.caught.length !== 3) {
+        return `échec : ${vu.dex.caught.length} captures, le lien a figé`;
+      }
+      if (!vu.dex.caught.includes('pikachu')) return 'échec : la capture neuve manque';
+      return '3 captures après ajout, sans toucher au lien';
+    });
+
+  await verifier(
+    'Un lien révoqué se dit retiré, et non introuvable',
+    async () => {
+      // La nuance est celle qu'on doit à qui l'a reçu de bonne foi : « retiré »
+      // se comprend, « introuvable » laisse croire qu'on a mal recopié.
+      const p = await creerPartage(un, profilUn, 'frlg');
+      await revoquerPartage(un, ecrireCodePartage(p.code));
+      const vu = await lirePartage(p.code);
+      if (!vu || !vu.retire) return 'échec : le lien répond encore';
+      const inconnu = await lirePartage('ZZZZZZZZ');
+      if (inconnu !== null) return 'échec : un code inventé ne rend pas null';
+      return 'retiré ≠ inconnu, les deux se distinguent';
+    });
+
+  await verifier(
+    'Rouvrir après révocation donne un code NEUF',
+    async () => {
+      // Révoquer doit vouloir dire quelque chose : le lien d'avant reste mort.
+      const avant = await creerPartage(un, profilUn, 'frlg');
+      await revoquerPartage(un, avant.code);
+      const apres = await creerPartage(un, profilUn, 'frlg');
+      if (apres.code === avant.code) return 'échec : le code révoqué ressuscite';
+      const mort = await lirePartage(avant.code);
+      if (!mort || !mort.retire) return 'échec : l’ancien code répond encore';
+      return `${avant.code} reste mort, ${apres.code} prend la suite`;
+    });
+
+  await verifier(
+    'On ne partage pas l’aventure d’un autre, ni ne révoque son lien',
+    async () => {
+      const p = await creerPartage(un, profilUn, 'frlg');
+      let refusCreation = false;
+      try { await creerPartage(deux, profilUn, 'frlg'); }
+      catch (e) { refusCreation = true; }
+      if (!refusCreation) return 'échec : BancDeux a partagé l’aventure de BancUn';
+      let refusRevocation = false;
+      try { await revoquerPartage(deux, p.code); }
+      catch (e) { refusRevocation = true; }
+      if (!refusRevocation) return 'échec : BancDeux a révoqué le lien de BancUn';
+      const vu = await lirePartage(p.code);
+      if (!vu || vu.retire) return 'échec : le lien a été éteint quand même';
+      return 'les deux tentatives refusées, le lien intact';
+    });
+
+  await verifier(
+    'Le code se retape avec des tirets, des espaces et des minuscules',
+    async () => {
+      // Il se recopie depuis un salon Discord, pas depuis un presse-papier
+      // propre. Refuser « k7m2-qx4p » serait refuser le geste normal.
+      const p = await creerPartage(un, profilUn, 'frlg');
+      const formes = [
+        ecrireCodePartage(p.code),
+        p.code.toLowerCase(),
+        ecrireCodePartage(p.code).toLowerCase(),
+        ` ${p.code.slice(0, 4)} ${p.code.slice(4)} `,
+      ];
+      for (const f of formes) {
+        const vu = await lirePartage(f);
+        if (!vu || vu.retire || vu.jeu !== 'frlg') return `échec : « ${f} » refusé`;
+      }
+      if (await lirePartage('K7M2') !== null) return 'échec : un code trop court passe';
+      return `${formes.length} écritures acceptées, un code tronqué refusé`;
+    });
+
+  await verifier(
+    'La liste des liens dit lequel est éteint, et combien de vues',
+    async () => {
+      const liste = await partagesDe(un);
+      if (!Array.isArray(liste) || !liste.length) return 'échec : aucune ligne';
+      const actifs = liste.filter((x) => x.actif);
+      const eteints = liste.filter((x) => !x.actif);
+      if (!actifs.length) return 'échec : aucun lien actif';
+      if (!eteints.length) return 'échec : les liens révoqués ont disparu de la liste';
+      if (actifs.some((x) => !x.lisible.includes('-'))) return 'échec : code non mis en forme';
+      if (!liste.every((x) => typeof x.vues === 'number')) return 'échec : vues manquantes';
+      const vues = actifs.reduce((n, x) => n + x.vues, 0);
+      return `${actifs.length} actif(s), ${eteints.length} éteint(s), ${vues} vue(s) comptée(s)`;
+    });
+
+  await verifier(
+    'Le partage part avec l’aventure qu’on supprime',
+    async () => {
+      const nouveau = await creerProfil(un, 'Aventure jetable');
+      const p = await creerPartage(un, nouveau.id, 'rby');
+      if (!await lirePartage(p.code)) return 'échec : le lien n’existe pas';
+      await supprimerProfil(un, nouveau.id);
+      const vu = await lirePartage(p.code);
+      if (vu !== null) return 'échec : le lien survit à son aventure';
+      return 'aventure supprimée, lien évanoui avec elle';
+    });
 }
 
 // --- Les noms refusés ---------------------------------------------------------
 // Sans base : c'est de la logique pure, et elle se joue avant le décor.
 
 async function nomsRefuses() {
+
   console.log('\nLes noms');
 
   await verifier(

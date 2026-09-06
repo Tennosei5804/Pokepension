@@ -113,6 +113,14 @@
     dresseurs:                ['GET',    a => (a.recherche && a.recherche.trim())
                                  ? '/api/dresseurs?q=' + enc(a.recherche.trim())
                                  : '/api/dresseurs'],
+    // Partager le Pokedex d'un jeu. Trois lignes et pas quatre : LIRE un
+    // partage ne passe pas par ici. Cette table sert l'application connectee ;
+    // la lecture d'un lien se fait sans jeton, sur sa propre page, par
+    // quelqu'un qui n'a justement pas de session.
+    partage_creer:            ['POST',   () => '/api/partages',
+                               a => ({ profil: a.profil, jeu: a.jeu })],
+    partages:                 ['GET',    () => '/api/partages'],
+    partage_revoquer:         ['DELETE', a => '/api/partages/' + enc(a.code)],
     profils_de:               ['GET',    a => '/api/dresseurs/' + enc(a.pseudo) + '/profils'],
     dex_de:                   ['GET',    a => '/api/dex/' + enc(a.pseudo) + paramProfil(a.profil)],
     succes_de:                ['GET',    a => '/api/dresseurs/' + enc(a.pseudo) + '/succes'],

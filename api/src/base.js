@@ -328,6 +328,56 @@ const TABLES = [
      CONSTRAINT fk_pa_parties_dresseur FOREIGN KEY (dresseur_id)
        REFERENCES pa_dresseurs(id) ON DELETE CASCADE
    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`,
+
+  // Un lien de partage : le Pokédex d'UN jeu, d'UNE aventure, ouvert à qui a
+  // l'adresse et à personne d'autre.
+  //
+  // POURQUOI UNE TABLE PLUTÔT QU'UNE COLONNE SUR L'AVENTURE. Le partage n'est
+  // pas un état de l'aventure, c'est un objet qu'on crée, qu'on donne et qu'on
+  // reprend. On peut en avoir plusieurs sur la même aventure — un par jeu — et
+  // en révoquer un sans toucher aux autres. Une colonne « partagé » aurait
+  // forcé le tout ou rien.
+  //
+  // LE JEU EST DANS LA CLÉ, et c'est tout l'intérêt : partager son Rouge Feu
+  // ne montre pas son Écarlate. Le dex est un seul JSON qui les contient tous ;
+  // c'est ici qu'on dit lequel sort.
+  //
+  // « actif » plutôt qu'un DELETE : un lien révoqué doit répondre « ce lien a
+  // été retiré » et non « ce lien n'existe pas ». La nuance compte pour qui l'a
+  // reçu de bonne foi, et elle évite qu'un code repris au hasard ressuscite un
+  // partage éteint.
+  //
+  // Les vues se comptent sans rien savoir de qui regarde : pas d'adresse IP,
+  // pas d'horodatage par visiteur. Un nombre, et la date de la dernière — de
+  // quoi voir qu'un lien sert encore, rien de plus.
+  `CREATE TABLE IF NOT EXISTS pa_partages (
+     id          BIGINT      NOT NULL AUTO_INCREMENT PRIMARY KEY,
+     code        VARCHAR(24) NOT NULL,
+     dresseur_id BIGINT      NOT NULL,
+     profil_id   BIGINT      NOT NULL,
+     jeu         VARCHAR(32) NOT NULL,
+     actif       TINYINT(1)  NOT NULL DEFAULT 1,
+     vues        INT         NOT NULL DEFAULT 0,
+     cree_le     VARCHAR(64) NOT NULL,
+     vu_le       VARCHAR(64) NULL,
+     UNIQUE KEY uk_pa_partages_code (code),
+     -- PAS DE CONTRAINTE D'UNICITE SUR (profil_id, jeu), ET C'EST DELIBERE.
+     -- Elle paraissait juste — « un seul lien par Pokédex » — et forçait en
+     -- fait à REECRIRE la ligne existante à chaque réouverture. Le code
+     -- révoqué disparaissait alors de la base : le lien qu'on avait collé
+     -- quelque part répondait « inconnu » au lieu de « retiré », et il sortait
+     -- de la liste des partages comme s'il n'avait jamais existé.
+     --
+     -- Un lien éteint est une trace, pas un déchet. On garde donc une ligne
+     -- par lien, et « un seul ACTIF par aventure et par jeu » se tient dans
+     -- creerPartage() — MySQL ne sait pas poser d'unicité partielle, et la
+     -- course qui créerait deux liens vivants ne coûterait rien à personne.
+     KEY ix_pa_partages_cible (profil_id, jeu, actif),
+     CONSTRAINT fk_pa_partages_dresseur FOREIGN KEY (dresseur_id)
+       REFERENCES pa_dresseurs(id) ON DELETE CASCADE,
+     CONSTRAINT fk_pa_partages_profil FOREIGN KEY (profil_id)
+       REFERENCES pa_profils(id) ON DELETE CASCADE
+   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`,
 ];
 
 const INDEX = [
@@ -475,6 +525,7 @@ export async function creerSchema(journal = () => {}) {
   await migrerNiveauFormes(journal);
   await migrerVersProfils(journal);
   await migrerIdSession(journal);
+  await migrerPartageSansUnicite(journal);
   await migrerVisibiliteDresseur(journal);
   await migrerEchangesOuverts(journal);
   await migrerMessagesDirects(journal);
@@ -726,6 +777,24 @@ async function migrerImageMessage(journal) {
     `ALTER TABLE pa_messages ADD CONSTRAINT fk_pa_messages_image
        FOREIGN KEY (image_id) REFERENCES pa_images(id) ON DELETE SET NULL`);
   journal('schema : colonne pa_messages.image_id ajoutee');
+}
+
+async function migrerPartageSansUnicite(journal) {
+  const deja = await une(
+    `SELECT COUNT(*) AS n FROM information_schema.statistics
+      WHERE table_schema = DATABASE() AND table_name = 'pa_partages'
+        AND index_name = 'uk_pa_partages_cible'`);
+  if (!deja?.n) return;
+  // Voir le commentaire de la table : cette unicite obligeait a reecrire la
+  // ligne, et un lien revoque se perdait au lieu de rester mort et lisible.
+  // LE REMPLACANT D'ABORD, L'ANCIEN ENSUITE. La cle etrangere sur profil_id
+  // s'appuie sur le premier index qui commence par cette colonne : retirer
+  // l'unicite avant d'avoir pose l'autre laisse la contrainte sans appui, et
+  // MySQL refuse net (ER_DROP_INDEX_FK).
+  await base().query(
+    'ALTER TABLE pa_partages ADD INDEX ix_pa_partages_cible (profil_id, jeu, actif)');
+  await base().query('ALTER TABLE pa_partages DROP INDEX uk_pa_partages_cible');
+  journal('schéma : pa_partages, l’unicité (aventure, jeu) retirée');
 }
 
 async function migrerIdSession(journal) {

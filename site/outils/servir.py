@@ -71,6 +71,14 @@ class Serveur(http.server.SimpleHTTPRequestHandler):
     def _reecrire(self):
         chemin = self.path.split("?")[0].rstrip("/") or "/"
         cible = self.SANS_EXTENSION.get(chemin)
+        # UN LIEN DE PARTAGE : « /p/K7M2-QX4P » rend la meme page pour tous les
+        # codes, et c'est elle qui lit le code dans l'adresse. Caddy fait la
+        # meme reecriture en production.
+        # UN SEUL SEGMENT APRES « /p/ ». Sans cette borne, « /p/js/donnees.js »
+        # — ce que donne un chemin relatif depuis cette page — recevait la page
+        # elle-meme, et le navigateur tentait d'executer du HTML.
+        if cible is None and chemin.startswith("/p/") and "/" not in chemin[3:]:
+            cible = "/partage.html"
         if cible:
             reste = self.path[len(self.path.split("?")[0]):]
             self.path = cible + reste

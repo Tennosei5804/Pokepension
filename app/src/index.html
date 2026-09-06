@@ -329,6 +329,8 @@
                 title="Ranger la grille en boîtes de trente, comme dans le jeu. En Living Dex, la question n'est pas « est-ce que je l'ai » mais « dans quelle boîte, quelle case ».">📦 Vue boîtes</button>
         <button class="toggle-btn" id="importCodeBtn" type="button"
                 title="Choisir un dresseur et confronter vos collections.">👥 Comparer</button>
+        <button class="toggle-btn" id="partageBtn" type="button"
+                title="Un lien vers CE Pokédex, à donner à qui tu veux. Il n'a besoin d'aucun compte, et il suit ton avancée.">🔗 Partager</button>
         <button class="toggle-btn" id="legendeBtn" type="button" aria-pressed="false"
                 aria-controls="legendeObtention" hidden
                 title="Ce que veulent dire les pastilles des cartes.">🏷️ Voir les pastilles</button>
@@ -1404,6 +1406,46 @@
 
 <!-- Ce qui bloque un Pok&eacute;dex : l'inverse du filtre qui sert au programme du
      soir. Voir js/blocages.js. -->
+<!-- Le lien de partage d'un Pokédex. Voir js/lien.js.
+     Il vit à côté de « Comparer » dans la barre du Pokédex parce que les deux
+     répondent à la même envie : montrer sa collection à quelqu'un. Comparer
+     demande que l'autre ait un compte ; partager ne demande rien. -->
+<div class="modal-overlay" id="lienOverlay" style="display:none;" role="dialog"
+     aria-modal="true" aria-labelledby="lienTitre">
+  <div class="modal-card lien-card">
+    <button class="fiche-fermer" id="lienFermer" type="button" aria-label="Fermer">&#10005;</button>
+    <div class="modal-eyebrow" id="lienEyebrow">Partager</div>
+    <h2 class="modal-title" id="lienTitre">Ce Pok&eacute;dex, par un lien</h2>
+    <p class="lien-sous" id="lienSous"></p>
+
+    <div class="lien-boite" id="lienBoite" hidden>
+      <div class="lien-code" id="lienCode">&mdash;</div>
+      <div class="lien-adresse" id="lienAdresse"></div>
+      <div class="lien-actions">
+        <button class="toggle-btn primary" id="lienCopier" type="button">&#128203; Copier le lien</button>
+        <button class="toggle-btn" id="lienCopierCode" type="button">&#128273; Copier le code</button>
+      </div>
+      <p class="lien-etat" id="lienEtat" role="status"></p>
+    </div>
+
+    <p class="lien-note" id="lienNote">
+      Qui a ce lien voit ce Pok&eacute;dex, et rien d&rsquo;autre : ni tes autres jeux,
+      ni tes chasses, ni tes messages. Il n&rsquo;a besoin d&rsquo;aucun compte, et
+      l&rsquo;avanc&eacute;e qu&rsquo;il voit reste &agrave; jour.
+    </p>
+
+    <div class="lien-existants" id="lienExistants" hidden>
+      <div class="lien-existants-titre">Tes liens</div>
+      <div id="lienListe"></div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="toggle-btn" id="lienOuvrir" type="button">&#128279; Ouvrir ce Pok&eacute;dex</button>
+      <button class="toggle-btn danger" id="lienRevoquer" type="button" hidden>&#9940; R&eacute;voquer</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="blocagesOverlay" style="display:none;" role="dialog"
      aria-modal="true" aria-labelledby="blocagesTitre">
   <div class="modal-card blocages-card">
@@ -2019,6 +2061,10 @@
 <!-- Redéfinit la couche de sauvegarde quand l'app tourne dans Tauri.
      Hors Tauri (serveur.py, ou fichier ouvert directement), il ne fait rien. -->
 <script src="js/compte.js"></script>
+<!-- Le lien de partage d'un Pokédex. APRES compte.js, dont il se sert :
+     profilCourant, invoke, sessionOuverte, perdreSession, messageErreur.
+     Et apres confirmer.js pour demanderConfirmation. -->
+<script src="js/lien.js"></script>
 <script src="js/amis.js"></script>
 <!-- Après partage.js, dont il complète le panneau d'entraide, et après
      compte.js pour nomJournal, libelleDex, avatarDiscord et dateLisible. -->
