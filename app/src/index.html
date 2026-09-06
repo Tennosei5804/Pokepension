@@ -63,8 +63,22 @@
         <button class="compte-item" id="nouveautesBtn" type="button" role="menuitem">
           📋 Nouveautés<small>Ce qui a changé d'une version à l'autre</small>
         </button>
+        <!-- DEUX ENTRÉES POUR UNE SEULE PLACE, et jamais les deux ensemble.
+             Dans l'application, on vérifie les mises à jour ; il n'y a pas de
+             page d'accueil où retourner, on est déjà dedans. Sur le site,
+             c'est l'inverse : la page d'accueil existe, et l'updater n'existe
+             pas — le plugin est du Rust, un navigateur n'en a pas. Le bouton
+             y restait donc affiché sans jamais rien pouvoir faire.
+
+             Elles vivent ici et pas dans l'en-tête. Le dépôt a déjà tranché,
+             et l'a écrit à côté de la cloche : « cinq pastilles rondes
+             alignées ne disaient pas ce qu'elles faisaient, et l'en-tête
+             finissait en tableau de bord ». -->
         <button class="compte-item" id="majBtn" type="button" role="menuitem">
           <span class="compte-item-nom">⟳ Vérifier les mises à jour</span>
+        </button>
+        <button class="compte-item" id="accueilSiteBtn" type="button" role="menuitem" hidden>
+          🏠 Page d'accueil<small>Ce qu'est PokéPension, et l'application à télécharger</small>
         </button>
         <button class="compte-item" id="themeBtn" type="button" role="menuitem" aria-pressed="false">
           <span class="compte-item-nom">🌙 Passer en sombre</span>

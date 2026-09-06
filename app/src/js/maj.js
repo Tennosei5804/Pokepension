@@ -336,6 +336,24 @@ async function auClicMaj(){
 // et une mise à jour n'est jamais pressée.
 document.addEventListener('DOMContentLoaded', function(){
   const bouton = document.getElementById('majBtn');
+  const versAccueil = document.getElementById('accueilSiteBtn');
+
+  // PAS D'UPDATER, PAS DE BOUTON. Le plugin est du Rust : le site n'en a pas,
+  // et le banc non plus. Le bouton y restait pourtant affiche, et repondait
+  // « impossible de verifier » a qui le pressait — une commande qui ne peut
+  // rien faire vaut moins que pas de commande du tout.
+  //
+  // A sa place, sur le site, l'entree qui ramene a la page d'accueil : elle
+  // n'a de sens que la, l'application etant deja ce qu'on y telechargerait.
+  const dansApplication = Boolean(pontMaj());
+  if(bouton) bouton.hidden = !dansApplication;
+  if(versAccueil) versAccueil.hidden = dansApplication;
+
   if(bouton) bouton.addEventListener('click', auClicMaj);
-  if(pontMaj()) setTimeout(function(){ verifierMaj(true); }, MAJ_ATTENTE_AU_LANCEMENT);
+  if(versAccueil) versAccueil.addEventListener('click', function(){
+    // La racine, et non « accueil.html » : c'est l'adresse que Caddy sert et
+    // celle qu'on met en favori.
+    location.href = '/';
+  });
+  if(dansApplication) setTimeout(function(){ verifierMaj(true); }, MAJ_ATTENTE_AU_LANCEMENT);
 });

@@ -114,6 +114,12 @@ LARGEUR_VIGNETTE = 300
 ICONES = {"32.png": "32x32.png", "128.png": "128x128.png",
           "256.png": "128x128@2x.png", "512.png": "icon.png"}
 
+# LE .ico VA A LA RACINE, ET PAS DANS icones/. Les navigateurs demandent
+# « /favicon.ico » d'eux-memes, sans lire le HTML, des qu'ils ouvrent un
+# onglet : sans ce fichier-la, chaque visite commence par un 404 dans le
+# journal du serveur.
+ICONE_RACINE = ("favicon.ico", "icon.ico")
+
 
 def coquille(html: str, accueil: str = "") -> list:
     """Ce qu'il faut avoir en cache pour que l'application s'ouvre sans reseau.
@@ -129,6 +135,7 @@ def coquille(html: str, accueil: str = "") -> list:
     # garder que l'une des deux laisse l'autre hors ligne sur un ecran de
     # dinosaure.
     fichiers = ["./", "./index.html", "./dex", "./dex.html",
+                "./" + ICONE_RACINE[0],
                 "./manifeste.webmanifest"]
 
     for page in (html, accueil):
@@ -224,7 +231,11 @@ def poser_pwa(html: str, accueil: str) -> tuple:
         f = origine / source
         if f.is_file():
             shutil.copyfile(f, cible / nom)
-    print("  %-10s icones/ (%d)" % ("+", len(list(cible.iterdir()))))
+    f = origine / ICONE_RACINE[1]
+    if f.is_file():
+        shutil.copyfile(f, PUBLIC / ICONE_RACINE[0])
+    print("  %-10s icones/ (%d) + %s" % ("+", len(list(cible.iterdir())),
+                                         ICONE_RACINE[0]))
 
     # 2. Le manifeste.
     m = SOURCE / "manifeste.webmanifest"
@@ -258,6 +269,13 @@ def poser_pwa(html: str, accueil: str) -> tuple:
 
     # 4. Les balises, et l'inscription.
     tete = (
+        # L'ICONE DU LOGICIEL DEVIENT CELLE DU SITE. C'est la meme image
+        # que celle de la fenetre et du raccourci de bureau : un onglet,
+        # une tuile d'ecran d'accueil et une application qui se
+        # reconnaissent entre eux valent mieux que trois dessins.
+        '<link rel="icon" href="favicon.ico" sizes="any">\n'
+        '<link rel="icon" type="image/png" href="icones/32.png" sizes="32x32">\n'
+        '<link rel="icon" type="image/png" href="icones/128.png" sizes="128x128">\n'
         '<link rel="manifest" href="manifeste.webmanifest">\n'
         '<meta name="theme-color" content="#b5211f">\n'
         '<meta name="apple-mobile-web-app-capable" content="yes">\n'
