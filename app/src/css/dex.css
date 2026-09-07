@@ -1063,6 +1063,17 @@
    meme raison : on plafonne la rangee et on la laisse defiler chez elle. */
 @media (max-width:560px){
   .lieux-mods{ max-height:22vh; overflow-y:auto; }
+
+  /* LE TOTAL S EFFACE, ET LE NOM RESPIRE. Mesure a 375 px : la premiere
+     colonne faisait 98 px, dont 58 pour l etiquette du mod — il restait
+     trente-trois pixels au nom du biome, soit « Tro... ». Les lieux vanille
+     n allaient pas mieux : « Badlands er... », « Marais a m... ». Un lieu
+     qu on ne peut pas lire ne sert a rien.
+
+     C est « 102 especes » qui part, et non le compteur : la page repond a
+     « ou aller maintenant », et cette reponse est ce qu il RESTE a y prendre.
+     Le total se retrouve en depliant. Soixante-douze pixels rendus au nom. */
+  .lieu-total{ display:none; }
 }
 
 .lieux-resume{
