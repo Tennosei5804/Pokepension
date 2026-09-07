@@ -26,6 +26,7 @@ const lienEtat = document.getElementById('lienEtat');
 const lienExistants = document.getElementById('lienExistants');
 const lienListe = document.getElementById('lienListe');
 const lienRevoquerBtn = document.getElementById('lienRevoquer');
+const lienReessayerBtn = document.getElementById('lienReessayer');
 
 // Le partage affiché en ce moment : { code, lisible, jeu, profil }.
 let lienCourant = null;
@@ -79,7 +80,8 @@ function lienAfficher(p){
   lienAdresse.textContent = adresseDuPartage(p.code);
   lienBoite.hidden = false;
   lienRevoquerBtn.hidden = false;
-  lienDire('');
+  lienReessayerBtn.hidden = true;
+  lienDire('Le lien est prêt : copie-le et envoie-le.');
 }
 
 /**
@@ -97,21 +99,43 @@ async function ouvrirLienPartage(){
   lienCourant = null;
   lienBoite.hidden = true;
   lienRevoquerBtn.hidden = true;
-  lienDire('');
   lienSous.textContent = 'Tu partages ' + lienNomDuJeu(jeu)
     + (profilCourant ? ' — aventure « ' + profilCourant.nom + ' »' : '') + '.';
   lienOverlay.style.display = 'flex';
   await lienDessinerListe();
+  await lienCreer(jeu);
+}
 
+/**
+ * Demande le lien, et NE SE TAIT JAMAIS.
+ *
+ * La fenêtre restait muette quand la création échouait : le message partait
+ * dans la ligne d'état, qui vivait à l'intérieur de la boîte qu'on venait de
+ * masquer. On voyait donc une fenêtre sans code, sans lien, et sans raison.
+ * La ligne est sortie de la boîte, et cette fonction parle avant, pendant et
+ * après.
+ */
+async function lienCreer(jeu){
+  if(!profilCourant){
+    lienDire('Ouvre une aventure avant de partager son Pokédex.');
+    return;
+  }
+  lienReessayerBtn.hidden = true;
+  lienDire('Création du lien…');
   try{
-    const p = await invoke('partage_creer', {
-      profil: profilCourant ? profilCourant.id : null, jeu: jeu });
-    lienAfficher({ code: p.code, lisible: p.lisible, jeu: jeu });
+    const p = await invoke('partage_creer', { profil: profilCourant.id, jeu: jeu });
+    if(!p || !p.code) throw new Error('Le serveur n’a pas rendu de code.');
+    lienAfficher({ code: p.code, lisible: p.lisible || p.code, jeu: jeu });
     await lienDessinerListe();
   }catch(e){
     if(String(e) === 'SESSION_INVALIDE'){ await perdreSession(); return; }
     lienBoite.hidden = true;
-    lienDire(messageErreur(e) || 'Impossible d’ouvrir un lien pour l’instant.');
+    lienRevoquerBtn.hidden = true;
+    // ON DIT CE QU'ON SAIT, Y COMPRIS QUAND ON NE SAIT PAS GRAND-CHOSE. Un
+    // échec sans phrase laisse croire à une fenêtre cassée ; avec la
+    // phrase, on sait au moins quoi rapporter.
+    lienDire(messageErreur(e) || 'Le lien n’a pas pu être créé.');
+    lienReessayerBtn.hidden = false;
   }
 }
 
@@ -214,6 +238,10 @@ document.getElementById('lienOuvrir').addEventListener('click', function(){
   }else{
     window.open(adresse, '_blank', 'noopener');
   }
+});
+
+lienReessayerBtn.addEventListener('click', function(){
+  lienCreer((typeof seauCapture === 'function') ? seauCapture() : 'national');
 });
 
 lienRevoquerBtn.addEventListener('click', function(){

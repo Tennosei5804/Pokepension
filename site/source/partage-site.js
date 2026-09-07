@@ -5,16 +5,25 @@
 // service qui se passe de jeton. Charger le pont y poserait une session, une
 // gestion d'erreurs et un window.__TAURI__ dont personne ici n'a besoin.
 //
-// LA LISTE VIENT DE LA MÊME RÉSERVE QUE L'APPLICATION. GAMES dit quels Pokédex
-// régionaux appartiennent au jeu ; DONNEES_EMBARQUEES.dex porte chaque liste
+// ELLE BÂTIT LE MOBILIER DE L'APPLICATION, PAS LE SIEN. Les jauges sont
+// celles de l'accueil (.home-gauge et son anneau SVG), les cases sont les
+// cartes du Pokédex (.card, .card-sprite, .card-id, .card-name). On les
+// construit ici avec les mêmes classes plutôt que d'en dessiner d'autres :
+// une seconde apparence dériverait de la première au premier changement de
+// palette, et personne ne le verrait avant longtemps.
+//
+// LA LISTE VIENT DE LA MÊME RÉSERVE QUE L'APPLICATION. GAMES dit quels
+// Pokédex régionaux appartiennent au jeu ; DONNEES_EMBARQUEES.dex les porte
 // sous la forme [[espèce, n° régional], …] et .entrees le nom français de
-// chaque espèce. Rien n'est recopié ici : une seconde liste dériverait au
-// premier jeu ajouté, et personne ne s'en apercevrait avant des semaines.
+// chaque espèce.
 
 (function(){
   'use strict';
 
   var API = (window.POKEPENSION_API || 'http://127.0.0.1:8787').replace(/\/+$/, '');
+
+  // Le même rayon que dans l'accueil de l'application : r = 31 dans le SVG.
+  var TOUR_JAUGE = 2 * Math.PI * 31;
 
   var attente = document.getElementById('ptAttente');
   var echec = document.getElementById('ptEchec');
@@ -37,8 +46,7 @@
   function codeDeLAdresse(){
     var m = location.pathname.match(/\/p\/([A-Za-z0-9-]+)/);
     if(m) return m[1];
-    var p = new URLSearchParams(location.search).get('code');
-    return p || '';
+    return new URLSearchParams(location.search).get('code') || '';
   }
 
   // ---- La réserve, telle que l'application la lit ---------------------------
@@ -75,8 +83,8 @@
         if(vues[espece]) return;          // une extension peut redire une espèce
         vues[espece] = true;
         var e = parEspece[espece];
-        if(!e) return;
-        sortie.push({ espece: espece, numero: numero, nom: e.display, slug: e.name });
+        if(e) sortie.push({ espece: espece, numero: numero, nom: e.display,
+                          slug: e.name, gen: e.gen || 0 });
       });
     });
     return sortie.length ? sortie : null;
@@ -87,39 +95,103 @@
       + (shiny ? 'home-shiny/' : 'home/') + slug + '.png';
   }
 
-  // ---- L'affichage ---------------------------------------------------------
+  // ---- Les jauges de l'accueil, à l'identique ------------------------------
 
-  function jauge(cible, libelle, combien, total, teinte){
+  function jauge(cible, libelle, combien, total, shiny){
     var pct = total ? Math.round((combien / total) * 100) : 0;
+
     var bloc = document.createElement('div');
-    bloc.className = 'pt-jauge ' + teinte;
-    var chiffre = document.createElement('b');
-    chiffre.textContent = combien + (total ? ' / ' + total : '');
-    var nom = document.createElement('span');
-    nom.textContent = libelle;
-    var barre = document.createElement('i');
-    var dedans = document.createElement('u');
-    dedans.style.width = pct + '%';
-    barre.append(dedans);
-    var part = document.createElement('em');
-    part.textContent = total ? pct + ' %' : '';
-    bloc.append(chiffre, nom, barre, part);
+    bloc.className = 'home-gauge' + (shiny ? ' shiny' : '');
+
+    var anneau = document.createElement('div');
+    anneau.className = 'gauge';
+    anneau.innerHTML =
+      '<svg viewBox="0 0 74 74">'
+      + '<circle class="track" cx="37" cy="37" r="31"></circle>'
+      + '<circle class="fill" cx="37" cy="37" r="31" stroke-dasharray="' + TOUR_JAUGE
+      + '" stroke-dashoffset="' + (TOUR_JAUGE * (1 - pct / 100)) + '"></circle>'
+      + '</svg>'
+      + '<div class="gauge-value">' + (total ? pct + '%' : '—') + '</div>';
+
+    var etiquette = document.createElement('div');
+    etiquette.className = 'home-gauge-label';
+    var fort = document.createElement('strong');
+    fort.textContent = String(combien);
+    var sur = document.createElement('span');
+    sur.textContent = total ? '/ ' + total : '';
+    var quoi = document.createElement('em');
+    quoi.textContent = (shiny ? '✨ ' : '⬤ ') + libelle;
+    etiquette.append(fort, sur, quoi);
+
+    bloc.append(anneau, etiquette);
     cible.append(bloc);
   }
 
+  // ---- Les cartes du Pokédex, à l'identique --------------------------------
+
+  function carte(e, pris, brillant){
+    var card = document.createElement('div');
+    // .is-owned est la classe de l'application : le vert de « possédé ».
+    // .est-shiny est la seule que cette page ajoute — l'application peint l'or
+    // par un mode global, alors qu'ici les deux formes coexistent à l'écran.
+    card.className = 'card' + (pris || brillant ? ' is-owned' : '')
+      + (brillant ? ' est-shiny' : '');
+    if(!pris && !brillant) card.dataset.manque = '1';
+
+    var cadre = document.createElement('div');
+    cadre.className = 'card-sprite';
+
+    var num = document.createElement('span');
+    num.className = 'card-id';
+    num.textContent = '#' + String(e.numero).padStart(3, '0');
+    num.title = 'N° ' + e.numero + ' dans ce Pokédex';
+    cadre.append(num);
+
+    var img = document.createElement('img');
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    img.alt = '';
+    img.src = spriteUrl(e.slug, brillant);
+    // Un sprite chromatique peut manquer là où l'ordinaire existe : on
+    // retombe dessus plutôt que de laisser un cadre vide.
+    img.addEventListener('error', function(){
+      if(img.dataset.repli) return;
+      img.dataset.repli = '1';
+      img.src = spriteUrl(e.slug, false);
+    });
+    cadre.append(img);
+
+    var nom = document.createElement('div');
+    nom.className = 'card-name';
+    nom.textContent = e.nom;
+
+    card.append(cadre, nom);
+    return card;
+  }
+
+  // ---- L'affichage ---------------------------------------------------------
+
+  function jourLisible(iso){
+    try{
+      return new Date(iso).toLocaleDateString('fr-FR',
+        { day: 'numeric', month: 'long', year: 'numeric' });
+    }catch(e){ return String(iso).slice(0, 10); }
+  }
+
   function dessiner(p){
-    document.getElementById('ptPseudo').textContent = p.pseudo;
     document.title = 'Le Pokédex de ' + p.pseudo + ' — PokéPension';
+    document.getElementById('ptPseudo').textContent = p.pseudo;
+    document.getElementById('ptBadge').hidden = false;
 
     var av = document.getElementById('ptAvatar');
-    if(p.avatar){ av.src = p.avatar; av.alt = 'Avatar de ' + p.pseudo; }
+    if(p.avatar){ av.src = p.avatar; av.alt = ''; }
     else av.remove();
 
     var jeu = jeuDe(p.jeu);
     var titreJeu = jeu ? jeu.title
       : (p.jeu === 'national' ? 'Collection Pokémon HOME' : p.jeu);
-    document.getElementById('ptSous').textContent =
-      titreJeu + ' · aventure « ' + p.profil + ' »';
+    document.getElementById('ptEyebrow').textContent = 'Aventure « ' + p.profil + ' »';
+    document.getElementById('ptTitre').textContent = titreJeu;
 
     if(jeu && jeu.visuels && jeu.visuels[0]){
       var logo = document.getElementById('ptLogo');
@@ -142,17 +214,32 @@
         if(pris[e.slug]) combien++;
         if(brillants[e.slug]) combienShiny++;
       });
-      jauge(jauges, 'forme normale', combien, liste.length, 'normal');
-      jauge(jauges, 'forme chromatique', combienShiny, liste.length, 'shiny');
+      jauge(jauges, 'forme normale', combien, liste.length, false);
+      jauge(jauges, 'forme shiny', combienShiny, liste.length, true);
+
+      // LA PHRASE QUE L'ACCUEIL DE L'APPLICATION ÉCRIT AUSSI : un compte se
+      // lit mieux dit que compté. « 101 / 151 » est exact ; « il lui en
+      // manque 50 » est ce qu'on retient.
+      var manque = liste.length - combien;
+      document.getElementById('ptPhrase').textContent = manque === 0
+        ? (p.pseudo + ' a terminé ce Pokédex en forme normale — il lui reste '
+           + (liste.length - combienShiny) + ' formes shiny à chasser.')
+        : ('Il manque ' + manque + ' Pokémon à ' + p.pseudo + ' sur ce Pokédex, '
+           + 'et ' + combienShiny + ' y sont déjà en chromatique.');
+
       dessinerGrille(liste, pris, brillants,
-        (jeu && jeu.regional && jeu.regional.label) || 'Le Pokédex');
+        (jeu && jeu.regional && jeu.regional.label) || 'Le Pokédex',
+        combien);
     }else{
       // NATIONAL, OU UN JEU SANS LISTE RÉGIONALE. On ne fabrique pas un
       // dénominateur : compter sur 1 281 supposerait le niveau de formes de
       // l'autre, qu'on ne connaît pas ici. On dit ce qu'on sait — combien de
       // Pokémon — et on se tait sur le reste.
-      jauge(jauges, 'Pokémon possédés', (p.dex.caught || []).length, 0, 'normal');
-      jauge(jauges, 'en chromatique', (p.dex.shiny || []).length, 0, 'shiny');
+      jauge(jauges, 'possédés', (p.dex.caught || []).length, 0, false);
+      jauge(jauges, 'en chromatique', (p.dex.shiny || []).length, 0, true);
+      document.getElementById('ptPhrase').textContent =
+        'Cette collection réunit tous les jeux : son total dépend du niveau de '
+        + 'formes choisi par ' + p.pseudo + ', qu’un visiteur ne peut pas deviner.';
     }
 
     if(p.majLe){
@@ -164,51 +251,58 @@
     contenu.hidden = false;
   }
 
-  function jourLisible(iso){
-    try{
-      return new Date(iso).toLocaleDateString('fr-FR',
-        { day: 'numeric', month: 'long', year: 'numeric' });
-    }catch(e){ return String(iso).slice(0, 10); }
-  }
-
-  function dessinerGrille(liste, pris, brillants, libelle){
-    var grille = document.getElementById('ptGrille');
+  function dessinerGrille(liste, pris, brillants, libelle, combien){
     document.getElementById('ptGrilleTitre').textContent = libelle;
-    document.getElementById('ptGrilleBloc').hidden = false;
-
-    liste.forEach(function(e){
-      var a = pris[e.slug], b = brillants[e.slug];
-      var case_ = document.createElement('div');
-      case_.className = 'pt-case' + (b ? ' shiny' : (a ? ' pris' : ''));
-      if(!a && !b) case_.dataset.manque = '1';
-
-      var boite = document.createElement('div');
-      boite.className = 'pt-case-image';
-      var img = document.createElement('img');
-      img.loading = 'lazy';
-      img.decoding = 'async';
-      img.alt = '';
-      img.src = spriteUrl(e.slug, b);
-      // Un sprite chromatique peut manquer là où l'ordinaire existe : on
-      // retombe dessus plutôt que de laisser un cadre vide.
-      img.addEventListener('error', function(){
-        if(img.dataset.repli) return;
-        img.dataset.repli = '1';
-        img.src = spriteUrl(e.slug, false);
-      });
-      boite.append(img);
-
-      var nom = document.createElement('span');
-      nom.className = 'pt-case-nom';
-      nom.textContent = e.nom;
-      var num = document.createElement('span');
-      num.className = 'pt-case-num';
-      num.textContent = (b ? '✨ ' : '') + 'N° ' + String(e.numero).padStart(3, '0');
-
-      case_.append(boite, nom, num);
-      grille.append(case_);
+    document.getElementById('ptGrilleCompte').textContent =
+      combien + ' sur ' + liste.length;
+    var grille = document.getElementById('ptGrille');
+    liste.forEach(function(e, rang){
+      var c = carte(e, pris[e.slug], brillants[e.slug]);
+      // CE QUE LE TRI RELIRA. On pose sur la carte de quoi la reclasser, pour
+      // n'avoir jamais a la rebatir : rebatir redemanderait cent cinquante
+      // sprites a chaque changement d'ordre.
+      c.dataset.rang = rang;                 // l'ordre du jeu, tel quel
+      c.dataset.gen = e.gen || 0;
+      c.dataset.nom = e.nom;
+      grille.append(c);
     });
   }
+
+  // ---- Le tri --------------------------------------------------------------
+  //
+  // LES MEMES TROIS QUE DANS L'APPLICATION, sous les memes noms. On ne
+  // reconstruit rien : les cartes sont deja la, on ne fait que les remettre
+  // dans un autre ordre. L'ordre du jeu est celui du Pokedex regional, et il
+  // reste la reference — c'est celui qu'on retrouve manette en main.
+
+  var TRIS = {
+    jeu: function(a, b){ return Number(a.dataset.rang) - Number(b.dataset.rang); },
+    // A generation egale, on garde l'ordre du jeu : deux Pokemon de la
+    // premiere generation ne doivent pas se croiser d'un tri a l'autre.
+    gen: function(a, b){
+      return (Number(a.dataset.gen) - Number(b.dataset.gen))
+          || (Number(a.dataset.rang) - Number(b.dataset.rang));
+    },
+    nom: function(a, b){ return a.dataset.nom.localeCompare(b.dataset.nom, 'fr'); },
+  };
+
+  function trier(quoi){
+    var grille = document.getElementById('ptGrille');
+    var cartes = Array.prototype.slice.call(grille.children);
+    cartes.sort(TRIS[quoi] || TRIS.jeu);
+    // Un seul remaniement du document, et les images ne rechargent pas : un
+    // noeud deplace garde sa ressource.
+    var lot = document.createDocumentFragment();
+    cartes.forEach(function(c){ lot.append(c); });
+    grille.append(lot);
+    [['jeu', 'ptTriJeu'], ['gen', 'ptTriGen'], ['nom', 'ptTriNom']].forEach(function(x){
+      document.getElementById(x[1]).setAttribute('aria-pressed', String(x[0] === quoi));
+    });
+  }
+
+  document.getElementById('ptTriJeu').addEventListener('click', function(){ trier('jeu'); });
+  document.getElementById('ptTriGen').addEventListener('click', function(){ trier('gen'); });
+  document.getElementById('ptTriNom').addEventListener('click', function(){ trier('nom'); });
 
   // ---- Les deux filtres ----------------------------------------------------
 

@@ -1425,8 +1425,15 @@
         <button class="toggle-btn primary" id="lienCopier" type="button">&#128203; Copier le lien</button>
         <button class="toggle-btn" id="lienCopierCode" type="button">&#128273; Copier le code</button>
       </div>
-      <p class="lien-etat" id="lienEtat" role="status"></p>
     </div>
+
+    <!-- HORS DE LA BOITE, ET C'EST TOUT L'INTERET. Elle dit ce qui se passe —
+         « creation du lien… », « copie », ou pourquoi ca a echoue — et la
+         boite au-dessus est justement ce qui manque quand ca echoue. -->
+    <p class="lien-etat" id="lienEtat" role="status"></p>
+    <button class="toggle-btn primary lien-reessayer" id="lienReessayer" type="button" hidden>
+      &#8635; R&eacute;essayer
+    </button>
 
     <p class="lien-note" id="lienNote">
       Qui a ce lien voit ce Pok&eacute;dex, et rien d&rsquo;autre : ni tes autres jeux,
