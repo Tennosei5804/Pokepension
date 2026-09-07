@@ -73,7 +73,20 @@ body {
   .maj-btn,
   .discord-btn,
   .dex select,
-  .dex button {
+  .dex button,
+  /* LES CHAMPS DE SAISIE MANQUAIENT A CETTE LISTE, et le trou se voyait : le
+     champ « un lieu, ou un Pokemon » porte un height: 36px ecrit en dur dans
+     dex.css, releve a 36 px sous pointeur grossier le 7 septembre 2026. Un
+     champ se vise comme un bouton, et celui-la est le premier geste de la
+     page. min-height plutot que height : il l'emporte sur la hauteur posee
+     ailleurs sans avoir a la retrouver ni a la surcharger.
+     Les cases a cocher restent DEHORS : celle de la bascule est masquee et
+     remplacee par une piste dessinee, l'agrandir ne toucherait rien de
+     visible et decalerait son etiquette. */
+  .dex input[type="search"],
+  .dex input[type="text"],
+  .dex input[type="number"],
+  .dex input[type="date"] {
     min-height: 44px;
   }
   /* Un bouton plus haut sans plus d'air autour reste difficile a viser : c'est
