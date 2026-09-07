@@ -799,6 +799,9 @@
           <input type="search" id="lieuxQ" autocomplete="off"
                  placeholder="Un lieu, ou un Pokémon…"
                  aria-label="Chercher un lieu ou un Pokémon">
+          <button class="toggle-btn" id="lieuxTriBascule" type="button"
+                  aria-expanded="false" aria-controls="lieuxTri"
+                  title="L&rsquo;ordre des lieux">&#128256; Trier</button>
           <label class="bascule">
             <input type="checkbox" id="lieuxRestants" checked>
             <span class="bascule-piste" aria-hidden="true"><span class="bascule-pouce"></span></span>
@@ -809,6 +812,9 @@
              index.html : cette page charge le meme noyau.js, et verifier.py
              releve tout identifiant que l'une declare et que l'autre n'a
              pas. -->
+        <!-- L ordre des lieux. Present ici comme dans index.html :
+             cette page charge le meme noyau.js. -->
+        <div class="toolbar lieux-tri" id="lieuxTri" hidden></div>
         <div class="lieux-mods" id="lieuxMods" hidden></div>
         <p class="lieux-resume" id="lieuxResume"></p>
         <div class="lieux" id="lieuxListe"></div>

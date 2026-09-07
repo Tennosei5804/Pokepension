@@ -820,12 +820,21 @@
           <input type="search" id="lieuxQ" autocomplete="off"
                  placeholder="Un lieu, ou un Pokémon…"
                  aria-label="Chercher un lieu ou un Pokémon">
+          <button class="toggle-btn" id="lieuxTriBascule" type="button"
+                  aria-expanded="false" aria-controls="lieuxTri"
+                  title="L&rsquo;ordre des lieux : ce qu&rsquo;il reste &agrave; y prendre, leur richesse, ou leur nom">&#128256; Trier</button>
           <label class="bascule">
             <input type="checkbox" id="lieuxRestants" checked>
             <span class="bascule-piste" aria-hidden="true"><span class="bascule-pouce"></span></span>
             <span class="bascule-texte">Seulement les lieux où il me reste quelque chose</span>
           </label>
         </div>
+        <!-- L'ordre des lieux, sur le mod&egrave;le de &laquo;&nbsp;Plus de
+             filtres&nbsp;&raquo; du Pok&eacute;dex : un bouton, un panneau de
+             pastilles, et l'&eacute;tat retenu d'une visite &agrave; l'autre.
+             B&acirc;ti par lieux.js &agrave; partir de LIEUX_TRIS : aucune
+             liste ici. -->
+        <div class="toolbar lieux-tri" id="lieuxTri" hidden></div>
         <!-- LES MODS DE BIOMES — COBBLEMON SEULEMENT, ET VIDE AILLEURS.
              Cent deux esp&egrave;ces sur 874 ne vivent dans aucun biome du
              Minecraft de base : elles n'existent qu'avec un mod. Les afficher

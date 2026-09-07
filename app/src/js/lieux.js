@@ -837,6 +837,100 @@ function lieuRepond(lieu, q){
   });
 }
 
+/* ---- L'ordre des lieux -----------------------------------------------------
+ *
+ * Bâti sur le modèle de « Plus de filtres » du Pokédex : un bouton, un panneau
+ * de pastilles, et le choix retenu d'une visite à l'autre. Même geste et même
+ * vocabulaire — un second modèle pour la même idée aurait fait deux
+ * applications dans une.
+ *
+ * TROIS ORDRES, ET PAS DIX. Chacun répond à une question qu'on se pose
+ * vraiment devant la page :
+ *   · ce qu'il reste  — « où vais-je maintenant ? », l'ordre d'origine ;
+ *   · les espèces     — « quel est le lieu le plus fourni ? », utile quand on
+ *                       repart de zéro sur un jeu ;
+ *   · le nom          — « je cherche CE lieu-là », quand on sait où l'on va.
+ *
+ * Chaque comparateur retombe sur les deux autres à égalité : sans cela, deux
+ * lieux à même score s'échangeaient d'un dessin à l'autre, et la liste
+ * bougeait sous le doigt sans que rien n'ait changé.
+ */
+const LIEUX_TRIS = [
+  {
+    cle: 'restant', libelle: 'Ce qu’il reste',
+    titre: 'Les lieux où il te reste le plus à attraper, en premier',
+    comparer: function(a, b){
+      return (b.manque - a.manque)
+          || (b.lieu.especes.length - a.lieu.especes.length)
+          || a.lieu.nom.localeCompare(b.lieu.nom, 'fr');
+    },
+  },
+  {
+    cle: 'especes', libelle: 'Nombre d’espèces',
+    titre: 'Les lieux les plus fournis en premier, pris ou non',
+    comparer: function(a, b){
+      return (b.lieu.especes.length - a.lieu.especes.length)
+          || (b.manque - a.manque)
+          || a.lieu.nom.localeCompare(b.lieu.nom, 'fr');
+    },
+  },
+  {
+    cle: 'nom', libelle: 'Nom (A → Z)',
+    titre: 'Par ordre alphabétique, pour retrouver un lieu qu’on connaît',
+    comparer: function(a, b){ return a.lieu.nom.localeCompare(b.lieu.nom, 'fr'); },
+  },
+];
+
+const LIEUX_TRI_CLE = 'pa.lieux.tri';
+let lieuxTriChoisi = null;
+
+function triCourant(){
+  if(lieuxTriChoisi) return lieuxTriChoisi;
+  let garde = null;
+  try{ garde = localStorage.getItem(LIEUX_TRI_CLE); }catch(e){ /* stockage refusé */ }
+  // Un tri disparu de la liste ne doit pas laisser la page sans ordre : on
+  // retombe sur celui d'origine, qui est aussi le plus utile.
+  lieuxTriChoisi = LIEUX_TRIS.filter(function(t){ return t.cle === garde; })[0]
+                || LIEUX_TRIS[0];
+  return lieuxTriChoisi;
+}
+
+function poserTri(cle){
+  const trouve = LIEUX_TRIS.filter(function(t){ return t.cle === cle; })[0];
+  if(!trouve) return;
+  lieuxTriChoisi = trouve;
+  try{ localStorage.setItem(LIEUX_TRI_CLE, cle); }catch(e){ /* ignore */ }
+}
+
+/**
+ * Le panneau des ordres. UN SEUL ACTIF À LA FOIS, contrairement aux mods :
+ * ce sont des choix exclusifs, et les pastilles s'en servent comme des boutons
+ * radio — aria-pressed dit lequel, et cliquer l'actif ne le désactive pas.
+ * Une liste sans ordre n'existe pas.
+ */
+function dessinerBarreTri(){
+  if(!lieuxTri) return;
+  const actif = triCourant();
+  lieuxTri.innerHTML = '';
+  LIEUX_TRIS.forEach(function(t){
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'filtre-chip';
+    b.textContent = t.libelle;
+    b.title = t.titre;
+    b.setAttribute('aria-pressed', String(t.cle === actif.cle));
+    b.addEventListener('click', function(){
+      if(t.cle === actif.cle) return;
+      poserTri(t.cle);
+      // L'ordre change, donc les voisins du lieu déplié aussi : le garder
+      // ouvert laisserait un bloc béant au milieu d'une liste réordonnée.
+      lieuxOuvert = null;
+      dessinerLieux();
+    });
+    lieuxTri.appendChild(b);
+  });
+}
+
 /**
  * La rangée des mods de biomes — Cobblemon seulement.
  *
@@ -882,6 +976,7 @@ function dessinerBarreMods(){
 function dessinerLieux(){
   if(!lieuxListe || !lieuxJeuCourant) return;
   dessinerBarreMods();
+  if(lieuxTri && !lieuxTri.hidden) dessinerBarreTri();
   const tous = indexerLieux(lieuxJeuCourant);
   // Le tri par mod se fait ICI et non à l'indexation : cocher une case ne doit
   // pas relire huit cents espèces, et l'index reste une lecture de la réserve
@@ -894,13 +989,9 @@ function dessinerLieux(){
   const avec = lieux.map(function(l){
     return { lieu: l, manque: manquantsDe(l, pris).manque.length };
   });
-  // Par ce qu'il reste à y prendre : c'est l'ordre de la question posée. À
-  // égalité, le lieu le plus fourni d'abord — un détour vaut mieux quand il
-  // rapporte plus.
-  avec.sort(function(a, b){
-    return (b.manque - a.manque) || (b.lieu.especes.length - a.lieu.especes.length)
-        || a.lieu.nom.localeCompare(b.lieu.nom, 'fr');
-  });
+  // L'ordre choisi dans le panneau « Trier » — par défaut, ce qu'il reste à y
+  // prendre, qui est l'ordre de la question posée. Voir LIEUX_TRIS.
+  avec.sort(triCourant().comparer);
 
   const utiles = avec.filter(function(x){ return x.manque > 0; });
   const q = replierLieu(lieuxQ ? lieuxQ.value.trim() : '');
@@ -979,6 +1070,29 @@ document.addEventListener('DOMContentLoaded', function(){
     lieuxOuvert = null;
     dessinerLieux();
   });
+  // Le panneau « Trier », ouvert et refermé comme « Plus de filtres » du
+  // Pokédex, et rouvert là où on l'avait laissé : qui s'en sert s'en sert à
+  // chaque visite, qui l'a fermé ne veut pas le revoir à chaque fois.
+  const TRI_OUVERT_CLE = 'pa.lieux.tri-ouvert';
+  if(lieuxTriBascule && lieuxTri){
+    lieuxTriBascule.addEventListener('click', function(){
+      const ouvre = lieuxTri.hidden;
+      lieuxTri.hidden = !ouvre;
+      lieuxTriBascule.setAttribute('aria-expanded', String(ouvre));
+      if(ouvre) dessinerBarreTri();
+      try{ localStorage.setItem(TRI_OUVERT_CLE, ouvre ? '1' : '0'); }
+      catch(e){ /* stockage refusé */ }
+    });
+    let ouvertAvant = false;
+    try{ ouvertAvant = localStorage.getItem(TRI_OUVERT_CLE) === '1'; }
+    catch(e){ /* stockage refusé */ }
+    if(ouvertAvant){
+      lieuxTri.hidden = false;
+      lieuxTriBascule.setAttribute('aria-expanded', 'true');
+      dessinerBarreTri();
+    }
+  }
+
   // « input » et non « change » : la liste se resserre pendant qu'on tape.
   if(lieuxQ) lieuxQ.addEventListener('input', function(){
     // Chercher un Pokémon n'a de sens que si l'on voit où il est : le

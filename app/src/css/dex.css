@@ -1045,6 +1045,11 @@
    detail de cette page. Elle sert deja au reglage de visibilite du Profil. */
 .lieux-barre .bascule{ margin-bottom:0; }
 
+/* L ordre des lieux. Meme panneau que .filtres-rapides du Pokedex — c est un
+   .toolbar, il en a donc deja le cadre et l espacement ; il ne reste que la
+   marge sous lui, qu un .toolbar de barre d outils n a pas. */
+.lieux-tri{ margin-bottom:10px; }
+
 /* ---- Les mods de biomes, pour Cobblemon ---------------------------------
    Les pastilles sont celles des filtres rapides du Pokedex — .filtre-chip,
    dans ce meme fichier. Meme geste, meme marque rouge une fois posee : un
