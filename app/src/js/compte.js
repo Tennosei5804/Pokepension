@@ -1331,17 +1331,23 @@ function fermerCompteMenu(){
   playerBadge.setAttribute('aria-expanded', 'false');
 }
 
-playerBadge.addEventListener('click', function(e){
-  e.stopPropagation();
+// PAS DE stopPropagation() ICI. Il n'a jamais servi qu'à empêcher la fermeture
+// ci-dessous de refermer le menu qu'on venait d'ouvrir — ce dont elle se garde
+// déjà seule, le badge vivant À L'INTÉRIEUR de #compteMenu. En échange il
+// rendait aveugle la fermeture de la cloche, qui restait ouverte derrière ce
+// menu-ci.
+playerBadge.addEventListener('click', function(){
   if(comptePanneau.classList.contains('ouvert')) fermerCompteMenu();
   else ouvrirCompteMenu();
 });
 
 // Un clic ailleurs, ou Échap, referme : un menu qui reste ouvert derrière soi
-// finit par masquer ce qu'on regarde.
+// finit par masquer ce qu'on regarde. En capture, pour la raison écrite au
+// long dans notifs.js : un stopPropagation() posé en chemin ne doit pas
+// pouvoir laisser ce menu ouvert.
 document.addEventListener('click', function(e){
-  if(!e.target.closest('#compteMenu')) fermerCompteMenu();
-});
+  if(!e.target.closest || !e.target.closest('#compteMenu')) fermerCompteMenu();
+}, true);
 document.addEventListener('keydown', function(e){
   if(e.key === 'Escape') fermerCompteMenu();
 });

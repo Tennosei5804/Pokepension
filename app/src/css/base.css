@@ -35,6 +35,17 @@
        modale et un panneau ne flottaient pas à la même hauteur sans que rien
        ne dise pourquoi. */
     --ombre:0 30px 60px -20px rgba(28,30,41,.34);
+    /* CE QUE LE NAVIGATEUR PEINT LUI-MÊME, ET QUI N'ÉCOUTE AUCUNE DE NOS
+       COULEURS. Le calendrier déroulant d'un champ `date`, les deux flèches
+       d'un champ `number`, le fond d'une saisie remplie automatiquement : ce
+       sont des morceaux d'interface du navigateur, dessinés hors de la page.
+       Sans cette déclaration il les peint toujours en clair — un calendrier
+       blanc et bleu s'ouvrant au milieu d'une application noire, comme sur la
+       capture du 7 septembre 2026.
+
+       Nos ascenseurs ne bougent pas : ::-webkit-scrollbar, plus bas, les
+       peint explicitement et l'emporte sur ce que color-scheme suggère. */
+    color-scheme:light;
   }
 
   /* ---- L'échelle des cartes ------------------------------------------
@@ -85,6 +96,7 @@
     --ic-bleu:#5fa2e8;
     --ic-violet:#a58ae0;
     --ombre:0 30px 60px -20px rgba(0,0,0,.6);
+    color-scheme:dark;
   }
   html[data-theme="dark"] body{ background:#0e0f14; }
   /* Huit rattrapages vivaient ici : le cadre d'un sprite, la barre d'une

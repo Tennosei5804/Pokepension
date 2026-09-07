@@ -590,12 +590,25 @@ html[data-theme="light"] body{ background:#e9e7e0; }
   background:var(--screen); border:1px solid var(--card-border);
   color:var(--ink); font-family:var(--font-body); font-size:12.5px;
 }
-.partie-heures{ width:76px; }
+.partie-heures{ width:76px; font-variant-numeric:tabular-nums; }
 .partie-heures:focus, .partie-date:focus{ outline:none; border-color:var(--gold-deep); }
-/* Le calendrier natif sort noir sur noir sans cela : l icone est peinte par le
-   navigateur, et n herite pas de la couleur du texte. */
-.partie-date::-webkit-calendar-picker-indicator{ filter:invert(.7); cursor:pointer; }
-html[data-theme="light"] .partie-date::-webkit-calendar-picker-indicator{ filter:none; }
+/* Les deux fleches du champ numerique s en vont, comme sur le compteur de
+   rencontres et pour la meme raison, deja ecrite la-bas : le champ vit dans un
+   ecran qui defile, et la molette passee dessus changeait le nombre d heures au
+   lieu de faire defiler la page. Un temps de jeu se tape ; personne ne monte a
+   deux cent quarante heures d un clic a la fois. */
+.partie-heures{ -moz-appearance:textfield; appearance:textfield; }
+.partie-heures::-webkit-outer-spin-button,
+.partie-heures::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
+/* L icone du calendrier est peinte par le navigateur, et suit desormais le
+   color-scheme pose dans base.css : claire en sombre, sombre en clair, sans
+   filtre. L inversion qui vivait ici est partie AVEC lui — elle inversait une
+   icone deja claire, et l aurait rendue invisible. */
+.partie-date::-webkit-calendar-picker-indicator{ cursor:pointer; opacity:.7; }
+.partie-date::-webkit-calendar-picker-indicator:hover{ opacity:1; }
+/* Les deux dates ne dansent pas selon le format du systeme : « jj/mm/aaaa »
+   demande la meme largeur d un champ a l autre. */
+.partie-date{ min-width:142px; }
 
 .partie-etat{
   flex:0 0 auto;

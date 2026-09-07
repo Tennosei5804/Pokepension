@@ -276,8 +276,11 @@ function arreterSondageNotifs(){
 // ---- Le câblage -------------------------------------------------------------
 
 if(clocheBtn){
-  clocheBtn.addEventListener('click', function(e){
-    e.stopPropagation();
+  // PAS DE stopPropagation() ICI. Il ne protegeait que la fermeture ci-dessous
+  // — role repris par l'exception sur clocheBtn — et il rendait aveugles les
+  // fermetures des autres menus : cloche ouverte, un clic sur elle laissait le
+  // menu du compte ouvert derriere.
+  clocheBtn.addEventListener('click', function(){
     if(clochePanneau.classList.contains('ouvert')) fermerCloche();
     else ouvrirCloche();
   });
@@ -299,11 +302,27 @@ if(clocheToutLu){
     }catch(e){ /* sans effet visible : la pastille reste, on réessaiera */ }
   });
 }
+// UN CLIC AILLEURS REFERME — ET ON ECOUTE EN CAPTURE.
+//
+// Cette fermeture ecoutait le bouillonnement, et ne s'executait donc que si
+// personne n'arretait le clic en chemin. Or le badge du compte, a deux
+// centimetres de la cloche dans le meme en-tete, appelait stopPropagation()
+// sur le sien : cloche ouverte, un clic sur l'avatar n'atteignait jamais
+// document, et le panneau restait ouvert derriere le menu du compte. Les cinq
+// fermetures « clic ailleurs » du projet se rendaient mutuellement aveugles de
+// cette facon, chacune n'ayant fait que se proteger elle-meme.
+//
+// La capture descend depuis document AVANT d'atteindre la cible : aucun
+// stopPropagation() pose en route ne peut plus nous empecher de fermer. En
+// echange elle nous montre aussi le clic sur la cloche elle-meme, avant son
+// propre gestionnaire — d'ou l'exception ci-dessous. Sans elle on fermerait
+// juste avant que le bouton ne rouvre, et la cloche ne s'ouvrirait plus.
 document.addEventListener('click', function(e){
   if(!clochePanneau || !clochePanneau.classList.contains('ouvert')) return;
   if(clochePanneau.contains(e.target)) return;
+  if(clocheBtn && clocheBtn.contains(e.target)) return;
   fermerCloche();
-});
+}, true);
 document.addEventListener('keydown', function(e){
   if(e.key === 'Escape' && clochePanneau
      && clochePanneau.classList.contains('ouvert')) fermerCloche();

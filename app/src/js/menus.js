@@ -139,11 +139,14 @@ function syncSelects(){
   enhancedSelects.forEach(function(o){ o.sync(); });
 }
 
+// En capture, comme les autres fermetures « clic ailleurs » du projet (la
+// raison est écrite au long dans notifs.js) : une liste déroulante ouverte
+// doit se refermer même quand le clic est arrêté en chemin.
 document.addEventListener('click', function(e){
-  if(!e.target.closest('.select-wrap')){
+  if(!e.target.closest || !e.target.closest('.select-wrap')){
     enhancedSelects.forEach(function(o){ o.close(); });
   }
-});
+}, true);
 
 // Tous les menus de l'application, sans exception. La liste native est
 // dessinée par le système et ne se laisse ni colorer ni arrondir — d'où ce

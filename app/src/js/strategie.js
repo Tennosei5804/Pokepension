@@ -496,9 +496,10 @@ function creerSelecteur(champ, boite, quandChoisi){
   });
 
   champ.addEventListener('keydown', function(e){ if(e.key === 'Escape') fermer(); });
+  // En capture, comme les autres fermetures « clic ailleurs » (voir notifs.js).
   document.addEventListener('click', function(e){
     if(e.target !== champ && !boite.contains(e.target)) fermer();
-  });
+  }, true);
 }
 
 // Le résumé d'un jeu en une ligne : ce qu'on veut relire sans rouvrir la modale.
