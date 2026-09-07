@@ -37,7 +37,30 @@ import { config } from '../src/config.js';
 // 25 août 2026 et n'a rejoint cette liste que le soir même, en répondant à
 // « la sauvegarde, ça sert à quoi ». Une table absente d'ici ne manque à
 // personne tant qu'on n'a pas besoin de restaurer.
-const TABLES = ['pa_dresseurs', 'pa_profils', 'pa_dex', 'pa_historique', 'pa_amis'];
+// L'ORDRE EST CELUI D'UNE RESTAURATION, PAS UN INVENTAIRE. Chaque table
+// arrive apres celles qu'elle reference, sans quoi la restauration bute sur
+// une cle etrangere : pa_messages et pa_notifications pointent vers
+// pa_echanges, pa_partages vers pa_profils, pa_dex vers les deux.
+//
+// SEPT TABLES MANQUAIENT ICI, releve le 7 septembre 2026 par l'avertissement
+// que ce fichier emet lui-meme. Elles etaient sauvegardees — rien n'etait
+// perdu — mais ecrites en dernier et dans un ordre quelconque, et leur
+// restauration aurait echoue au premier lien. L'avertissement a fait son
+// travail ; encore fallait-il le lire, et il ne se lit que si l'on sauvegarde.
+const TABLES = [
+  'pa_dresseurs',      // la racine : tout le reste en depend
+  'pa_profils',        // -> dresseurs
+  'pa_dex',            // -> dresseurs, profils
+  'pa_historique',     // -> profils
+  'pa_amis',           // -> dresseurs
+  'pa_cartes',         // -> dresseurs
+  'pa_parties',        // -> dresseurs
+  'pa_images',         // -> dresseurs, profils ; avant les messages qui y pointent
+  'pa_echanges',       // -> dresseurs
+  'pa_messages',       // -> dresseurs, echanges, images
+  'pa_notifications',  // -> dresseurs, echanges
+  'pa_partages',       // -> dresseurs, profils
+];
 
 // pa_sessions est délibérément absente. Ce sont des jetons de connexion, ils
 // expirent seuls, et les restaurer reconnecterait des gens à leur insu — sans
@@ -154,7 +177,7 @@ main()
       console.error("              && node --env-file=.env outils/sauvegarder.js");
       console.error("              (un .env à côté de .env.exemple, portant les DB_*)");
       console.error("");
-      console.error("  Planifiée   alwaysdata : Avancé → Tâches planifiées,");
+      console.error("  Planifiée   cron sur le VPS : docker exec <conteneur>,");
       console.error("              en redonnant les DB_* dans l'environnement de la tâche.");
       console.error('');
     }

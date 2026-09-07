@@ -1202,9 +1202,11 @@ d'une aventure privée.
 ### Le dossier ne se déduit pas du répertoire courant
 
 `process.cwd()` a été une erreur, et elle s'est vue en production : un service
-n'est pas lancé depuis le dossier où il vit. Chez alwaysdata le répertoire
-courant est le dossier personnel, et la première photo est partie dans
-`~/donnees/images` au lieu de `~/PokePension/api/donnees/images`.
+n'est pas lancé depuis le dossier où il vit. Sur l'hébergement de l'époque, le
+répertoire courant était le dossier personnel, et la première photo est partie
+dans `~/donnees/images` au lieu de `~/PokePension/api/donnees/images`. Le piège
+n'a pas disparu avec l'hébergeur : dans un conteneur, le répertoire courant est
+celui qu'a fixé l'image, et il n'a aucune raison d'être celui du service.
 
 Le contournement évident — poser `IMAGES_DOSSIER` dans `api/.env` — ne servait à
 rien non plus : **le service ne lit pas ce fichier**. `npm start` passe
@@ -1622,127 +1624,101 @@ machine qui la développe. Distribuer l'installeur sans hébergement, c'est
 livrer un programme qui s'ouvre et où rien ne marche : ni connexion, ni
 Pokédex, ni comparaison entre dresseurs.
 
-L'hébergement retenu est **alwaysdata**, plan gratuit : Node, MySQL, HTTPS et
-un sous-domaine, sans carte bancaire. L'empreinte tient large — 5,7 Mo de
-dépendances et 13,4 Mo de dépôt, pour 100 Mo alloués.
+Tout vit sur **un VPS, dans Docker**, et ce VPS est partagé avec un autre
+projet — le Bureau des Primes. La pile est décrite une seule fois, dans
+`Site - OnePiece/deploiement/` : un `compose.yml`, un `Caddyfile`, et rien
+d'autre à installer sur la machine.
 
-### Ce que le service attend de son hôte
+| Conteneur | Ce qu'il fait |
+|---|---|
+| `caddy` | le seul à ouvrir un port. Il sert le site, obtient les certificats seul, et passe le reste à l'API |
+| `pokepension-api` | le service Node de ce dépôt |
+| `db` | MariaDB, partagée : la base `pokepension` d'un côté, `bureau_des_primes` de l'autre |
+| `php` | l'API de l'autre projet, sans rapport avec celui-ci |
 
-Trois variables décident de tout, et deux d'entre elles ne viennent pas de nous :
+Trois adresses, un seul certificat par nom :
 
 | | |
 |---|---|
-| `PORT` et `IP` | **fournis par alwaysdata**. Le service écoute exactement dessus ; `config.js` les lit sans qu'on ait à les poser |
-| `API_URL` | l'adresse publique. Elle construit l'adresse de retour Discord, qui doit correspondre **au caractère près** |
-| `DB_*` | la base, avec `DB_SSL=oui` — elle est sur une autre machine que le service |
+| `pokepension.fr` | la page d'accueil |
+| `pokepension.fr/dex` | le Pokédex |
+| `api.pokepension.fr` | l'API |
 
-> Écouter sur la mauvaise adresse est le piège de l'hébergement : le service
-> démarre, les journaux disent que tout va bien, et il reste injoignable.
-> `config.js` essaie `HOTE`, puis `IP` (alwaysdata), puis `HOST` (les autres),
-> et ne retombe sur `127.0.0.1` qu'en dernier recours.
+### Où vit le code
 
-### La marche à suivre
-
-1. **Un compte** sur <https://www.alwaysdata.com>, plan gratuit 100 Mo. Le nom
-   du compte devient le sous-domaine : `pokepension.alwaysdata.net`.
-
-2. **La base**, dans *Bases de données → MySQL → Ajouter*. Notez le serveur,
-   l'utilisateur, le mot de passe et le nom — ils vont dans les variables.
-   Le service crée ses tables tout seul au premier démarrage.
-
-3. **Le code**, en SSH (les identifiants sont dans *Accès distant → SSH*) :
-
-   ```
-   git clone https://github.com/Tennosei5804/PokePension.git
-   cd PokePension/api
-   npm install --omit=dev
-   ```
-
-4. **Le site**, dans *Web → Sites → Ajouter*, en type Node.js :
-
-   | | |
-   |---|---|
-   | Commande | `node /home/<compte>/PokePension/api/src/serveur.js` |
-   | Adresse | `pokepension.alwaysdata.net` |
-
-   > **Le chemin doit être absolu.** Le champ « répertoire de travail » n'a
-   > pas d'effet sur un site Node : alwaysdata lance la commande depuis la
-   > racine du compte, quoi qu'on y mette. Avec un chemin relatif, le
-   > journal affiche `Cannot find module '/home/<compte>/src/serveur.js'`
-   > et le site reste en 502 — le fichier existe, il est cherché ailleurs.
-
-   Pas de `--env-file` : il n'y a pas de `.env` sur le serveur, les variables
-   viennent du panneau.
-
-   Les variables d'environnement se posent dans la configuration du site —
-   surtout pas dans un `.env` versionné.
-
-5. **Discord**, sur <https://discord.com/developers/applications>, onglet
-   *OAuth2 → Redirects*. Ajoutez l'adresse de retour **exactement** :
-
-   ```
-   https://pokepension.alwaysdata.net/auth/discord/retour
-   ```
-
-   Discord compare caractère par caractère : un `http` au lieu de `https`, une
-   barre oblique en trop, et la connexion échoue avec un message qui ne dit pas
-   pourquoi.
-
-6. **Le dépôt**, enfin : dans *Settings → Secrets and variables → Actions →
-   Variables*, posez `POKEPENSION_API` à `https://pokepension.alwaysdata.net`.
-   Le workflow refuse de publier sans elle — un installeur compilé sans cette
-   adresse chercherait l'API sur la machine de chaque personne l'installant.
-
-### Vérifier que ça tourne
+Dans **`/opt/pokepension`**, monté en lecture seule dans le conteneur. Le VPS
+n'a **pas de dépôt git** : le code y monte par `tar` et `scp`, pas par un
+`git pull`.
 
 ```
-curl https://pokepension.alwaysdata.net/api/etat
+/opt/pokepension/
+  api/            le service — src/ monté dans le conteneur
+  api/.env        la configuration, jamais dans le dépôt
+  site/public/    le site assemblé
+  telechargements/  l'installateur, hors de site/public
 ```
 
-Doit répondre quelque chose comme :
+`telechargements/` est **délibérément hors de `site/public`** : l'assemblage
+refait ce dossier à neuf à chaque passage, et un binaire de neuf mégaoctets
+déposé dedans disparaîtrait au premier déploiement, sans un mot.
 
-```json
-{"service":"pokepension","discord":true,
- "commit":"1ae51c3","demarreLe":"2026-08-25T18:04:11.882Z","deboutDepuis":93}
-```
+### Ce que le service attend
 
-Un `discord:false` signifie que `DISCORD_CLIENT_ID` ou `DISCORD_SECRET` manque
-à l'appel.
+| | |
+|---|---|
+| `HOTE` | **`0.0.0.0`**, et non `127.0.0.1` : dans un conteneur, se lier à la boucle locale rend le service injoignable depuis Caddy |
+| `API_URL` | `https://api.pokepension.fr`. Elle construit l'adresse de retour Discord, qui doit correspondre **au caractère près** |
+| `DB_*` | l'hôte est `db`, le nom du service dans le réseau Docker. `DB_SSL` reste vide : la liaison ne quitte pas la machine |
+| `SITE_ORIGINES` | `https://pokepension.fr,https://www.pokepension.fr`. Sans étoile — elle laisserait n'importe quelle page appeler l'API |
 
-`commit` est la révision **réellement en cours d'exécution**, lue dans `.git` au
-démarrage du processus et figée là — un `git pull` pendant le service ne la fait
-donc pas mentir. `deboutDepuis` est en secondes.
+### Déployer
 
-### Mettre l'API à jour
-
-```
-ssh <compte>@ssh-<compte>.alwaysdata.net
-cd PokePension && git pull && cd api && npm install --omit=dev
-```
-
-Puis *redémarrer* le site depuis le panneau. Le service ne se recharge pas
-tout seul : sans redémarrage, il continue de servir l'ancien code.
-
-### Vérifier qu'une mise à jour est bien passée
+L'API — les fichiers, puis un redémarrage :
 
 ```
-curl -s https://pokepension.alwaysdata.net/api/etat
+scp -i ~/.ssh/bdp_vps api/src/*.js root@<vps>:/opt/pokepension/api/src/
+ssh -i ~/.ssh/bdp_vps root@<vps> "docker restart deploiement-pokepension-api-1"
 ```
 
-Le `commit` doit être celui qu'on vient de pousser, et `deboutDepuis` doit être
-petit — quelques secondes ou minutes, pas plusieurs jours.
+> **`docker restart` NE RELIT PAS `env_file`.** Docker ne lit les variables
+> qu'à la CRÉATION du conteneur. Après avoir touché `api/.env`, il faut
+> `docker compose up -d --force-recreate pokepension-api` — un simple
+> redémarrage repart sur l'ancienne configuration **sans rien dire**. Le seul
+> témoin est la ligne `base : MySQL ***@db:3306/<nom>` du journal de
+> démarrage : la lire après chaque changement.
 
-**C'est le seul contrôle qui marche à tous les coups.** On a longtemps guetté
-qu'une route neuve passe de `404` à `401`, ce qui est vrai mais ne sert que
-lorsqu'une route est ajoutée. Un lot qui ne change que le *contenu* des réponses
-ne modifie aucun code de statut : de l'extérieur, avant et après sont
-identiques. C'est arrivé le 25 août 2026 sur un correctif qui rendait
-vingt-quatre succès à zéro — il a fallu ouvrir l'application pour savoir.
+Le site — **assemblé avec l'adresse de production**, sinon la page part avec
+`window.POKEPENSION_API = http://127.0.0.1:8787` et n'appelle rien :
 
-Un `commit` à `null` signifie que le dossier n'est pas un dépôt git : c'est le
-cas si le code a été déposé par transfert de fichiers plutôt que par `git pull`.
-Tout le reste continue de fonctionner.
+```
+cd site && POKEPENSION_API=https://api.pokepension.fr py outils/assembler.py
+tar czf /tmp/pp.tgz -C public . && scp … && ssh … "tar xzf … -C /opt/pokepension/site/public"
+```
 
+Le schéma se crée seul : `creerSchema()` tourne au démarrage et ajoute les
+tables et colonnes manquantes. Rien à migrer à la main.
+
+### Vérifier
+
+```
+curl https://api.pokepension.fr/api/etat
+docker logs deploiement-pokepension-api-1        # une ligne par connexion
+docker exec deploiement-caddy-1 cat /data/pokepension-api.log
+```
+
+Le journal de Caddy porte les **en-têtes des réponses**, et pas seulement les
+requêtes. C'est ce qui a démasqué le bogue de connexion du 6 septembre 2026 :
+la page de retour partait avec le `Cross-Origin-Opener-Policy` de helmet, ce
+qui prouvait que la branche prévue pour le web n'avait jamais été atteinte.
+
+### Ce qui protège l'IP réelle
+
+Caddy est le seul à voir le visiteur ; le service ne voit que Caddy. `req.ip`
+ne rend l'adresse du visiteur que parce que `serveur.js` déclare
+`app.set('trust proxy', 1)` — **un seul saut**, celui de Caddy, et pas toute
+la chaîne `X-Forwarded-For` qu'un client peut inventer. La limitation de débit
+en dépend : sans cette ligne, elle bloquerait tout le monde à la fois plutôt
+que le seul qui abuse.
 ## Les pseudos et les noms d'aventure
 
 Les deux s'affichent chez les autres — dans le classement, dans la recherche de
@@ -1861,13 +1837,30 @@ Le format est du JSON et non du SQL : il se relit sans MySQL, se compare d'une
 sauvegarde à l'autre, et se restaure par le script d'à côté. Une sauvegarde
 qu'on ne sait pas relire n'en est pas une.
 
-**À planifier chez l'hébergeur.** Le SSH interdit les processus qui durent ;
-les tâches planifiées sont faites pour ça. Chez alwaysdata, *Avancé → Tâches
-planifiées*, une fois par jour :
+**À planifier sur le VPS**, par `cron`, une fois par jour. L'outil se sert du
+même pool et des mêmes variables que le service : on le lance donc DANS le
+conteneur, qui les porte déjà — sinon il faudrait redire l'adresse de la base
+et son mot de passe dans la ligne de cron, c'est-à-dire dans la liste des
+processus, visible de quiconque est sur la machine.
 
 ```
-node /home/<compte>/PokePension/api/outils/sauvegarder.js
+crontab -e
+20 4 * * *  docker exec deploiement-pokepension-api-1 node outils/sauvegarder.js
 ```
+
+`/api` est monté en **lecture seule** — le service n'a aucune raison de
+réécrire son propre code. Un volume nommé est monté par-dessus, à l'endroit
+précis où l'outil écrit :
+
+```
+- ${PA_CHEMIN:-/opt/pokepension}/api:/api:ro
+- pa_sauvegardes:/api/sauvegardes
+```
+
+Les fichiers vivent donc dans le volume `deploiement_pa_sauvegardes`, hors du
+conteneur : ils survivent à sa recréation. Pour les sortir de la machine,
+`docker cp` depuis le conteneur, ou une lecture directe du volume sur l'hôte.
+Le script garde les plus récentes et efface les autres.
 
 Les variables d'environnement de la tâche doivent porter les `DB_*` — une tâche
 n'hérite pas de celles du site. Sans elles le script échoue avec un code de

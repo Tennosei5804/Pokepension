@@ -37,7 +37,7 @@ import { ErreurCompte, horodatage, normaliser } from './comptes.js';
 // Le dossier des fichiers. Hors du dépôt, et créé au besoin.
 //
 // LE CHEMIN SE DÉDUIT DE CE FICHIER-CI, jamais du répertoire courant. Un service
-// n'est pas lancé depuis le dossier où il vit : chez alwaysdata, `process.cwd()`
+// n'est pas lancé depuis le dossier où il vit : dans un conteneur, `process.cwd()`
 // vaut le dossier personnel, et la première photo est partie dans
 // `~/donnees/images` au lieu de `~/PokeArchive/api/donnees/images`.
 //

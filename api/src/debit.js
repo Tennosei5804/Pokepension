@@ -16,7 +16,7 @@
 //
 // La mémoire est celle du processus : redémarrer remet les compteurs à zéro,
 // et deux instances ne partageraient rien. C'est acceptable — on se protège
-// d'un martèlement, pas d'une attaque distribuée, et alwaysdata n'en fait
+// d'un martèlement, pas d'une attaque distribuée, et le VPS n'en fait
 // tourner qu'une.
 
 const compteurs = new Map();
@@ -36,7 +36,7 @@ function menage(maintenant) {
  * Qui parle, vu depuis le proxy.
  *
  * `req.ip` ne vaut que si « trust proxy » est déclaré : sans lui, Express rend
- * l'adresse du proxy d'alwaysdata, la même pour tout le monde — et la
+ * l'adresse de Caddy, la même pour tout le monde — et la
  * limitation bloquerait tous les visiteurs à la fois plutôt que le seul qui
  * abuse. C'est déclaré dans serveur.js, et il faut que les deux restent
  * d'accord.

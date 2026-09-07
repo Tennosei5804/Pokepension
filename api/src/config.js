@@ -10,7 +10,7 @@ export const config = {
   // service démarre sans erreur et reste injoignable, ce qui est le pire cas :
   // les journaux disent que tout va bien.
   //
-  //   IP    alwaysdata
+  //   IP    certains hebergeurs
   //   HOST  la plupart des autres
   //   HOTE  pour forcer à la main
   hote: process.env.HOTE || process.env.IP || process.env.HOST || '127.0.0.1',
