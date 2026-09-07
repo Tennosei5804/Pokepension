@@ -11,7 +11,7 @@ se parlent pas : Microsoft d'un côté, Google de l'autre.
 
 ---
 
-## Ce qu'on sait (relevé du 7 septembre 2026)
+## Ce qu'on sait (relevé du 7 septembre 2026, au soir)
 
 | | |
 |---|---|
@@ -46,20 +46,23 @@ définition se corrige d'ordinaire vite, et la correction descend chez tout le
 monde à la mise à jour de signatures suivante. Un verdict heuristique, lui, se
 rediscute à chaque compilation.
 
-> **CES DEUX DÉTECTIONS ONT ÉTÉ VUES SUR LA 0.42.2, PAS SUR LA 0.42.3.**
-> La 0.42.3 est un binaire neuf, d'empreinte différente : rien ne dit encore
-> qu'elle est signalée, ni sous quel nom. Le formulaire demande un nom de
-> détection, et en donner un observé sur un autre fichier envoie l'analyste
-> chercher autre chose que ce qu'on lui signale.
+> ## ⚠ LA 0.42.3 N'EST PAS SIGNALÉE — IL N'Y A RIEN À SOUMETTRE
 >
-> **Avant de soumettre**, télécharger la 0.42.3 puis relancer `releve.ps1`, et
-> reporter ci-dessous ce qu'il rend. Trois issues :
+> Les deux détections ci-dessus ont été vues sur la **0.42.2**. La 0.42.3,
+> téléchargée le 7 septembre à 21:21, est arrivée **intacte** : empreinte
+> conforme à celle du site, aucune détection dans l'historique de Defender,
+> aucun blocage des navigateurs.
 >
-> - **rien n'est détecté** — il n'y a plus rien à soumettre à Microsoft ; il
->   reste peut-être la démarche Google, selon le message des navigateurs ;
-> - **le même nom** — le dossier part tel quel ;
-> - **un autre nom** — c'est celui-là qu'il faut mettre, et la ligne
->   « Definition version » se relit dans la partie 2 du relevé.
+> `Cloxer` était une correspondance de **définition**, sur des octets précis.
+> Une recompilation les change, et la règle ne mord plus. Ce n'est pas une
+> victoire durable pour autant : la prochaine version est un tirage de plus, et
+> rien ne garantit qu'elle passera. Seule la signature Authenticode retire le
+> hasard — voir « Ce que ça ne règle pas ».
+>
+> **Ce dossier reste donc en réserve**, prêt pour la prochaine fois. Tout ce qui
+> suit est valable, à une chose près : relancer `releve.ps1` d'abord et prendre
+> le nom de détection QU'IL REND, jamais celui écrit ici — un nom observé sur un
+> autre binaire envoie l'analyste chercher autre chose.
 
 Moteur au moment de la détection — le formulaire les demande :
 
