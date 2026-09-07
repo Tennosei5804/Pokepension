@@ -155,12 +155,32 @@ function decouperLieu(morceau, cleJeu){
  * La dimension prend la place de la sous-zone : savoir qu'un Pokémon est dans
  * le Nether change tout au trajet.
  *
- * CE QUI N'Y FIGURE PAS. Cent deux espèces sur 874 n'ont aucun biome vanille —
- * elles n'apparaissent que dans des familles de biomes apportées par des mods,
- * ou dans des structures. Les faire figurer sous un nom de mod que la personne
- * n'a peut-être pas installé induirait en erreur ; leur fiche, elle, le dit en
- * détail.
+ * LES BIOMES DE MODS Y FIGURENT AUSSI, MAIS SOUS CONDITION.
+ *
+ * Cent deux espèces sur 874 n'ont aucun biome vanille : elles ne vivent que
+ * dans des familles apportées par des mods. Elles étaient donc absentes de
+ * cette page, et la seule chose qu'on en disait était une fiche qu'il fallait
+ * penser à ouvrir. Les afficher sans rien demander aurait envoyé chercher un
+ * Volcano à qui n'a pas Biomes O' Plenty — d'où la barre des mods : on ne
+ * montre que ceux qu'on a cochés, et rien n'est coché au départ.
+ *
+ * L'index les porte TOUS, cochés ou non ; le tri se fait à l'affichage. Le
+ * relevé de huit cents espèces ne se refait pas à chaque case cochée, et
+ * l'index reste ce qu'il est — une lecture de la réserve, pas un état de
+ * l'interface.
+ *
+ * DEUX MODS PEUVENT NOMMER LE MÊME BIOME. « Volcano » existe chez Biomes O'
+ * Plenty et chez Wythers, avec des espèces différentes. Ils sont donc classés
+ * séparément, sous une clé qui porte le mod : les fondre en une ligne
+ * annoncerait des Pokémon que le mod installé ne donne pas.
  */
+/** « Niv. 12 à 18 », ou « Niv. 12 » quand la fourchette n'en est pas une. */
+function niveauxLisibles(bas, haut){
+  if(!bas && !haut) return '';
+  if(!haut || haut === bas) return 'Niv. ' + bas;
+  return 'Niv. ' + bas + ' à ' + haut;
+}
+
 function indexerCobblemon(){
   // La reserve du mod se charge a la demande, et tout le monde ne passe pas par
   // la page Lieux : les succes, eux, indexent les vingt-trois jeux d'un coup.
@@ -168,21 +188,103 @@ function indexerCobblemon(){
   if(typeof DONNEES_COBBLEMON === 'undefined') return [];
   const d = DONNEES_COBBLEMON;
   const parBiome = new Map();
+
+  function poser(nom, mod, id, a, vus){
+    if(!nom) return;
+    // UN SÉPARATEUR QU'ON VOIT. J'y avais d'abord mis un caractère invisible,
+    // puis un échappement : les deux se recopient sans se lire. Deux barres
+    // verticales ne figurent dans aucun nom de biome, et sautent aux yeux.
+    const cle = mod ? mod + ' || ' + nom : nom;
+    if(!parBiome.has(cle)) parBiome.set(cle, { nom: nom, mod: mod, especes: [] });
+
+    // Une espèce tient souvent PLUSIEURS lignes de spawn sur le même biome —
+    // un moment, une météo, un contexte. Elle n'y compte qu'une fois, mais les
+    // lignes suivantes complètent la première : on garde la rareté la plus
+    // favorable et la fourchette de niveaux la plus large. Prendre la première
+    // venue aurait annoncé « ultra-rare » là où le voisin est commun.
+    const deja = vus.get(cle);
+    if(deja){
+      if(a[2] < deja.rang) { deja.rang = a[2]; deja.rarete = d.raretes[a[2]] || ''; }
+      deja.bas = Math.min(deja.bas, a[3]);
+      deja.haut = Math.max(deja.haut, a[4]);
+      deja.puce.niveaux = niveauxLisibles(deja.bas, deja.haut);
+      deja.puce.taux = deja.rarete ? [{ valeur: deja.rarete, version: '' }] : [];
+      return;
+    }
+    // La rareté prend la place du taux : Cobblemon ne donne pas de
+    // pourcentage, mais « commun » ou « ultra-rare » décide de la même chose —
+    // rester ici, ou passer son chemin.
+    const rarete = d.raretes[a[2]] || '';
+    const puce = {
+      id: id,
+      sous: DIMENSION_PUCE[a[15]] || '',
+      taux: rarete ? [{ valeur: rarete, version: '' }] : [],
+      niveaux: niveauxLisibles(a[3], a[4]),
+      quand: '',
+    };
+    vus.set(cle, { rang: a[2], rarete: rarete, bas: a[3], haut: a[4], puce: puce });
+    parBiome.get(cle).especes.push(puce);
+  }
+
   Object.keys(d.especes).forEach(function(sid){
     const id = parseInt(sid, 10);
-    const vus = new Set();
+    const vus = new Map();
     d.especes[sid].forEach(function(a){
-      const dimension = DIMENSION_PUCE[a[15]] || '';
-      (a[0] || []).forEach(function(ib){
-        const nom = d.biomes[ib];
-        if(!nom || vus.has(nom)) return;
-        vus.add(nom);
-        if(!parBiome.has(nom)) parBiome.set(nom, { nom: nom, especes: [] });
-        parBiome.get(nom).especes.push({ id: id, sous: dimension });
+      (a[0] || []).forEach(function(ib){ poser(d.biomes[ib], '', id, a, vus); });
+      // Les familles laissées de côté par le relevé sont exactement celles que
+      // Minecraft ne remplit pas. Leurs biomes viennent de mods, et la réserve
+      // les nomme mod par mod — voir famillesMod dans relever-cobblemon.py.
+      (a[12] || []).forEach(function(ifam){
+        ((d.famillesMod || [])[ifam] || []).forEach(function(groupe){
+          (groupe[1] || []).forEach(function(nom){
+            poser(nom, groupe[0], id, a, vus);
+          });
+        });
       });
     });
   });
   return [...parBiome.values()];
+}
+
+/* ---- Les mods de biomes ----------------------------------------------------
+ *
+ * Cobblemon balise les biomes d'une quinzaine de mods. La réserve n'en garde
+ * que ce dont elle a besoin : les mods qui remplissent une famille dont
+ * Minecraft n'a aucun biome. La liste se déduit donc de la réserve, jamais
+ * écrite à la main — le jour où le relevé en ajoute un, la barre le montre
+ * sans qu'on y touche.
+ */
+const LIEUX_MODS_CLE = 'pa.lieux.mods';
+let lieuxModsChoisis = null;
+
+function modsDeCobblemon(){
+  if(typeof DONNEES_COBBLEMON === 'undefined') return [];
+  const vus = new Set();
+  (DONNEES_COBBLEMON.famillesMod || []).forEach(function(groupes){
+    (groupes || []).forEach(function(g){ if(g[0]) vus.add(g[0]); });
+  });
+  return [...vus].sort(function(a, b){ return a.localeCompare(b, 'fr'); });
+}
+
+function modsChoisis(){
+  if(lieuxModsChoisis) return lieuxModsChoisis;
+  let brut = null;
+  try{ brut = localStorage.getItem(LIEUX_MODS_CLE); }catch(e){ /* stockage refusé */ }
+  let liste = [];
+  try{ liste = brut ? JSON.parse(brut) : []; }catch(e){ liste = []; }
+  lieuxModsChoisis = new Set(Array.isArray(liste) ? liste : []);
+  return lieuxModsChoisis;
+}
+
+function basculerMod(nom){
+  const choisis = modsChoisis();
+  if(choisis.has(nom)) choisis.delete(nom); else choisis.add(nom);
+  // Dans localStorage et non dans la sauvegarde : ce sont les mods de CETTE
+  // installation de Minecraft, pas une propriété du dresseur. Se connecter
+  // ailleurs ne doit pas y transporter une liste qui n'y vaut plus rien.
+  try{
+    localStorage.setItem(LIEUX_MODS_CLE, JSON.stringify([...choisis]));
+  }catch(e){ /* ignore : le filtre marche, il ne survivra pas au rechargement */ }
 }
 
 /**
@@ -301,7 +403,12 @@ function puceEspece(x, estPris){
   // Le taux : c'est le chiffre qui décide si l'on reste ou si l'on passe son
   // chemin. Quand il dépend de la version, elle est écrite en toutes lettres —
   // « 1 % Rouge » et non « 1 %R », qu'il fallait déchiffrer.
-  x.taux.forEach(function(tx){
+  // (x.taux || []) et non x.taux : cette fonction sert deux index, et celui de
+  // Cobblemon n'a longtemps porté ni taux ni niveaux. La page entière tombait
+  // alors sur ce forEach, sans rien afficher et sans rien dire — l'onglet
+  // paraissait vide plutôt que cassé. Le garde-fou reste même maintenant que
+  // l'index les pose : un troisième appelant viendra un jour.
+  (x.taux || []).forEach(function(tx){
     const p = document.createElement('span');
     p.className = 'lieu-taux';
     p.textContent = tx.version ? tx.valeur + ' ' + tx.version : tx.valeur;
@@ -629,9 +736,28 @@ function blocLieu(lieu, pris){
   tete.className = 'lieu-tete';
   tete.setAttribute('aria-expanded', String(lieuxOuvert === lieu.nom));
 
+  // Le nom et l'étiquette du mod partagent la PREMIÈRE COLONNE de la grille.
+  // Posés côte à côte dans .lieu-tete, ils auraient occupé deux colonnes sur
+  // trois et poussé le compteur hors du cadre.
+  const titre = document.createElement('span');
+  titre.className = 'lieu-titre';
+
   const nom = document.createElement('span');
   nom.className = 'lieu-nom';
   nom.textContent = lieu.nom;
+  titre.appendChild(nom);
+
+  // LE NOM DU MOD SUIT LE BIOME, TOUJOURS. « Volcano » existe chez deux mods
+  // avec des espèces différentes ; sans cette étiquette, deux lignes du même
+  // nom se suivraient sans qu'on sache laquelle regarde son jeu. Elle dit
+  // aussi, pour qui a coché large, d'où sort un biome qu'il ne connaît pas.
+  if(lieu.mod){
+    const marque = document.createElement('span');
+    marque.className = 'lieu-mod';
+    marque.textContent = lieu.mod;
+    titre.appendChild(marque);
+  }
+  tete.appendChild(titre);
 
   const total = document.createElement('span');
   total.className = 'lieu-total';
@@ -643,7 +769,6 @@ function blocLieu(lieu, pris){
     ? compte.manque.length + ' à prendre'
     : 'tout est pris';
 
-  tete.appendChild(nom);
   tete.appendChild(total);
   tete.appendChild(compteur);
   bloc.appendChild(tete);
@@ -712,9 +837,58 @@ function lieuRepond(lieu, q){
   });
 }
 
+/**
+ * La rangée des mods de biomes — Cobblemon seulement.
+ *
+ * Elle réutilise .filtre-chip, la pastille des filtres rapides du Pokédex :
+ * même geste, même marque rouge quand c'est actif. Un composant de plus pour
+ * dire la même chose aurait fait deux vocabulaires dans la même application.
+ *
+ * ELLE SE REDESSINE EN ENTIER À CHAQUE PASSAGE. Quinze boutons ne coûtent
+ * rien ; tenir leur état à jour d'un côté et la liste de l'autre coûte
+ * l'attention de celui qui relira.
+ */
+function dessinerBarreMods(){
+  if(!lieuxMods) return;
+  const mods = lieuxJeuCourant === 'cobblemon' ? modsDeCobblemon() : [];
+  lieuxMods.innerHTML = '';
+  lieuxMods.hidden = !mods.length;
+  if(!mods.length) return;
+
+  const choisis = modsChoisis();
+  const titre = document.createElement('span');
+  titre.className = 'lieux-mods-titre';
+  titre.textContent = 'Mes mods de biomes';
+  lieuxMods.appendChild(titre);
+
+  mods.forEach(function(nom){
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'filtre-chip';
+    b.textContent = nom;
+    b.setAttribute('aria-pressed', String(choisis.has(nom)));
+    b.title = 'Montrer aussi les biomes de ' + nom;
+    b.addEventListener('click', function(){
+      basculerMod(nom);
+      // Le lieu déplié appartenait peut-être au mod qu'on vient de décocher :
+      // le garder ouvert rouvrirait un bloc absent de la liste.
+      lieuxOuvert = null;
+      dessinerLieux();
+    });
+    lieuxMods.appendChild(b);
+  });
+}
+
 function dessinerLieux(){
   if(!lieuxListe || !lieuxJeuCourant) return;
-  const lieux = indexerLieux(lieuxJeuCourant);
+  dessinerBarreMods();
+  const tous = indexerLieux(lieuxJeuCourant);
+  // Le tri par mod se fait ICI et non à l'indexation : cocher une case ne doit
+  // pas relire huit cents espèces, et l'index reste une lecture de la réserve
+  // plutôt qu'un reflet de l'interface.
+  const choisis = modsChoisis();
+  const lieux = tous.filter(function(l){ return !l.mod || choisis.has(l.mod); });
+  const caches = tous.length - lieux.length;
   const pris = prisesDe(lieuxJeuCourant);
 
   const avec = lieux.map(function(l){
@@ -755,10 +929,17 @@ function dessinerLieux(){
 
   if(lieuxResume){
     const total = utiles.reduce(function(s, x){ return s + x.manque; }, 0);
-    lieuxResume.textContent = utiles.length
+    let phrase = utiles.length
       ? total + ' Pokémon à prendre, répartis sur ' + utiles.length + ' lieu'
         + (utiles.length > 1 ? 'x' : '') + ' — sur ' + lieux.length + ' au total.'
       : lieux.length + ' lieux relevés, et plus rien à y attraper à l’état sauvage.';
+    // DIRE CE QU'ON NE MONTRE PAS. Sans cette phrase, un dex de Cobblemon
+    // paraissait amputé sans qu'on sache pourquoi : cent deux espèces n'ont
+    // aucun biome vanille, et rien à l'écran ne disait qu'elles attendaient
+    // derrière une case à cocher.
+    if(caches) phrase += ' ' + caches + ' biome' + (caches > 1 ? 's' : '')
+      + ' de mods non coché' + (caches > 1 ? 's' : '') + ' en plus.';
+    lieuxResume.textContent = phrase;
   }
 }
 

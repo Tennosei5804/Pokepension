@@ -161,6 +161,7 @@ const lieuxJeu = document.getElementById('lieuxJeu');
 const lieuxRestants = document.getElementById('lieuxRestants');
 const lieuxQ = document.getElementById('lieuxQ');
 const lieuxResume = document.getElementById('lieuxResume');
+const lieuxMods = document.getElementById('lieuxMods');
 const lieuxListe = document.getElementById('lieuxListe');
 const pageProfilEl = document.getElementById('page-profil');
 const pageParametresEl = document.getElementById('page-parametres');

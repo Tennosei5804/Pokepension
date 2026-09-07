@@ -236,6 +236,13 @@ BIOMES = {
     'Nether Forest':       ('Forêts du Nether', 0,
      [],
      [['Better Nether', ['Nether Jungle', 'Nether Swampland', 'Nether Swampland Terraces', 'Old Swampland', 'Upside Down Forest']]], '', ''),
+    # AUCUN MOD, ET CE N'EST PAS UN OUBLI. La documentation de tags de
+    # Cobblemon 1.6.1 ne connait pas de tag Nether « frozen » : ses tags de
+    # Nether sont is_toxic, is_crimson, is_forest et is_overgrowth. Le
+    # tableur porte donc une etiquette que le mod ne definit plus, et
+    # aucun biome, moddé ou non, ne la remplit. Verifie le 7 septembre 2026.
+    # La laisser vide est la reponse juste : lui inventer un mod ferait
+    # installer quelque chose qui ne changerait rien.
     'Nether Frozen':       ('Nether gelé', 0, [], [], '', ''),
     'Nether Fungus':       ('Forêts fongiques du Nether', 0,
      ['Forêt biscornue', 'Forêt carmin'], [], '', ''),
@@ -318,7 +325,11 @@ BIOMES = {
      [['Biomes O\' Plenty', ['Volcanic Plains', 'Volcano']], ['Terralith', ['Mantle Caves', 'Volcanic Crater', 'Volcanic Peaks']], ['The Darker Depths', ['Molten Cavern']], ['Wythers', ['Icy Volcano', 'Tropical Volcano', 'Volcanic Chamber', 'Volcanic Crater', 'Volcano']]], '', ''),
     'Warm Ocean':          ('Océans chauds', 0,
      ['Océan chaud'], [], '', ''),
-    'Warped Desert':       ('Warped Desert', 0, [], [], '', ''),
+    # byg:warped_desert, releve le 7 septembre 2026 dans
+    # docs/cobblemon-tags/1.6.1/BiomeTags.md du depot Cobblemon : le biome
+    # est cite sous #cobblemon:is_warped et sous nether/is_soul_fire.
+    'Warped Desert':       ('Warped Desert', 0, [],
+     [["Oh The Biomes We've Gone", ['Warped Desert']]], '', ''),
 }
 
 # Le reste du vocabulaire. Les valeurs vides du tableur veulent dire « aucune

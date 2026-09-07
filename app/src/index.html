@@ -826,6 +826,18 @@
             <span class="bascule-texte">Seulement les lieux où il me reste quelque chose</span>
           </label>
         </div>
+        <!-- LES MODS DE BIOMES — COBBLEMON SEULEMENT, ET VIDE AILLEURS.
+             Cent deux esp&egrave;ces sur 874 ne vivent dans aucun biome du
+             Minecraft de base : elles n'existent qu'avec un mod. Les afficher
+             sans rien demander enverrait chercher un Volcano &agrave; qui n'a
+             pas Biomes O' Plenty ; les taire les laissait introuvables.
+             On demande donc, une fois, ce qui est install&eacute;.
+
+             La rang&eacute;e est remplie par lieux.js &agrave; partir de la
+             r&eacute;serve, jamais &eacute;crite ici : le jour o&ugrave; le
+             relev&eacute; conna&icirc;t un mod de plus, il appara&icirc;t
+             seul. -->
+        <div class="lieux-mods" id="lieuxMods" hidden></div>
         <p class="lieux-resume" id="lieuxResume"></p>
         <div class="lieux" id="lieuxListe"></div>
       </section>
