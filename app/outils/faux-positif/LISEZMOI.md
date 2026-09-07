@@ -196,13 +196,65 @@ Un certificat de signature de code est la seule sortie durable :
 | **OV** | la réputation s'accumule sur le **certificat** et survit aux versions ; il faut quelques semaines de chauffe |
 | **EV** | jeton matériel, confiance SmartScreen quasi immédiate |
 
-Une fois le certificat en main, il se branche dans `tauri.conf.json`
-(`bundle.windows.certificateThumbprint` ou `signCommand`), qui aujourd'hui n'a
-ni l'un ni l'autre.
+---
 
-**Et la clé qui est déjà dans le CI ne compte pas.**
-`TAURI_SIGNING_PRIVATE_KEY` est une clé **minisign** : elle permet à
-l'application de vérifier que la mise à jour qu'elle télécharge vient bien de
-nous. Windows et Chrome ne la voient jamais et ne sauraient pas quoi en faire.
-C'est une signature interne, pas une identité d'éditeur — la confusion est
-facile, et elle coûte du temps à qui la fait.
+## Le CI est déjà câblé pour signer
+
+`publier.yml` sait signer depuis le 7 septembre 2026. Il ne le fait pas, faute
+de certificat, et **ne casse rien en attendant** : sans configuration il compile
+comme avant et laisse un avertissement dans le journal.
+
+Le jour où le certificat existe, il n'y a **rien à recompiler ni à modifier** —
+une variable de dépôt suffit.
+
+### La contrainte qui décide de tout
+
+Depuis juin 2023, les autorités de certification exigent que la clé privée d'un
+certificat de signature de code vive sur du **matériel** (jeton ou HSM). On ne
+peut donc **pas** déposer un `.pfx` dans un secret GitHub pour un certificat
+neuf : il faut un service de signature **dans le nuage**, que le CI appelle.
+
+| Voie | Remarque |
+|---|---|
+| **Azure Trusted Signing** | le moins cher, et c'est Microsoft qui le rend — donc le meilleur effet sur SmartScreen. Demande un abonnement Azure et une validation d'identité. |
+| DigiCert KeyLocker, SSL.com eSigner, Certum | même principe, outillage propre à chaque fournisseur |
+| un `.pfx` déjà en main | ne marche que pour un certificat antérieur à 2023 — et un tel certificat ne rassurera plus SmartScreen |
+
+### Ce qu'il faudra poser
+
+Settings → Secrets and variables → Actions.
+
+| | Où | Quoi |
+|---|---|---|
+| `WINDOWS_SIGN_COMMAND` | **Variables** | la commande de signature. `%1` est remplacé par le chemin du fichier. **Sa seule présence active la signature.** |
+| `WINDOWS_SIGN_INSTALL` | **Variables**, facultatif | commande lancée avant la compilation pour installer l'outil |
+| `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET` | **Secrets** | lues par l'outil dans son environnement |
+
+Pour un autre fournisseur, ajouter ses variables dans le bloc `env:` de l'étape
+« Compiler, signer et publier » — un processus fils hérite de l'environnement,
+l'outil les y trouvera.
+
+> **La commande exacte dépend du fournisseur.** Prendre celle de sa
+> documentation, et vérifier qu'elle se termine par `%1`. C'est Tauri qui y
+> substitue le chemin du fichier à signer.
+
+### Le garde-fou
+
+Une signature qui échoue **ne fait pas échouer la compilation** : le bundler
+signe après avoir bâti l'installeur, et selon l'outil un jeton expiré ressort en
+simple avertissement. On publierait un binaire non signé en croyant l'avoir
+signé — exactement le vert trompeur que ce workflow combat déjà pour les
+fichiers de la release.
+
+L'étape « Vérifier que l'installeur porte bien une signature » regarde donc le
+**fichier**, pas le journal de l'outil, et **refuse de publier** si la signature
+était demandée et qu'elle n'est pas valide.
+
+### Ce qui n'est pas la signature du code
+
+`TAURI_SIGNING_PRIVATE_KEY`, déjà dans les secrets, est une clé **minisign** :
+elle permet à l'application de vérifier que la mise à jour qu'elle télécharge
+vient bien de nous. Windows et Chrome ne la voient jamais et ne sauraient pas
+quoi en faire. C'est une signature interne, pas une identité d'éditeur — la
+confusion est facile, et elle coûte du temps à qui la fait. Les deux cohabitent
+dans le même workflow, et c'est écrit en tête de l'étape.

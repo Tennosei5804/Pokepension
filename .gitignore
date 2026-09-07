@@ -57,3 +57,10 @@ desktop.ini
 # Ce sont les images des joueurs : elles n'ont rien a faire dans l'historique
 # d'un depot, et elles pesent bien plus que le code.
 api/donnees/
+
+# ---- La surcharge de signature, ecrite par le CI ------------------------
+# publier.yml la fabrique a chaque compilation a partir de la variable
+# WINDOWS_SIGN_COMMAND, puis la passe a `tauri build --config`. Elle n'est
+# jamais ecrite a la main, et sa version commitee servirait a signer avec la
+# commande de quelqu'un d'autre.
+app/ci-signature.json
