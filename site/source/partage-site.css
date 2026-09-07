@@ -41,20 +41,18 @@
   margin:0 0 18px;
 }
 
-/* ---- Les filtres -----------------------------------------------------------
-   Deux boutons, pas une barre d'outils. Un visiteur ne trie pas, ne coche pas
-   et ne change pas de mode : la seule question qu'il se pose est « qu'est-ce
-   qui lui manque ». */
+/* ---- La barre : trier, filtrer -----------------------------------------------
+   Deux menus, pas une barre d'outils. Un visiteur ne coche rien et ne change
+   pas de mode : il range la grille, et il regarde ce qui manque.
 
-.pt-filtres{
-  display:flex; align-items:center; gap:8px; flex-wrap:wrap;
-  margin-bottom:12px;
+   Les menus eux-memes ne sont pas habilles ici — menus.js s'en charge, et
+   .select-wrap vient de dex.css. On ne pose que leur disposition. */
+
+.pt-barre{
+  display:flex; align-items:center; gap:9px; flex-wrap:wrap;
+  margin-bottom:14px;
 }
-.pt-filtre-actif, .pt-filtres .toggle-btn[aria-pressed="true"]{
-  background:linear-gradient(180deg,#ffcf5c,var(--gold));
-  color:#3a2405;
-  border-color:var(--gold-deep);
-}
+.pt-barre .select-wrap{ min-width:168px; }
 .pt-compte{
   margin-left:auto;
   font-family:var(--font-data);
@@ -87,9 +85,10 @@
    faute — c'est la raison d'être de l'application. */
 .pt-grille .card[data-manque] img{ filter:grayscale(1); opacity:.4; }
 
-/* « Ce qui manque » ne reconstruit rien : la grille est déjà là, on cache le
-   reste. Filtrer en rebâtissant aurait redemandé cent cinquante sprites. */
+/* FILTRER NE RECONSTRUIT RIEN : la grille est déjà là, on cache le reste.
+   Rebâtir aurait redemandé cent cinquante sprites à chaque changement. */
 .pt-grille.manquants .card:not([data-manque]){ display:none; }
+.pt-grille.possedes .card[data-manque]{ display:none; }
 
 /* Une carte partagée ne se coche pas : elle ne doit donc pas se soulever au
    survol comme celle du Pokédex, qui promet un clic. */
@@ -136,14 +135,4 @@
   .pt-badge img{ width:22px; height:22px; }
   .pt-grille{ grid-template-columns:repeat(auto-fill, minmax(92px, 1fr)); gap:7px; }
   .pt-logo{ max-width:200px; }
-}
-
-/* La rangée de tri, sous celle des filtres. Le mot « Trier » la nomme : trois
-   boutons nus se liraient comme trois filtres de plus. */
-.pt-tris{ margin-top:-4px; }
-.pt-tris-mot{
-  font-family:var(--font-data);
-  font-size:10px; letter-spacing:.16em; text-transform:uppercase;
-  font-weight:600; color:var(--ink-faint);
-  margin-right:2px;
 }

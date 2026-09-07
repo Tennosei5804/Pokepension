@@ -78,26 +78,33 @@
         <div class="home-gauges" id="ptJauges"></div>
 
         <div class="home-section-title" id="ptGrilleTitre">Le Pok&eacute;dex</div>
-        <!-- CE QU'UN VISITEUR PEUT FAIRE, ET RIEN DE PLUS : regarder ce qui
-             manque, et ranger la grille autrement. Les libellés de tri sont
-             ceux du Pokédex de l'application, pas des synonymes inventés
-             ici — qui connaît l'un retrouve l'autre.
+        <!-- CE QU'UN VISITEUR PEUT FAIRE, ET RIEN DE PLUS : ranger la
+             grille, et ne garder que ce qui manque. Ce sont les deux menus
+             du Pokédex de l'application, avec ses libellés — qui connaît
+             l'un retrouve l'autre.
 
-             Des boutons plutôt qu'un menu déroulant : le menu de
-             l'application est habillé par menus.js, que cette page ne charge
-             pas, et un <select> nu ressortirait en gris système au milieu du
-             reste — c'est exactement la dérive que menus.js existe pour
-             empêcher. -->
-        <div class="pt-filtres">
-          <button class="toggle-btn" id="ptTous" type="button" aria-pressed="true">Tout</button>
-          <button class="toggle-btn" id="ptManquants" type="button" aria-pressed="false">Ce qui manque</button>
+             DEUX ÉCARTS, ET LEURS RAISONS. « Tri : Rareté » demande
+             /api/rarete, qui exige un jeton : un visiteur n'en a pas. Et le
+             filtre de l'application compte huit entrées, dont l'obtention
+             et la vue active — ici il n'y a ni vue active ni rien à cocher,
+             donc trois lignes suffisent.
+
+             DES <select> NUS, ET C'EST TOUT : menus.js les habille lui-même,
+             comme partout ailleurs. Écrire un menu à la main ici en ferait
+             un second à tenir d'accord avec le premier. -->
+        <div class="pt-barre">
+          <select id="ptTri" aria-label="Trier">
+            <option value="jeu">Tri : N° du jeu</option>
+            <option value="national">Tri : N° National</option>
+            <option value="gen">Tri : Génération</option>
+            <option value="nom">Tri : Alphabétique</option>
+          </select>
+          <select id="ptFiltre" aria-label="Filtrer">
+            <option value="tout">Tout afficher</option>
+            <option value="pris">Capturés</option>
+            <option value="manque">Manquants</option>
+          </select>
           <span class="pt-compte" id="ptGrilleCompte"></span>
-        </div>
-        <div class="pt-filtres pt-tris">
-          <span class="pt-tris-mot">Trier</span>
-          <button class="toggle-btn" id="ptTriJeu" type="button" aria-pressed="true">N° du jeu</button>
-          <button class="toggle-btn" id="ptTriGen" type="button" aria-pressed="false">Génération</button>
-          <button class="toggle-btn" id="ptTriNom" type="button" aria-pressed="false">Alphabétique</button>
         </div>
         <div class="pt-grille" id="ptGrille"></div>
 
@@ -125,5 +132,8 @@
 <script src="/js/donnees.js"></script>
 <script src="/js/donnees-embarquees.js"></script>
 <script src="/js/partage-site.js"></script>
+<!-- Il habille les deux <select> ci-dessus, comme dans
+     l'application. Autonome : 188 lignes, aucune dépendance. -->
+<script src="/js/menus.js"></script>
 </body>
 </html>

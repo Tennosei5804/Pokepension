@@ -84,7 +84,7 @@
         vues[espece] = true;
         var e = parEspece[espece];
         if(e) sortie.push({ espece: espece, numero: numero, nom: e.display,
-                          slug: e.name, gen: e.gen || 0 });
+                          slug: e.name, gen: e.gen || 0, national: e.speciesId });
       });
     });
     return sortie.length ? sortie : null;
@@ -263,22 +263,28 @@
       // sprites a chaque changement d'ordre.
       c.dataset.rang = rang;                 // l'ordre du jeu, tel quel
       c.dataset.gen = e.gen || 0;
+      c.dataset.national = e.national || 0;
       c.dataset.nom = e.nom;
       grille.append(c);
     });
   }
 
-  // ---- Le tri --------------------------------------------------------------
+  // ---- Trier et filtrer ----------------------------------------------------
   //
-  // LES MEMES TROIS QUE DANS L'APPLICATION, sous les memes noms. On ne
-  // reconstruit rien : les cartes sont deja la, on ne fait que les remettre
-  // dans un autre ordre. L'ordre du jeu est celui du Pokedex regional, et il
-  // reste la reference — c'est celui qu'on retrouve manette en main.
+  // LES DEUX MENUS DU POKEDEX, AUX MEMES LIBELLES. On ne rebatit jamais la
+  // grille : les cartes portent de quoi se reclasser et de quoi se cacher, et
+  // rebatir redemanderait cent cinquante sprites a chaque changement.
+  //
+  // Ce sont des <select> nus : menus.js les habille, comme partout ailleurs
+  // dans le projet. Ecrire un menu a la main ici en aurait fait un second a
+  // tenir d'accord avec le premier — la derive que menus.js existe pour
+  // empecher, et qu'il porte ecrite en toutes lettres dans son en-tete.
 
   var TRIS = {
     jeu: function(a, b){ return Number(a.dataset.rang) - Number(b.dataset.rang); },
-    // A generation egale, on garde l'ordre du jeu : deux Pokemon de la
-    // premiere generation ne doivent pas se croiser d'un tri a l'autre.
+    national: function(a, b){ return Number(a.dataset.national) - Number(b.dataset.national); },
+    // A generation egale, on garde l'ordre du jeu : deux Pokemon d'une meme
+    // generation ne doivent pas se croiser d'un tri a l'autre.
     gen: function(a, b){
       return (Number(a.dataset.gen) - Number(b.dataset.gen))
           || (Number(a.dataset.rang) - Number(b.dataset.rang));
@@ -295,24 +301,20 @@
     var lot = document.createDocumentFragment();
     cartes.forEach(function(c){ lot.append(c); });
     grille.append(lot);
-    [['jeu', 'ptTriJeu'], ['gen', 'ptTriGen'], ['nom', 'ptTriNom']].forEach(function(x){
-      document.getElementById(x[1]).setAttribute('aria-pressed', String(x[0] === quoi));
-    });
   }
 
-  document.getElementById('ptTriJeu').addEventListener('click', function(){ trier('jeu'); });
-  document.getElementById('ptTriGen').addEventListener('click', function(){ trier('gen'); });
-  document.getElementById('ptTriNom').addEventListener('click', function(){ trier('nom'); });
-
-  // ---- Les deux filtres ----------------------------------------------------
-
-  function filtrer(manquantsSeuls){
-    document.getElementById('ptGrille').classList.toggle('manquants', manquantsSeuls);
-    document.getElementById('ptTous').setAttribute('aria-pressed', String(!manquantsSeuls));
-    document.getElementById('ptManquants').setAttribute('aria-pressed', String(manquantsSeuls));
+  function filtrer(quoi){
+    var grille = document.getElementById('ptGrille');
+    grille.classList.toggle('manquants', quoi === 'manque');
+    grille.classList.toggle('possedes', quoi === 'pris');
   }
-  document.getElementById('ptTous').addEventListener('click', function(){ filtrer(false); });
-  document.getElementById('ptManquants').addEventListener('click', function(){ filtrer(true); });
+
+  document.getElementById('ptTri').addEventListener('change', function(e){
+    trier(e.target.value);
+  });
+  document.getElementById('ptFiltre').addEventListener('change', function(e){
+    filtrer(e.target.value);
+  });
 
   // ---- L'appel -------------------------------------------------------------
 
