@@ -296,6 +296,7 @@ body.page-accueil{
    geste. D'où le fond discret plutôt qu'une couleur d'alerte — un bandeau
    rouge sous un bouton de téléchargement ferait fuir ceux qu'il veut aider. */
 .acc-tel-lancer{
+  display:flex; flex-direction:column; gap:8px;
   margin:0 0 10px;
   padding:10px 13px;
   border-radius:10px;
@@ -304,7 +305,13 @@ body.page-accueil{
   font-size:12.5px; line-height:1.55; color:var(--ink-soft);
   text-align:left;
 }
+/* Les deux obstacles dans un SEUL cadre. Deux encadres dores l'un sur l'autre
+   sous un bouton de telechargement se lisent comme une mise en garde qui
+   s'allonge — or ce sont deux gestes, pas deux dangers. */
+.acc-tel-lancer p{ margin:0; }
 .acc-tel-lancer strong{ color:var(--ink); }
+.acc-tel-lancer em{ font-style:normal; font-weight:600; color:var(--ink); }
+.acc-tel-lancer a{ color:var(--gold-deep); }
 
 .acc-tel-note{
   font-size:12px; line-height:1.5; color:var(--ink-faint);

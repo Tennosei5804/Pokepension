@@ -235,12 +235,34 @@
            Personne ne devine que le fichier est bon et que c'est le CHEMIN qui
            ne va pas : on en conclut que l'application est cassée, et on ferme.
            Vu le 7 septembre 2026 depuis Opera GX. -->
-      <p class="acc-tel-lancer">
-        <strong>Enregistre le fichier, puis lance-le depuis ton dossier.</strong>
-        Ouvert directement depuis la barre du navigateur, l'installateur
-        s'arrête sur « Nom de répertoire non valide » — le fichier est bon,
-        c'est le dossier temporaire du navigateur qui ne lui convient pas.
-      </p>
+      <div class="acc-tel-lancer">
+        <p>
+          <strong>Enregistre le fichier, puis lance-le depuis ton dossier.</strong>
+          Ouvert directement depuis la barre du navigateur, l'installateur
+          s'arrête sur « Nom de répertoire non valide » — le fichier est bon,
+          c'est le dossier temporaire du navigateur qui ne lui convient pas.
+        </p>
+        <!-- DIRE POURQUOI, ET PAS SEULEMENT « CLIQUEZ QUAND MÊME ».
+             Demander à quelqu'un de passer outre un avertissement de sécurité
+             sans lui donner de quoi vérifier, c'est lui apprendre à ignorer
+             les vrais. D'où le lien vers la release : le fichier est compilé
+             en public par GitHub Actions, et son empreinte est publiée à côté
+             du binaire. Qui veut contrôler le peut ; les autres savent au
+             moins que c'était possible.
+
+             Cette phrase disparaîtra le jour où l'installateur sera signé —
+             voir app/outils/faux-positif/LISEZMOI.md. -->
+        <p>
+          <strong>Windows dira « Éditeur inconnu ».</strong>
+          L'application n'est pas encore signée par un certificat.
+          <em>Informations complémentaires</em> → <em>Exécuter quand même</em>.
+          Elle est compilée en public par
+          <a href="https://github.com/Tennosei5804/Pokepension/releases/latest"
+             rel="noopener">GitHub Actions</a>, et l'empreinte du fichier servi
+          est publiée dans
+          <a href="telechargements/derniere.json">derniere.json</a>.
+        </p>
+      </div>
       <p class="acc-tel-note">
         Servi par pokepension.fr. L'installation se fait pour ton compte
         seul : ni mot de passe administrateur, ni service en arrière-plan.
