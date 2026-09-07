@@ -30,10 +30,10 @@ pas une compilation locale.
 
 ### Les deux détections, et pourquoi la nuance compte
 
-| Quand | Nom | Ce que ça veut dire |
-|---|---|---|
-| 7 sept. 19:50 et 19:54 | `Trojan:Win32/Cloxer` | **définition**. Une règle des signatures Defender correspond à ce binaire. |
-| 6 sept. 20:26 | `Trojan:Win32/Bearfoos.A!ml` | `!ml` = *machine learning*, un pronostic sur des traits. |
+| Quand | Nom | Sort du fichier | Ce que ça veut dire |
+|---|---|---|---|
+| 7 sept. 19:50 et 19:54 | `Trojan:Win32/Cloxer` | **supprimé** | **définition**. Une règle des signatures Defender correspond à ce binaire. |
+| 6 sept. 20:26 | `Trojan:Win32/Bearfoos.A!ml` | en quarantaine | `!ml` = *machine learning*, un pronostic sur des traits. |
 
 C'est `Cloxer` qui bloque aujourd'hui, et **l'absence de `!ml` est une bonne
 nouvelle** : un faux positif de définition se corrige d'ordinaire vite, et la
@@ -61,8 +61,12 @@ powershell -ExecutionPolicy Bypass -File app\outils\faux-positif\releve.ps1
 
 ### a. Récupérer une copie du fichier
 
-Defender l'a mis en quarantaine : il n'y a plus de copie sur le disque, et le
-retélécharger sans rien faire le fera reprendre aussitôt. Le formulaire, lui,
+**Defender l'a supprimé, et non mis en quarantaine** — il n'y a donc rien à
+restaurer. Le relevé le dit noir sur blanc : les deux détections `Cloxer` du
+7 septembre portent « action : supprimé, état : SUPPRIMÉ ». Seule la détection
+`Bearfoos.A!ml` de la veille est en quarantaine, et ce n'est pas elle qui bloque.
+
+Retélécharger sans rien faire le fera reprendre aussitôt. Le formulaire, lui,
 demande le fichier.
 
 Le moins mauvais chemin, **et rien de plus large** :

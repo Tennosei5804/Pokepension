@@ -23,6 +23,21 @@ Write-Output ''
 $menaces = @{}
 try { Get-MpThreat -ErrorAction Stop | ForEach-Object { $menaces[$_.ThreatID] = $_.ThreatName } } catch {}
 
+# LES NOMBRES BRUTS NE DISENT RIEN, et l'un d'eux change la marche a suivre :
+# « supprime » et « en quarantaine » ne se recuperent pas de la meme facon. On
+# affiche donc le nombre ET sa lecture — si la table se trompait un jour, le
+# nombre resterait juste.
+$ACTIONS = @{ 0='inconnue'; 1='nettoye'; 2='mis en quarantaine'; 3='supprime';
+              4='autorise'; 5='defini par l utilisateur'; 6='aucune action'; 7='bloque' }
+$ETATS   = @{ 0='inconnu'; 1='detecte'; 2='nettoye'; 3='EN QUARANTAINE'; 4='SUPPRIME';
+              5='autorise'; 6='bloque'; 102='nettoye, redemarrage requis';
+              103='mise en quarantaine echouee'; 104='suppression echouee' }
+function Lire($table, $id) {
+  $mot = $table[[int]$id]
+  if ($mot) { return "$id ($mot)" }
+  return "$id"
+}
+
 $vues = 0
 try {
   Get-MpThreatDetection -ErrorAction Stop | Sort-Object InitialDetectionTime -Descending | ForEach-Object {
@@ -35,7 +50,8 @@ try {
       Write-Output ("  Nom de la detection : " + $nom)
       Write-Output ("  Fichier             : " + $ressources)
       Write-Output ("  Detecte le          : " + $_.InitialDetectionTime)
-      Write-Output ("  Action              : " + $_.CleaningActionID + "   Etat : " + $_.ThreatStatusID)
+      Write-Output ("  Action demandee     : " + (Lire $ACTIONS $_.CleaningActionID))
+      Write-Output ("  Etat du fichier     : " + (Lire $ETATS $_.ThreatStatusID))
       Write-Output ''
     }
   }
