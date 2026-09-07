@@ -312,6 +312,13 @@ def poser_pwa(html: str, accueil: str) -> tuple:
         "}\n"
         "</script>\n"
     )
+    # LA BARRE DU BAS, SUR LA PAGE DU POKEDEX SEULEMENT. Elle se construit a
+    # partir des onglets de l'application : elle se charge donc apres eux, et
+    # nulle part ailleurs — l'accueil et la page de partage n'ont pas de
+    # navigation a reprendre.
+    html = html.replace("</body>",
+                        '<script src="js/barre-mobile.js"></script>' + chr(10)
+                        + "</body>", 1)
     html = html.replace("</body>", inscription + "</body>", 1)
     accueil = accueil.replace("</body>", inscription + "</body>", 1)
     return html, accueil
@@ -356,6 +363,7 @@ def batir() -> int:
                          ("accueil-site.css", PUBLIC / "css" / "accueil-site.css"),
                          ("partage-site.css", PUBLIC / "css" / "partage-site.css"),
                          ("partage-site.js", PUBLIC / "js" / "partage-site.js"),
+                         ("barre-mobile.js", PUBLIC / "js" / "barre-mobile.js"),
                          ("essai.html", PUBLIC / "essai.html")]:
         f = SOURCE / source
         if not f.is_file():

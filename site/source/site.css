@@ -242,3 +242,115 @@ input:focus-visible,
      avec lui. */
   .screen-frame { margin-bottom: 6px; }
 }
+
+/* ==========================================================================
+   LA BARRE DE NAVIGATION DU BAS — téléphone seulement
+   ==========================================================================
+   Voir barre-mobile.js, qui la construit à partir des onglets existants.
+
+   POURQUOI EN BAS. La rangée d'onglets vivait en haut de l'écran, dans une
+   bande qui défile horizontalement. Deux défauts, et le second ne se voyait
+   qu'en usage : le haut d'un téléphone tenu d'une main est hors de portée du
+   pouce ; et comme c'est `.screen` qui défile, la barre du haut sort de vue
+   dès qu'on descend dans une page. Sur une capture prise au téléphone, on
+   voyait trois cartes de lieux et aucune navigation — pour changer de page,
+   il fallait remonter jusqu'en haut.
+
+   Une barre fixe en bas ne sort jamais de vue et tombe sous le pouce.
+   ========================================================================== */
+
+@media (max-width: 480px) {
+
+  /* La rangée du haut s'efface : la barre du bas la remplace. Les onglets
+     restent dans le document — c'est eux que la barre clique. */
+  .page-nav { display: none; }
+
+  .barre-bas {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 60;
+    display: flex;
+    background: var(--dex-red-darker);
+    border-top: 1px solid rgba(0, 0, 0, .35);
+    /* L'encoche du bas des iPhone : sans cette réserve, le dernier bouton
+       passe sous la barre d'accueil du système et ne se touche plus. */
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    box-shadow: 0 -10px 24px -16px rgba(0, 0, 0, .8);
+  }
+  .barre-bas-item {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 2px;
+    /* Cinquante-quatre pixels : au-dessus des quarante-quatre qu'exige une
+       cible, parce qu'on vise ici en marchant, le téléphone d'une main. */
+    min-height: 54px;
+    padding: 6px 2px;
+    border: 0;
+    background: transparent;
+    color: rgba(255, 255, 255, .72);
+    font-family: var(--font-body);
+    cursor: pointer;
+  }
+  .barre-bas-icone { font-size: 17px; line-height: 1; }
+  .barre-bas-mot {
+    font-size: 9.5px; font-weight: 700; letter-spacing: .01em;
+    max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  /* L'entrée active se marque par la couleur ET par un trait : la couleur
+     seule se perd pour qui la distingue mal. */
+  .barre-bas-item.actif { color: #fff; }
+  .barre-bas-item.actif::before {
+    content: "";
+    position: absolute; top: 0;
+    width: 26px; height: 3px;
+    border-radius: 0 0 3px 3px;
+    background: var(--gold);
+  }
+  .barre-bas-item { position: relative; }
+
+  /* Le contenu ne doit pas finir sous la barre : on lui rend la place. */
+  .screen { padding-bottom: 68px; }
+
+  /* ---- Le menu des autres pages ---- */
+
+  .barre-voile {
+    position: fixed; inset: 0;
+    z-index: 59;
+    background: rgba(0, 0, 0, .5);
+  }
+  .barre-menu {
+    position: fixed;
+    left: 8px; right: 8px;
+    bottom: calc(62px + env(safe-area-inset-bottom, 0px));
+    z-index: 61;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    padding: 10px;
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    box-shadow: var(--ombre);
+  }
+  .barre-menu-item {
+    display: flex; align-items: center; gap: 8px;
+    min-height: 46px;
+    padding: 8px 10px;
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    background: var(--screen);
+    color: var(--ink);
+    font-family: var(--font-body); font-size: 12.5px; font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+  }
+  .barre-menu-item.actif { border-color: var(--gold); color: var(--ink); }
+  .barre-menu-icone { font-size: 15px; flex-shrink: 0; }
+}
+
+/* Au-dessus de 480, la barre n'existe pas : la rangée du haut suffit, et le
+   pouce n'est plus le sujet. */
+@media (min-width: 481px) {
+  .barre-bas, .barre-menu, .barre-voile { display: none !important; }
+}
