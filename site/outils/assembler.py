@@ -12,7 +12,7 @@ des semaines.
 
 On assemble donc, on ne duplique pas. Ce que site/source ajoute tient en trois
 fichiers : le pont qui remplace Tauri, une feuille de style pour ce qui n'a de
-sens que sur le web, et le bandeau qui dit ou vivent les donnees.
+sens que sur le web.
 
 public/ EST JETABLE. Il est dans le .gitignore, se refait en une commande, et
 ne doit jamais etre modifie a la main : la prochaine execution ecraserait tout.
@@ -386,31 +386,12 @@ def batir() -> int:
     #    egale sur celles de l'application.
     html = html.replace("</head>", '<link rel="stylesheet" href="css/site.css">\n</head>', 1)
 
-    # 3. Le bandeau, juste apres <body>. Il dit ou vivent les donnees, et ce
-    #    n'est pas un detail : sans lui, on croit sa collection sauvegardee
-    #    quelque part alors qu'elle tient dans un localStorage.
-    # Le bandeau disait  aucun compte a creer, tout reste dans ce navigateur .
-    # C'etait vrai du pont localStorage ; ca ne l'est plus. Le laisser serait
-    # mentir sur ce qui part au serveur, ce qu'aucun bandeau n'a le droit de
-    # faire.
-    bandeau = (
-        '<div class="site-bandeau" role="status">'
-        '<b>Version web — même compte, mêmes données que '
-        "l'application.</b> Connecte-toi avec Discord : tu retrouves tes "
-        "aventures, tes amis, tes échanges et tes messages. Seul l'overlay "
-        "OBS manque à l'appel — il demande une écoute locale, ce "
-        "qu'un navigateur ne sait pas faire."
-        '</div>'
-    )
-    # Mesure : body est en display:flex, flex-direction:row, pour centrer le
-    # boitier. Un frere pose la devient un second element de la rangee — le
-    # bandeau s'y retrouvait large de 80 px et haut de 784, colle a gauche.
-    # .dex, lui, est une colonne : le bandeau y prend toute la largeur.
-    ancre_dex = '<div class="dex">'
-    if ancre_dex not in html:
-        print("Le boitier a change de classe dans index.html : %s" % ancre_dex)
-        return 1
-    html = html.replace(ancre_dex, ancre_dex + "\n" + bandeau, 1)
+    # 3. LE BANDEAU EST PARTI, et sa raison avec lui. Il annoncait « aucun
+    #    compte a creer, tout reste dans ce navigateur » — vrai du pont
+    #    localStorage, faux depuis que le site a de vrais comptes. Il avait
+    #    ete reecrit pour dire « meme compte, memes donnees », ce que la page
+    #    d'accueil dit desormais mieux et une seule fois, au lieu de le
+    #    repeter en tete de chaque visite a quelqu'un qui le sait deja.
 
     html = horodater(html, PUBLIC)
 

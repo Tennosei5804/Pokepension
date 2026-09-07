@@ -10,29 +10,6 @@
  * la page a ne pas obeir.
  */
 
-/* ---- Le bandeau ---------------------------------------------------------
-   Il dit ou vivent les donnees, et ce n'est pas un ornement : une page qui
-   ressemble en tout point a l'application de bureau laisse croire que la
-   collection est sauvegardee en ligne. Elle ne l'est pas.
-
-   Il vit DANS .dex et non apres <body> : body est une rangee flex qui centre
-   le boitier, et un frere pose la se retrouvait large de 80 px et haut de 784. */
-.site-bandeau {
-  /* Dans le flux, pas en surimpression : un bandeau flottant recouvre le
-     contenu ou se fait oublier des qu'on defile. Celui-ci se lit une fois puis
-     laisse la place. */
-  margin: 0 0 12px;
-  padding: 9px 14px;
-  text-align: center;
-  font-size: 12px;
-  line-height: 1.5;
-  color: var(--ink-soft);
-  background: var(--card);
-  border: 1px solid var(--card-border);
-  border-radius: 10px;
-}
-.site-bandeau b { color: var(--ink); font-weight: 700; }
-
 /* ==========================================================================
    S'ADAPTER A LA FENETRE
    ==========================================================================
@@ -118,7 +95,6 @@ body {
   .dex-lens { width: 34px; height: 34px; }
   .dex-title { font-size: 19px; }
   .dex-eyebrow { font-size: 8.5px; letter-spacing: .16em; }
-  .site-bandeau { font-size: 11px; padding: 8px 11px; margin-bottom: 10px; }
 
   /* Une ombre portee de soixante pixels sous un boitier a bord perdu ne se voit
      pas — elle sort de l'ecran. Autant ne pas la faire calculer. */

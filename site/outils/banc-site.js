@@ -541,25 +541,6 @@ function dansUneFenetre(largeur, hauteur, quoi){
 }
 
 verifier('La mise en page',
-  'Le bandeau est dans le boîtier, et prend toute sa largeur',
-  function(){
-    // LE BUG : posé après <body>, il devenait un second élément de la rangée
-    // flex qui centre le boîtier — large de 80 px, haut de 784, collé à gauche.
-    return dansUneFenetre(375, 700, function(w, d){
-      const b = d.querySelector('.site-bandeau');
-      if(!b) return 'échec : aucun bandeau';
-      const dex = d.querySelector('.dex');
-      if(!dex.contains(b)) return 'échec : le bandeau n’est pas dans .dex';
-      const rb = b.getBoundingClientRect(), rd = dex.getBoundingClientRect();
-      // Il doit occuper la largeur utile du boîtier, à son bourrage près.
-      if(rb.width < rd.width * 0.7) return 'échec : ' + Math.round(rb.width)
-        + ' px dans un boîtier de ' + Math.round(rd.width);
-      if(rb.height > 120) return 'échec : haut de ' + Math.round(rb.height) + ' px';
-      return Math.round(rb.width) + ' px de large, ' + Math.round(rb.height) + ' de haut';
-    });
-  });
-
-verifier('La mise en page',
   'La bascule d’époque tient dans son cadre à 375 px',
   function(){
     // LE BUG : flex-wrap seul ne suffisait pas. Un conteneur flex n'enroule que
