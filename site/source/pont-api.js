@@ -41,6 +41,21 @@
   // Le jeton, dans le stockage local. Voir l'avertissement en tête.
   const CLE_JETON = 'pokearchive-jeton';
 
+  /**
+   * Les dimensions de la fenetre de connexion — ou rien, sur telephone.
+   *
+   * Demander une largeur et une hauteur, c'est demander une FENETRE. Sur un
+   * telephone il n'y en a pas : le navigateur ouvre un onglet, et plusieurs
+   * refusent carrement l'appel plutot que d'inventer une fenetre de 520 px
+   * sur un ecran qui en fait 390. Sans dimensions, c'est un onglet ordinaire,
+   * et l'onglet est ce qu'on veut la.
+   */
+  function tailleFenetre(){
+    const etroit = window.matchMedia
+      && window.matchMedia('(max-width: 820px), (pointer: coarse)').matches;
+    return etroit ? '' : 'width=520,height=760';
+  }
+
   function jeton(){
     try{ return localStorage.getItem(CLE_JETON) || ''; }
     catch(e){ return ''; }
@@ -237,14 +252,47 @@
       // l'empreinte d'un secret, et exige le secret lui-même au retour : sans
       // lui, `/auth/echange` refuse. C'est ce qui rend inoffensive
       // l'interception de l'adresse de retour — le code seul n'ouvre rien.
+      // LA FENETRE S'OUVRE D'ABORD, ET VIDE. C'est la correction d'un bogue
+      // qui ne se voyait que sur telephone.
+      //
+      // Un navigateur n'autorise `window.open` que pendant l'« activation
+      // transitoire » : le court instant qui suit un clic. Or le defi PKCE se
+      // calcule avec `crypto.subtle.digest`, qui est ASYNCHRONE — et ce seul
+      // `await` suffit a fermer la fenetre de tir. Chrome et Firefox de bureau
+      // pardonnent ce saut ; Safari iOS et Chrome Android, non : ils
+      // bloquaient, et l'on repondait « la fenetre a ete bloquee par le
+      // navigateur » sans jamais dire que c'etait nous.
+      //
+      // On ouvre donc pendant le geste, sur une page vide, et on l'envoie a
+      // Discord une fois le defi pret.
+      const fen = window.open('', 'pokepension-discord', tailleFenetre());
+      if(!fen){
+        throw new Error('Ton navigateur a bloqué la fenêtre de connexion. '
+          + 'Autorise les fenêtres surgissantes pour ce site, puis réessaie.');
+      }
+
+      // PKCE, ET CE N'EST PAS FACULTATIF. Le serveur retient à l'aller
+      // l'empreinte d'un secret, et exige le secret lui-même au retour : sans
+      // lui, `/auth/echange` refuse. C'est ce qui rend inoffensive
+      // l'interception de l'adresse de retour — le code seul n'ouvre rien.
       const verifieur = base64url(crypto.getRandomValues(new Uint8Array(32)));
-      const defi = base64url(new Uint8Array(await crypto.subtle.digest(
-        'SHA-256', new TextEncoder().encode(verifieur))));
+      let defi;
+      try{
+        defi = base64url(new Uint8Array(await crypto.subtle.digest(
+          'SHA-256', new TextEncoder().encode(verifieur))));
+      }catch(e){
+        // `crypto.subtle` n'existe qu'en contexte securise. Une fenetre
+        // ouverte pour rien serait pire que pas de fenetre du tout.
+        fen.close();
+        throw new Error('La connexion exige une adresse en https. '
+          + 'Ouvre le site par https://pokepension.fr.');
+      }
 
       const nonce = String(Math.random()).slice(2) + String(Date.now());
       const url = API + '/auth/discord?web=1&nonce=' + enc(nonce) + '&defi=' + enc(defi);
-      const fen = window.open(url, 'pokearchive-discord', 'width=520,height=760');
-      if(!fen) throw new Error('La fenêtre de connexion a été bloquée par le navigateur.');
+      // `replace` et non `href` : la page vide ne doit pas rester dans
+      // l'historique de la fenetre, sinon « precedent » y ramene.
+      fen.location.replace(url);
 
       const code = await new Promise(function(resoudre, rejeter){
         let fini = false;
