@@ -1837,16 +1837,27 @@ Le format est du JSON et non du SQL : il se relit sans MySQL, se compare d'une
 sauvegarde à l'autre, et se restaure par le script d'à côté. Une sauvegarde
 qu'on ne sait pas relire n'en est pas une.
 
-**À planifier sur le VPS**, par `cron`, une fois par jour. L'outil se sert du
-même pool et des mêmes variables que le service : on le lance donc DANS le
-conteneur, qui les porte déjà — sinon il faudrait redire l'adresse de la base
-et son mot de passe dans la ligne de cron, c'est-à-dire dans la liste des
-processus, visible de quiconque est sur la machine.
+**Planifiée sur le VPS par un minuteur systemd**, une fois par jour. Les deux
+unités sont dans `api/outils/systemd/`, avec leur mode d'emploi.
+
+> **Et non par cron : la machine n'en a pas** — ni le paquet, ni la commande.
+> Je l'avais d'abord documenté avec `crontab -e`, ce qui aurait envoyé
+> quelqu'un taper une commande introuvable. Un minuteur systemd ne demande
+> rien à installer, se relit par `systemctl list-timers`, et laisse ses traces
+> dans `journalctl`.
 
 ```
-crontab -e
-20 4 * * *  docker exec deploiement-pokepension-api-1 node outils/sauvegarder.js
+scp api/outils/systemd/pp-sauvegarde.* root@<vps>:/etc/systemd/system/
+ssh root@<vps> "systemctl daemon-reload && systemctl enable --now pp-sauvegarde.timer"
 ```
+
+L'outil se sert du même pool et des mêmes variables que le service : il tourne
+donc DANS le conteneur, qui les porte déjà — sinon il faudrait redire l'adresse
+de la base et son mot de passe dans l'unité, c'est-à-dire dans la liste des
+processus, visible de quiconque est sur la machine.
+
+`Persistent=true` rattrape au démarrage suivant si la machine dormait à l'heure
+dite : un VPS éteint une nuit perdrait sinon sa sauvegarde sans le dire.
 
 `/api` est monté en **lecture seule** — le service n'a aucune raison de
 réécrire son propre code. Un volume nommé est monté par-dessus, à l'endroit
@@ -1858,9 +1869,17 @@ précis où l'outil écrit :
 ```
 
 Les fichiers vivent donc dans le volume `deploiement_pa_sauvegardes`, hors du
-conteneur : ils survivent à sa recréation. Pour les sortir de la machine,
-`docker cp` depuis le conteneur, ou une lecture directe du volume sur l'hôte.
-Le script garde les plus récentes et efface les autres.
+conteneur : ils survivent à sa recréation. Le script garde les plus récentes et
+efface les autres.
+
+> **Ça ne protège pas de la perte du VPS.** Les sauvegardes restent sur la même
+> machine que la base : c'est une protection contre une commande SQL de trop ou
+> une base corrompue, pas contre un serveur qui disparaît. Les sortir de là
+> demande un geste de plus :
+>
+> ```
+> docker cp deploiement-pokepension-api-1:/api/sauvegardes ./sauvegardes-vps
+> ```
 
 Les variables d'environnement de la tâche doivent porter les `DB_*` — une tâche
 n'hérite pas de celles du site. Sans elles le script échoue avec un code de

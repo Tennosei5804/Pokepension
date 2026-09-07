@@ -1,0 +1,12 @@
+[Unit]
+Description=Sauvegarde de la base PokePension
+# Sans Docker, il n'y a rien a sauvegarder : on ne tente meme pas.
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+# DANS LE CONTENEUR, ET C'EST LE POINT. Il porte deja l'adresse de la base et
+# son mot de passe : les redire ici les mettrait dans la liste des processus,
+# visible de quiconque est sur la machine.
+ExecStart=/usr/bin/docker exec deploiement-pokepension-api-1 node outils/sauvegarder.js

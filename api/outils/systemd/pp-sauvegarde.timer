@@ -1,0 +1,14 @@
+[Unit]
+Description=Sauvegarde quotidienne de la base PokePension
+
+[Timer]
+# 04:20 UTC, une heure ou personne ne coche.
+OnCalendar=*-*-* 04:20:00
+# SI LA MACHINE DORMAIT A L'HEURE DITE, on rattrape au demarrage suivant.
+# Sans cela, un VPS eteint une nuit perd sa sauvegarde sans le dire.
+Persistent=true
+# Les minuteurs qui partent tous a la seconde pile se genent entre eux.
+RandomizedDelaySec=300
+
+[Install]
+WantedBy=timers.target
