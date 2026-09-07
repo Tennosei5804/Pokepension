@@ -16,17 +16,23 @@ se parlent pas : Microsoft d'un côté, Google de l'autre.
 | | |
 |---|---|
 | Fichier | `PokePension-Windows-x64.exe` |
-| Version | 0.42.2 (tag `v0.42.2`, publié le 6 septembre 2026) |
-| Taille | 9 377 773 octets |
-| SHA-256 | `b5d62f79cdbe26ea9de8c98dd7a8948f0b08f38479630dc43ff765a728f0f6d1` |
-| SHA-1 | `8f5b3a5a0edc4cf4731edf38d00b499ca1fcb8d7` |
-| MD5 | `c7c671ec8f93f82f916eba2c86d27097` |
+| Version | **0.42.3** (tag `v0.42.3`, publiée le 7 septembre 2026) |
+| Taille | 9 390 208 octets |
+| SHA-256 | `28303a6c918b749fd6231c583c56d484c10899053033d38a3128c0637a603cc6` |
+| SHA-1 | `db4db417318c731b81c28e7321659b76b83fdbc9` |
+| MD5 | `56d7a7a5195c0fa7d53b441a735e1e0a` |
 | Servi par | `https://pokepension.fr/telecharger` |
 | Signature Authenticode | **aucune** |
 
 Empreintes calculées sur le VPS, sur le fichier réellement servi. Il fait la
 taille exacte de l'artefact de la release GitHub : c'est bien le binaire du CI,
 pas une compilation locale.
+
+> **C'est la version à soumettre, et pas une autre.** Une soumission vaut pour
+> une empreinte : la déposer sur une version qu'on va remplacer le lendemain,
+> c'est du temps perdu des deux côtés. La 0.42.2 avait été relevée le matin du
+> 7 septembre ; la 0.42.3 l'a remplacée le soir même, ce qui aurait annulé la
+> démarche. On publie d'abord, on soumet ensuite.
 
 ### Les deux détections, et pourquoi la nuance compte
 
@@ -35,10 +41,25 @@ pas une compilation locale.
 | 7 sept. 19:50 et 19:54 | `Trojan:Win32/Cloxer` | **supprimé** | **définition**. Une règle des signatures Defender correspond à ce binaire. |
 | 6 sept. 20:26 | `Trojan:Win32/Bearfoos.A!ml` | en quarantaine | `!ml` = *machine learning*, un pronostic sur des traits. |
 
-C'est `Cloxer` qui bloque aujourd'hui, et **l'absence de `!ml` est une bonne
-nouvelle** : un faux positif de définition se corrige d'ordinaire vite, et la
-correction descend chez tout le monde à la mise à jour de signatures suivante.
-Un verdict heuristique, lui, se rediscute à chaque compilation.
+L'absence de `!ml` sur `Cloxer` est une bonne nouvelle : un faux positif de
+définition se corrige d'ordinaire vite, et la correction descend chez tout le
+monde à la mise à jour de signatures suivante. Un verdict heuristique, lui, se
+rediscute à chaque compilation.
+
+> **CES DEUX DÉTECTIONS ONT ÉTÉ VUES SUR LA 0.42.2, PAS SUR LA 0.42.3.**
+> La 0.42.3 est un binaire neuf, d'empreinte différente : rien ne dit encore
+> qu'elle est signalée, ni sous quel nom. Le formulaire demande un nom de
+> détection, et en donner un observé sur un autre fichier envoie l'analyste
+> chercher autre chose que ce qu'on lui signale.
+>
+> **Avant de soumettre**, télécharger la 0.42.3 puis relancer `releve.ps1`, et
+> reporter ci-dessous ce qu'il rend. Trois issues :
+>
+> - **rien n'est détecté** — il n'y a plus rien à soumettre à Microsoft ; il
+>   reste peut-être la démarche Google, selon le message des navigateurs ;
+> - **le même nom** — le dossier part tel quel ;
+> - **un autre nom** — c'est celui-là qu'il faut mettre, et la ligne
+>   « Definition version » se relit dans la partie 2 du relevé.
 
 Moteur au moment de la détection — le formulaire les demande :
 
@@ -111,9 +132,9 @@ with Tauri 2 (Rust + WebView2). The installer is an NSIS bundle produced by
 positive.
 
   File     : PokePension-Windows-x64.exe
-  Version  : 0.42.2
-  Size     : 9,377,773 bytes
-  SHA-256  : b5d62f79cdbe26ea9de8c98dd7a8948f0b08f38479630dc43ff765a728f0f6d1
+  Version  : 0.42.3
+  Size     : 9,390,208 bytes
+  SHA-256  : 28303a6c918b749fd6231c583c56d484c10899053033d38a3128c0637a603cc6
   Detected : Trojan:Win32/Cloxer  (definitions 1.459.93.0, engine 1.1.26080.3)
              Trojan:Win32/Bearfoos.A!ml was reported on the same build earlier.
 
@@ -124,7 +145,7 @@ Supporting facts:
    artifact can be rebuilt from the tagged commit:
      https://github.com/Tennosei5804/Pokepension
      .github/workflows/publier.yml
-     https://github.com/Tennosei5804/Pokepension/releases/tag/v0.42.2
+     https://github.com/Tennosei5804/Pokepension/releases/tag/v0.42.3
 
 2. The application contacts exactly one endpoint, https://api.pokepension.fr,
    which is our own service, over HTTPS, and only to synchronise the user's own

@@ -87,7 +87,7 @@ Write-Output ''
 # On cherche l'installateur la ou il atterrit d'habitude, sans obliger a le dire.
 $pistes = @(
   (Join-Path $env:USERPROFILE 'Downloads\PokePension-Windows-x64.exe'),
-  (Join-Path $env:USERPROFILE 'Downloads\PokePension_0.42.2_x64-setup.exe'),
+  (Join-Path $env:USERPROFILE 'Downloads\PokePension_0.42.3_x64-setup.exe'),
   (Join-Path $PSScriptRoot '..\..\..\site\telechargements\PokePension-Windows-x64.exe')
 )
 $trouve = $false
@@ -107,8 +107,8 @@ foreach ($p in $pistes) {
 }
 if (-not $trouve) {
   Write-Output '  Installateur introuvable en local. Celui qui est en ligne fait :'
-  Write-Output '    SHA-256  b5d62f79cdbe26ea9de8c98dd7a8948f0b08f38479630dc43ff765a728f0f6d1'
-  Write-Output '    9 377 773 octets  —  https://pokepension.fr/telecharger'
+  Write-Output '    SHA-256  28303a6c918b749fd6231c583c56d484c10899053033d38a3128c0637a603cc6'
+  Write-Output '    9 390 208 octets  —  https://pokepension.fr/telecharger'
   Write-Output ''
 }
 
