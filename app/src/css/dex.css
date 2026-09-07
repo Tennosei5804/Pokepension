@@ -1444,3 +1444,61 @@
   .verrou-sprite{ width:48px; height:48px; }
   .verrou-nom{ font-size:14px; }
 }
+
+/* ════ Téléphone : la barre d'outils et la grille ═════════════════════════
+   Mesuré à 375 px : la barre d'outils faisait 298 px de haut à elle seule, et
+   la grille tombait à deux colonnes de cartes larges de 139. On voyait quatre
+   Pokémon par écran ; sur un Pokédex de cent cinquante et une entrées, c'est
+   trente-huit fois le pouce pour arriver au bout.
+
+   LE COMPROMIS EST TOUJOURS LE MÊME : réduire ce qui se lit, jamais ce qui se
+   touche. Les cibles restent au-dessus de trente-huit pixels ; ce qui rétrécit
+   est la marge, la graisse et le sprite. */
+
+@media (max-width:480px){
+
+  /* La barre : moins d'air, et des contrôles qui tiennent à deux par rangée
+     au lieu d'un seul. */
+  .toolbar{ gap:6px; margin-bottom:10px; }
+  .toolbar input[type="search"],
+  .toolbar select{ font-size:12.5px; }
+  /* La graisse et l'air, pas la hauteur : site.css tient les cibles à 44 px
+     sous pointeur grossier, et il a raison de le faire. */
+  .toolbar .toggle-btn{
+    font-size:12px;
+    padding:8px 10px;
+  }
+  /* Les menus déroulants partagent la rangée : deux menus de trois cents
+     pixels l'un sous l'autre, c'était la moitié de la barre à eux seuls. */
+  .toolbar .select-wrap{ flex:1 1 46%; min-width:0; }
+
+  /* TROIS COLONNES AU LIEU DE DEUX, et le chiffre se calcule au lieu de se
+     choisir. L'écran utile fait 299 px : trois colonnes de 96 plus deux
+     gouttières de 7 en demandent 302, et la grille retombait à deux — trois
+     pixels de trop, invisibles à la lecture du code. À 88, il en faut 278, et
+     les colonnes ont alors 95 px chacune.
+
+     Le sprite y reste lisible : c'est un rendu HOME, pas du pixel art. On
+     passe de quatre Pokémon par écran à neuf.
+
+     La carte entière reste la cible : à 96 px de large et 150 de haut, elle
+     est plus grande que tout ce qu'on demande de toucher ailleurs. */
+  .grid{
+    grid-template-columns:repeat(auto-fill, minmax(88px, 1fr));
+    gap:7px;
+    padding:3px 2px;
+    /* La hauteur fixe de 560 px vient du bureau, où la grille vit à côté
+       d'autre chose. Sur un téléphone elle EST la page : deux barres de
+       défilement imbriquées, l'une dans l'autre, sont un piège au doigt. */
+    max-height:none;
+    overflow-y:visible;
+  }
+  .card{ padding:6px 6px 5px; border-radius:11px; }
+  .card-name{ font-size:11px; }
+  .card-id{ font-size:9px; }
+  /* Le témoin de l'autre forme et les pastilles d'obtention restent, mais
+     cessent de disputer la place au sujet. */
+  .card-other-flag{ font-size:9px; }
+
+  .stat-bar{ font-size:11px; gap:6px; }
+}

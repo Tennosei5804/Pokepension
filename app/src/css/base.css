@@ -1098,3 +1098,64 @@ body.sans-compte #profilCreer{
   opacity:.45;
   cursor:not-allowed;
 }
+
+/* ════ Téléphone : l'en-tête du boîtier ═══════════════════════════════════
+   Mesuré à 375 px : 118 px de haut, dont une part perdue à faire passer le
+   badge de compte à la ligne sous le titre.
+
+   CE BLOC NE TOUCHE NI À LA LENTILLE, NI AU TITRE, NI À LA HAUTEUR DES
+   BOUTONS. Le site les règle déjà — site.css pose la lentille à 34 px sous
+   560, et 44 px de cible tactile sous « pointer: coarse », avec ses raisons
+   écrites : c'est l'espace entre deux cibles qui évite d'appuyer sur la
+   voisine. J'avais commencé par les redescendre à 38 ; c'était défaire une
+   décision réfléchie pour gagner six pixels.
+
+   Ne reste donc que ce que personne ne réglait : la marge du boîtier, et
+   trois voyants qui ne disent rien. */
+
+@media (max-width:480px){
+  .dex{ padding:7px; }
+  .dex-header{
+    gap:8px 10px;
+    padding:2px 4px 12px;
+  }
+  /* Les trois voyants ne disent rien et prennent une place qui, elle, dit
+     quelque chose. Ils restent sur écran large, où elle ne manque pas. */
+  .dex-lights{ display:none; }
+
+  /* « TERMINAL DE COLLECTE » EST PLUS LARGE QUE LE TITRE QU'IL SURMONTE, et
+     c'est ce qui faisait passer le badge à la ligne : quarante-quatre pixels
+     de plus pour une phrase qui n'apprend rien. Sans elle, la lentille, le
+     titre, le badge et la cloche tiennent sur une seule rangée.
+
+     Elle reste partout ailleurs — c'est le ton du projet, pas un ornement
+     inutile ; simplement, sur un écran de trois cent soixante-quinze pixels,
+     le ton coûte une rangée. */
+  .dex-eyebrow{ display:none; }
+  /* Le bloc de titre cède la place au badge plutôt que de le repousser. */
+  .dex-titleblock{ min-width:0; }
+
+  /* LE PSEUDO SE COUPE PLUTÔT QUE DE POUSSER LA CLOCHE À LA LIGNE.
+     Sans cela, tout tenait à un pixel près — 311 px de contenu et 30 de
+     gouttières pour 342 disponibles — et il aurait suffi d'un pseudo d'une
+     lettre de plus pour que la rangée se casse chez l'un et pas chez
+     l'autre. Un réglage juste pour un seul pseudo n'est pas un réglage.
+
+     Le badge reste lisible : neuf caractères suffisent à se reconnaître, et
+     l'avatar est de toute façon ce qu'on regarde en premier. */
+  /* Les gouttières se resserrent, et la marge de dix pixels que le badge
+     traîne depuis le bureau disparaît : à elles deux, elles valaient les
+     onze pixels qui manquaient pour tenir la rangée. Rien n'est ajusté au
+     pixel — il reste cinq pixels de marge après coup. */
+  .dex-header{ column-gap:6px; }
+  .player-badge{ margin-left:0; }
+  /* Le chevron du badge part : il annonce un menu que l'on devine de toute
+     façon en voyant son propre avatar, et il vaut quatorze pixels — ceux
+     qui manquaient exactement pour que la cloche reste sur la rangée. */
+  .player-badge{ min-width:0; }
+  .player-badge .chevron{ display:none; }
+  #playerNameText{
+    max-width:10ch;
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+}
