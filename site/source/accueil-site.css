@@ -291,6 +291,21 @@ body.page-accueil{
 .acc-tel-btn:hover{ background:var(--dex-red-deep); }
 .acc-tel-btn:active{ transform:translateY(1px); }
 .acc-tel-btn:focus-visible{ outline:2.5px solid var(--ink); outline-offset:3px; }
+/* La marche à suivre pour lancer l'installateur. Plus lisible que la mention
+   en dessous, et moins qu'un avertissement : ce n'est pas un danger, c'est un
+   geste. D'où le fond discret plutôt qu'une couleur d'alerte — un bandeau
+   rouge sous un bouton de téléchargement ferait fuir ceux qu'il veut aider. */
+.acc-tel-lancer{
+  margin:0 0 10px;
+  padding:10px 13px;
+  border-radius:10px;
+  background:color-mix(in srgb, var(--gold) 10%, transparent);
+  border:1px solid color-mix(in srgb, var(--gold) 28%, transparent);
+  font-size:12.5px; line-height:1.55; color:var(--ink-soft);
+  text-align:left;
+}
+.acc-tel-lancer strong{ color:var(--ink); }
+
 .acc-tel-note{
   font-size:12px; line-height:1.5; color:var(--ink-faint);
   margin:0; text-align:center;

@@ -227,6 +227,20 @@
         <span aria-hidden="true">⬇</span>
         <span>Télécharger pour Windows</span>
       </a>
+      <!-- CETTE LIGNE N'EST PAS UN CONSEIL, C'EST LA MARCHE À SUIVRE.
+           Lancé depuis la barre de téléchargement d'un navigateur Chromium —
+           Chrome, Edge, Opera — l'installateur part d'un dossier temporaire
+           dont le chemin porte le préfixe « \\?\ ». NSIS ne sait pas le lire
+           et s'arrête sur « Nom de répertoire non valide ».
+           Personne ne devine que le fichier est bon et que c'est le CHEMIN qui
+           ne va pas : on en conclut que l'application est cassée, et on ferme.
+           Vu le 7 septembre 2026 depuis Opera GX. -->
+      <p class="acc-tel-lancer">
+        <strong>Enregistre le fichier, puis lance-le depuis ton dossier.</strong>
+        Ouvert directement depuis la barre du navigateur, l'installateur
+        s'arrête sur « Nom de répertoire non valide » — le fichier est bon,
+        c'est le dossier temporaire du navigateur qui ne lui convient pas.
+      </p>
       <p class="acc-tel-note">
         Servi par pokepension.fr. L'installation se fait pour ton compte
         seul : ni mot de passe administrateur, ni service en arrière-plan.
