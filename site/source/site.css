@@ -176,3 +176,69 @@ input:focus-visible,
   outline-offset: 2px;
   border-radius: 4px;
 }
+
+/* ==========================================================================
+   TÉLÉPHONE
+   ==========================================================================
+   Tout ce qui suit vit ICI et non dans les feuilles de l'application, pour
+   deux raisons qui vont dans le même sens.
+
+   La première est pratique : site.css est chargée EN DERNIER, et c'est la
+   seule qui l'emporte à coup sûr. J'avais posé ces règles dans base.css et
+   dex.css ; compte.css passe après et reprenait la main sur `.dex`, sans que
+   rien ne le signale — on lit le bon code, on mesure le mauvais résultat.
+
+   La seconde est de fond : l'application de bureau n'est jamais sur un
+   téléphone. Un réglage qui ne vaut que pour un écran de poche appartient à
+   la feuille du web, pas à celles que Tauri emporte.
+   ========================================================================== */
+
+@media (max-width: 480px) {
+
+  /* Le boîtier respire moins : neuf pixels de bordure rouge tout autour, ce
+     n'est pas de la marge, c'est du décor. */
+  .dex { padding: 7px; }
+
+  /* L'EN-TÊTE SUR UNE RANGÉE, À TOUTE LARGEUR. Il tenait à 375 px et
+     retombait à deux rangées à 360 : la somme des largeurs passait de un
+     pixel au-dessus du disponible. Plutôt que de rogner encore les
+     gouttières — et de retomber sur le même mur au format suivant — le bloc
+     de titre devient compressible : c'est lui qui cède, et « PokéPension »
+     se coupe avant que la cloche ne parte à la ligne. */
+  /* PAS DE RETOUR A LA LIGNE, ET LE TITRE ABSORBE. Deux erreurs successives
+     m'ont amene la, et elles valent d'etre ecrites.
+       1. J'ai d'abord rogne les gouttieres. Ca tenait a 375 px et retombait a
+          360 : un reglage juste pour une largeur n'est pas un reglage.
+       2. J'ai ensuite mis le bloc de titre en `flex: 1 1 auto`. Le `1` du
+          milieu le fait GRANDIR pour remplir sa ligne — il passait a 155 px
+          et poussait la cloche dehors. La cause etait le correctif.
+     Avec `nowrap`, tout reste sur la rangee et c'est le titre, seul element
+     compressible, qui cede. « PokePension » se coupe avant qu'une commande
+     ne parte a la ligne. */
+  .dex-header { flex-wrap: nowrap; }
+  .dex-titleblock { flex: 0 1 auto; min-width: 0; }
+  .dex-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  /* Ce qui se touche ne se comprime pas : le badge et la cloche gardent leur
+     taille, sinon on rognerait la cible pour sauver le titre. */
+  .player-badge, .cloche-coin { flex: 0 0 auto; }
+
+  /* Le pied de la page d'accueil et celui du partage suivent la meme cure que
+     celui du Pokedex. */
+  .acc-pied, .pt-pied { font-size: 9.5px; line-height: 1.4; gap: 3px; padding-top: 14px; }
+
+  /* LE PIED PRENAIT CENT QUINZE PIXELS SOUS L'ÉCRAN — un sixième de la page
+     pour une mention légale. Elle reste lisible et reste obligatoire ; elle
+     n'a pas à être aussi haute que trois cartes de Pokémon. */
+  .credit-block { gap: 1px; }
+  .credit {
+    font-size: 9px;
+    line-height: 1.35;
+  }
+  /* La bande rouge sous l'écran suivait la hauteur du pied : elle se resserre
+     avec lui. */
+  .screen-frame { margin-bottom: 6px; }
+}

@@ -350,6 +350,14 @@ body.page-accueil{
   .acc-telecharger{ grid-template-columns:1fr; gap:22px; }
 }
 
+/* Sur telephone, le pied prenait cent vingt pixels en bas de page. La mention
+   reste lisible et reste obligatoire ; elle n'a pas a occuper un sixieme de
+   l'ecran. La regle est ici et non dans site.css : la page d'accueil ne charge
+   pas cette feuille-la, elle n'a pas de boitier a habiller. */
+@media (max-width:480px){
+  .acc-pied{ font-size:9.5px; line-height:1.4; padding-top:14px; }
+}
+
 @media (max-width:560px){
   .acc{ padding:32px 16px 30px; gap:40px; }
   .acc-marque .dex-lens{ width:46px; height:46px; }
