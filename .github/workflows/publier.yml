@@ -185,10 +185,21 @@ jobs:
       - name: Vérifier que l'installeur porte bien une signature
         shell: pwsh
         run: |
-          $exe = Get-ChildItem app/src-tauri/target/release/bundle/nsis/*.exe -ErrorAction SilentlyContinue |
-                 Select-Object -First 1
+          # Recherche RECURSIVE sous target/, et non un chemin ecrit en dur : le
+          # dossier de sortie depend de la cible et de la version de Tauri, et un
+          # chemin devine ferait echouer une publication par erreur de MA part.
+          $exe = Get-ChildItem app/src-tauri/target -Recurse -Filter '*-setup.exe' `
+                   -ErrorAction SilentlyContinue |
+                 Sort-Object LastWriteTime -Descending | Select-Object -First 1
           if (-not $exe) {
-            Write-Output "::error::Aucun installeur trouvé — la compilation n'a rien produit."
+            # Sans signature demandee, l'absence de fichier est deja rattrapee par
+            # l'etape suivante, qui regarde la release elle-meme. On previent, on
+            # ne casse pas une publication qui aurait pu aboutir.
+            if ('${{ steps.signature.outputs.signer }}' -ne 'oui') {
+              Write-Output "::warning::Aucun installeur trouvé sous target/ — signature non vérifiée."
+              exit 0
+            }
+            Write-Output "::error::Aucun installeur trouvé sous target/ : impossible de vérifier la signature."
             exit 1
           }
           $sig = Get-AuthenticodeSignature $exe.FullName
