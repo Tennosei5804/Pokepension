@@ -367,3 +367,73 @@ input:focus-visible,
 @media (min-width: 481px) {
   .barre-bas, .barre-menu, .barre-voile { display: none !important; }
 }
+
+/* ==========================================================================
+   FENÊTRE BASSE — LE BOÎTIER CESSE DE TENIR DANS L'ÉCRAN
+   ==========================================================================
+   MESURE EN PAYSAGE, 812 × 375 : l'écran du boîtier tombe à 144 px de haut,
+   et les réglages de la page Lieux en occupent 336. On voyait le titre, la
+   navigation, la mention légale — et pas un seul lieu. Vérifié aussi sur
+   l'accueil et le Pokédex : 144 px partout. Ce n'est pas la page qui est en
+   cause, c'est le châssis.
+
+   POURQUOI. `body` est verrouillé sur la hauteur de la fenêtre et distribue
+   en colonne : `.dex` prend ce qu'il peut, `.screen-frame` puis `.screen`
+   héritent du reste. En portrait le reste est confortable ; en paysage il ne
+   reste rien après l'en-tête, deux rangées d'onglets et le pied.
+
+   LA RÉPONSE N'EST PAS DE ROGNER, C'EST DE LÂCHER PRISE. Un boîtier qui ne
+   tient pas dans la fenêtre ne doit pas s'y comprimer : il grandit, et c'est
+   le DOCUMENT qui défile. On récupère alors toute la hauteur du contenu au
+   lieu de se battre pour quelques dizaines de pixels.
+
+   LA NAVIGATION DEVIENT COLLANTE, et c'est la contrepartie obligatoire :
+   dès que le document défile, la rangée d'onglets sortirait de vue — le
+   défaut même que la barre du bas avait corrigé sur les écrans étroits.
+   Collée en haut, elle reste sous la main pendant tout le défilement.
+
+   LE SEUIL EST UNE HAUTEUR, PAS UNE LARGEUR. Un téléphone couché fait 375 px
+   de haut, une fenêtre de bureau écrasée aussi, et les deux ont le même
+   problème. On ne demande donc pas le moyen de pointage ici : c'est la place
+   qui manque, pas le doigt.
+   ========================================================================== */
+@media (max-height: 520px) {
+  body { height: auto; min-height: 100%; display: block; }
+  .dex { height: auto; }
+  .screen-frame { height: auto; }
+  .screen {
+    height: auto; max-height: none;
+    /* C'est le document qui défile désormais, plus l'écran. */
+    overflow-y: visible;
+  }
+
+  /* UNE SEULE RANGÉE QUI DÉFILE, comme en portrait étroit et pour la même
+     raison écrite dans accueil.css : onze onglets qui passent à la ligne font
+     deux rangées et soixante-dix-neuf pixels ; la même rangée qui glisse sous
+     le doigt en fait quarante. */
+  .page-nav {
+    position: sticky; top: 0; z-index: 20;
+    background: var(--screen);
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    gap: 4px;
+    margin: 0 -4px 8px;
+    padding: 0 4px 6px;
+  }
+  .page-nav::-webkit-scrollbar { display: none; }
+  .page-tab { flex: 0 0 auto; }
+
+  /* Le sur-titre et les trois voyants ne disent rien et coûtent une rangée —
+     même raison qu'en portrait étroit, où ils partent déjà. */
+  .dex-eyebrow, .dex-lights { display: none; }
+
+  /* LA PHRASE D'EXPLICATION PART, LE TITRE RESTE. Elle se lit une fois et
+     coûte quarante-cinq pixels à chaque visite ; sur une fenêtre de trois cent
+     soixante-quinze pixels de haut, c'est un huitième de l'écran pour un texte
+     qu'on connaît. Le titre, lui, dit où l'on est — il reste.
+     Elle revient en tournant le téléphone : rien n'est perdu, seulement remis
+     là où il y a la place. */
+  .home-sub, .home-eyebrow { display: none; }
+  .home-hero { margin-bottom: 10px; }
+}
