@@ -266,7 +266,21 @@
   }
   .select-item.selected:hover{ background:var(--dex-red-deep); }
 
+  /* LE COMPOSANT POSE SON PROPRE DISPLAY, et ce n'est pas cosmetique.
+     Sans cette ligne il heritait de celui de l'element qui le porte : un
+     <button> est inline-block et prend une hauteur, un <a> est inline et
+     l'ignore — min-height et height n'ont aucun effet sur une boite inline.
+     Releve le 8 septembre 2026 sur la page de partage, ou les trois appels a
+     l'action sont des <a class="toggle-btn"> : ils sortaient a 36 px alors que
+     la politique de site.css leur donnait bien min-height:44px. La regle
+     s'appliquait, elle etait inerte.
+     inline-flex plutot que inline-block : .modal-actions .toggle-btn pose deja
+     un justify-content:center qui n'attendait qu'un conteneur flex pour
+     vouloir dire quelque chose. */
   .toggle-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
     font-family:var(--font-body);
     font-weight:600;
     font-size:13px;
