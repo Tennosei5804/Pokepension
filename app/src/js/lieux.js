@@ -965,13 +965,43 @@ function dessinerBarreTri(){
  * rien ; tenir leur état à jour d'un côté et la liste de l'autre coûte
  * l'attention de celui qui relira.
  */
+const LIEUX_MODS_OUVERT_CLE = 'pa.lieux.mods-ouvert';
+
 function dessinerBarreMods(){
   if(!lieuxMods) return;
   const mods = lieuxJeuCourant === 'cobblemon' ? modsDeCobblemon() : [];
-  lieuxMods.innerHTML = '';
-  lieuxMods.hidden = !mods.length;
-  if(!mods.length) return;
 
+  // LE PANNEAU SE REPLIE, ET IL EST FERMÉ AU DÉPART.
+  //
+  // Mesuré sur le site en ligne à 375 px, panneau ouvert : cinq cent
+  // soixante-neuf pixels avant le premier lieu, sur un écran de six cent
+  // trente-neuf — quatre-vingt-neuf pour cent de la page pour des réglages,
+  // et un seul lieu visible. La barre des mods en prenait cent
+  // soixante-dix-neuf à elle seule.
+  //
+  // Or ce n'est pas un outil qu'on garde sous la main : on coche ses mods une
+  // fois, et on n'y revient qu'en changeant d'installation. Un bouton dans la
+  // barre coûte alors sa hauteur, et rien de plus.
+  if(lieuxModsBascule){
+    lieuxModsBascule.hidden = !mods.length;
+    if(!mods.length){
+      lieuxMods.hidden = true;
+      lieuxMods.innerHTML = '';
+      lieuxModsBascule.setAttribute('aria-expanded', 'false');
+      return;
+    }
+    // Le nombre de mods cochés se lit sans ouvrir : sans lui, on ne sait plus
+    // si la liste est filtrée, et une page amputée passe pour une page vide.
+    const nb = modsChoisis().size;
+    lieuxModsBascule.textContent = nb ? '🧩 Mods (' + nb + ')' : '🧩 Mods';
+    if(lieuxMods.hidden) return;
+  }else if(!mods.length){
+    lieuxMods.hidden = true;
+    lieuxMods.innerHTML = '';
+    return;
+  }
+
+  lieuxMods.innerHTML = '';
   const choisis = modsChoisis();
   const titre = document.createElement('span');
   titre.className = 'lieux-mods-titre';
@@ -1113,6 +1143,27 @@ document.addEventListener('DOMContentLoaded', function(){
       lieuxTri.hidden = false;
       lieuxTriBascule.setAttribute('aria-expanded', 'true');
       dessinerBarreTri();
+    }
+  }
+
+  // Le panneau des mods, replié comme celui du tri. Fermé au départ, et non
+  // rouvert tout seul : contrairement au tri, on n'y revient qu'en changeant
+  // l'installation de Minecraft.
+  if(lieuxModsBascule && lieuxMods){
+    lieuxModsBascule.addEventListener('click', function(){
+      const ouvre = lieuxMods.hidden;
+      lieuxMods.hidden = !ouvre;
+      lieuxModsBascule.setAttribute('aria-expanded', String(ouvre));
+      if(ouvre) dessinerBarreMods();
+      try{ localStorage.setItem(LIEUX_MODS_OUVERT_CLE, ouvre ? '1' : '0'); }
+      catch(e){ /* stockage refusé */ }
+    });
+    let ouvertAvant = false;
+    try{ ouvertAvant = localStorage.getItem(LIEUX_MODS_OUVERT_CLE) === '1'; }
+    catch(e){ /* stockage refusé */ }
+    if(ouvertAvant){
+      lieuxMods.hidden = false;
+      lieuxModsBascule.setAttribute('aria-expanded', 'true');
     }
   }
 

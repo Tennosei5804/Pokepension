@@ -162,6 +162,7 @@ const lieuxRestants = document.getElementById('lieuxRestants');
 const lieuxQ = document.getElementById('lieuxQ');
 const lieuxResume = document.getElementById('lieuxResume');
 const lieuxMods = document.getElementById('lieuxMods');
+const lieuxModsBascule = document.getElementById('lieuxModsBascule');
 const lieuxTri = document.getElementById('lieuxTri');
 const lieuxTriBascule = document.getElementById('lieuxTriBascule');
 const lieuxListe = document.getElementById('lieuxListe');
