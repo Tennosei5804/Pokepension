@@ -226,6 +226,51 @@ Un certificat de signature de code est la seule sortie durable :
 | **OV** | la réputation s'accumule sur le **certificat** et survit aux versions ; il faut quelques semaines de chauffe |
 | **EV** | jeton matériel, confiance SmartScreen quasi immédiate |
 
+### Ce qu'un particulier français peut réellement acheter
+
+*Relevé le 8 septembre 2026. Les deux points ci-dessous ont été vérifiés parce
+qu'ils écartent des options qu'on croirait ouvertes.*
+
+**Azure Trusted Signing — fermé aux particuliers hors USA et Canada.** C'est
+pourtant la voie la moins chère (9,99 $/mois) et celle que le CI vise par
+défaut : c'est Microsoft qui la rend, donc l'effet sur SmartScreen est le
+meilleur. Depuis avril 2026 elle accepte les indépendants sans les trois ans
+d'historique exigés en préversion — mais **la couverture géographique des
+particuliers reste limitée aux États-Unis et au Canada**. Une entreprise, elle,
+est acceptée depuis bien plus de pays.
+
+> **Conséquence directe.** En tant que particulier en France, cette voie est
+> fermée. Elle s'ouvre en s'immatriculant (auto-entrepreneur, SIRET) et en
+> candidatant comme organisation.
+
+**Certum, la voie du particulier européen.** Certum vend un *Open Source Code
+Signing* et un *Cloud CODE Signing Individual* réservés aux créateurs
+individuels, autour de 50 à 120 $ l'an, sans jeton matériel : la clé vit dans
+leur nuage et se pilote par leur application SimplySign.
+
+> **À VÉRIFIER AVANT D'ACHETER, et ce n'est pas un détail.** SimplySign est
+> pensée pour un poste de travail, avec une application à ouvrir et un code à
+> saisir. Rien ne dit qu'elle s'automatise dans GitHub Actions, où personne
+> n'est là pour la déverrouiller. Si elle ne s'automatise pas, il faudra signer
+> **depuis ta machine** après compilation — ce qui change le circuit : le CI
+> ne publierait plus l'installateur directement.
+>
+> Poser la question au support de Certum avant de payer coûte un courriel ;
+> découvrir la réponse après coûte l'abonnement.
+
+### Le choix, tel qu'il se pose
+
+| | Azure (en tant qu'entreprise) | Certum (en tant que particulier) |
+|---|---|---|
+| Prix | ~10 $/mois | ~50–120 $/an |
+| Préalable | s'immatriculer | rien |
+| Automatisable en CI | oui, c'est ce que le workflow attend | **à confirmer** |
+| SmartScreen | le meilleur effet | réputation à chauffer |
+
+Rien de tout cela ne se fait sans **créer un compte, payer, et fournir une
+pièce d'identité** : ce sont des gestes qui t'appartiennent. Le dépôt, lui, est
+prêt — voir la section suivante.
+
 ---
 
 ## Le CI est déjà câblé pour signer
