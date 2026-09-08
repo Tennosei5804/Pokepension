@@ -16,11 +16,11 @@ se parlent pas : Microsoft d'un côté, Google de l'autre.
 | | |
 |---|---|
 | Fichier | `PokePension-Windows-x64.exe` |
-| Version | **0.42.3** (tag `v0.42.3`, publiée le 7 septembre 2026) |
-| Taille | 9 390 208 octets |
-| SHA-256 | `28303a6c918b749fd6231c583c56d484c10899053033d38a3128c0637a603cc6` |
-| SHA-1 | `db4db417318c731b81c28e7321659b76b83fdbc9` |
-| MD5 | `56d7a7a5195c0fa7d53b441a735e1e0a` |
+| Version | **0.42.4** (tag `v0.42.4`, publiée le 8 septembre 2026) |
+| Taille | 9 402 218 octets |
+| SHA-256 | `a7d66f46920fb7b74f73b79acc9fcb669a40cf437643f4d1953f06035cb1d2a9` |
+| SHA-1 | `7c534fcc1d71d213822f5678114d1f3afd48d4f4` |
+| MD5 | `5c07caa2322ea915c53edb90bca80c96` |
 | Servi par | `https://pokepension.fr/telecharger` |
 | Signature Authenticode | **aucune** |
 
@@ -46,23 +46,29 @@ définition se corrige d'ordinaire vite, et la correction descend chez tout le
 monde à la mise à jour de signatures suivante. Un verdict heuristique, lui, se
 rediscute à chaque compilation.
 
-> ## ⚠ LA 0.42.3 N'EST PAS SIGNALÉE — IL N'Y A RIEN À SOUMETTRE
+> ## ⚠ LA 0.42.4 N'A PAS ENCORE ÉTÉ ÉPROUVÉE
 >
-> Les deux détections ci-dessus ont été vues sur la **0.42.2**. La 0.42.3,
-> téléchargée le 7 septembre à 21:21, est arrivée **intacte** : empreinte
-> conforme à celle du site, aucune détection dans l'historique de Defender,
-> aucun blocage des navigateurs.
+> Les deux détections ci-dessus ont été vues sur la **0.42.2**. La **0.42.3**,
+> téléchargée le 7 septembre à 21:21, était arrivée intacte : aucune détection,
+> aucun blocage des navigateurs. `Cloxer` était une correspondance de
+> **définition**, sur des octets précis ; une recompilation les change, et la
+> règle ne mord plus.
 >
-> `Cloxer` était une correspondance de **définition**, sur des octets précis.
-> Une recompilation les change, et la règle ne mord plus. Ce n'est pas une
-> victoire durable pour autant : la prochaine version est un tirage de plus, et
-> rien ne garantit qu'elle passera. Seule la signature Authenticode retire le
-> hasard — voir « Ce que ça ne règle pas ».
+> **Mais la 0.42.4 est un binaire neuf, d'empreinte différente, et personne ne
+> l'a encore téléchargée.** Qu'une version soit passée ne dit rien de la
+> suivante : chaque compilation est un tirage. C'est bien pourquoi seule la
+> signature Authenticode retire le hasard — voir « Ce que ça ne règle pas ».
 >
-> **Ce dossier reste donc en réserve**, prêt pour la prochaine fois. Tout ce qui
-> suit est valable, à une chose près : relancer `releve.ps1` d'abord et prendre
-> le nom de détection QU'IL REND, jamais celui écrit ici — un nom observé sur un
-> autre binaire envoie l'analyste chercher autre chose.
+> **Avant de soumettre quoi que ce soit**, télécharger la 0.42.4 puis lancer
+> `releve.ps1`, et prendre le nom de détection QU'IL REND — jamais celui
+> recopié plus haut, qui appartient à un autre binaire et enverrait l'analyste
+> chercher autre chose. Trois issues :
+>
+> - **rien n'est détecté** — il n'y a rien à soumettre à Microsoft ; il reste
+>   peut-être la démarche Google, selon le message des navigateurs ;
+> - **`Trojan:Win32/Cloxer` revient** — le dossier part tel quel ;
+> - **un autre nom** — c'est celui-là qu'il faut mettre, et la ligne
+>   « Definition version » se relit dans la partie 2 du relevé.
 
 Moteur au moment de la détection — le formulaire les demande :
 
@@ -135,9 +141,9 @@ with Tauri 2 (Rust + WebView2). The installer is an NSIS bundle produced by
 positive.
 
   File     : PokePension-Windows-x64.exe
-  Version  : 0.42.3
-  Size     : 9,390,208 bytes
-  SHA-256  : 28303a6c918b749fd6231c583c56d484c10899053033d38a3128c0637a603cc6
+  Version  : 0.42.4
+  Size     : 9,402,218 bytes
+  SHA-256  : a7d66f46920fb7b74f73b79acc9fcb669a40cf437643f4d1953f06035cb1d2a9
   Detected : Trojan:Win32/Cloxer  (definitions 1.459.93.0, engine 1.1.26080.3)
              Trojan:Win32/Bearfoos.A!ml was reported on the same build earlier.
 
@@ -148,7 +154,7 @@ Supporting facts:
    artifact can be rebuilt from the tagged commit:
      https://github.com/Tennosei5804/Pokepension
      .github/workflows/publier.yml
-     https://github.com/Tennosei5804/Pokepension/releases/tag/v0.42.3
+     https://github.com/Tennosei5804/Pokepension/releases/tag/v0.42.4
 
 2. The application contacts exactly one endpoint, https://api.pokepension.fr,
    which is our own service, over HTTPS, and only to synchronise the user's own
