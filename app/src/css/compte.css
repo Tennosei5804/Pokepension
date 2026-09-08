@@ -939,6 +939,79 @@ html[data-theme="light"] body{ background:#e9e7e0; }
 }
 .transferts-resume b{ color:var(--ink); font-variant-numeric:tabular-nums; }
 
+/* ---- Outils : Completer ---------------------------------------------------
+   Quatre blocs, un par raison de blocage. Les pastilles d especes sont celles
+   des Lieux — .lieu-espece, deja definie — et rien n est redessine ici. */
+.completer-jeux{
+  margin:0 0 6px;
+  font-family:var(--font-data); font-size:10.5px; line-height:1.6;
+  color:var(--ink-faint);
+}
+.completer-resume{
+  margin:0 0 14px;
+  font-family:var(--font-data); font-size:11.5px; line-height:1.6;
+  color:var(--ink-soft); font-variant-numeric:tabular-nums;
+}
+.completer{ display:flex; flex-direction:column; gap:10px; }
+
+.completer-bloc{
+  border:1px solid var(--card-border); border-radius:11px;
+  background:var(--panel); padding:12px 13px;
+}
+.completer-tete{ display:flex; align-items:center; gap:10px; margin-bottom:4px; }
+.completer-titre{ font-size:14px; font-weight:700; color:var(--ink); }
+/* Le compte porte la couleur du cadran : c est le chiffre qu on vient lire. */
+.completer-compte{
+  margin-left:auto;
+  font-family:var(--font-data); font-size:10px; font-weight:600;
+  letter-spacing:.06em;
+  color:#fff; background:var(--dex-red);
+  border-radius:999px; padding:3px 9px;
+  font-variant-numeric:tabular-nums;
+}
+.completer-note{
+  margin:0 0 10px;
+  font-size:11.5px; line-height:1.5; color:var(--ink-faint);
+}
+.completer-liste{ display:flex; flex-wrap:wrap; gap:6px; }
+
+/* Un bloc vide est une bonne nouvelle : il se tait plutot que de peser. */
+.completer-bloc .state-msg{ padding:6px 0; font-size:12px; }
+
+/* « Il te faut un autre jeu » se lit par cartouche, la plus rentable d abord :
+   trente especes en vrac ne disent pas laquelle acheter. */
+.completer-sous{
+  display:flex; align-items:center; gap:8px;
+  width:100%; margin:0; padding:9px 0;
+  border:0; border-top:1px solid var(--card-border);
+  background:none; cursor:pointer; text-align:left;
+  font-family:var(--font-body);
+}
+.completer-sous:first-of-type{ border-top:0; }
+.completer-sous:hover .completer-sous-nom{ color:var(--dex-red); }
+.completer-sous:focus-visible{ outline:2px solid var(--dex-red); outline-offset:-2px; }
+/* Le chevron dit que ça s ouvre. Il tourne quand c est ouvert : sans lui, une
+   rangee cliquable ressemble a une ligne de tableau. */
+.completer-sous::before{
+  content:"▸"; color:var(--ink-faint); font-size:11px;
+  transition:transform 120ms;
+}
+.completer-sous[aria-expanded="true"]::before{ transform:rotate(90deg); }
+.completer-sous-nom{ font-size:12.5px; font-weight:600; color:var(--ink); }
+.completer-sous-compte{
+  margin-left:auto;
+  font-family:var(--font-data); font-size:10px; color:var(--ink-faint);
+  font-variant-numeric:tabular-nums;
+}
+
+/* Le bord gauche dit la nature du blocage sans qu on lise le titre : vert on
+   peut y aller, or il faut quelqu un, bleu il manque une cartouche, gris c est
+   fini. La couleur DOUBLE le titre, elle ne le remplace pas. */
+.completer-atteignable{ border-left:3px solid var(--caught); }
+.completer-partenaire{ border-left:3px solid var(--gold); }
+.completer-autreJeu{ border-left:3px solid var(--ic-bleu); }
+.completer-horsDePortee{ border-left:3px solid var(--ink-faint); }
+
 /* ---- Accueil : les objectifs sur mesure ----
    Une carte par objectif, avec sa jauge. La croix se detache du bloc
    cliquable : on ne supprime pas par megarde ce qu'on voulait ouvrir. */

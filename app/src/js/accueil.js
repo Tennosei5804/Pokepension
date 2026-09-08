@@ -340,7 +340,7 @@ function markActiveFilters(){
 // Les trois écrans que l'onglet « Outils » réunit. Ils gardent chacun leur
 // page — ce sont des écrans à part entière, pas des panneaux — et partagent
 // seulement une barre et une entrée de nav.
-const EST_UN_OUTIL = ['strategie', 'reproduction', 'transferts'];
+const EST_UN_OUTIL = ['strategie', 'reproduction', 'transferts', 'completer'];
 
 // La sous-barre est recopiée en tête des trois sections : chacune doit pouvoir
 // s'afficher seule. On allume donc la bonne dans TOUTES, et pas seulement dans
@@ -416,7 +416,8 @@ function showPage(name){
 
   if(name === 'dresseurs' || name === 'profil' || name === 'chasse'
      || name === 'verrous' || name === 'strategie' || name === 'reproduction'
-     || name === 'transferts' || name === 'amis' || name === 'lieux'
+     || name === 'transferts' || name === 'completer'
+     || name === 'amis' || name === 'lieux'
      || name === 'parametres' || name === 'cadeaux' || name === 'messages'
      || name === 'galerie' || name === 'releve'){
     currentPage = name;
@@ -440,6 +441,7 @@ function showPage(name){
     if(pageStrategieEl) pageStrategieEl.classList.toggle('active', name === 'strategie');
     if(pageReproductionEl) pageReproductionEl.classList.toggle('active', name === 'reproduction');
     if(pageTransfertsEl) pageTransfertsEl.classList.toggle('active', name === 'transferts');
+    if(pageCompleterEl) pageCompleterEl.classList.toggle('active', name === 'completer');
     // Les trois écrans d'outils allument le même onglet : c'est de là qu'on
     // vient, et c'est là qu'on retourne.
     // Shiny-lock n'a pas d'onglet à lui : on y entre depuis Chasse, et c'est
@@ -464,6 +466,7 @@ function showPage(name){
     if(name === 'strategie' && typeof dessinerStrategie === 'function') dessinerStrategie();
     if(name === 'reproduction' && typeof dessinerReproduction === 'function') dessinerReproduction();
     if(name === 'transferts' && typeof dessinerTransferts === 'function') dessinerTransferts();
+    if(name === 'completer' && typeof chargerPageCompleter === 'function') chargerPageCompleter();
     return;
   }
 
