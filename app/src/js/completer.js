@@ -137,13 +137,20 @@ function completerDistributions(speciesId){
 // portée », ce qui est faux — il est là, il faut seulement un partenaire.
 const COMPLETER_GROUPES = [
   { cle: 'atteignable', titre: 'À portée de main',
-    note: 'Un de tes jeux les donne. Les Lieux disent où.' },
+    note: 'Un de tes jeux les donne. Les Lieux disent où.',
+    // « Tant mieux » serait faux ici : une case vide veut dire qu'aucun de tes
+    // jeux ne donne quoi que ce soit, ce qui est une mauvaise nouvelle — ou le
+    // signe que tu n'as pas encore déclaré tes parties.
+    vide: 'Rien à portée avec les jeux que tu as.' },
   { cle: 'partenaire', titre: 'Il te faut quelqu’un',
-    note: 'Évolution par échange, et aucun de tes jeux n’a le Cordon de Liaison.' },
+    note: 'Évolution par échange, et aucun de tes jeux n’a le Cordon de Liaison.',
+    vide: 'Aucun échange à organiser — tant mieux.' },
   { cle: 'autreJeu', titre: 'Il te faut un autre jeu',
-    note: 'Personne ne les donne dans ce que tu as — mais un autre jeu, oui.' },
+    note: 'Personne ne les donne dans ce que tu as — mais un autre jeu, oui.',
+    vide: 'Aucune cartouche à ajouter — tant mieux.' },
   { cle: 'horsDePortee', titre: 'Hors de portée',
-    note: 'Aucun jeu ne les donne. Distribution, ou rien.' },
+    note: 'Aucun jeu ne les donne. Distribution, ou rien.',
+    vide: 'Rien d’inaccessible — tant mieux.' },
 ];
 
 function completerClasser(){
@@ -259,7 +266,7 @@ function completerBloc(groupe, lignes){
   if(!lignes.length){
     const rien = document.createElement('div');
     rien.className = 'state-msg';
-    rien.textContent = 'Rien dans ce cas — tant mieux.';
+    rien.textContent = groupe.vide || 'Rien dans ce cas.';
     bloc.appendChild(rien);
     return bloc;
   }
