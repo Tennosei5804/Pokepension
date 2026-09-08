@@ -166,12 +166,31 @@ function obtenirDistributions(speciesId){
 // UNE VOIE PAR MANIÈRE DE L'AVOIR, dans l'ordre où on l'essaierait. Se capturer
 // vient d'abord parce que c'est le plus simple ; la distribution vient en
 // dernier parce qu'elle est le plus souvent hors d'atteinte.
+// L'ÉCHANGE INTERNE N'EST PAS DANS CETTE LISTE, ET C'EST VOULU. Le relevé le
+// connaît — une catégorie « echange », le PNJ qui troque son Abra contre ton
+// Machoc. Mais ce n'est une réponse à « comment l'avoir » que dans un seul jeu,
+// une seule fois, et il fallait déjà posséder l'autre Pokémon. Il encombrait
+// chaque carte d'une ligne qu'on saute. La fiche du Pokémon le dit toujours,
+// pour qui la cherche.
 const OBTENIR_ORDRE = [
   { cat: 'sauvage',   icone: '🌿', titre: 'Se capture' },
   { cat: 'oeuf',      icone: '🥚', titre: 'Par un œuf' },
   { cat: 'offert',    icone: '🎁', titre: 'Offert dans l’aventure' },
-  { cat: 'echange',   icone: '🤝', titre: 'Échange contre un PNJ' },
 ];
+
+// ---- Le titre dit le MÉCANISME, pas la catégorie ----------------------------
+//
+// « Par évolution — De Spectrum — Échange » enterrait le seul mot qui compte.
+// Ce qu'on veut lire d'un coup d'œil, c'est « par échange » ou « par objet » :
+// le reste est un détail qui se lit après, s'il se lit.
+//
+// Les déclencheurs rares gardent le libellé général et leur condition écrite au
+// long : les nommer un par un ferait une table à tenir à jour pour trois cas.
+const OBTENIR_DECLENCHEURS = {
+  1: { icone: '🔁', titre: 'Par évolution' },
+  2: { icone: '🤝', titre: 'Par échange' },
+  3: { icone: '💎', titre: 'Par un objet' },
+};
 
 function obtenirVoies(entree){
   const voies = [];
@@ -204,9 +223,53 @@ function obtenirVoies(entree){
   const det = esp && esp.evo;
   if(det && det.de){
     const parent = (typeof nomParEspece === 'function') ? nomParEspece(det.de) : ('nº ' + det.de);
-    const bouts = (typeof conditionEvolution === 'function') ? conditionEvolution(det) : [];
-    const voie = { icone: '🔁', titre: 'Par évolution',
-                   detail: 'De ' + parent + (bouts.length ? ' — ' + bouts.join(', ') : ''),
+    const forme = OBTENIR_DECLENCHEURS[det.declencheur] || { icone: '🔁', titre: 'Par évolution' };
+
+    // Le détail dit quoi FAIRE, à l'impératif, plutôt que de répéter le titre.
+    //
+    // DEUX RÉGIMES, ET IL NE FAUT PAS LES MÉLANGER. Les trois mécanismes
+    // courants se réécrivent à l'impératif, et je leur rajoute alors les
+    // conditions qui restent. Tout le reste garde la phrase complète de la
+    // fiche, qui les porte DÉJÀ — les rajouter par-dessus donnait « la nuit
+    // la nuit » sur Noctali.
+    let detail;
+    let aRecrire = true;
+    if(det.declencheur === 2){
+      detail = 'Fais évoluer ' + parent;
+    }else if(det.declencheur === 3){
+      const objet = det.objet && typeof motDico === 'function' ? motDico('objets', det.objet) : null;
+      detail = objet ? 'Utilise ' + objet + ' sur ' + parent
+                     : 'Utilise l’objet voulu sur ' + parent;
+    }else if(det.declencheur === 1 && det.niveau){
+      detail = 'Fais monter ' + parent + ' au niveau ' + det.niveau;
+    }else{
+      // Les cas tordus — le rocher moussu, l'affection, une capacité connue,
+      // le bonheur — gardent la phrase de la fiche : la resserrer les rendrait
+      // faux, et elle est déjà juste.
+      const bouts = (typeof conditionEvolution === 'function') ? conditionEvolution(det) : [];
+      // « De Évoli » ne se dit pas : devant une voyelle, « de » s'élide.
+      // La fiche fait la même chose dans dessinerObtention().
+      const elide = /^[aeiouyàâäéèêëîïôöûüh]/i.test(parent);
+      detail = (elide ? 'D’' : 'De ') + parent
+             + (bouts.length ? ' — ' + bouts.join(', ') : '');
+      aRecrire = false;
+    }
+
+    // Ce que le mécanisme seul ne dit pas : « en tenant Peau Métal » sur un
+    // échange, « la nuit » sur une montée de niveau. Sans elles, deux
+    // évolutions par échange se liraient pareil alors qu'elles ne le sont pas.
+    if(aRecrire){
+      const extra = [];
+      if(det.objetTenu && typeof motDico === 'function'){
+        extra.push('en tenant ' + motDico('objets', det.objetTenu));
+      }
+      if(det.moment) extra.push(det.moment === 'day' ? 'le jour' : 'la nuit');
+      if(det.genre) extra.push(det.genre === 1 ? 'femelle uniquement' : 'mâle uniquement');
+      if(extra.length) detail += ', ' + extra.join(', ');
+      detail += '.';
+    }
+
+    const voie = { icone: forme.icone, titre: forme.titre, detail: detail,
                    jeux: parCat.evolution || [] };
     // ÉCHANGE : le mot « Échange » seul laisse croire à un échange PNJ. C'est
     // le seul cas où il faut une autre personne, et il mérite sa phrase.
@@ -334,7 +397,14 @@ function obtenirCarte(entree){
     if(v.jeux && v.jeux.length){
       const j = document.createElement('div');
       j.className = 'obtenir-voie-jeux';
-      j.textContent = 'Dans : ' + v.jeux.map(obtenirNomJeu).join(' · ');
+      // QUATRE JEUX, PAS DOUZE. Phione en listait douze sur quatre lignes
+      // serrées, et personne ne les lit : ce qu'on veut savoir, c'est « oui,
+      // plusieurs », pas lesquels exactement. Le compte exact reste dit, et la
+      // page Lieux les nomme tous.
+      const noms = v.jeux.map(obtenirNomJeu);
+      j.textContent = 'Dans : ' + noms.slice(0, 4).join(' · ')
+        + (noms.length > 4 ? ' et ' + (noms.length - 4) + ' autres' : '');
+      if(noms.length > 4) j.title = noms.join(' · ');
       ligne.appendChild(j);
     }
     if(v.lieux){
