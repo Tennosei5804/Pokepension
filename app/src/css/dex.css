@@ -1147,9 +1147,16 @@
    nombre seul se comprend.
    Ce qui part est ce qu on VOIT. L etiquette accessible du compteur porte la
    phrase entiere dans tous les cas — voir blocLieu() dans lieux.js.
-   Le seuil est a 359 et non a 375 : a 360 px il reste neuf noms tronques sur
-   soixante, ce qui se lit encore. On ne raccourcit que la ou ca coince. */
-@media (max-width:359px){
+
+   LE SEUIL EST A 399, ET IL A D ABORD ETE POSE A 359. La premiere valeur ne
+   regardait que le cas le plus etroit ; releve ensuite a 375 px, trois noms
+   sur soixante restaient coupes — et davantage des qu on coche des mods,
+   puisque chaque etiquette de mod prend sa place sur la meme rangee. Le
+   compteur entier ne servait donc a rien la non plus.
+
+   399 couvre tous les telephones courants — 320, 360, 375, 390 — et laisse la
+   phrase aux tablettes et au bureau, ou la place ne manque pas. */
+@media (max-width:399px){
   .lieu-compteur-mot{ display:none; }
   .lieu.complet .lieu-compteur-nb{ display:inline; }
 }
