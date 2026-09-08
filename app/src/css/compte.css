@@ -24,6 +24,66 @@ body{
 .screen{ flex:1; min-height:0; overflow-y:auto; }
 html[data-theme="light"] body{ background:#e9e7e0; }
 
+/* ---- ... SAUF QUAND LA FENÊTRE EST TROP BASSE POUR LUI ----------------------
+   Le bloc ci-dessus verrouille le boîtier sur la hauteur de la fenêtre, et
+   c'est ce qu'il faut tant qu'il y a de la place. Réduisez la fenêtre en
+   hauteur et tout se comprime : mesuré à 812 × 375, l'écran du boîtier tombe
+   à 144 px, et sur la page Lieux les réglages en occupent 336. On voit le
+   titre, la navigation, la mention légale — et pas une seule ligne de contenu.
+
+   UN BOÎTIER QUI NE TIENT PAS DANS LA FENÊTRE NE DOIT PAS S'Y COMPRIMER : il
+   grandit, et c'est le DOCUMENT qui défile. On récupère toute la hauteur du
+   contenu au lieu de se battre pour quelques dizaines de pixels.
+
+   LA NAVIGATION DEVIENT COLLANTE, contrepartie obligatoire : dès que le
+   document défile, la rangée d'onglets sortirait de vue.
+
+   ELLE SERT LES DEUX, ET C'EST POURQUOI ELLE EST ICI. Un téléphone couché
+   pose au web exactement le problème qu'une fenêtre écrasée pose à
+   l'application. compte.css est chargée par les deux — c'est la seule feuille
+   qui verrouille la hauteur, et donc la seule qui puisse la desserrer sans
+   qu'on écrive la règle deux fois. Elle a d'abord vécu dans site.css : c'était
+   un doublon en puissance, que la première retouche aurait fait diverger.
+
+   LE SEUIL EST UNE HAUTEUR, ET RIEN D'AUTRE. Une fenêtre d'application
+   écrasée et un téléphone couché ont le même problème : c'est la place qui
+   manque, pas le doigt. */
+@media (max-height: 520px){
+  html, body{ height:auto; min-height:100%; }
+  body{ display:block; }
+  .dex{ height:auto; }
+  .screen-frame{ height:auto; display:block; }
+  /* PAS DE overflow-y:visible ICI, ET C'EST DELIBERE. .screen porte
+     overflow-x:hidden — le garde-fou qui empeche un tableau trop large de
+     pousser la page de cote. Or la specification convertit overflow-y:visible
+     en auto des que l'autre axe vaut autre chose que visible : la declaration
+     serait inerte, et l'on croirait avoir rendu la main. Verifie : elle
+     ressortait bien en « auto » dans le style calcule.
+     height:auto suffit — l'ecran fait alors la taille de son contenu et ne
+     defile plus, quel que soit son overflow. Verifie aussi : scrollHeight et
+     clientHeight sont egaux. */
+  .screen{ height:auto; max-height:none; }
+
+  /* Une seule rangée qui défile : onze onglets sur deux rangées coûtent
+     soixante-dix-neuf pixels, la même rangée qui glisse en fait trente-neuf. */
+  .page-nav{
+    position:sticky; top:0; z-index:20;
+    background:var(--screen);
+    flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none;
+    gap:4px; margin:0 -4px 8px; padding:0 4px 6px;
+  }
+  .page-nav::-webkit-scrollbar{ display:none; }
+  .page-tab{ flex:0 0 auto; }
+
+  .dex-eyebrow, .dex-lights{ display:none; }
+
+  /* La phrase d'explication part, le titre reste : elle se lit une fois et
+     coûte quarante-cinq pixels à chaque ouverture. Elle revient dès qu'on
+     rend de la hauteur à la fenêtre. */
+  .home-sub, .home-eyebrow{ display:none; }
+  .home-hero{ margin-bottom:10px; }
+}
+
 /* ---- Bouton Discord ---- */
 .discord-btn{
   display:flex; align-items:center; justify-content:center; gap:10px;
