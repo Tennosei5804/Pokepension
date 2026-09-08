@@ -506,7 +506,7 @@
           <button class="outils-onglet" type="button" data-outils="strategie">⚔️ Stratégie</button>
           <button class="outils-onglet" type="button" data-outils="reproduction">🥚 Reproduction</button>
           <button class="outils-onglet active" type="button" data-outils="transferts">🚚 Transferts</button>
-          <button class="outils-onglet" type="button" data-outils="completer">&#129517; Compl&eacute;ter</button>
+          <button class="outils-onglet" type="button" data-outils="obtenir">&#128269; Comment l'avoir</button>
         </div>
         <div class="home-hero">
           <div class="home-eyebrow">Remonter jusqu'à aujourd'hui</div>
@@ -519,29 +519,31 @@
         <div class="transfert" id="transfertsListe"></div>
       </section>
 
-      <!-- POURQUOI CELUI-L&Agrave; TE MANQUE ENCORE. Le Pok&eacute;dex dit ce
-           qui manque, les Lieux disent o&ugrave; aller. Aucun des deux ne dit
-           pourquoi un Pok&eacute;mon ne rentre pas : &agrave; port&eacute;e,
-           sur une cartouche qu'on n'a pas, derri&egrave;re un &eacute;change,
-           ou plus jamais. Voir js/completer.js. -->
-      <section class="page" id="page-completer">
+      <!-- COMMENT L'AVOIR. On tape un nom, on lit la marche &agrave; suivre :
+           capture, &oelig;uf, &eacute;volution, &eacute;change, distribution.
+           L'application savait d&eacute;j&agrave; le dire, mais seulement en
+           ouvrant la fiche, et seulement pour le jeu ouvert.
+           Elle ne dit pas O&Ugrave; dans le jeu : c'est la page Lieux, et elle
+           y renvoie. Voir js/obtenir.js. -->
+      <section class="page" id="page-obtenir">
         <div class="outils-nav" role="tablist" aria-label="Outils">
           <button class="outils-onglet" type="button" data-outils="strategie">&#9876;&#65039; Strat&eacute;gie</button>
           <button class="outils-onglet" type="button" data-outils="reproduction">&#129370; Reproduction</button>
           <button class="outils-onglet" type="button" data-outils="transferts">&#128666; Transferts</button>
-          <button class="outils-onglet active" type="button" data-outils="completer">&#129517; Compl&eacute;ter</button>
+          <button class="outils-onglet active" type="button" data-outils="obtenir">&#128269; Comment l'avoir</button>
         </div>
         <div class="home-hero">
-          <div class="home-eyebrow">Ce qui bloque</div>
-          <h2 class="home-title">Compl&eacute;ter</h2>
-          <p class="home-sub">Sur ce qu'il te reste, tout ne se vaut pas&nbsp;:
-            une part est &agrave; port&eacute;e, une autre demande une
-            cartouche que tu n'as pas, une troisi&egrave;me demande
-            quelqu'un&nbsp;&mdash; et une derni&egrave;re ne s'obtiendra plus.</p>
+          <div class="home-eyebrow">Recherche</div>
+          <h2 class="home-title">Comment l'avoir</h2>
+          <p class="home-sub">Tape un nom&nbsp;: la marche &agrave; suivre
+            s'affiche, toutes g&eacute;n&eacute;rations confondues.</p>
         </div>
-        <p class="completer-jeux" id="completerJeux"></p>
-        <p class="completer-resume" id="completerResume"></p>
-        <div class="completer" id="completerListe"></div>
+        <div class="obtenir-barre">
+          <input type="search" id="obtenirQ" autocomplete="off"
+                 placeholder="Tog&eacute;pi, Spectrum, Phione&hellip;"
+                 aria-label="Chercher un Pok&eacute;mon">
+        </div>
+        <div class="obtenir" id="obtenirReponse"></div>
       </section>
 
       <section class="page" id="page-profil">
@@ -1108,7 +1110,7 @@
           <button class="outils-onglet active" type="button" data-outils="strategie">⚔️ Stratégie</button>
           <button class="outils-onglet" type="button" data-outils="reproduction">🥚 Reproduction</button>
           <button class="outils-onglet" type="button" data-outils="transferts">🚚 Transferts</button>
-          <button class="outils-onglet" type="button" data-outils="completer">&#129517; Compl&eacute;ter</button>
+          <button class="outils-onglet" type="button" data-outils="obtenir">&#128269; Comment l'avoir</button>
         </div>
         <div class="home-hero">
           <div class="home-eyebrow">Avant le combat</div>
@@ -1282,7 +1284,7 @@
           <button class="outils-onglet" type="button" data-outils="strategie">⚔️ Stratégie</button>
           <button class="outils-onglet active" type="button" data-outils="reproduction">🥚 Reproduction</button>
           <button class="outils-onglet" type="button" data-outils="transferts">🚚 Transferts</button>
-          <button class="outils-onglet" type="button" data-outils="completer">&#129517; Compl&eacute;ter</button>
+          <button class="outils-onglet" type="button" data-outils="obtenir">&#128269; Comment l'avoir</button>
         </div>
         <div class="home-hero">
           <div class="home-eyebrow">Élevage</div>
@@ -2159,7 +2161,7 @@
 <script src="js/parties.js"></script>
 <!-- APRES parties.js : il lit la liste des jeux declares. Et apres
      lieux.js, dont il reutilise puceEspece(). -->
-<script src="js/completer.js"></script>
+<script src="js/obtenir.js"></script>
 <script src="js/presence.js"></script>
 <script src="js/app.js"></script>
 <script src="js/selecteur-couleur.js"></script>

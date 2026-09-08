@@ -939,78 +939,57 @@ html[data-theme="light"] body{ background:#e9e7e0; }
 }
 .transferts-resume b{ color:var(--ink); font-variant-numeric:tabular-nums; }
 
-/* ---- Outils : Completer ---------------------------------------------------
-   Quatre blocs, un par raison de blocage. Les pastilles d especes sont celles
-   des Lieux — .lieu-espece, deja definie — et rien n est redessine ici. */
-.completer-jeux{
-  margin:0 0 6px;
-  font-family:var(--font-data); font-size:10.5px; line-height:1.6;
-  color:var(--ink-faint);
+/* ---- Outils : Comment l avoir --------------------------------------------
+   Une carte par Pokemon trouve, une ligne par maniere de l obtenir. Rien n est
+   redessine ici : le bouton « Sa fiche » est un .toggle-btn ordinaire. */
+.obtenir-barre{ margin:0 0 12px; }
+.obtenir-barre input[type=search]{
+  width:100%; height:44px; padding:0 13px;
+  border:1px solid var(--card-border); border-radius:10px;
+  background:var(--card); color:var(--ink);
+  font-family:var(--font-body); font-size:14px;
 }
-.completer-resume{
-  margin:0 0 14px;
-  font-family:var(--font-data); font-size:11.5px; line-height:1.6;
-  color:var(--ink-soft); font-variant-numeric:tabular-nums;
-}
-.completer{ display:flex; flex-direction:column; gap:10px; }
+.obtenir-barre input[type=search]:focus{ outline:none; border-color:var(--dex-red); }
 
-.completer-bloc{
+.obtenir{ display:flex; flex-direction:column; gap:10px; }
+
+.obtenir-carte{
   border:1px solid var(--card-border); border-radius:11px;
   background:var(--panel); padding:12px 13px;
 }
-.completer-tete{ display:flex; align-items:center; gap:10px; margin-bottom:4px; }
-.completer-titre{ font-size:14px; font-weight:700; color:var(--ink); }
-/* Le compte porte la couleur du cadran : c est le chiffre qu on vient lire. */
-.completer-compte{
-  margin-left:auto;
-  font-family:var(--font-data); font-size:10px; font-weight:600;
-  letter-spacing:.06em;
-  color:#fff; background:var(--dex-red);
-  border-radius:999px; padding:3px 9px;
-  font-variant-numeric:tabular-nums;
+.obtenir-tete{
+  display:flex; align-items:center; gap:9px; flex-wrap:wrap;
+  padding-bottom:9px; margin-bottom:4px;
+  border-bottom:1px solid var(--card-border);
 }
-.completer-note{
-  margin:0 0 10px;
-  font-size:11.5px; line-height:1.5; color:var(--ink-faint);
-}
-.completer-liste{ display:flex; flex-wrap:wrap; gap:6px; }
-
-/* Un bloc vide est une bonne nouvelle : il se tait plutot que de peser. */
-.completer-bloc .state-msg{ padding:6px 0; font-size:12px; }
-
-/* « Il te faut un autre jeu » se lit par cartouche, la plus rentable d abord :
-   trente especes en vrac ne disent pas laquelle acheter. */
-.completer-sous{
-  display:flex; align-items:center; gap:8px;
-  width:100%; margin:0; padding:9px 0;
-  border:0; border-top:1px solid var(--card-border);
-  background:none; cursor:pointer; text-align:left;
-  font-family:var(--font-body);
-}
-.completer-sous:first-of-type{ border-top:0; }
-.completer-sous:hover .completer-sous-nom{ color:var(--dex-red); }
-.completer-sous:focus-visible{ outline:2px solid var(--dex-red); outline-offset:-2px; }
-/* Le chevron dit que ça s ouvre. Il tourne quand c est ouvert : sans lui, une
-   rangee cliquable ressemble a une ligne de tableau. */
-.completer-sous::before{
-  content:"▸"; color:var(--ink-faint); font-size:11px;
-  transition:transform 120ms;
-}
-.completer-sous[aria-expanded="true"]::before{ transform:rotate(90deg); }
-.completer-sous-nom{ font-size:12.5px; font-weight:600; color:var(--ink); }
-.completer-sous-compte{
-  margin-left:auto;
+.obtenir-nom{ font-size:15px; font-weight:700; color:var(--ink); }
+.obtenir-no{
   font-family:var(--font-data); font-size:10px; color:var(--ink-faint);
   font-variant-numeric:tabular-nums;
 }
+.obtenir-fiche{ margin-left:auto; font-size:12px; padding:7px 11px; }
 
-/* Le bord gauche dit la nature du blocage sans qu on lise le titre : vert on
-   peut y aller, or il faut quelqu un, bleu il manque une cartouche, gris c est
-   fini. La couleur DOUBLE le titre, elle ne le remplace pas. */
-.completer-atteignable{ border-left:3px solid var(--caught); }
-.completer-partenaire{ border-left:3px solid var(--gold); }
-.completer-autreJeu{ border-left:3px solid var(--ic-bleu); }
-.completer-horsDePortee{ border-left:3px solid var(--ink-faint); }
+/* Une voie = une facon de l avoir. Le trait a gauche les separe sans les
+   encadrer : ce sont des etapes d une meme reponse, pas quatre blocs. */
+.obtenir-voie{
+  padding:9px 0 9px 11px;
+  border-left:2px solid var(--card-border);
+  margin-top:8px;
+}
+.obtenir-voie-titre{ font-size:13px; font-weight:600; color:var(--ink); }
+.obtenir-voie-detail{
+  margin-top:3px; font-size:12.5px; line-height:1.5; color:var(--ink-soft);
+}
+/* L avertissement de l echange porte la couleur du cadran : c est la seule
+   ligne qui dise « tu ne peux pas t en sortir seul ». */
+.obtenir-voie-note{
+  margin-top:4px; font-size:11.5px; line-height:1.5; color:var(--gold-deep);
+}
+.obtenir-voie-jeux{
+  margin-top:4px;
+  font-family:var(--font-data); font-size:10.5px; line-height:1.6;
+  color:var(--ink-faint);
+}
 
 /* ---- Accueil : les objectifs sur mesure ----
    Une carte par objectif, avec sa jauge. La croix se detache du bloc
