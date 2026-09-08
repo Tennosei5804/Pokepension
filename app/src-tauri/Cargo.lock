@@ -2797,7 +2797,7 @@ dependencies = [
 
 [[package]]
 name = "pokepension"
-version = "0.42.3"
+version = "0.42.4"
 dependencies = [
  "base64 0.21.7",
  "discord-rich-presence",
