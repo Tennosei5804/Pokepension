@@ -258,14 +258,57 @@ leur nuage et se pilote par leur application SimplySign.
 > Poser la question au support de Certum avant de payer coûte un courriel ;
 > découvrir la réponse après coûte l'abonnement.
 
-### Le choix, tel qu'il se pose
+### Le choix : Certum, décidé le 8 septembre 2026
 
-| | Azure (en tant qu'entreprise) | Certum (en tant que particulier) |
-|---|---|---|
-| Prix | ~10 $/mois | ~50–120 $/an |
-| Préalable | s'immatriculer | rien |
-| Automatisable en CI | oui, c'est ce que le workflow attend | **à confirmer** |
-| SmartScreen | le meilleur effet | réputation à chauffer |
+Azure demandait une immatriculation qu'on n'a pas. Reste Certum, qui vend aux
+créateurs individuels : **Open Source Code Signing** (~50 $/an, le moins cher,
+conçu pour un projet libre comme celui-ci) ou **Cloud CODE Signing Individual**
+(~120 $/an). La clé vit dans leur nuage, pas sur un jeton à ne pas perdre.
+
+> **⚠ LE GESTE À NE PAS RATER, ET IL N'ARRIVE QU'UNE FOIS.**
+>
+> À l'enrôlement, Certum affiche un **QR code** pour appairer l'application
+> mobile SimplySign. Ce QR contient une adresse `otpauth://` tout à fait
+> ordinaire — le secret TOTP en clair.
+>
+> **Photographie-le, et surtout garde le texte de l'URI**, pas seulement
+> l'image. C'est lui, et lui seul, qui permettra plus tard de générer le code à
+> six chiffres **par script** au lieu de le lire sur un téléphone. Sans lui,
+> aucune automatisation n'est possible sans tout ré-enrôler.
+>
+> Range-le comme une clé privée : dans le gestionnaire de mots de passe, jamais
+> dans le dépôt.
+
+### Ce que l'automatisation vaut vraiment, sans enjoliver
+
+SimplySign **n'est pas automatisable telle quelle** : elle veut une session
+ouverte avec un code à usage unique, et une session s'ouvre sur une machine
+puis y reste. Sur un runner GitHub, qui naît et meurt à chaque exécution, il
+faudrait la réinstaller et la déverrouiller à chaque fois.
+
+Ce que les projets qui y arrivent font, dans l'ordre de simplicité :
+
+1. **Signer depuis ta machine**, où la session SimplySign est déjà ouverte. Le
+   CI compile et publie comme aujourd'hui ; tu signes ensuite et tu remplaces
+   le fichier. C'est le circuit le plus court, et le seul qui ne demande rien
+   de neuf.
+2. **Une machine dédiée à la signature**, qu'on garde connectée — la session y
+   persiste. C'est ce que font les équipes, et c'est disproportionné ici.
+3. **Le TOTP par script sur le runner**, à partir de l'`otpauth://` gardé
+   ci-dessus, plus la bibliothèque PKCS#11 de Certum et `osslsigncode` ou
+   `signtool`. Ça marche — il existe des conteneurs publics qui le font — mais
+   c'est la solution la plus fragile, et elle casse le jour où Certum change
+   son enrôlement.
+
+**Commence par la 1.** Elle demande zéro configuration et prouve que le
+certificat fait son effet sur SmartScreen. Si signer à la main devient pénible,
+la 3 reste ouverte grâce au secret gardé — c'est bien pour ça qu'il faut le
+garder.
+
+> Une conséquence à connaître pour la voie 1 : l'installateur devra passer par
+> ta machine pour être signé, alors que Defender le supprime au vol. Utilise
+> l'exclusion de dossier décrite plus haut — et une fois **signé**, il ne
+> devrait plus être signalé, ce qui rend le problème ponctuel.
 
 Rien de tout cela ne se fait sans **créer un compte, payer, et fournir une
 pièce d'identité** : ce sont des gestes qui t'appartiennent. Le dépôt, lui, est
