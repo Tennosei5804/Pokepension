@@ -57,7 +57,9 @@ const OBTENIR_CAS_A_PART = {
          detail: 'Fais pondre Leveinard ou Leuphorie en lui faisant tenir l’Encens Chance.' },
   458: { titre: 'Par un œuf, avec un encens',
          detail: 'Fais pondre Démanta en lui faisant tenir l’Encens Ondée.' },
-  489: { titre: 'Par un œuf de Manaphy',
+  // Manaphy n'est PAS un descendant de Phione — Phione n'évolue en rien. Le
+  // bouton ne pourrait donc pas le deviner : on le nomme.
+  489: { parent: 490, titre: 'Par un œuf de Manaphy',
          detail: 'Fais pondre Manaphy avec Métamorph. Phione ne devient jamais '
                + 'Manaphy : c’est une impasse, et il faut Manaphy pour en avoir un.' },
 };
@@ -145,6 +147,28 @@ function obtenirDescendants(speciesId){
   });
 }
 
+/** L'entrée de BASE d'une espèce, celle que les outils attendent. */
+function obtenirEntreeEspece(speciesId){
+  if(typeof allEntries === 'undefined' || !allEntries) return null;
+  return allEntries.find(function(e){ return e.speciesId === speciesId && e.id === speciesId; })
+      || allEntries.find(function(e){ return e.speciesId === speciesId; })
+      || null;
+}
+
+/** Les numéros de ce qui évolue depuis cette espèce, toute la lignée en aval. */
+function obtenirDescendantsIds(speciesId){
+  obtenirDescendants(speciesId);            // construit l'index si besoin
+  const vus = new Set();
+  const file = (obtenirEnfants.get(speciesId) || []).slice();
+  while(file.length){
+    const id = file.shift();
+    if(vus.has(id)) continue;
+    vus.add(id);
+    (obtenirEnfants.get(id) || []).forEach(function(x){ file.push(x); });
+  }
+  return [...vus];
+}
+
 /** Les distributions qui ont donné cette espèce, région comprise. */
 let obtenirParEspece = null;
 function obtenirDistributions(speciesId){
@@ -159,6 +183,43 @@ function obtenirDistributions(speciesId){
     });
   }
   return obtenirParEspece.get(speciesId) || [];
+}
+
+// ---- Les boutons qui mènent aux outils --------------------------------------
+//
+// OUVRIR L'ONGLET NE SUFFIT PAS. Un bouton qui dépose sur une page vide, où il
+// faut retaper le nom qu'on vient de lire, ne fait que déplacer le travail.
+// Chaque outil a déjà de quoi arriver garni : la reproduction expose
+// ouvrirCoParent(), écrite pour ça et employée par la fiche ; les cadeaux ont
+// leur champ de recherche.
+//
+// Le bouton porte donc une ACTION et non un nom de page. Si l'outil visé ne
+// sait pas se poser sur un Pokémon, on n'invente rien : on ouvre la page, ce
+// qui reste mieux que rien.
+function obtenirVersReproduction(parentId){
+  const parent = parentId ? obtenirEntreeEspece(parentId) : null;
+  return {
+    libelle: parent ? 'Voir avec qui le faire pondre' : 'Voir reproduction',
+    aller: function(){
+      if(typeof showPage === 'function') showPage('reproduction');
+      if(parent && typeof ouvrirCoParent === 'function') ouvrirCoParent(parent);
+    },
+  };
+}
+
+function obtenirVersCadeaux(entree){
+  return {
+    libelle: 'Voir ses distributions',
+    aller: function(){
+      if(typeof showPage === 'function') showPage('cadeaux');
+      const champ = document.getElementById('cadeauxQ');
+      if(!champ) return;
+      // Le nom affiché plutôt que le slug : c'est ce que le filtre compare, et
+      // c'est aussi ce qu'on lit dans le champ après coup.
+      champ.value = (typeof nomAffiche === 'function') ? nomAffiche(entree) : entree.display;
+      champ.dispatchEvent(new Event('input', { bubbles: true }));
+    },
+  };
 }
 
 // ---- La réponse -------------------------------------------------------------
@@ -207,7 +268,8 @@ function obtenirVoies(entree){
   if(apart){
     voies.push({ icone: '🥚', titre: apart.titre, detail: apart.detail,
                  jeux: parCat.oeuf || [],
-                 bouton: { libelle: 'Voir reproduction', page: 'reproduction' } });
+                 bouton: obtenirVersReproduction(
+                   apart.parent || obtenirDescendantsIds(entree.speciesId)[0]) });
   }
 
   OBTENIR_ORDRE.forEach(function(o){
@@ -299,7 +361,7 @@ function obtenirVoies(entree){
       // si personne ne l'a dite avant.
       voies.push({ icone: '🥚', titre: 'Par reproduction',
                    detail: 'Fais un œuf de ' + enfants.join(' ou ') + ' femelle.',
-                   bouton: { libelle: 'Voir reproduction', page: 'reproduction' } });
+                   bouton: obtenirVersReproduction(obtenirDescendantsIds(entree.speciesId)[0]) });
     }
   }
 
@@ -312,7 +374,7 @@ function obtenirVoies(entree){
     voies.push({ icone: '📮', titre: 'Par une distribution',
                  detail: dons.length + (dons.length > 1 ? ' distributions relevées' : ' distribution relevée')
                        + (regions.length ? ' — ' + regions.slice(0, 4).join(', ') : '') + '.',
-                 bouton: { libelle: 'Voir Cadeau Mystère', page: 'cadeaux' } });
+                 bouton: obtenirVersCadeaux(entree) });
   }
 
   return voies;
@@ -426,9 +488,7 @@ function obtenirCarte(entree){
       b.type = 'button';
       b.className = 'toggle-btn obtenir-vers';
       b.textContent = v.bouton.libelle;
-      b.addEventListener('click', function(){
-        if(typeof showPage === 'function') showPage(v.bouton.page);
-      });
+      b.addEventListener('click', v.bouton.aller);
       ligne.appendChild(b);
     }
     carte.appendChild(ligne);
