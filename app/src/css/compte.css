@@ -990,6 +990,9 @@ html[data-theme="light"] body{ background:#e9e7e0; }
   font-family:var(--font-data); font-size:10.5px; line-height:1.6;
   color:var(--ink-faint);
 }
+/* Le bouton qui mene a l outil : Reproduction, Cadeau Mystere. Il ferme la
+   voie plutot que de flotter au milieu, d ou la marge au-dessus. */
+.obtenir-vers{ margin-top:8px; font-size:12px; padding:8px 12px; }
 
 /* ---- Accueil : les objectifs sur mesure ----
    Une carte par objectif, avec sa jauge. La croix se detache du bloc

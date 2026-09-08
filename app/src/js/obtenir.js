@@ -206,7 +206,8 @@ function obtenirVoies(entree){
   const apart = OBTENIR_CAS_A_PART[entree.speciesId];
   if(apart){
     voies.push({ icone: '🥚', titre: apart.titre, detail: apart.detail,
-                 jeux: parCat.oeuf || [] });
+                 jeux: parCat.oeuf || [],
+                 bouton: { libelle: 'Voir reproduction', page: 'reproduction' } });
   }
 
   OBTENIR_ORDRE.forEach(function(o){
@@ -292,8 +293,13 @@ function obtenirVoies(entree){
   if(!det && !apart){
     const enfants = obtenirDescendants(entree.speciesId);
     if(enfants.length){
+      // FEMELLE, ET CE N'EST PAS UN DÉTAIL : l'espèce du petit vient de la
+      // MÈRE. Faire pondre un Togetic mâle donne l'espèce de sa partenaire,
+      // pas un Togépi. C'est l'erreur qu'on ne fait qu'une fois, et seulement
+      // si personne ne l'a dite avant.
       voies.push({ icone: '🥚', titre: 'Par reproduction',
-                   detail: 'Fais pondre ' + enfants.join(' ou ') + '.' });
+                   detail: 'Fais un œuf de ' + enfants.join(' ou ') + ' femelle.',
+                   bouton: { libelle: 'Voir reproduction', page: 'reproduction' } });
     }
   }
 
@@ -305,8 +311,8 @@ function obtenirVoies(entree){
     });
     voies.push({ icone: '📮', titre: 'Par une distribution',
                  detail: dons.length + (dons.length > 1 ? ' distributions relevées' : ' distribution relevée')
-                       + (regions.length ? ' — ' + regions.slice(0, 4).join(', ') : '')
-                       + '. Voir Cadeau Mystère.' });
+                       + (regions.length ? ' — ' + regions.slice(0, 4).join(', ') : '') + '.',
+                 bouton: { libelle: 'Voir Cadeau Mystère', page: 'cadeaux' } });
   }
 
   return voies;
@@ -412,6 +418,18 @@ function obtenirCarte(entree){
       l.className = 'obtenir-voie-note';
       l.textContent = 'La page Lieux dit où, jeu par jeu.';
       ligne.appendChild(l);
+    }
+    // UN BOUTON PLUTÔT QU'UNE PHRASE. « Voir Cadeau Mystère » écrit en toutes
+    // lettres laissait chercher l'onglet ; il y mène maintenant.
+    if(v.bouton){
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'toggle-btn obtenir-vers';
+      b.textContent = v.bouton.libelle;
+      b.addEventListener('click', function(){
+        if(typeof showPage === 'function') showPage(v.bouton.page);
+      });
+      ligne.appendChild(b);
     }
     carte.appendChild(ligne);
   });
