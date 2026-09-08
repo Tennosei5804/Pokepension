@@ -16,11 +16,11 @@ se parlent pas : Microsoft d'un côté, Google de l'autre.
 | | |
 |---|---|
 | Fichier | `PokePension-Windows-x64.exe` |
-| Version | **0.42.4** (tag `v0.42.4`, publiée le 8 septembre 2026) |
-| Taille | 9 402 218 octets |
-| SHA-256 | `a7d66f46920fb7b74f73b79acc9fcb669a40cf437643f4d1953f06035cb1d2a9` |
-| SHA-1 | `7c534fcc1d71d213822f5678114d1f3afd48d4f4` |
-| MD5 | `5c07caa2322ea915c53edb90bca80c96` |
+| Version | **0.42.5** (tag `v0.42.5`, publiée le 8 septembre 2026) |
+| Taille | 9 412 310 octets |
+| SHA-256 | `496980abb0f602ea54b8006de87f9c8c776411cc7ed7f08a821c36403b7f1fbe` |
+| SHA-1 | `f58a8c98f700adab2558e2fb665c3e42939f5cac` |
+| MD5 | `06b47832b837414c0a3c799ac1360bce` |
 | Servi par | `https://pokepension.fr/telecharger` |
 | Signature Authenticode | **aucune** |
 
@@ -46,7 +46,7 @@ définition se corrige d'ordinaire vite, et la correction descend chez tout le
 monde à la mise à jour de signatures suivante. Un verdict heuristique, lui, se
 rediscute à chaque compilation.
 
-> ## ⚠ LA 0.42.4 N'A PAS ENCORE ÉTÉ ÉPROUVÉE
+> ## ⚠ LA 0.42.5 N'A PAS ENCORE ÉTÉ ÉPROUVÉE
 >
 > Les deux détections ci-dessus ont été vues sur la **0.42.2**. La **0.42.3**,
 > téléchargée le 7 septembre à 21:21, était arrivée intacte : aucune détection,
@@ -54,12 +54,12 @@ rediscute à chaque compilation.
 > **définition**, sur des octets précis ; une recompilation les change, et la
 > règle ne mord plus.
 >
-> **Mais la 0.42.4 est un binaire neuf, d'empreinte différente, et personne ne
+> **Mais la 0.42.5 est un binaire neuf, d'empreinte différente, et personne ne
 > l'a encore téléchargée.** Qu'une version soit passée ne dit rien de la
 > suivante : chaque compilation est un tirage. C'est bien pourquoi seule la
 > signature Authenticode retire le hasard — voir « Ce que ça ne règle pas ».
 >
-> **Avant de soumettre quoi que ce soit**, télécharger la 0.42.4 puis lancer
+> **Avant de soumettre quoi que ce soit**, télécharger la 0.42.5 puis lancer
 > `releve.ps1`, et prendre le nom de détection QU'IL REND — jamais celui
 > recopié plus haut, qui appartient à un autre binaire et enverrait l'analyste
 > chercher autre chose. Trois issues :
@@ -141,9 +141,9 @@ with Tauri 2 (Rust + WebView2). The installer is an NSIS bundle produced by
 positive.
 
   File     : PokePension-Windows-x64.exe
-  Version  : 0.42.4
-  Size     : 9,402,218 bytes
-  SHA-256  : a7d66f46920fb7b74f73b79acc9fcb669a40cf437643f4d1953f06035cb1d2a9
+  Version  : 0.42.5
+  Size     : 9,412,310 bytes
+  SHA-256  : 496980abb0f602ea54b8006de87f9c8c776411cc7ed7f08a821c36403b7f1fbe
   Detected : Trojan:Win32/Cloxer  (definitions 1.459.93.0, engine 1.1.26080.3)
              Trojan:Win32/Bearfoos.A!ml was reported on the same build earlier.
 
@@ -154,7 +154,7 @@ Supporting facts:
    artifact can be rebuilt from the tagged commit:
      https://github.com/Tennosei5804/Pokepension
      .github/workflows/publier.yml
-     https://github.com/Tennosei5804/Pokepension/releases/tag/v0.42.4
+     https://github.com/Tennosei5804/Pokepension/releases/tag/v0.42.5
 
 2. The application contacts exactly one endpoint, https://api.pokepension.fr,
    which is our own service, over HTTPS, and only to synchronise the user's own
