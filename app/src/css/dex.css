@@ -1128,11 +1128,30 @@
 /* Le compte de ce qui reste est la reponse a la question posee : il porte donc
    la couleur du cadran, et la chasse fixe pour que la colonne ne danse pas. */
 .lieu-compteur{
+  display:inline-flex; align-items:baseline; gap:5px;
   font-family:var(--font-data); font-size:10px; font-weight:600;
   letter-spacing:.06em; text-transform:uppercase;
   color:#fff; background:var(--dex-red);
   border-radius:999px; padding:3px 9px; white-space:nowrap;
   font-variant-numeric:tabular-nums;
+}
+/* La coche ne sert QUE sous 360 px, la ou la phrase ne tient plus. Au-dessus,
+   « tout est pris » se suffit et une coche en plus ferait doublon. */
+.lieu.complet .lieu-compteur-nb{ display:none; }
+
+/* SOUS 360 px, LE COMPTEUR SE REDUIT AU NOMBRE.
+   Mesure a 320 : « 251 a prendre » prenait 104 des 252 pixels de la rangee,
+   et il n en restait que 98 au nom du lieu — 41 visibles. Vingt-huit noms sur
+   soixante etaient illisibles, et un lieu qu on ne peut pas lire ne sert a
+   rien. La pastille est rouge et la page ne parle que de ce qui reste : le
+   nombre seul se comprend.
+   Ce qui part est ce qu on VOIT. L etiquette accessible du compteur porte la
+   phrase entiere dans tous les cas — voir blocLieu() dans lieux.js.
+   Le seuil est a 359 et non a 375 : a 360 px il reste neuf noms tronques sur
+   soixante, ce qui se lit encore. On ne raccourcit que la ou ca coince. */
+@media (max-width:359px){
+  .lieu-compteur-mot{ display:none; }
+  .lieu.complet .lieu-compteur-nb{ display:inline; }
 }
 .lieu.complet .lieu-compteur{
   color:var(--ink-faint); background:transparent;

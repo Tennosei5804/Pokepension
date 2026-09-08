@@ -763,11 +763,34 @@ function blocLieu(lieu, pris){
   total.className = 'lieu-total';
   total.textContent = (compte.manque.length + compte.deja.length) + ' espèces';
 
+  // LE NOMBRE ET LE MOT SONT DEUX ÉLÉMENTS, pour que le mot puisse partir sous
+  // 360 px — voir dex.css. Mesuré à 320 : « 251 à prendre » prenait 104 des
+  // 252 pixels de la rangée, et il n'en restait que 98 au nom du lieu, dont
+  // 41 visibles. Vingt-huit noms sur soixante étaient illisibles.
+  //
+  // L'étiquette accessible porte la phrase ENTIÈRE dans tous les cas : ce qui
+  // se raccourcit est ce qu'on voit, jamais ce qui se lit à voix haute.
   const compteur = document.createElement('span');
   compteur.className = 'lieu-compteur';
-  compteur.textContent = compte.manque.length
-    ? compte.manque.length + ' à prendre'
-    : 'tout est pris';
+  const reste = compte.manque.length;
+  compteur.setAttribute('aria-label', reste ? reste + ' à prendre' : 'tout est pris');
+
+  const nb = document.createElement('b');
+  nb.className = 'lieu-compteur-nb';
+  const mot = document.createElement('span');
+  mot.className = 'lieu-compteur-mot';
+  if(reste){
+    nb.textContent = String(reste);
+    mot.textContent = 'à prendre';
+  }else{
+    // Un lieu fini n'a pas de nombre à montrer : la coche en tient lieu, et
+    // elle ne paraît que là où la phrase ne tient plus.
+    nb.textContent = '✓';
+    nb.setAttribute('aria-hidden', 'true');
+    mot.textContent = 'tout est pris';
+  }
+  compteur.appendChild(nb);
+  compteur.appendChild(mot);
 
   tete.appendChild(total);
   tete.appendChild(compteur);
