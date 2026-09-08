@@ -120,6 +120,36 @@ function obtenirNomJeu(cle){
  */
 let obtenirEnfants = null;
 function obtenirDescendants(speciesId){
+  return obtenirDescendantsIds(speciesId).map(function(id){
+    return (typeof nomParEspece === 'function') ? nomParEspece(id) : ('nº ' + id);
+  });
+}
+
+/** L'entrée de BASE d'une espèce, celle que les outils attendent. */
+function obtenirEntreeEspece(speciesId){
+  if(typeof allEntries === 'undefined' || !allEntries) return null;
+  return allEntries.find(function(e){ return e.speciesId === speciesId && e.id === speciesId; })
+      || allEntries.find(function(e){ return e.speciesId === speciesId; })
+      || null;
+}
+
+/**
+ * Les numéros de ce qui évolue depuis cette espèce, toute la lignée en aval.
+ *
+ * LES FORMES SONT ÉCARTÉES, et c'est le fond de la réponse. Le relevé fait
+ * évoluer Carabaffe vers Tortank, mais aussi vers Méga-Tortank et vers son
+ * Gigamax : trois numéros pour un seul Pokémon. Aucune de ces formes n'a
+ * d'entrée au Pokédex, alors la lignée sortait « Carabaffe ou Tortank ou
+ * n°10036 ou n°10197 » : deux numéros bruts qui ne se cherchent nulle part et
+ * qui ne se font pas pondre.
+ *
+ * Un descendant sans entrée au Pokédex est une FORME, jamais un Pokémon de
+ * plus — les 1351 entrées tiennent toutes sous le numéro 10000, les 173
+ * descendants qui dépassent sont tous des Méga, des Gigamax ou des formes
+ * régionales. Et AUCUNE n'a elle-même d'évolution : les écarter en chemin ne
+ * coupe donc aucune lignée, et aucune lignée ne se vide.
+ */
+function obtenirDescendantsIds(speciesId){
   if(!obtenirEnfants){
     obtenirEnfants = new Map();
     const esp = (typeof DONNEES_EMBARQUEES !== 'undefined' && DONNEES_EMBARQUEES.fiches)
@@ -142,31 +172,7 @@ function obtenirDescendants(speciesId){
     vus.add(id);
     (obtenirEnfants.get(id) || []).forEach(function(x){ file.push(x); });
   }
-  return [...vus].map(function(id){
-    return (typeof nomParEspece === 'function') ? nomParEspece(id) : ('nº ' + id);
-  });
-}
-
-/** L'entrée de BASE d'une espèce, celle que les outils attendent. */
-function obtenirEntreeEspece(speciesId){
-  if(typeof allEntries === 'undefined' || !allEntries) return null;
-  return allEntries.find(function(e){ return e.speciesId === speciesId && e.id === speciesId; })
-      || allEntries.find(function(e){ return e.speciesId === speciesId; })
-      || null;
-}
-
-/** Les numéros de ce qui évolue depuis cette espèce, toute la lignée en aval. */
-function obtenirDescendantsIds(speciesId){
-  obtenirDescendants(speciesId);            // construit l'index si besoin
-  const vus = new Set();
-  const file = (obtenirEnfants.get(speciesId) || []).slice();
-  while(file.length){
-    const id = file.shift();
-    if(vus.has(id)) continue;
-    vus.add(id);
-    (obtenirEnfants.get(id) || []).forEach(function(x){ file.push(x); });
-  }
-  return [...vus];
+  return [...vus].filter(function(id){ return !!obtenirEntreeEspece(id); });
 }
 
 /** Les distributions qui ont donné cette espèce, région comprise. */
@@ -199,7 +205,7 @@ function obtenirDistributions(speciesId){
 function obtenirVersReproduction(parentId){
   const parent = parentId ? obtenirEntreeEspece(parentId) : null;
   return {
-    libelle: parent ? 'Voir avec qui le faire pondre' : 'Voir reproduction',
+    libelle: parent ? 'Voir avec qui faire la reproduction' : 'Voir reproduction',
     aller: function(){
       if(typeof showPage === 'function') showPage('reproduction');
       if(parent && typeof ouvrirCoParent === 'function') ouvrirCoParent(parent);
