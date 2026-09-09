@@ -1558,8 +1558,29 @@
     padding:8px 10px;
   }
   /* Les menus déroulants partagent la rangée : deux menus de trois cents
-     pixels l'un sous l'autre, c'était la moitié de la barre à eux seuls. */
-  .toolbar .select-wrap{ flex:1 1 46%; min-width:0; }
+     pixels l'un sous l'autre, c'était la moitié de la barre à eux seuls.
+
+     TOUS SAUF CELUI DES MODES, et l'exception vaut la peine d'être écrite.
+     Ce menu-là est seul de son espèce, il porte le TOTAL du Pokédex, et
+     .modes-row lui a déjà donné sa largeur : 15rem, fixe, pour que le libellé
+     ne saute pas de vingt pixels à chaque changement. Étiré à 46 % il retombait
+     à 157 px, et son max-width:100% le clouait là : « 🧬 Avec les
+     alternatives : 1141 » se lisait « 🧬 Avec les… » sur tout téléphone. Le
+     nombre, c'est-à-dire la seule chose que ce bouton ait à dire, ne
+     s'affichait nulle part.
+
+     Cette règle-ci et .modes-row .select-wrap ont la même spécificité : la
+     dernière écrite gagnait, et c'était celle-ci. D'où le :not() plutôt qu'un
+     déplacement — l'ordre des règles cesse d'être ce qui décide. */
+  .toolbar:not(.modes-row) .select-wrap{ flex:1 1 46%; min-width:0; }
+
+  /* Dans la barre des filtres, l'air horizontal coûtait plus qu'il ne donnait :
+     46 px de rembourrage et de flèche sur un bouton de 150, donc 102 px pour
+     le texte, et deux libellés sur quatre coupés en plein mot — « Toutes
+     générations » devenait « Toutes géné… ». Douze pixels rendus au texte
+     suffisent : les quatre tiennent entiers, et le bouton ne bouge pas d'un
+     pixel puisque sa largeur vient du flex. */
+  .filters-row .select-btn{ padding:9px 10px; gap:6px; }
 
   /* TROIS COLONNES AU LIEU DE DEUX, et le chiffre se calcule au lieu de se
      choisir. L'écran utile fait 299 px : trois colonnes de 96 plus deux
