@@ -93,6 +93,37 @@ body {
      l'espace entre deux cibles qui evite d'appuyer sur la voisine. */
   .page-nav { gap: 7px; }
 
+  /* LES MODALES ECHAPPAIENT A TOUTE CETTE LISTE, et pour une raison qu'on ne
+     voit pas en la relisant : .modal-overlay est pose en enfant direct de
+     <body>, hors de .dex. La ligne « .dex button » ne l'atteint donc jamais, et
+     les douze croix de fermeture du site restaient a 34 x 34 px sous le doigt —
+     mesure prise le 9 septembre 2026 sur la modale des nouveautes.
+
+     ON N'AGRANDIT PAS LA CROIX, ON AGRANDIT CE QU'ON TOUCHE. Un min-height sur
+     ce bouton l'a fait passer a 40 px et deborder de son coin : il est pose en
+     absolu en haut a droite de la surcouche, au-dessus de la carte, et sa
+     taille visible fait partie du dessin. Le pseudo-element etend la zone
+     sensible tout autour — releve avant/apres, en neutralisant la regle puis
+     en la retablissant : 34 x 34 devient 48 x 48 au doigt, la boite visible
+     reste 34 x 34 et le bouton ne bouge pas d'un pixel.
+
+     HUIT PIXELS ET NON SEPT : a sept, elementFromPoint ne rendait le bouton que
+     jusqu'a cinq pixels d'un cote et six de l'autre, la croix etant posee sur
+     des coordonnees fractionnaires. A huit, le seuil de 44 est franchi quel que
+     soit l'arrondi, et la zone ne sort pas de l'ecran.
+
+     Elle recouvre la cloche des notifications, posee juste dessous : sans
+     consequence, la croix passant devant (z-index 6) et la cloche etant de
+     toute facon hors d'atteinte tant qu'une modale est ouverte.
+
+     Les autres boutons des modales (« Annuler », « Se connecter avec Discord »)
+     depassent deja 44 px : ils n'ont pas besoin d'etre vises ici. */
+  .fiche-fermer::after {
+    content: '';
+    position: absolute;
+    top: -8px; right: -8px; bottom: -8px; left: -8px;
+  }
+
   /* Les champs a 16 px au moins : en dessous, iOS agrandit la page a la mise au
      point et ne la reduit jamais. On corrige la cause plutot que d'interdire le
      zoom, qui rendrait la page inutilisable a qui en a besoin. */
