@@ -205,7 +205,7 @@ function obtenirDistributions(speciesId){
 function obtenirVersReproduction(parentId){
   const parent = parentId ? obtenirEntreeEspece(parentId) : null;
   return {
-    libelle: parent ? 'Voir avec qui faire la reproduction' : 'Voir reproduction',
+    libelle: parent ? 'Voir avec qui le faire reproduire' : 'Voir reproduction',
     aller: function(){
       if(typeof showPage === 'function') showPage('reproduction');
       if(parent && typeof ouvrirCoParent === 'function') ouvrirCoParent(parent);

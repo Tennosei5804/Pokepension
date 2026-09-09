@@ -33,7 +33,7 @@ const NOUVEAUTES = [
       + 'formes alternatives affichait « 🧬 Avec les alternatives… » et s’arrêtait '
       + 'là : le nombre, c’est-à-dire la seule chose qu’il ait à dire, ne '
       + 'tenait pas. Il tient maintenant, et les libellés des filtres aussi.',
-      '**🐣 Le bouton dit ce qu’il fait.** « Voir avec qui faire la reproduction » '
+      '**🐣 Le bouton dit ce qu’il fait.** « Voir avec qui le faire reproduire » '
       + 'plutôt que « le faire pondre » : c’est le PARENT qu’on va chercher, pas '
       + 'le Pokémon qu’on cherche à obtenir.',
     ]
