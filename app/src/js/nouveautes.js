@@ -20,6 +20,94 @@ const NOUVEAUTES_VUES_KEY = 'pokearchive-nouveautes-vues';
 
 const NOUVEAUTES = [
   {
+    version: '0.42.8', date: '2026-09-09',
+    titre: 'La reproduction nomme des Pokémon, et le Pokédex montre son total',
+    points: [
+      '**🥚 Plus de numéros à la place des noms.** « Comment l’avoir » répondait '
+      + '« Fais un œuf de Carabaffe ou Tortank ou n°10036 ou n°10197 femelle ». '
+      + 'Ces deux numéros étaient Méga-Tortank et Tortank Gigamax : le même '
+      + 'Pokémon, écrit trois fois, sous deux formes qu’on ne peut ni chercher '
+      + 'ni faire pondre. La réponse ne nomme plus que des Pokémon qui '
+      + 'existent au Pokédex.',
+      '**🔢 Sur téléphone, le Pokédex cachait son propre total.** Le bouton des '
+      + 'formes alternatives affichait « 🧬 Avec les alternatives… » et s’arrêtait '
+      + 'là : le nombre, c’est-à-dire la seule chose qu’il ait à dire, ne '
+      + 'tenait pas. Il tient maintenant, et les libellés des filtres aussi.',
+      '**🐣 Le bouton dit ce qu’il fait.** « Voir avec qui faire la reproduction » '
+      + 'plutôt que « le faire pondre » : c’est le PARENT qu’on va chercher, pas '
+      + 'le Pokémon qu’on cherche à obtenir.',
+    ]
+  },
+  {
+    version: '0.42.7', date: '2026-09-08',
+    titre: 'Les boutons ouvrent l’outil déjà garni',
+    points: [
+      '**🎯 Un bouton qui dépose sur une page vide ne fait que déplacer le '
+      + 'travail.** Depuis « Comment l’avoir », **Voir avec qui faire la '
+      + 'reproduction** ouvre la Reproduction **déjà posée sur le bon parent**, '
+      + 'et **Voir ses distributions** ouvre les Cadeaux Mystère **avec le nom '
+      + 'déjà saisi**. Plus rien à retaper.',
+    ]
+  },
+  {
+    version: '0.42.6', date: '2026-09-08',
+    titre: 'La reproduction dit « femelle », et ce n’est pas un détail',
+    points: [
+      '**♀️ L’espèce du petit vient de la MÈRE.** « Fais un œuf de Togetic » '
+      + 'laissait faire l’erreur qu’on ne fait qu’une fois : un Togetic **mâle** '
+      + 'donne l’espèce de sa partenaire, pas un Togépi. La réponse le dit '
+      + 'maintenant.',
+      '**🔗 Deux boutons vers les outils** — la Reproduction et les Cadeaux '
+      + 'Mystère — sous la réponse qui les concerne.',
+    ]
+  },
+  {
+    version: '0.42.5', date: '2026-09-08',
+    titre: 'Comment l’avoir : tu tapes un nom, tu lis la réponse',
+    points: [
+      '**🔍 Un nouvel outil.** Tape **Togépi**, **Spectrum**, **Phione** ou '
+      + '**Simularbre**, et la page dit comment l’obtenir : par un œuf, par '
+      + 'échange, par un objet, offert dans l’aventure, par une distribution — '
+      + 'et dans quels jeux. Togépi vient d’un œuf, Phione d’un œuf de Manaphy, '
+      + 'Simularbre d’une reproduction avec encens.',
+      '**🤝 L’échange dit s’il te faut quelqu’un.** Un échange entre joueurs le '
+      + 'précise, et rappelle les jeux où le **Cordon de Liaison** s’en charge '
+      + 'à sa place.',
+      '**🏷️ Le titre dit le mécanisme.** « Par échange », « Par un objet » — et '
+      + 'non « Par évolution », qui enterrait le seul mot qui compte.',
+    ]
+  },
+  {
+    version: '0.42.4', date: '2026-09-08',
+    titre: 'Les biomes des mods, un panneau « Trier », et le téléphone en paysage',
+    points: [
+      '**🌱 Les lieux de Cobblemon et de ses mods** entrent dans la page Lieux, '
+      + 'derrière une case à cocher : ils ne s’invitent pas si tu joues aux '
+      + 'jeux officiels.',
+      '**↕️ Un panneau « Trier »** pour les Lieux, sur le modèle de « Plus de '
+      + 'filtres ».',
+      '**📱 Le nom du lieu se lit enfin sur téléphone** : le compteur ne lui '
+      + 'prend plus la place, et sous 400 px il se réduit au nombre seul.',
+      '**🔄 En paysage, le boîtier lâche prise** au lieu de se comprimer : la '
+      + 'page défile normalement au lieu de tenir dans une fente.',
+    ]
+  },
+  {
+    version: '0.42.3', date: '2026-09-07',
+    titre: 'Le clic ailleurs referme les menus, et le Pokédex tient sur un téléphone',
+    points: [
+      '**👆 Un clic ailleurs referme le menu.** Les notifications, le compte, les '
+      + 'menus déroulants : ils restaient ouverts derrière ce qu’on venait de '
+      + 'toucher. Les cinq s’en vont maintenant du premier coup.',
+      '**📱 Le Pokédex tient sur un téléphone** : l’en-tête passe de 622 px à '
+      + '295, et la **navigation descend en bas de l’écran, sous le pouce**.',
+      '**🔗 Partager le Pokédex d’un jeu** par un lien qui n’exige aucun compte, '
+      + 'avec le tri et les filtres du Pokédex.',
+      '**📅 Les champs de date et de temps de jeu** suivent le thème sombre au '
+      + 'lieu d’ouvrir un calendrier blanc.',
+    ]
+  },
+  {
     version: '0.42.2', date: '2026-09-06',
     titre: 'PokéArchive devient PokéPension, et la connexion du site aboutit',
     points: [
