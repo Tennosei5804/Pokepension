@@ -20,6 +20,16 @@ const NOUVEAUTES_VUES_KEY = 'pokearchive-nouveautes-vues';
 
 const NOUVEAUTES = [
   {
+    version: '0.42.9', date: '2026-09-09',
+    titre: 'Le bouton de la reproduction se dit autrement',
+    points: [
+      '**🐣 « Voir avec qui le faire reproduire ».** Le bouton nommait l’outil '
+      + '— « faire la reproduction » — là où il valait mieux nommer ce qu’on '
+      + 'fait au Pokémon qu’on va chercher. Rien d’autre ne change dans cette '
+      + 'version.',
+    ]
+  },
+  {
     version: '0.42.8', date: '2026-09-09',
     titre: 'La reproduction nomme des Pokémon, et le Pokédex montre son total',
     points: [
@@ -33,9 +43,9 @@ const NOUVEAUTES = [
       + 'formes alternatives affichait « 🧬 Avec les alternatives… » et s’arrêtait '
       + 'là : le nombre, c’est-à-dire la seule chose qu’il ait à dire, ne '
       + 'tenait pas. Il tient maintenant, et les libellés des filtres aussi.',
-      '**🐣 Le bouton dit ce qu’il fait.** « Voir avec qui le faire reproduire » '
-      + 'plutôt que « le faire pondre » : c’est le PARENT qu’on va chercher, pas '
-      + 'le Pokémon qu’on cherche à obtenir.',
+      '**🐣 Le bouton dit ce qu’il fait.** Il ne dit plus « le faire pondre », qui '
+      + 'laissait croire qu’on ferait pondre le Pokémon cherché : c’est son PARENT '
+      + 'qu’on va chercher.',
     ]
   },
   {
