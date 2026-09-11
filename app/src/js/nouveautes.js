@@ -20,6 +20,17 @@ const NOUVEAUTES_VUES_KEY = 'pokearchive-nouveautes-vues';
 
 const NOUVEAUTES = [
   {
+    version: '0.43.0', date: '2026-09-11',
+    titre: 'Sur téléphone, les croix de fermeture se visent au doigt',
+    points: [
+      '**👆 La croix n’a plus à être visée.** Sur le site, depuis un téléphone, '
+      + 'la croix qui ferme une fenêtre ne réagissait que sous une toute petite '
+      + 'zone. Elle en couvre maintenant largement le tour, sans que son dessin '
+      + 'change. Rien d’autre ne bouge dans cette version — et rien du tout dans '
+      + 'l’application de bureau, qui se pilote à la souris.',
+    ]
+  },
+  {
     version: '0.42.9', date: '2026-09-09',
     titre: 'Le bouton de la reproduction se dit autrement',
     points: [
