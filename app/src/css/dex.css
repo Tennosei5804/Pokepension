@@ -1642,15 +1642,25 @@
    étoiles creuses auraient annoncé un Pokémon commun. */
 .pw-etoiles.etoiles-inconnu{ color:var(--ink-faint); font-size:11px; }
 
-/* Le bas de carte : deux lignes, la rareté puis le lieu.
-   Elles étaient côte à côte, et le lieu s'y coupait à l'ellipse dès qu'il
-   portait une sous-zone. Sur toute la largeur, « Bull'o • Biome Cascade » tient
-   en deux lignes de texte plutôt qu'en un mot tronqué. */
+/* LA GRILLE DE PIXELMONWORLD EST PLUS LARGE QUE CELLE DES JEUX, parce que sa
+   carte porte autre chose. Là-bas une carte tient en un nom et une case à
+   cocher, et 148 px suffisent ; ici elle liste des endroits — « Bull'o · Biome
+   Cascade » en demande le double. Élargir la cellule vaut mieux que couper les
+   noms : c'est la réponse qu'on vient chercher. */
+#pwGrille{
+  grid-template-columns:repeat(auto-fill, minmax(186px, 1fr));
+  max-height:none;
+  overflow-y:visible;
+}
+
+/* Le bas de carte : la rareté, puis les endroits, les uns sous les autres.
+   Tout était d'abord sur une rangée, et le lieu s'y terminait à l'ellipse dès
+   qu'il portait une sous-zone — « Bull'o • Biome Casc… ». */
 .pw-carte-bas{
   display:flex;
   flex-direction:column;
-  gap:3px;
-  margin-top:5px;
+  gap:4px;
+  margin-top:6px;
 }
 .pw-carte-rarete{
   display:flex;
@@ -1665,33 +1675,50 @@
   text-overflow:ellipsis;
   white-space:nowrap;
 }
-/* Le lieu peut passer à la ligne — c'est la réponse qu'on vient chercher, et
-   la couper pour gagner six pixels reviendrait à la cacher. Deux lignes au
-   plus : au-delà, les cartes de la rangée ne s'alignent plus. */
+
+/* Les endroits. Un filet les sépare de la rareté : ce sont deux réponses
+   différentes — à quel point c'est rare, et où l'on va le chercher. */
 .pw-carte-lieux{
   display:flex;
-  align-items:baseline;
-  gap:4px;
+  flex-direction:column;
+  gap:2px;
+  padding-top:5px;
+  border-top:1px solid var(--card-border);
+}
+.pw-carte-lieu{
   font-size:10px;
-  line-height:1.35;
+  line-height:1.4;
   color:var(--ink);
 }
-.pw-carte-lieu-nom{
-  display:-webkit-box;
-  -webkit-line-clamp:2;
-  -webkit-box-orient:vertical;
-  overflow:hidden;
+.pw-carte-lieu-zone{ font-weight:600; }
+/* Les sous-zones suivent leur zone sur la même ligne, en retrait de ton :
+   « Zone 1 » est l'endroit, « Colline, Eau, Forêt » le détail. */
+.pw-carte-lieu-sous{
+  color:var(--ink-soft);
+  font-weight:400;
 }
-/* « +3 » : il y a d'autres endroits, et la fiche les donne tous. Le compte
-   plutôt que les noms — trois noms de zone sous une carte de 148 px la
-   feraient grandir plus que la grille ne le supporte. */
+.pw-carte-lieu-sous::before{ content:' · '; color:var(--ink-faint); }
+/* Ce qui n'est pas un endroit — Évolution, Quête, Tour de Combat. En italique
+   gris : on ne s'y rend pas, et une ligne qui ressemble à une zone
+   enverrait chercher une évolution sur la carte du serveur. */
+.pw-carte-lieu.pw-carte-lieu-autre{
+  color:var(--ink-faint);
+  font-style:italic;
+}
+.pw-carte-lieu.pw-carte-lieu-autre .pw-carte-lieu-zone{ font-weight:400; }
 .pw-carte-lieu-reste{
-  flex:0 0 auto;
-  font-size:9.5px;
   color:var(--ink-faint);
   font-variant-numeric:tabular-nums;
 }
-.pw-carte-lieux.pw-carte-sans-lieu{ color:var(--ink-faint); }
+.pw-carte-lieu.pw-carte-sans-lieu{ color:var(--ink-faint); font-style:italic; }
+
+/* Sur un téléphone, la grille revient à deux colonnes : trois cartes de 186 px
+   ne tiennent pas sous 400, et une carte par rangée gaspille la moitié de
+   l'écran pour un sprite. */
+@media (max-width:480px){
+  #pwGrille{ grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); }
+  .pw-carte-lieu, .pw-carte-rarete-mot{ font-size:9.5px; }
+}
 /* Annoncée par le serveur, inconnue de la réserve : pas de fiche à ouvrir, et
    la carte le dit en restant en retrait plutôt qu'en disparaissant. */
 .pw-carte.pw-inconnue{ opacity:0.72; }

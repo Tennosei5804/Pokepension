@@ -46,7 +46,6 @@ let pwEntreesConnues = [];         // les entrées de l'application, filtrées
 let pwFiltrees = [];
 let pwDessinees = 0;
 let pwEnVol = null;
-let pwDepuisLaPage = false;        // la fiche a-t-elle été ouverte d'ici ?
 
 // ---- Les étoiles ------------------------------------------------------------
 //
@@ -338,6 +337,64 @@ function pwSprite(x){
   return img;
 }
 
+// Au-delà, la carte cesse d'avoir la hauteur de ses voisines. Quatre suffisent
+// pour 951 espèces sur 951 moins une : la plus fournie après Métamorph en a
+// cinq, et la cinquième tient sur la ligne « + 1 autre zone ».
+const PW_ZONES_MONTREES = 4;
+
+/**
+ * Les apparitions, regroupées par zone.
+ *
+ * « Zone 1 », « Zone 1 Colline », « Zone 1 Eau », « Zone 1 Forêt » sont QUATRE
+ * apparitions et UN endroit où se rendre. Les empiler telles quelles ferait
+ * quatre lignes qui commencent toutes par le même mot ; regroupées, elles en
+ * font une seule — « Zone 1 · Colline, Eau, Forêt » —, et c'est ainsi qu'on y
+ * pense en jouant.
+ *
+ * L'ordre des zones est celui de l'API, qui est celui de la carte du serveur.
+ */
+function pwGrouperParZone(spawns){
+  const parZone = new Map();
+  spawns.forEach(function(s){
+    if(!parZone.has(s.zoneId)){
+      parZone.set(s.zoneId, { zone: s.zone, genre: s.zoneGenre, sous: [], etoiles: s.etoiles });
+    }
+    const g = parZone.get(s.zoneId);
+    if(s.sousZone && g.sous.indexOf(s.sousZone) === -1) g.sous.push(s.sousZone);
+    // La plus favorable des sous-zones : c'est celle qui décide si l'on y va.
+    if(s.etoiles && (!g.etoiles || s.etoiles < g.etoiles)) g.etoiles = s.etoiles;
+  });
+  return [...parZone.values()];
+}
+
+/**
+ * Une ligne de lieu sur la carte.
+ *
+ * LE GENRE CHANGE CE QU'ON LIT. « Zone 4 » est un endroit où aller ;
+ * « Évolution » et « Tour de Combat » n'en sont pas, et une puce de lieu
+ * devant eux enverrait chercher une évolution sur la carte du serveur.
+ */
+function pwLigneLieu(g){
+  const ligne = document.createElement('div');
+  ligne.className = 'pw-carte-lieu'
+    + (g.genre === 'hors-carte' ? ' pw-carte-lieu-autre' : '');
+
+  const zone = document.createElement('span');
+  zone.className = 'pw-carte-lieu-zone';
+  zone.textContent = g.zone;
+  ligne.appendChild(zone);
+
+  if(g.sous.length){
+    const sous = document.createElement('span');
+    sous.className = 'pw-carte-lieu-sous';
+    sous.textContent = g.sous.join(', ');
+    ligne.appendChild(sous);
+  }
+  ligne.title = g.zone + (g.sous.length ? ' · ' + g.sous.join(', ') : '')
+    + (g.genre === 'hors-carte' ? ' — ce n’est pas un endroit où se rendre' : '');
+  return ligne;
+}
+
 function pwCarte(x){
   const e = x.pw;
   const carte = document.createElement('div');
@@ -359,12 +416,16 @@ function pwCarte(x){
   nom.textContent = x.entry && typeof nomAffiche === 'function'
     ? nomAffiche(x.entry) : (e.nomFr || e.espece);
 
-  // DEUX LIGNES SOUS LE NOM, ET DANS CET ORDRE : la rareté, puis le lieu.
+  // SOUS LE NOM : la rareté, puis TOUS LES ENDROITS.
   //
-  // Elles étaient côte à côte sur une seule rangée, et le lieu s'y coupait à
-  // l'ellipse dès qu'il avait une sous-zone — « Bull'o • Biome Casc… ». Or le
-  // lieu est la moitié de la réponse : on vient chercher OÙ, et un nom de zone
-  // amputé oblige à ouvrir la fiche pour lire ce qui tenait sur la carte.
+  // Le format des cartes du Pokédex des jeux, adapté à ce que ce serveur
+  // répond. Là-bas, la carte porte une case à cocher et une pastille
+  // d'obtention ; ici il n'y a rien à cocher — ce n'est pas un Pokédex de
+  // collection — et la vraie question est « où je vais le chercher ».
+  //
+  // TOUTES LES ZONES, ET C'EST POSSIBLE : 839 espèces sur 951 n'en ont qu'une,
+  // et cinq au plus pour toutes les autres. Une seule fait exception,
+  // Métamorph, qui sort dans quarante et une — d'où la coupure plus bas.
   const bas = document.createElement('div');
   bas.className = 'pw-carte-bas';
   const retenus = pwSpawnsRetenus(e);
@@ -388,33 +449,28 @@ function pwCarte(x){
 
   const lieux = document.createElement('div');
   lieux.className = 'pw-carte-lieux';
-  const liste = retenus.length ? retenus : (e.spawns || []);
-  // LE LIEU EN TOUTES LETTRES, MÊME QUAND IL Y EN A PLUSIEURS. « 4 endroits »
-  // était un compte, pas une réponse : il fallait ouvrir la fiche pour
-  // apprendre un nom qui tenait sur la carte. On nomme donc le premier — le
-  // plus favorable, puisque les apparitions arrivent triées — et on annonce le
-  // reste par un « +3 » qui dit qu'il y a mieux à voir dans la fiche.
-  if(!liste.length){
-    lieux.textContent = '—';
-    lieux.classList.add('pw-carte-sans-lieu');
-  } else {
-    const s = liste[0];
-    const nom_ = document.createElement('span');
-    nom_.className = 'pw-carte-lieu-nom';
-    nom_.textContent = s.zone + (s.sousZone ? ' • ' + s.sousZone : '');
-    lieux.appendChild(nom_);
-    if(liste.length > 1){
-      const reste = document.createElement('span');
-      reste.className = 'pw-carte-lieu-reste';
-      reste.textContent = '+' + (liste.length - 1);
-      reste.title = liste.slice(1).map(function(a){
-        return a.zone + (a.sousZone ? ' • ' + a.sousZone : '');
-      }).join(' · ');
-      lieux.appendChild(reste);
-    }
-    lieux.title = liste.map(function(a){
-      return a.zone + (a.sousZone ? ' • ' + a.sousZone : '');
+  const groupes = pwGrouperParZone(retenus.length ? retenus : (e.spawns || []));
+  if(!groupes.length){
+    const rien = document.createElement('div');
+    rien.className = 'pw-carte-lieu pw-carte-sans-lieu';
+    rien.textContent = 'Aucun endroit connu';
+    lieux.appendChild(rien);
+  }
+  groupes.slice(0, PW_ZONES_MONTREES).forEach(function(g){
+    lieux.appendChild(pwLigneLieu(g));
+  });
+  // MÉTAMORPH, ET LUI SEUL. Quarante et une zones feraient une carte quatre
+  // fois plus haute que ses voisines, et la grille cesserait d'être une
+  // grille. Le reste s'annonce, et la fiche les donne tous.
+  if(groupes.length > PW_ZONES_MONTREES){
+    const reste = document.createElement('div');
+    reste.className = 'pw-carte-lieu pw-carte-lieu-reste';
+    const n = groupes.length - PW_ZONES_MONTREES;
+    reste.textContent = '+ ' + n + ' autre' + (n > 1 ? 's' : '') + ' zone' + (n > 1 ? 's' : '');
+    reste.title = groupes.slice(PW_ZONES_MONTREES).map(function(g){
+      return g.zone + (g.sous.length ? ' · ' + g.sous.join(', ') : '');
     }).join(' · ');
+    lieux.appendChild(reste);
   }
   bas.appendChild(lieux);
 
@@ -424,10 +480,8 @@ function pwCarte(x){
 
   if(x.entry && typeof openPreview === 'function'){
     const ouvrir = function(){
-      // La fiche lit `currentTab` pour son numéro régional et sa boîte : on ne
-      // le change pas, on note seulement d'où l'on vient, pour que le bloc des
-      // apparitions sache qu'il a sa place.
-      pwDepuisLaPage = true;
+      // `currentTab` ne change pas : la fiche garde le Pokédex ouvert par
+      // ailleurs, et c'est `currentPage` qui lui dit qu'on est sur le serveur.
       openPreview(x.entry);
     };
     cadre.addEventListener('click', ouvrir);
@@ -644,14 +698,19 @@ function pwDepart(){
 /**
  * Faut-il parler de PixelmonWorld sur cette fiche ?
  *
- * Oui quand on vient de sa page, oui sur le Pokédex d'ensemble — c'est là
- * qu'on compare les sources — et non sur le Pokédex d'un jeu : on y demande
- * où trouver l'espèce DANS CE JEU, et un serveur Minecraft n'y répond pas.
- * C'est exactement la règle que suit déjà le bloc de Cobblemon.
+ * Oui depuis ses deux écrans, oui sur le Pokédex d'ensemble — c'est là qu'on
+ * compare les sources — et non sur le Pokédex d'un jeu : on y demande où
+ * trouver l'espèce DANS CE JEU, et un serveur Minecraft n'y répond pas. C'est
+ * exactement la règle que suit déjà le bloc de Cobblemon.
+ *
+ * LA PAGE OUVERTE SUFFIT À SAVOIR D'OÙ L'ON VIENT — voir
+ * ficheSurPixelmonWorld() dans fiche.js. Un drapeau posé au clic aurait fallu
+ * le remettre à zéro à chaque façon de fermer la fiche, et la première oubliée
+ * aurait suffi à tout fausser.
  */
 function pwFicheConcernee(){
   if(!pwDroits || !pwDroits.lire) return false;
-  if(pwDepuisLaPage) return true;
+  if(typeof ficheSurPixelmonWorld === 'function' && ficheSurPixelmonWorld()) return true;
   const jeu = typeof gameByKey !== 'undefined' && typeof currentTab !== 'undefined'
     ? gameByKey[currentTab] : null;
   return !jeu;
@@ -798,12 +857,6 @@ function pwLigneSpawn(s){
     if(typeof syncSelects === 'function') syncSelects();
     pwMajSousZones();
     pwDessiner(true);
-  });
-
-  // La fiche fermée, on oublie d'où elle venait : rouverte depuis un Pokédex
-  // de jeu, elle ne doit plus montrer le bloc du serveur.
-  document.addEventListener('click', function(ev){
-    if(ev.target && ev.target.id === 'previewClose') pwDepuisLaPage = false;
   });
 
   // APRÈS LE CHARGEMENT, ET PAS TOUT DE SUITE. `invoke` est déclaré dans
@@ -1029,18 +1082,7 @@ async function chargerPagePWLieux(){
 (function(){
   const pwLieuxQ = document.getElementById('pwLieuxQ');
   const pwLieuxHorsCarte = document.getElementById('pwLieuxHorsCarte');
-  const pwLieuxListe = document.getElementById('pwLieuxListe');
 
   if(pwLieuxQ) pwLieuxQ.addEventListener('input', pwDessinerLieux);
   if(pwLieuxHorsCarte) pwLieuxHorsCarte.addEventListener('change', pwDessinerLieux);
-
-  // EN CAPTURE, ET SUR LE CONTENEUR. puceEspece() pose son propre clic, qui
-  // ouvre la fiche ; le drapeau doit être posé AVANT, sinon la fiche s'ouvre
-  // sans son bloc PixelmonWorld. Un écouteur posé sur la pastille elle-même
-  // partirait APRÈS celui de puceEspece — à la cible, l'ordre est celui de
-  // l'inscription, et la phase n'y change rien. Sur un ancêtre, la capture
-  // passe toujours en premier.
-  if(pwLieuxListe){
-    pwLieuxListe.addEventListener('click', function(){ pwDepuisLaPage = true; }, true);
-  }
 })();

@@ -2063,6 +2063,8 @@
           <!-- Les numéros régionaux. Le portrait affiche le numéro national ;
                celui-ci ne dit rien de la place qu'occupe l'espèce dans le jeu
                qu'on a sous la main — n° 149 au national, n° 66 à Kanto. -->
+          <!-- Les num&eacute;ros r&eacute;gionaux. Masqu&eacute;s sur une fiche de PixelmonWorld :
+               le serveur n'a qu'un Pok&eacute;dex, et c'est le national. -->
           <div class="dex-regionaux" id="ficheDexRegionaux"></div>
           <!-- Où le ranger. La vue bo&icirc;tes dit d&eacute;j&agrave; o&ugrave; en est la collection ;
                ceci dit la coordonn&eacute;e d'UNE esp&egrave;ce, celle qu'on lit la console en
@@ -2124,7 +2126,10 @@
               <div class="lignee" id="ficheEvolution"><p class="fiche-vide">—</p></div>
             </section>
 
-            <section class="bloc">
+            <!-- Masqu&eacute; sur une fiche de PixelmonWorld : on n'y fait pas
+                 d'&oelig;ufs, et les groupes de reproduction r&eacute;pondent &agrave; une
+                 question qui ne s'y pose pas. Voir fiche.js. -->
+            <section class="bloc" id="ficheBlocRepro">
               <h4>Reproduction</h4>
               <div class="repro" id="ficheOeufs"><p class="fiche-vide">—</p></div>
             </section>

@@ -2307,6 +2307,24 @@ async function dessinerLieuxReleves(entry){
   ficheObtention.appendChild(groupe);
 }
 
+/**
+ * La fiche est-elle celle de PixelmonWorld ?
+ *
+ * ON LE DÉDUIT DE LA PAGE OUVERTE, et non d'un drapeau posé au clic. Un
+ * drapeau aurait fallu le remettre à zéro à CHAQUE façon de fermer la fiche —
+ * la croix, Échap, un clic sur le fond, un changement de page — et la première
+ * oubliée aurait laissé une fiche de Rouge Feu se présenter comme une fiche de
+ * serveur. `currentPage` est déjà tenu à jour par showPage() ; il n'y a rien à
+ * synchroniser.
+ *
+ * Les deux écrans du serveur comptent : on ouvre une fiche depuis le Pokédex
+ * comme depuis ses lieux.
+ */
+function ficheSurPixelmonWorld(){
+  return typeof currentPage !== 'undefined'
+    && (currentPage === 'pixelmonworld' || currentPage === 'pwlieux');
+}
+
 // ---- Les apparitions de Cobblemon ------------------------------------------
 //
 // Un mod ne se lit pas comme un jeu. Ailleurs, la réponse est un lieu — « Route
@@ -2943,11 +2961,31 @@ async function remplirFiche(entry){
   dessinerNomAutre(entry);
   dessinerEvolution(entry, detail);
   dessinerOeufs(entry, detail);
-  dessinerObtention(entry, detail);
-  dessinerLieuxReleves(entry);
-  dessinerSpawnsCobblemon(entry);
-  // Le serveur PixelmonWorld, quand on y a droit. Chargé après Cobblemon et
-  // avant les attaques, pour que les deux sources d'apparitions se suivent.
+
+  // OUVERTE DEPUIS PIXELMONWORLD, LA FICHE NE PARLE QUE DU SERVEUR.
+  //
+  // C'est la règle que la fiche applique déjà pour les jeux — ouverte depuis
+  // Épée, elle ne liste pas les rencontres de Rubis —, poussée d'un cran : un
+  // serveur Minecraft n'a ni Pokédex régional, ni première apparition, ni
+  // reproduction. Ces blocs ne seraient pas seulement inutiles : ils
+  // répondraient à côté, en donnant à lire des jeux qu'on n'est pas en train
+  // de jouer.
+  //
+  // Ce qui reste — statistiques, talents, lignée, faiblesses, attaques — vaut
+  // pour l'espèce et vaut donc partout.
+  const surPW = ficheSurPixelmonWorld();
+  if(!surPW){
+    dessinerObtention(entry, detail);
+    dessinerLieuxReleves(entry);
+    dessinerSpawnsCobblemon(entry);
+  } else {
+    // Le bloc part vide : dessinerSpawnsPW() le remplit seul, et sans ce
+    // ménage il garderait les lignes de la fiche précédente.
+    if(ficheObtention) ficheObtention.innerHTML = '';
+    if(ficheObtentionNav) ficheObtentionNav.innerHTML = '';
+  }
+  // Le serveur PixelmonWorld, quand on y a droit. Après Cobblemon, pour que
+  // les deux sources d'apparitions se suivent quand les deux s'affichent.
   if(typeof dessinerSpawnsPW === 'function') dessinerSpawnsPW(entry);
   dessinerAttaques(entry);
 
@@ -2962,12 +3000,21 @@ async function remplirFiche(entry){
   // l'onglet d'un jeu, la réponse est le jeu lui-même. On masque le bloc ici,
   // mais sans quitter la fonction — les types et la première apparition, eux,
   // restent utiles partout.
+  //
+  // SUR PIXELMONWORLD, TROIS BLOCS DE PLUS S'EN VONT : la première apparition
+  // (le serveur n'a pas d'histoire de sortie), la reproduction (on n'y fait
+  // pas d'œufs) et les numéros de Pokédex régionaux (il n'a qu'un Pokédex, et
+  // c'est le national).
   const surUnJeu = !!gameByKey[currentTab];
-  if(ficheBlocJeux) ficheBlocJeux.style.display = surUnJeu ? 'none' : '';
+  if(ficheBlocJeux) ficheBlocJeux.style.display = (surUnJeu || surPW) ? 'none' : '';
+  if(ficheBlocPremier) ficheBlocPremier.style.display = surPW ? 'none' : '';
+  if(ficheBlocRepro) ficheBlocRepro.style.display = surPW ? 'none' : '';
+  if(ficheDexRegionaux) ficheDexRegionaux.style.display = surPW ? 'none' : '';
   // La grille perd alors une case sur sa dernière rangée : la première
-  // apparition la comble en prenant les deux colonnes.
+  // apparition la comble en prenant les deux colonnes. Sur PixelmonWorld les
+  // deux s'en vont, et il n'y a plus de trou à combler.
   const grille = previewOverlay.querySelector('.colonnes');
-  if(grille) grille.classList.toggle('sans-jeux', surUnJeu);
+  if(grille) grille.classList.toggle('sans-jeux', surUnJeu && !surPW);
   // Le cri ne depend d'aucune requete : il se prepare avant le reste, et
   // survit donc a une panne de reseau sur les types.
   preparerCri(entry);
@@ -3000,8 +3047,9 @@ async function remplirFiche(entry){
     : 'Forme spéciale — pas de première apparition propre.';
 
   // --- Disponibilité ---
-  // Bloc masqué sur un onglet de jeu : inutile d'en calculer le contenu.
-  if(surUnJeu) return;
+  // Bloc masqué sur un onglet de jeu et sur PixelmonWorld : inutile d'en
+  // calculer le contenu, et la table de disponibilité passe par le réseau.
+  if(surUnJeu || surPW) return;
   ficheJeux.innerHTML = '<span class="jeu-puce">Chargement des Pokédex…</span>';
   try{
     const table = await chargerDisponibilite();
