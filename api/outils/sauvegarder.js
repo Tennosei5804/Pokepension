@@ -60,6 +60,19 @@ const TABLES = [
   'pa_messages',       // -> dresseurs, echanges, images
   'pa_notifications',  // -> dresseurs, echanges
   'pa_partages',       // -> dresseurs, profils
+  // Le Pokedex de PixelmonWorld. Il ne depend d'aucun dresseur — c'est un
+  // referentiel, pas une collection — mais ses trois tables s'enchainent :
+  // une sous-zone a besoin de sa zone, une apparition des deux.
+  //
+  // IL N'Y A PAS DE SECONDE COPIE AILLEURS. Les zones et les apparitions se
+  // saisissent a la main dans le panneau ; le releve du site ne repose que
+  // celles qu'il a lui-meme posees, et jamais une correction. Cette table
+  // perdue, c'est la saisie perdue.
+  'pa_pw_zones',
+  'pa_pw_sous_zones',  // -> pw_zones
+  'pa_pw_especes',
+  'pa_pw_spawns',      // -> pw_zones, pw_sous_zones
+  'pa_pw_acces',       // la liste des autorises : personne d'autre ne l'a
 ];
 
 // pa_sessions est délibérément absente. Ce sont des jetons de connexion, ils

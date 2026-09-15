@@ -378,6 +378,171 @@ const TABLES = [
      CONSTRAINT fk_pa_partages_profil FOREIGN KEY (profil_id)
        REFERENCES pa_profils(id) ON DELETE CASCADE
    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`,
+
+  // --- Le Pokédex de PixelmonWorld -----------------------------------------
+  //
+  // LES PREMIÈRES DONNÉES DE RÉFÉRENCE EN BASE, ET C'EST DÉLIBÉRÉ. Tout le
+  // reste du référentiel Pokémon — espèces, lieux, attaques, spawns de
+  // Cobblemon — vit dans des fichiers JS générés par un relevé : ces données
+  // ne changent que quand une génération sort, et un fichier se regénère.
+  //
+  // Celles-ci sont d'une autre nature : elles décrivent UN serveur, elles
+  // bougent quand son équipe déplace un spawn, et personne n'a envie de
+  // publier une version de l'application pour ça. En base, elles se
+  // rafraîchissent en relançant un relevé.
+  //
+  // UNE SEULE SOURCE LES REMPLIT : app/outils/relever-pixelmonworld.py, versé
+  // par api/outils/importer-pixelmonworld.js. Aucune route d'API ne les écrit,
+  // et rien ne se saisit à la main — une seconde façon de les remplir serait
+  // une seconde vérité à tenir d'accord avec le relevé.
+
+  // Une zone. « Zone 1 », « Lac Rime », « Océan ».
+  //
+  // `genre` sépare les lieux du reste. Le Pokédex du serveur range dans la
+  // même liste « Zone 1 » et « Évolution » : le second n'est pas un endroit
+  // où se rendre, et l'afficher comme tel enverrait chercher une évolution
+  // sur la carte. Les deux se gardent — c'est une vraie réponse à « où le
+  // trouve-t-on ? » — mais elles ne se présentent pas pareil.
+  `CREATE TABLE IF NOT EXISTS pa_pw_zones (
+     id          BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY,
+     cle         VARCHAR(64)  NOT NULL,
+     nom         VARCHAR(120) NOT NULL,
+     genre       VARCHAR(16)  NOT NULL DEFAULT 'lieu',
+     description TEXT         NULL,
+     image       VARCHAR(255) NOT NULL DEFAULT '',
+     ordre       INT          NOT NULL DEFAULT 0,
+     actif       TINYINT(1)   NOT NULL DEFAULT 1,
+     cree_le     VARCHAR(64)  NOT NULL,
+     maj_le      VARCHAR(64)  NOT NULL,
+     UNIQUE KEY uk_pa_pw_zones_cle (cle)
+   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`,
+
+  // Une sous-zone : « Eau », « Colline », « Forêt » sous sa zone.
+  //
+  // Une TABLE et non une colonne sur l'apparition : une sous-zone existe
+  // avant qu'on y pose un Pokémon, elle porte sa propre description, et on
+  // doit pouvoir la renommer sans repasser sur cent apparitions.
+  //
+  // La zone elle-même n'a pas de sous-zone fantôme pour ses apparitions de
+  // plein air : `sous_zone_id` est alors NULL, ce qui se lit « dans la zone,
+  // sans plus de précision ». Une sous-zone « Général » aurait menti sur la
+  // carte du serveur.
+  `CREATE TABLE IF NOT EXISTS pa_pw_sous_zones (
+     id          BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY,
+     zone_id     BIGINT       NOT NULL,
+     cle         VARCHAR(64)  NOT NULL,
+     nom         VARCHAR(120) NOT NULL,
+     description TEXT         NULL,
+     ordre       INT          NOT NULL DEFAULT 0,
+     actif       TINYINT(1)   NOT NULL DEFAULT 1,
+     cree_le     VARCHAR(64)  NOT NULL,
+     maj_le      VARCHAR(64)  NOT NULL,
+     UNIQUE KEY uk_pa_pw_sous_zones (zone_id, cle),
+     CONSTRAINT fk_pa_pw_sous_zones_zone FOREIGN KEY (zone_id)
+       REFERENCES pa_pw_zones(id) ON DELETE CASCADE
+   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`,
+
+  // Ce que PixelmonWorld dit d'une espèce, et rien de plus.
+  //
+  // CE QUI N'EST PAS ICI : les statistiques, les talents, les évolutions. La
+  // réserve de l'application les porte déjà pour les 1 025 espèces, et les
+  // recopier ferait deux vérités à tenir d'accord. La fiche lit sa réserve pour
+  // tout ce qui est du Pokémon, et cette table pour ce qui est du serveur.
+  //
+  // Le numéro, le nom et les types SONT là, eux, parce qu'ils viennent du
+  // relevé : ils permettent de filtrer et de chercher sans avoir à retrouver
+  // d'abord l'espèce dans la réserve, et de garder au Pokédex une ligne pour
+  // une forme que l'application ne connaîtrait pas.
+  //
+  // `espece` est la clé de forme de l'application — celle de PokeAPI :
+  // « magikarp », « exeggutor-alola », « rattata-alola ». C'est elle qui relie
+  // une ligne à une entrée du Pokédex, et jamais le nom français.
+  //
+  // `etoiles` est une DONNÉE, pas un calcul d'affichage. Le serveur range ses
+  // espèces en cinq paliers ; les cinq étoiles en sont la lecture, faite une
+  // fois, à l'import. Une page qui la referait serait une seconde vérité, et le
+  // jour où un palier change, une seule des deux suivrait.
+  `CREATE TABLE IF NOT EXISTS pa_pw_especes (
+     espece      VARCHAR(64)  NOT NULL PRIMARY KEY,
+     numero      INT          NOT NULL DEFAULT 0,
+     nom_fr      VARCHAR(120) NOT NULL DEFAULT '',
+     nom_en      VARCHAR(120) NOT NULL DEFAULT '',
+     generation  TINYINT      NOT NULL DEFAULT 0,
+     types       VARCHAR(64)  NOT NULL DEFAULT '',
+     etoiles     TINYINT      NOT NULL DEFAULT 0,
+     rarete      VARCHAR(32)  NOT NULL DEFAULT '',
+     sprite      VARCHAR(255) NOT NULL DEFAULT '',
+     actif       TINYINT(1)   NOT NULL DEFAULT 1,
+     maj_le      VARCHAR(64)  NOT NULL
+   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`,
+
+  // UNE APPARITION : une espèce, un endroit, une rareté.
+  //
+  // DEUX LIGNES POUR LE MÊME POKÉMON DANS LA MÊME ZONE, C'EST NORMAL. Magicarpe
+  // sort dans quatre endroits, et chacun est une ligne avec sa propre rareté.
+  // Aucune contrainte d'unicité ne l'interdit — ce serait interdire la moitié
+  // de ce qu'on veut décrire.
+  //
+  // PAS DE NIVEAUX, PAS D'HEURE, PAS DE MÉTÉO, et ce n'est pas un oubli : le
+  // Pokédex de PixelmonWorld ne les publie pas. Une colonne qui ne serait
+  // jamais remplie ferait croire à une donnée manquante là où il n'y a rien à
+  // manquer. Le jour où le site en dira plus, le relevé et cette table
+  // grandiront ensemble.
+  //
+  // `etoiles` à 0 veut dire « on ne sait pas » et non « zéro étoile » : la
+  // fiche n'affiche alors aucune étoile, plutôt que cinq étoiles creuses qui
+  // annonceraient un Pokémon commun.
+  //
+  // `sous_zone_id` NULL se lit « dans la zone, sans plus de précision ». C'est
+  // le cas de Lac Rime et de l'Océan, qui n'ont pas de sous-zone : une
+  // sous-zone « Général » aurait menti sur la carte du serveur.
+  `CREATE TABLE IF NOT EXISTS pa_pw_spawns (
+     id            BIGINT      NOT NULL AUTO_INCREMENT PRIMARY KEY,
+     espece        VARCHAR(64) NOT NULL,
+     zone_id       BIGINT      NOT NULL,
+     sous_zone_id  BIGINT      NULL,
+     etoiles       TINYINT     NOT NULL DEFAULT 0,
+     rarete        VARCHAR(32) NOT NULL DEFAULT '',
+     ordre         INT         NOT NULL DEFAULT 0,
+     actif         TINYINT(1)  NOT NULL DEFAULT 1,
+     cree_le       VARCHAR(64) NOT NULL,
+     maj_le        VARCHAR(64) NOT NULL,
+     KEY ix_pa_pw_spawns_espece (espece, actif),
+     CONSTRAINT fk_pa_pw_spawns_zone FOREIGN KEY (zone_id)
+       REFERENCES pa_pw_zones(id) ON DELETE CASCADE,
+     CONSTRAINT fk_pa_pw_spawns_sous_zone FOREIGN KEY (sous_zone_id)
+       REFERENCES pa_pw_sous_zones(id) ON DELETE SET NULL
+   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`,
+
+  // Qui a le droit d'ouvrir le Pokédex de PixelmonWorld.
+  //
+  // UNE LISTE TENUE À LA MAIN, ET PAS DES RÔLES DISCORD. La connexion ne
+  // demande que `identify` — ni les serveurs, ni les rôles — et l'élargir
+  // obligerait chaque joueur à re-consentir, pour une vérification qui
+  // échouerait de toute façon hors du serveur. L'administrateur ouvre donc
+  // l'accès identifiant par identifiant, depuis le panneau.
+  //
+  // L'IDENTIFIANT DISCORD PLUTÔT QUE L'ID DE DRESSEUR : on peut ainsi
+  // autoriser quelqu'un AVANT qu'il ne se connecte, et l'autorisation survit
+  // à la suppression puis recréation de son compte. C'est déjà la clé que
+  // l'administration utilise (config.adminDiscordId).
+  //
+  // `actif` PLUTÔT QU'UN DELETE, et c'est tout le panneau : fermer l'accès de
+  // quelqu'un ne doit pas effacer qu'on le lui avait ouvert. On le rouvre d'un
+  // clic, sans recoller son identifiant.
+  //
+  // `libelle` est le nom qu'on lui donne ici — « utilisateur 9 » — quand son
+  // identifiant Discord ne dit rien à personne.
+  `CREATE TABLE IF NOT EXISTS pa_pw_acces (
+     id          BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY,
+     discord_id  VARCHAR(64)  NOT NULL,
+     libelle     VARCHAR(120) NOT NULL DEFAULT '',
+     note        VARCHAR(255) NOT NULL DEFAULT '',
+     actif       TINYINT(1)   NOT NULL DEFAULT 1,
+     ajoute_le   VARCHAR(64)  NOT NULL,
+     ajoute_par  VARCHAR(64)  NOT NULL DEFAULT '',
+     UNIQUE KEY uk_pa_pw_acces_discord (discord_id)
+   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`,
 ];
 
 const INDEX = [

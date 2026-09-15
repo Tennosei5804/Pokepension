@@ -24,6 +24,7 @@ import * as notifications from './notifications.js';
 import * as images from './images.js';
 import * as messagerie from './messagerie.js';
 import * as discord from './discord.js';
+import * as pw from './pixelmonworld.js';
 import { limiter } from './debit.js';
 
 const journal = (m) => console.log(`${new Date().toLocaleTimeString('fr-FR')}  ${m}`);
@@ -871,6 +872,90 @@ app.post('/api/admin/renommer', route(async (req, res) => {
   const r = await comptes.renommerDresseur(pseudo, nouveau);
   journal(`admin : ${a.pseudo} a renomme « ${pseudo} » en « ${r.pseudo} »`);
   res.json({ ok: true, pseudo: r.pseudo });
+}));
+
+// --- Le Pokédex de PixelmonWorld --------------------------------------------
+//
+// LA VÉRIFICATION EST ICI, ET ELLE EST LA SEULE QUI COMPTE. La page cache son
+// onglet quand l'accès manque, mais cacher un bouton n'a jamais protégé une
+// donnée : n'importe qui peut appeler l'adresse à la main. Toute route de ce
+// bloc passe donc par exigerPW().
+//
+// 404 ET NON 403, comme pour l'administration : un 403 confirmerait que le
+// Pokédex existe et inviterait à insister. Pour qui n'y a pas droit, ces
+// adresses n'existent pas.
+//
+// AUCUNE ROUTE N'ÉCRIT LE POKÉDEX, et c'est voulu : zones, sous-zones et
+// apparitions viennent toutes du relevé du site de PixelmonWorld
+// (app/outils/relever-pixelmonworld.py, puis api/outils/importer-pixelmonworld.js).
+// Une seconde façon de les écrire serait une seconde vérité à tenir d'accord
+// avec la première.
+
+const estAdmin = (d) => Boolean(config.adminDiscordId && d.discordId === config.adminDiscordId);
+
+async function exigerPW(req, res) {
+  const d = await exiger(req, res); if (!d) return null;
+  const droits = await pw.droits(d.discordId, estAdmin(d));
+  if (!droits.lire) {
+    res.status(404).json({ erreur: 'Route inconnue.' });
+    return null;
+  }
+  return { dresseur: d, droits };
+}
+
+// Ce que la page a le droit de savoir avant tout le reste : si elle doit
+// montrer l'onglet, et si elle doit montrer le panneau des accès. Cette
+// route-ci répond à tout le monde — répondre 404 obligerait la page à traiter
+// un 404 comme un « non » et un autre 404 comme une panne, et elle ne saurait
+// pas les séparer.
+app.get('/api/pw/moi', route(async (req, res) => {
+  const d = await exiger(req, res); if (!d) return;
+  const droits = await pw.droits(d.discordId, estAdmin(d));
+  res.json({ ...droits, gestionAcces: estAdmin(d) });
+}));
+
+app.get('/api/pw/pokedex', route(async (req, res) => {
+  const a = await exigerPW(req, res); if (!a) return;
+  res.json(await pw.pokedex());
+}));
+
+// --- Ouvrir et fermer l'accès ------------------------------------------------
+//
+// L'ADMINISTRATEUR DU SERVICE, ET PERSONNE D'AUTRE. Avoir accès au Pokédex ne
+// donne pas le droit d'y faire entrer quelqu'un : sans quoi la première
+// personne autorisée pourrait ouvrir la porte à toutes les autres.
+
+app.get('/api/pw/acces', route(async (req, res) => {
+  const a = await exigerAdmin(req, res); if (!a) return;
+  res.json(await pw.listerAcces());
+}));
+
+// Les dresseurs déjà connus, pour n'avoir à coller un identifiant que lorsque
+// la personne n'est jamais venue.
+app.get('/api/pw/acces/dresseurs', route(async (req, res) => {
+  const a = await exigerAdmin(req, res); if (!a) return;
+  res.json(await pw.dresseursConnus(req.query.q || ''));
+}));
+
+app.post('/api/pw/acces', route(async (req, res) => {
+  const a = await exigerAdmin(req, res); if (!a) return;
+  const l = await pw.poserAcces(req.body || {}, a.pseudo);
+  journal(`pw : ${a.pseudo} ouvre l'acces a ${l.discord_id}`);
+  res.json(l);
+}));
+
+app.patch('/api/pw/acces/:id', route(async (req, res) => {
+  const a = await exigerAdmin(req, res); if (!a) return;
+  const actif = req.body?.actif !== false;
+  const l = await pw.basculerAcces(req.params.id, actif);
+  journal(`pw : ${a.pseudo} ${actif ? 'rouvre' : 'ferme'} l'acces a ${l.discord_id}`);
+  res.json(l);
+}));
+
+app.delete('/api/pw/acces/:id', route(async (req, res) => {
+  const a = await exigerAdmin(req, res); if (!a) return;
+  journal(`pw : ${a.pseudo} retire l'acces ${req.params.id}`);
+  res.json(await pw.retirerAcces(req.params.id));
 }));
 
 // L'etat du service, sans authentification.

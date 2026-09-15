@@ -1612,3 +1612,205 @@
 
   .stat-bar{ font-size:11px; gap:6px; }
 }
+
+/* ---- Le Pokédex de PixelmonWorld ------------------------------------------
+   Il n'a presque pas de style à lui : sa grille, ses cartes, sa barre et ses
+   jetons sont ceux du Pokédex des jeux, quelques lignes plus haut dans ce même
+   fichier. Ne restent ici que les deux choses qu'il apporte — les étoiles, et
+   le bloc des apparitions dans la fiche.
+
+   POURQUOI ICI ET PAS DANS UNE FEUILLE À PART. compte.css est chargée après
+   dex.css et reprend la main sur .dex sans que rien ne le signale ; une
+   cinquième feuille aurait allongé la file sans rien régler. Ce bloc décrit la
+   page Pokédex, il vit donc avec elle. */
+
+/* LES ÉTOILES.
+   Les pleines en doré, les creuses dans la couleur du texte effacé : c'est le
+   contraste entre les deux qui se lit d'un coup d'œil, pas leur nombre. Un
+   seul ton aurait obligé à COMPTER. */
+.pw-etoiles{
+  display:inline-flex;
+  gap:1px;
+  font-size:12.5px;
+  line-height:1;
+  letter-spacing:0.5px;
+  white-space:nowrap;
+}
+.pw-etoiles-pleines{ color:var(--gold-deep); }
+.pw-etoiles-creuses{ color:var(--ink-faint); opacity:0.55; }
+/* Rareté inconnue : un tiret, dans le gris de ce qu'on ne sait pas. Cinq
+   étoiles creuses auraient annoncé un Pokémon commun. */
+.pw-etoiles.etoiles-inconnu{ color:var(--ink-faint); font-size:11px; }
+
+/* Le bas de carte : la rareté à gauche, l'endroit à droite. */
+.pw-carte-bas{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:6px;
+  margin-top:5px;
+}
+.pw-carte-lieux{
+  font-size:10px;
+  color:var(--ink-soft);
+  text-align:right;
+  /* Un nom de zone long ne pousse pas la carte : il se coupe. La carte fait
+     148 px, et « Bull'o • Biome Cascade » en demande le double. */
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+/* Annoncée par le serveur, inconnue de la réserve : pas de fiche à ouvrir, et
+   la carte le dit en restant en retrait plutôt qu'en disparaissant. */
+.pw-carte.pw-inconnue{ opacity:0.72; }
+
+/* ---- Le bloc des apparitions, dans la fiche ----
+   Même forme que le relevé des jeux et que les biomes de Cobblemon : liseré de
+   gauche coloré, une ligne par apparition. Le vert d'ici n'est pas celui de
+   Cobblemon — deux sources qui se suivent dans la même fiche doivent se
+   distinguer sans qu'on lise leur titre. */
+.obt-pw .obt-ligne{ border-left-color:#4a86c8; }
+/* Une apparition qui n'est pas un lieu — Évolution, Quête, Tour de Combat.
+   En pointillé parce qu'il n'y a nulle part où aller. */
+.obt-pw .obt-ligne.pw-hors-carte{
+  border-left-style:dashed;
+  border-left-color:var(--ink-faint);
+}
+.obt-pw .obt-lieu strong{ font-weight:600; }
+/* La pastille de rareté porte les étoiles : elle garde le gabarit des autres
+   pastilles de la fiche, et son filet suit le nombre d'étoiles — du vert du
+   commun au rouge du très rare, comme le fait déjà .obt-cat.rarete-*. */
+.obt-cat.pw-rarete{ display:inline-flex; align-items:center; gap:5px; }
+.obt-cat.pw-rarete.etoiles-1{ color:var(--caught); border-color:var(--caught); }
+.obt-cat.pw-rarete.etoiles-2{ color:var(--ink-soft); border-color:var(--card-border); }
+.obt-cat.pw-rarete.etoiles-3{ color:var(--gold-deep); border-color:var(--gold); }
+.obt-cat.pw-rarete.etoiles-4{ color:var(--dex-red-deep); border-color:var(--dex-red); }
+.obt-cat.pw-rarete.etoiles-5{
+  color:var(--dex-red-darker);
+  border-color:var(--dex-red-deep);
+  background:rgba(238,58,58,0.07);
+}
+/* La rareté de l'ESPÈCE, au-dessus des lignes : celle du Pokédex du serveur,
+   qui vaut partout. Les lignes en dessous portent celle d'un endroit. */
+.pw-rarete-espece{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  margin:2px 0 8px;
+  font-size:11.5px;
+  color:var(--ink-soft);
+}
+
+/* ---- Le panneau des accès ----
+   L'administrateur seul le voit. Il tient sous la barre du Pokédex, replié par
+   défaut : c'est un réglage qu'on pose, pas un outil qu'on garde ouvert — la
+   même règle que la rangée des mods sur la page Lieux. */
+.pw-acces{
+  background:var(--card);
+  border:1px solid var(--card-border);
+  border-radius:14px;
+  padding:12px 14px;
+  margin:0 0 12px;
+}
+.pw-acces-titre{
+  font-weight:600;
+  font-size:12.5px;
+  margin-bottom:9px;
+}
+.pw-acces-ajout{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  align-items:center;
+}
+.pw-acces-ajout input{
+  flex:1 1 200px;
+  min-width:0;
+  padding:7px 10px;
+  border:1px solid var(--card-border);
+  border-radius:9px;
+  background:var(--screen);
+  font:inherit;
+  font-size:12px;
+}
+.pw-acces-aide{
+  flex:1 1 100%;
+  margin:4px 0 0;
+  font-size:11px;
+  line-height:1.5;
+  color:var(--ink-faint);
+}
+.pw-acces-connus{ margin-top:10px; }
+.pw-acces-connus-liste{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:8px;
+}
+.pw-acces-connu{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:5px 10px;
+  border:1px solid var(--card-border);
+  border-radius:999px;
+  background:var(--screen);
+  font:inherit;
+  font-size:11.5px;
+  cursor:pointer;
+}
+.pw-acces-connu:disabled{ opacity:0.55; cursor:default; }
+.pw-acces-deja{ font-size:10px; color:var(--ink-faint); }
+.pw-acces-compte{
+  margin:12px 0 6px;
+  font-size:11.5px;
+  color:var(--ink-soft);
+}
+.pw-acces-liste{ display:flex; flex-direction:column; gap:6px; }
+.pw-acces-ligne{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+  padding:8px 10px;
+  border:1px solid var(--card-border);
+  border-left:3px solid var(--caught);
+  border-radius:11px;
+  background:var(--screen);
+}
+/* Fermé : la ligne reste, en retrait. C'est ce qui permet de rouvrir d'un clic
+   sans recoller l'identifiant — d'où le gris plutôt que la disparition. */
+.pw-acces-ligne.eteint{
+  border-left-color:var(--ink-faint);
+  opacity:0.66;
+}
+.pw-acces-qui{ flex:1 1 180px; min-width:0; }
+.pw-acces-nom{ font-weight:600; font-size:12.5px; }
+.pw-acces-libelle{
+  margin-left:6px;
+  font-size:11px;
+  color:var(--ink-faint);
+}
+.pw-acces-id{
+  font-family:var(--font-data);
+  font-size:10.5px;
+  color:var(--ink-faint);
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.pw-acces-etat{
+  font-size:10.5px;
+  font-weight:600;
+  color:var(--caught);
+}
+.pw-acces-ligne.eteint .pw-acces-etat{ color:var(--ink-faint); }
+.toggle-btn.danger{ color:var(--dex-red-deep); border-color:var(--dex-red); }
+
+/* Sur un téléphone, la ligne d'accès passe en colonne : trois boutons et un
+   pseudo ne tiennent pas côte à côte sous 480 px, et les cibles tactiles ne se
+   rognent pas (voir site.css, 44 px sous pointer:coarse). */
+@media (max-width:480px){
+  .pw-acces-ligne{ align-items:flex-start; }
+  .pw-acces-qui{ flex:1 1 100%; }
+}

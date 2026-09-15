@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Génération des attaques apprises</title>
+<title>PokéPension</title>
 <link rel="stylesheet" href="../src/css/polices.css">
 <link rel="stylesheet" href="../src/css/base.css">
 <link rel="stylesheet" href="../src/css/accueil.css">
@@ -21,6 +21,14 @@
       <span class="dex-eyebrow">Terminal de collecte</span>
       <span class="dex-title">PokéPension</span>
     </div>
+    <!-- Deconnecte, le menu de compte est masque et cette place reste
+         vide : on ne sait plus par ou entrer. Ce bouton l'occupe, et les
+         deux ne sont jamais visibles en meme temps. -->
+    <button class="player-badge" id="btnConnexion" type="button" hidden
+            title="Se connecter avec Discord pour retrouver ton dex partout">
+      <span aria-hidden="true">👤</span>
+      <span>Se connecter</span>
+    </button>
     <div class="compte-menu" id="compteMenu" hidden>
       <button class="player-badge" id="playerBadge" type="button"
               aria-haspopup="menu" aria-expanded="false" title="Ton compte et tes aventures">
@@ -55,6 +63,17 @@
         <button class="compte-item" id="nouveautesBtn" type="button" role="menuitem">
           📋 Nouveautés<small>Ce qui a changé d'une version à l'autre</small>
         </button>
+        <!-- DEUX ENTRÉES POUR UNE SEULE PLACE, et jamais les deux ensemble.
+             Dans l'application, on vérifie les mises à jour ; il n'y a pas de
+             page d'accueil où retourner, on est déjà dedans. Sur le site,
+             c'est l'inverse : la page d'accueil existe, et l'updater n'existe
+             pas — le plugin est du Rust, un navigateur n'en a pas. Le bouton
+             y restait donc affiché sans jamais rien pouvoir faire.
+
+             Elles vivent ici et pas dans l'en-tête. Le dépôt a déjà tranché,
+             et l'a écrit à côté de la cloche : « cinq pastilles rondes
+             alignées ne disaient pas ce qu'elles faisaient, et l'en-tête
+             finissait en tableau de bord ». -->
         <button class="compte-item" id="majBtn" type="button" role="menuitem">
           <span class="compte-item-nom">⟳ Vérifier les mises à jour</span>
         </button>
@@ -113,6 +132,17 @@
              même question — « avant d'y aller, qu'est-ce que je dois savoir » —
              et partagent donc une sous-barre. -->
         <button class="page-tab" type="button" data-page="outils">🧰 Outils</button>
+        <!-- LES SERVEURS, sur le m&ecirc;me principe qu'&laquo;&nbsp;Outils&nbsp;&raquo; : un onglet,
+             plusieurs &eacute;crans, une sous-barre. Un serveur a son Pok&eacute;dex ET ses
+             lieux, et le jour o&ugrave; un second serveur arrive, il prend sa place
+             dans la m&ecirc;me sous-barre sans rien ajouter &agrave; la nav du haut &mdash; qui
+             d&eacute;bordait d&eacute;j&agrave; sur deux rang&eacute;es &agrave; dix entr&eacute;es.
+
+             CACH&Eacute; PAR D&Eacute;FAUT, montr&eacute; par pixelmonworld.js quand l'API r&eacute;pond
+             que l'acc&egrave;s est ouvert. Cacher l'onglet ne prot&egrave;ge rien &mdash; c'est le
+             serveur qui refuse &mdash;, mais un onglet qui ne m&egrave;ne qu'&agrave; un refus
+             n'a rien &agrave; faire dans la barre de qui n'y a pas droit. -->
+        <button class="page-tab" type="button" data-page="serveurs" hidden>🖥️ Serveurs</button>
         <button class="page-tab" type="button" data-page="profil">🧑 Profil</button>
       </nav>
 
@@ -310,6 +340,8 @@
                 title="Ranger la grille en boîtes de trente, comme dans le jeu. En Living Dex, la question n'est pas « est-ce que je l'ai » mais « dans quelle boîte, quelle case ».">📦 Vue boîtes</button>
         <button class="toggle-btn" id="importCodeBtn" type="button"
                 title="Choisir un dresseur et confronter vos collections.">👥 Comparer</button>
+        <button class="toggle-btn" id="partageBtn" type="button"
+                title="Un lien vers CE Pokédex, à donner à qui tu veux. Il n'a besoin d'aucun compte, et il suit ton avancée.">🔗 Partager</button>
         <button class="toggle-btn" id="legendeBtn" type="button" aria-pressed="false"
                 aria-controls="legendeObtention" hidden
                 title="Ce que veulent dire les pastilles des cartes.">🏷️ Voir les pastilles</button>
@@ -780,7 +812,7 @@
         </div>
 
         <div class="profil-bloc">
-          <p class="profil-bloc-note">Un fichier <b>pokepension-1</b> se relit ici : celui de
+          <p class="profil-bloc-note">Un fichier <b>pokearchive-1</b> se relit ici : celui de
             l'application, celui du site, ou une sauvegarde d'il y a six mois. Les
             collections <b>se réunissent</b> — rien n'est écrasé, et rien n'est décoché.
             Importer deux fois le même fichier ne change rien la seconde fois.</p>
@@ -829,26 +861,149 @@
                  aria-label="Chercher un lieu ou un Pokémon">
           <button class="toggle-btn" id="lieuxTriBascule" type="button"
                   aria-expanded="false" aria-controls="lieuxTri"
-                  title="L&rsquo;ordre des lieux">&#128256; Trier</button>
+                  title="L&rsquo;ordre des lieux : ce qu&rsquo;il reste &agrave; y prendre, leur richesse, ou leur nom">&#128256; Trier</button>
+          <!-- Cobblemon seulement : lieux.js le montre et le cache avec son
+               panneau. Un r&eacute;glage qu&rsquo;on pose une fois, pas un
+               outil qu&rsquo;on garde ouvert. -->
           <button class="toggle-btn" id="lieuxModsBascule" type="button" hidden
                   aria-expanded="false" aria-controls="lieuxMods"
-                  title="Les mods de biomes installes">&#129513; Mods</button>
+                  title="Les mods de biomes que tu as install&eacute;s">&#129513; Mods</button>
           <label class="bascule">
             <input type="checkbox" id="lieuxRestants" checked>
             <span class="bascule-piste" aria-hidden="true"><span class="bascule-pouce"></span></span>
             <span class="bascule-texte">Seulement les lieux où il me reste quelque chose</span>
           </label>
         </div>
-        <!-- Les mods de biomes de Cobblemon. Present ici comme dans
-             index.html : cette page charge le meme noyau.js, et verifier.py
-             releve tout identifiant que l'une declare et que l'autre n'a
-             pas. -->
-        <!-- L ordre des lieux. Present ici comme dans index.html :
-             cette page charge le meme noyau.js. -->
+        <!-- L'ordre des lieux, sur le mod&egrave;le de &laquo;&nbsp;Plus de
+             filtres&nbsp;&raquo; du Pok&eacute;dex : un bouton, un panneau de
+             pastilles, et l'&eacute;tat retenu d'une visite &agrave; l'autre.
+             B&acirc;ti par lieux.js &agrave; partir de LIEUX_TRIS : aucune
+             liste ici. -->
         <div class="toolbar lieux-tri" id="lieuxTri" hidden></div>
+        <!-- LES MODS DE BIOMES — COBBLEMON SEULEMENT, ET VIDE AILLEURS.
+             Cent deux esp&egrave;ces sur 874 ne vivent dans aucun biome du
+             Minecraft de base : elles n'existent qu'avec un mod. Les afficher
+             sans rien demander enverrait chercher un Volcano &agrave; qui n'a
+             pas Biomes O' Plenty ; les taire les laissait introuvables.
+             On demande donc, une fois, ce qui est install&eacute;.
+
+             La rang&eacute;e est remplie par lieux.js &agrave; partir de la
+             r&eacute;serve, jamais &eacute;crite ici : le jour o&ugrave; le
+             relev&eacute; conna&icirc;t un mod de plus, il appara&icirc;t
+             seul. -->
         <div class="lieux-mods" id="lieuxMods" hidden></div>
         <p class="lieux-resume" id="lieuxResume"></p>
         <div class="lieux" id="lieuxListe"></div>
+      </section>
+
+      <!-- LE POK&Eacute;DEX DE PIXELMONWORLD.
+           La barre reprend celle du Pok&eacute;dex des jeux &mdash; m&ecirc;mes classes, m&ecirc;me
+           champ de recherche, m&ecirc;mes menus &mdash; parce que c'est le m&ecirc;me geste :
+           on cherche un Pok&eacute;mon, on restreint, on ouvre sa fiche. Les deux
+           menus de plus, zone et sous-zone, sont ce que ce Pok&eacute;dex-ci a en
+           propre : ses lieux sont dans sa barre, l&agrave; o&ugrave; ceux des jeux ont leur
+           page &agrave; eux. -->
+      <section class="page" id="page-pixelmonworld">
+        <!-- LA SOUS-BARRE DU SERVEUR, recopi&eacute;e en t&ecirc;te des deux &eacute;crans : chacun
+             doit pouvoir s'afficher seul, exactement comme la barre des Outils.
+             Elle porte les m&ecirc;mes classes, donc le m&ecirc;me gestionnaire de clic et
+             le m&ecirc;me style &mdash; il n'y a pas de second menu &agrave; tenir. -->
+        <div class="outils-nav serveurs-nav" role="tablist" aria-label="PixelmonWorld">
+          <span class="serveurs-nom">🌍 PixelmonWorld</span>
+          <button class="outils-onglet active" type="button" data-outils="pixelmonworld">&#128214; Pok&eacute;dex</button>
+          <button class="outils-onglet" type="button" data-outils="pwlieux">&#128205; Lieux</button>
+        </div>
+        <div class="home-hero">
+          <div class="home-eyebrow">Sur le serveur</div>
+          <h2 class="home-title">Pokédex PixelmonWorld</h2>
+          <p class="home-sub">Ce que le serveur fait appara&icirc;tre, et o&ugrave;.
+             Chaque zone a ses sous-zones, et chaque apparition sa raret&eacute; en
+             &eacute;toiles.</p>
+        </div>
+
+        <div class="toolbar filters-row" id="pwBarre" hidden>
+          <input type="search" id="pwRecherche" list="pwNoms"
+                 placeholder="Un nom, un n°, « eau », « gen3 », « legendaire »…"
+                 aria-label="Rechercher : un nom, un numéro, un type, une génération ou un mot-clé"
+                 title="Se cumulent : un nom, un n° national, un type (feu, eau…), une génération (gen3, kanto…), un état (manquants, capturés) et un mot-clé (légendaire, fabuleux, starter…). Tout mot inconnu cherche dans le nom."
+                 autocomplete="off">
+          <!-- L'autocompl&eacute;tion native : le navigateur filtre et navigue au
+               clavier tout seul, et rien ne se dessine au-dessus de la grille. -->
+          <datalist id="pwNoms"></datalist>
+          <select id="pwTri" aria-label="Trier">
+            <option value="numero">Tri : N° National</option>
+            <option value="nom">Tri : Alphabétique</option>
+            <option value="rarete">Tri : Rareté</option>
+            <option value="zones">Tri : Nombre d'endroits</option>
+          </select>
+          <select id="pwType" aria-label="Filtrer par type">
+            <option value="all">Tous les types</option>
+          </select>
+          <!-- Raret&eacute;s et zones sont remplies par pixelmonworld.js depuis la
+               r&eacute;ponse de l'API : aucune liste &eacute;crite ici, sinon elle d&eacute;riverait
+               d&egrave;s que le serveur ajoute une zone. -->
+          <select id="pwRarete" aria-label="Filtrer par rareté">
+            <option value="all">Toutes les raretés</option>
+          </select>
+          <select id="pwZone" aria-label="Filtrer par zone">
+            <option value="all">Toutes les zones</option>
+          </select>
+          <select id="pwSousZone" aria-label="Filtrer par sous-zone">
+            <option value="all">Toutes les sous-zones</option>
+          </select>
+          <button class="toggle-btn" id="pwRaz" type="button"
+                  title="Vider la recherche et remettre tous les filtres">&#9851; Tout afficher</button>
+          <!-- L'ADMINISTRATEUR SEUL. Ouvrir ou fermer ce Pok&eacute;dex pour
+               quelqu'un, par son identifiant Discord. Rien d'autre ne se
+               modifie ici : zones, sous-zones et apparitions viennent toutes
+               du relev&eacute; du site de PixelmonWorld. -->
+          <button class="toggle-btn" id="pwAccesBascule" type="button" hidden
+                  aria-expanded="false" aria-controls="pwPanneau"
+                  title="Qui a le droit d&rsquo;ouvrir ce Pok&eacute;dex">&#128273; Acc&egrave;s</button>
+        </div>
+
+        <p class="recherche-jetons" id="pwJetons" hidden></p>
+        <div class="pw-acces" id="pwPanneau" hidden></div>
+        <p class="lieux-resume" id="pwResume"></p>
+        <div class="grid" id="pwGrille"></div>
+        <button class="load-more" id="pwPlus" type="button" style="display:none;">Afficher plus</button>
+      </section>
+
+      <!-- LES LIEUX DU SERVEUR. M&ecirc;me question que la page Lieux des jeux, et
+           donc m&ecirc;me forme : on ne cherche plus un Pok&eacute;mon, on est SUR une
+           zone et on veut savoir ce qu'on y croise. Les blocs, les pastilles
+           d'esp&egrave;ce et le d&eacute;pliage sont ceux de js/lieux.js, r&eacute;utilis&eacute;s tels
+           quels &mdash; voir puceEspece(). -->
+      <section class="page" id="page-pw-lieux">
+        <!-- LA SOUS-BARRE DU SERVEUR, recopi&eacute;e en t&ecirc;te des deux &eacute;crans : chacun
+             doit pouvoir s'afficher seul, exactement comme la barre des Outils.
+             Elle porte les m&ecirc;mes classes, donc le m&ecirc;me gestionnaire de clic et
+             le m&ecirc;me style &mdash; il n'y a pas de second menu &agrave; tenir. -->
+        <div class="outils-nav serveurs-nav" role="tablist" aria-label="PixelmonWorld">
+          <span class="serveurs-nom">🌍 PixelmonWorld</span>
+          <button class="outils-onglet" type="button" data-outils="pixelmonworld">&#128214; Pok&eacute;dex</button>
+          <button class="outils-onglet active" type="button" data-outils="pwlieux">&#128205; Lieux</button>
+        </div>
+        <div class="home-hero">
+          <div class="home-eyebrow">O&ugrave; aller sur le serveur</div>
+          <h2 class="home-title">Les lieux de PixelmonWorld</h2>
+          <p class="home-sub">Chaque zone, ses sous-zones, et qui s'y trouve.
+             La raret&eacute; est celle de l'endroit&nbsp;: le m&ecirc;me Pok&eacute;mon peut &ecirc;tre
+             commun ici et rare deux zones plus loin.</p>
+        </div>
+
+        <div class="lieux-barre" id="pwLieuxBarre" hidden>
+          <input type="search" id="pwLieuxQ" autocomplete="off"
+                 placeholder="Une zone, ou un Pokémon…"
+                 aria-label="Chercher une zone ou un Pokémon">
+          <label class="bascule">
+            <input type="checkbox" id="pwLieuxHorsCarte">
+            <span class="bascule-piste" aria-hidden="true"><span class="bascule-pouce"></span></span>
+            <span class="bascule-texte">Montrer aussi ce qui n'est pas un lieu (&eacute;volution, qu&ecirc;te, Tour de Combat)</span>
+          </label>
+        </div>
+        <p class="lieux-resume" id="pwLieuxResume"></p>
+        <div class="lieux" id="pwLieuxListe"></div>
       </section>
 
       <section class="page" id="page-amis">
@@ -1332,11 +1487,7 @@
          contrefa&ccedil;on. Les sources restent cr&eacute;dit&eacute;es sur la m&ecirc;me ligne : la
          r&eacute;serve enti&egrave;re en vient. -->
     <div class="credit-block">
-      <span class="credit">Projet ind&eacute;pendant, sans lien avec Nintendo, Game Freak
-        ou The Pok&eacute;mon Company. Pok&eacute;mon est une marque d&eacute;pos&eacute;e de ses
-        propri&eacute;taires respectifs.</span>
-      <span class="credit credit-releve">Donn&eacute;es : PokeAPI, Pok&eacute;p&eacute;dia &middot;
-        Sprites : rendus Pok&eacute;mon HOME</span>
+      <span class="credit">PROJET NON OFFICIEL. NON APPROUV&Eacute; PAR OU ASSOCI&Eacute; &Agrave; NINTENDO, GAME FREAK OU THE POK&Eacute;MON COMPANY.</span>
     </div>
   </div>
 </div>
@@ -1429,6 +1580,53 @@
 
 <!-- Ce qui bloque un Pok&eacute;dex : l'inverse du filtre qui sert au programme du
      soir. Voir js/blocages.js. -->
+<!-- Le lien de partage d'un Pokédex. Voir js/lien.js.
+     Il vit à côté de « Comparer » dans la barre du Pokédex parce que les deux
+     répondent à la même envie : montrer sa collection à quelqu'un. Comparer
+     demande que l'autre ait un compte ; partager ne demande rien. -->
+<div class="modal-overlay" id="lienOverlay" style="display:none;" role="dialog"
+     aria-modal="true" aria-labelledby="lienTitre">
+  <div class="modal-card lien-card">
+    <button class="fiche-fermer" id="lienFermer" type="button" aria-label="Fermer">&#10005;</button>
+    <div class="modal-eyebrow" id="lienEyebrow">Partager</div>
+    <h2 class="modal-title" id="lienTitre">Ce Pok&eacute;dex, par un lien</h2>
+    <p class="lien-sous" id="lienSous"></p>
+
+    <div class="lien-boite" id="lienBoite" hidden>
+      <div class="lien-code" id="lienCode">&mdash;</div>
+      <div class="lien-adresse" id="lienAdresse"></div>
+      <div class="lien-actions">
+        <button class="toggle-btn primary" id="lienCopier" type="button">&#128203; Copier le lien</button>
+        <button class="toggle-btn" id="lienCopierCode" type="button">&#128273; Copier le code</button>
+      </div>
+    </div>
+
+    <!-- HORS DE LA BOITE, ET C'EST TOUT L'INTERET. Elle dit ce qui se passe —
+         « creation du lien… », « copie », ou pourquoi ca a echoue — et la
+         boite au-dessus est justement ce qui manque quand ca echoue. -->
+    <p class="lien-etat" id="lienEtat" role="status"></p>
+    <button class="toggle-btn primary lien-reessayer" id="lienReessayer" type="button" hidden>
+      &#8635; R&eacute;essayer
+    </button>
+
+    <p class="lien-note" id="lienNote">
+      Qui a ce lien voit ce Pok&eacute;dex, et rien d&rsquo;autre : ni tes autres jeux,
+      ni tes chasses, ni tes messages. Il n&rsquo;a besoin d&rsquo;aucun compte, et
+      l&rsquo;avanc&eacute;e qu&rsquo;il voit reste &agrave; jour.
+    </p>
+
+    <div class="lien-existants" id="lienExistants" hidden>
+      <div class="lien-existants-titre">Tes liens</div>
+      <div id="lienListe"></div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="toggle-btn" id="lienOuvrir" type="button">&#128279; Ouvrir ce Pok&eacute;dex</button>
+      <button class="toggle-btn danger" id="lienRevoquer" type="button" hidden>&#9940; R&eacute;voquer</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="blocagesOverlay" style="display:none;" role="dialog"
      aria-modal="true" aria-labelledby="blocagesTitre">
   <div class="modal-card blocages-card">
@@ -1984,104 +2182,115 @@
   </div>
 </div>
 
-<script src="../src/js/donnees.js?v=1788504079"></script>
+<script src="../src/js/donnees.js?v=1789498041"></script>
 <!-- Généré par outils/generer-donnees.html. Doit précéder cache.js, qui y
      puise quand le stockage local est vide. -->
-<script src="../src/js/donnees-embarquees.js?v=1788504079"></script>
+<script src="../src/js/donnees-embarquees.js?v=1789498041"></script>
 <!-- Les verrous chromatiques : des données seules, relevées à la source et
      datées. Doit précéder verrous.js, qui les affiche. -->
-<script src="../src/js/donnees-cadeaux.js?v=1788504079"></script>
-<script src="../src/js/donnees-verrous.js?v=1788504079"></script>
+<script src="../src/js/donnees-cadeaux.js?v=1789498041"></script>
+<script src="../src/js/donnees-verrous.js?v=1789498041"></script>
 <!-- Les notices du Pokédex, une par espèce et par jeu, relevées sur Poképédia
      par outils/relever-descriptions.py, ne sont PAS déclarées ici : fiche.js va
      les chercher à la première fiche ouverte, comme les attaques et les lieux.
      Une notice par jeu, c'est vingt-deux fois le texte d'une notice par espèce
      — de quoi allonger chaque démarrage pour une carte qu'on ne lit pas
      toujours. -->
-<script src="../src/js/cache.js?v=1788504079"></script>
-<script src="../src/js/noyau.js?v=1788504079"></script>
+<script src="../src/js/cache.js?v=1789498041"></script>
+<script src="../src/js/noyau.js?v=1789498041"></script>
 <!-- Les icônes. Tôt : tout ce qui dessine un bouton s'en sert, et elles ne
      dépendent de rien. -->
-<script src="../src/js/icones.js?v=1788504079"></script>
-<script src="../src/js/confirmer.js?v=1788504079"></script>
-<script src="../src/js/maj.js?v=1788504079"></script>
-<script src="../src/js/nouveautes.js?v=1788504079"></script>
+<script src="../src/js/icones.js?v=1789498041"></script>
+<script src="../src/js/confirmer.js?v=1789498041"></script>
+<script src="../src/js/maj.js?v=1789498041"></script>
+<script src="../src/js/nouveautes.js?v=1789498041"></script>
 <!-- Le lexique. Autonome : il ne lit rien d'autre que ses propres définitions,
      et pose ses pastilles au DOMContentLoaded. -->
-<script src="../src/js/lexique.js?v=1788504079"></script>
-<script src="../src/js/serveur.js?v=1788504079"></script>
-<script src="../src/js/formes.js?v=1788504079"></script>
-<script src="../src/js/accueil.js?v=1788504079"></script>
-<script src="../src/js/dex.js?v=1788504079"></script>
-<script src="../src/js/fiche.js?v=1788504079"></script>
-<script src="../src/js/grille.js?v=1788504079"></script>
+<script src="../src/js/lexique.js?v=1789498041"></script>
+<script src="../src/js/serveur.js?v=1789498041"></script>
+<script src="../src/js/formes.js?v=1789498041"></script>
+<script src="../src/js/accueil.js?v=1789498041"></script>
+<script src="../src/js/dex.js?v=1789498041"></script>
+<script src="../src/js/fiche.js?v=1789498041"></script>
+<script src="../src/js/grille.js?v=1789498041"></script>
 <!-- Après dex.js et grille.js : les objectifs figent currentFiltered. -->
-<script src="../src/js/objectifs.js?v=1788504079"></script>
+<script src="../src/js/objectifs.js?v=1789498041"></script>
 <!-- Après grille.js : la fiche de capture complète la fenêtre d'aperçu. -->
-<script src="../src/js/capture.js?v=1788504079"></script>
+<script src="../src/js/capture.js?v=1789498041"></script>
 <!-- Après compte.js : la rareté demande la table à l'API. -->
-<script src="../src/js/rarete.js?v=1788504079"></script>
-<script src="../src/js/lieux.js?v=1788504079"></script>
-<script src="../src/js/filtres.js?v=1788504079"></script>
-<script src="../src/js/chasse.js?v=1788504079"></script>
+<script src="../src/js/rarete.js?v=1789498041"></script>
+<script src="../src/js/lieux.js?v=1789498041"></script>
+<script src="../src/js/filtres.js?v=1789498041"></script>
+<!-- Le Pokedex de PixelmonWorld : apres dex.js (analyserRecherche, loadTypes)
+     et fiche.js (openPreview), dont il se sert tels quels. -->
+<script src="../src/js/pixelmonworld.js?v=1789498041"></script>
+<script src="../src/js/pixelmonworld-panneau.js?v=1789498041"></script>
+<script src="../src/js/chasse.js?v=1789498041"></script>
 <!-- Apres chasse.js : il se sert de son modele de taux plutot que d'en
      porter une copie, qui divergerait a la premiere correction. -->
-<script src="../src/js/calculateur.js?v=1788504079"></script>
-<script src="../src/js/verrous.js?v=1788504079"></script>
-<script src="../src/js/cadeaux.js?v=1788504079"></script>
+<script src="../src/js/calculateur.js?v=1789498041"></script>
+<script src="../src/js/verrous.js?v=1789498041"></script>
+<script src="../src/js/cadeaux.js?v=1789498041"></script>
 <!-- Les règles de combat, puis l'écran qui s'appuie dessus. Tous deux après
      fiche.js (TYPE_RELATIONS, puceType, decoderBloc) et avant menus.js, qui
      stylise leurs menus déroulants. -->
-<script src="../src/js/combat.js?v=1788504079"></script>
-<script src="../src/js/strategie.js?v=1788504079"></script>
+<script src="../src/js/combat.js?v=1789498041"></script>
+<script src="../src/js/strategie.js?v=1789498041"></script>
 <!-- Après strategie.js : il lui emprunte creerSelecteur. -->
-<script src="../src/js/reproduction.js?v=1788504079"></script>
+<script src="../src/js/reproduction.js?v=1789498041"></script>
 <!-- Après donnees.js pour GAMES, et après reproduction.js par simple
      voisinage : les trois partagent la barre « Outils ». -->
-<script src="../src/js/transferts.js?v=1788504079"></script>
-<script src="../src/js/partage.js?v=1788504079"></script>
-<script src="../src/js/menus.js?v=1788504079"></script>
+<script src="../src/js/transferts.js?v=1789498041"></script>
+<script src="../src/js/partage.js?v=1789498041"></script>
+<script src="../src/js/menus.js?v=1789498041"></script>
 <!-- Redéfinit la couche de sauvegarde quand l'app tourne dans Tauri.
      Hors Tauri (serveur.py, ou fichier ouvert directement), il ne fait rien. -->
 
-<script src="../src/js/amis.js?v=1788504079"></script>
+<!-- Le lien de partage d'un Pokédex. APRES compte.js, dont il se sert :
+     profilCourant, invoke, sessionOuverte, perdreSession, messageErreur.
+     Et apres confirmer.js pour demanderConfirmation. -->
+<script src="../src/js/lien.js?v=1789498041"></script>
+<script src="../src/js/amis.js?v=1789498041"></script>
 <!-- Après partage.js, dont il complète le panneau d'entraide, et après
      compte.js pour nomJournal, libelleDex, avatarDiscord et dateLisible. -->
-<script src="../src/js/troc.js?v=1788504079"></script>
+<script src="../src/js/troc.js?v=1789498041"></script>
 <!-- Après amis.js (pontNotif, bullePermise) et troc.js (ouvrirDiscussion). -->
 <!-- Apres troc.js : il reprend ses bulles de discussion plutot que d'en
      redefinir un second jeu, qui aurait diverge. -->
-<script src="../src/js/messagerie.js?v=1788504079"></script>
+<script src="../src/js/messagerie.js?v=1789498041"></script>
 <!-- Apres chasse.js et photos.js : il lit leurs donnees et reprend leur
      vignette plutot que d'en ecrire une seconde. -->
-<script src="../src/js/tableaux.js?v=1788504079"></script>
-<script src="../src/js/notifs.js?v=1788504079"></script>
+<script src="../src/js/tableaux.js?v=1789498041"></script>
+<script src="../src/js/notifs.js?v=1789498041"></script>
 <!-- Après chasse.js (nomDeChasse, dessinerTableauChasse) et compte.js
      (perdreSession, profilCourant). -->
-<script src="../src/js/photos.js?v=1788504079"></script>
+<script src="../src/js/photos.js?v=1789498041"></script>
 <!-- Après formes.js (speciesForVariant, poolEntries), accueil.js (semeur,
      hachage) et photos.js (vignettePhoto). -->
-<script src="../src/js/defi.js?v=1788504079"></script>
+<script src="../src/js/defi.js?v=1789498041"></script>
 <!-- Après compte.js (nomJournal, perdreSession) et amis.js. -->
-<script src="../src/js/recherches.js?v=1788504079"></script>
+<script src="../src/js/recherches.js?v=1789498041"></script>
 <!-- Après dex.js (obtentionDe) et recherches.js (chercheDeja). -->
-<script src="../src/js/blocages.js?v=1788504079"></script>
+<script src="../src/js/blocages.js?v=1789498041"></script>
 <!-- Après grille.js (BOITE_TAILLE, allerBoite, basculerBoites) et dex.js
      (trierEntrees). -->
-<script src="../src/js/rangement.js?v=1788504079"></script>
-<script src="../src/js/retrospective.js?v=1788504079"></script>
-<script src="../src/js/succes.js?v=1788504079"></script>
+<script src="../src/js/rangement.js?v=1789498041"></script>
+<script src="../src/js/retrospective.js?v=1789498041"></script>
+<script src="../src/js/succes.js?v=1789498041"></script>
 <!-- Après retrospective.js : la carte lit retroDonnees si elle est là, et se
      passe d'elle sinon. -->
-<script src="../src/js/carte.js?v=1788504079"></script>
+<script src="../src/js/carte.js?v=1789498041"></script>
 <!-- Après compte.js : le premier lancement lit profilCourant et profilsConnus. -->
-<script src="../src/js/depart.js?v=1788504079"></script>
-<script src="../src/js/donnees-perso.js?v=1788504079"></script>
-<script src="../src/js/parties.js?v=1788504079"></script>
-<script src="../src/js/presence.js?v=1788504079"></script>
+<script src="../src/js/depart.js?v=1789498041"></script>
+<script src="../src/js/donnees-perso.js?v=1789498041"></script>
+<script src="../src/js/parties.js?v=1789498041"></script>
+<!-- APRES parties.js : il lit la liste des jeux declares. Et apres
+     lieux.js, dont il reutilise puceEspece(). -->
+<script src="../src/js/obtenir.js?v=1789498041"></script>
+<script src="../src/js/presence.js?v=1789498041"></script>
 
-<script src="../src/js/selecteur-couleur.js?v=1788504079"></script>
-<script src="../src/js/apparence.js?v=1788504079"></script>
+<script src="../src/js/selecteur-couleur.js?v=1789498041"></script>
+<script src="../src/js/apparence.js?v=1789498041"></script>
 <script src="generer-attaques.js"></script>
 </body>
 </html>

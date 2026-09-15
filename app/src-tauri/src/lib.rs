@@ -628,6 +628,89 @@ async fn importer(
     appeler(reqwest::Method::POST, "/api/import", &jeton, Some(contenu)).await
 }
 
+// --- Le Pokédex de PixelmonWorld --------------------------------------------
+//
+// Des enveloppes minces, comme le reste de ce fichier : la vérification du
+// droit d'entrer est faite par l'API, et elle seule. Une fenêtre de bureau ne
+// protège rien — son code est distribué aux joueurs.
+
+/// Ce que ce compte a le droit de voir : le Pokédex, et le panneau des accès.
+#[tauri::command]
+async fn pw_moi(etat: State<'_, Etat>) -> Result<serde_json::Value, String> {
+    let jeton = etat.jeton()?;
+    appeler(reqwest::Method::GET, "/api/pw/moi", &jeton, None).await
+}
+
+/// Le Pokédex entier : zones, sous-zones, espèces et apparitions.
+///
+/// EN UN SEUL APPEL, comme la page le demande : elle filtre ensuite par zone
+/// sans redemander au serveur à chaque clic, exactement comme le Pokédex des
+/// jeux tient sa grille en mémoire.
+#[tauri::command]
+async fn pw_pokedex(etat: State<'_, Etat>) -> Result<serde_json::Value, String> {
+    let jeton = etat.jeton()?;
+    appeler(reqwest::Method::GET, "/api/pw/pokedex", &jeton, None).await
+}
+
+/// La liste des accès. L'API répond 404 à qui n'est pas l'administrateur.
+#[tauri::command]
+async fn pw_acces(etat: State<'_, Etat>) -> Result<serde_json::Value, String> {
+    let jeton = etat.jeton()?;
+    appeler(reqwest::Method::GET, "/api/pw/acces", &jeton, None).await
+}
+
+/// Les dresseurs déjà connus, pour ouvrir un accès sans recopier un identifiant.
+#[tauri::command]
+async fn pw_acces_dresseurs(
+    etat: State<'_, Etat>,
+    recherche: Option<String>,
+) -> Result<serde_json::Value, String> {
+    let jeton = etat.jeton()?;
+    // urlencode() est celui du fichier, déjà utilisé par `dresseurs` : un
+    // pseudo peut porter un espace ou un accent.
+    let chemin = match recherche.as_deref().map(str::trim).filter(|s| !s.is_empty()) {
+        Some(q) => format!("/api/pw/acces/dresseurs?q={}", urlencode(q)),
+        None => "/api/pw/acces/dresseurs".to_string(),
+    };
+    appeler(reqwest::Method::GET, &chemin, &jeton, None).await
+}
+
+/// Ouvrir un accès, ou corriger celui d'un identifiant déjà posé.
+#[tauri::command]
+async fn pw_acces_poser(
+    etat: State<'_, Etat>,
+    discord_id: String,
+    libelle: Option<String>,
+) -> Result<serde_json::Value, String> {
+    let jeton = etat.jeton()?;
+    let corps = serde_json::json!({
+        "discordId": discord_id,
+        "libelle": libelle.unwrap_or_default(),
+    });
+    appeler(reqwest::Method::POST, "/api/pw/acces", &jeton, Some(corps)).await
+}
+
+/// Fermer un accès, ou le rouvrir. La ligne reste dans les deux cas.
+#[tauri::command]
+async fn pw_acces_basculer(
+    etat: State<'_, Etat>,
+    id: i64,
+    actif: bool,
+) -> Result<serde_json::Value, String> {
+    let jeton = etat.jeton()?;
+    let chemin = format!("/api/pw/acces/{id}");
+    let corps = serde_json::json!({ "actif": actif });
+    appeler(reqwest::Method::PATCH, &chemin, &jeton, Some(corps)).await
+}
+
+/// Effacer un accès. « Fermer » suffit quand c'est temporaire.
+#[tauri::command]
+async fn pw_acces_retirer(etat: State<'_, Etat>, id: i64) -> Result<serde_json::Value, String> {
+    let jeton = etat.jeton()?;
+    let chemin = format!("/api/pw/acces/{id}");
+    appeler(reqwest::Method::DELETE, &chemin, &jeton, None).await
+}
+
 /// Les connexions ouvertes. Une session dure quatre-vingt-dix jours, et rien
 /// ne les montrait — donc rien à faire après s'être connecté chez un ami.
 #[tauri::command]
@@ -1341,6 +1424,13 @@ pub fn run() {
             exporter,
             importer,
             rarete,
+            pw_moi,
+            pw_pokedex,
+            pw_acces,
+            pw_acces_dresseurs,
+            pw_acces_poser,
+            pw_acces_basculer,
+            pw_acces_retirer,
             sessions,
             fermer_session,
             fermer_les_autres,

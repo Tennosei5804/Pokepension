@@ -342,6 +342,15 @@ function markActiveFilters(){
 // seulement une barre et une entrée de nav.
 const EST_UN_OUTIL = ['strategie', 'reproduction', 'transferts', 'obtenir'];
 
+// Les écrans que l'onglet « Serveurs » réunit, sur le même principe : un
+// serveur a son Pokédex ET ses lieux, et les deux partagent une sous-barre.
+//
+// UNE LISTE PLUTÔT QU'UN NOM EN DUR, pour la même raison qu'« Outils » : le
+// jour où un second serveur arrive, il ajoute ses écrans ici et prend sa place
+// dans la sous-barre, sans toucher à la nav du haut — qui débordait déjà sur
+// deux rangées à dix entrées.
+const EST_UN_SERVEUR = ['pixelmonworld', 'pwlieux'];
+
 // La sous-barre est recopiée en tête des trois sections : chacune doit pouvoir
 // s'afficher seule. On allume donc la bonne dans TOUTES, et pas seulement dans
 // celle qui est visible — sinon la barre de la page suivante garde l'ancienne.
@@ -413,11 +422,15 @@ function showPage(name){
   // écrans qui partagent une sous-barre. On entre par la Stratégie, qui est le
   // plus consulté des trois.
   if(name === 'outils') name = 'strategie';
+  // « Serveurs » n'est pas une page : c'est le nom que porte la nav pour les
+  // écrans d'un serveur. On entre par son Pokédex, le plus consulté des deux.
+  if(name === 'serveurs') name = 'pixelmonworld';
 
   if(name === 'dresseurs' || name === 'profil' || name === 'chasse'
      || name === 'verrous' || name === 'strategie' || name === 'reproduction'
      || name === 'transferts' || name === 'obtenir'
      || name === 'amis' || name === 'lieux'
+     || name === 'pixelmonworld' || name === 'pwlieux'
      || name === 'parametres' || name === 'cadeaux' || name === 'messages'
      || name === 'galerie' || name === 'releve'){
     currentPage = name;
@@ -433,6 +446,8 @@ function showPage(name){
     // continuerait sur une page qu'on a quittée.
     if(name !== 'messages' && typeof fermerMessagerie === 'function') fermerMessagerie();
     if(pageLieuxEl) pageLieuxEl.classList.toggle('active', name === 'lieux');
+    if(pagePixelmonWorldEl) pagePixelmonWorldEl.classList.toggle('active', name === 'pixelmonworld');
+    if(pagePwLieuxEl) pagePwLieuxEl.classList.toggle('active', name === 'pwlieux');
     if(pageProfilEl) pageProfilEl.classList.toggle('active', name === 'profil');
     if(pageParametresEl) pageParametresEl.classList.toggle('active', name === 'parametres');
     if(pageChasseEl) pageChasseEl.classList.toggle('active', name === 'chasse');
@@ -447,13 +462,16 @@ function showPage(name){
     // Shiny-lock n'a pas d'onglet à lui : on y entre depuis Chasse, et c'est
     // Chasse qui reste allumé — sinon la barre n'indique plus d'où l'on vient.
     marquerOnglet(EST_UN_OUTIL.indexOf(name) !== -1 ? 'outils'
-      : (name === 'verrous' ? 'chasse' : name));
+      : (EST_UN_SERVEUR.indexOf(name) !== -1 ? 'serveurs'
+      : (name === 'verrous' ? 'chasse' : name)));
     majSousNavOutils(name);
     if(name === 'dresseurs' && typeof chargerDresseurs === 'function') chargerDresseurs();
     if(name === 'amis' && typeof chargerAmis === 'function') chargerAmis();
     if(name === 'amis' && typeof chargerTroc === 'function') chargerTroc();
     if(name === 'amis' && typeof chargerQuiA === 'function') chargerQuiA();
     if(name === 'lieux' && typeof chargerPageLieux === 'function') chargerPageLieux();
+    if(name === 'pixelmonworld' && typeof chargerPagePW === 'function') chargerPagePW();
+    if(name === 'pwlieux' && typeof chargerPagePWLieux === 'function') chargerPagePWLieux();
     if(name === 'profil' && typeof chargerProfil === 'function') chargerProfil();
     // La carte et les données jeux se redessinent en entrant : leur premier
     // dessin a lieu au chargement de parties.js, avant qu'app.js n'ait rempli

@@ -132,6 +132,17 @@
              même question — « avant d'y aller, qu'est-ce que je dois savoir » —
              et partagent donc une sous-barre. -->
         <button class="page-tab" type="button" data-page="outils">🧰 Outils</button>
+        <!-- LES SERVEURS, sur le m&ecirc;me principe qu'&laquo;&nbsp;Outils&nbsp;&raquo; : un onglet,
+             plusieurs &eacute;crans, une sous-barre. Un serveur a son Pok&eacute;dex ET ses
+             lieux, et le jour o&ugrave; un second serveur arrive, il prend sa place
+             dans la m&ecirc;me sous-barre sans rien ajouter &agrave; la nav du haut &mdash; qui
+             d&eacute;bordait d&eacute;j&agrave; sur deux rang&eacute;es &agrave; dix entr&eacute;es.
+
+             CACH&Eacute; PAR D&Eacute;FAUT, montr&eacute; par pixelmonworld.js quand l'API r&eacute;pond
+             que l'acc&egrave;s est ouvert. Cacher l'onglet ne prot&egrave;ge rien &mdash; c'est le
+             serveur qui refuse &mdash;, mais un onglet qui ne m&egrave;ne qu'&agrave; un refus
+             n'a rien &agrave; faire dans la barre de qui n'y a pas droit. -->
+        <button class="page-tab" type="button" data-page="serveurs" hidden>🖥️ Serveurs</button>
         <button class="page-tab" type="button" data-page="profil">🧑 Profil</button>
       </nav>
 
@@ -883,6 +894,116 @@
         <div class="lieux-mods" id="lieuxMods" hidden></div>
         <p class="lieux-resume" id="lieuxResume"></p>
         <div class="lieux" id="lieuxListe"></div>
+      </section>
+
+      <!-- LE POK&Eacute;DEX DE PIXELMONWORLD.
+           La barre reprend celle du Pok&eacute;dex des jeux &mdash; m&ecirc;mes classes, m&ecirc;me
+           champ de recherche, m&ecirc;mes menus &mdash; parce que c'est le m&ecirc;me geste :
+           on cherche un Pok&eacute;mon, on restreint, on ouvre sa fiche. Les deux
+           menus de plus, zone et sous-zone, sont ce que ce Pok&eacute;dex-ci a en
+           propre : ses lieux sont dans sa barre, l&agrave; o&ugrave; ceux des jeux ont leur
+           page &agrave; eux. -->
+      <section class="page" id="page-pixelmonworld">
+        <!-- LA SOUS-BARRE DU SERVEUR, recopi&eacute;e en t&ecirc;te des deux &eacute;crans : chacun
+             doit pouvoir s'afficher seul, exactement comme la barre des Outils.
+             Elle porte les m&ecirc;mes classes, donc le m&ecirc;me gestionnaire de clic et
+             le m&ecirc;me style &mdash; il n'y a pas de second menu &agrave; tenir. -->
+        <div class="outils-nav serveurs-nav" role="tablist" aria-label="PixelmonWorld">
+          <span class="serveurs-nom">🌍 PixelmonWorld</span>
+          <button class="outils-onglet active" type="button" data-outils="pixelmonworld">&#128214; Pok&eacute;dex</button>
+          <button class="outils-onglet" type="button" data-outils="pwlieux">&#128205; Lieux</button>
+        </div>
+        <div class="home-hero">
+          <div class="home-eyebrow">Sur le serveur</div>
+          <h2 class="home-title">Pokédex PixelmonWorld</h2>
+          <p class="home-sub">Ce que le serveur fait appara&icirc;tre, et o&ugrave;.
+             Chaque zone a ses sous-zones, et chaque apparition sa raret&eacute; en
+             &eacute;toiles.</p>
+        </div>
+
+        <div class="toolbar filters-row" id="pwBarre" hidden>
+          <input type="search" id="pwRecherche" list="pwNoms"
+                 placeholder="Un nom, un n°, « eau », « gen3 », « legendaire »…"
+                 aria-label="Rechercher : un nom, un numéro, un type, une génération ou un mot-clé"
+                 title="Se cumulent : un nom, un n° national, un type (feu, eau…), une génération (gen3, kanto…), un état (manquants, capturés) et un mot-clé (légendaire, fabuleux, starter…). Tout mot inconnu cherche dans le nom."
+                 autocomplete="off">
+          <!-- L'autocompl&eacute;tion native : le navigateur filtre et navigue au
+               clavier tout seul, et rien ne se dessine au-dessus de la grille. -->
+          <datalist id="pwNoms"></datalist>
+          <select id="pwTri" aria-label="Trier">
+            <option value="numero">Tri : N° National</option>
+            <option value="nom">Tri : Alphabétique</option>
+            <option value="rarete">Tri : Rareté</option>
+            <option value="zones">Tri : Nombre d'endroits</option>
+          </select>
+          <select id="pwType" aria-label="Filtrer par type">
+            <option value="all">Tous les types</option>
+          </select>
+          <!-- Raret&eacute;s et zones sont remplies par pixelmonworld.js depuis la
+               r&eacute;ponse de l'API : aucune liste &eacute;crite ici, sinon elle d&eacute;riverait
+               d&egrave;s que le serveur ajoute une zone. -->
+          <select id="pwRarete" aria-label="Filtrer par rareté">
+            <option value="all">Toutes les raretés</option>
+          </select>
+          <select id="pwZone" aria-label="Filtrer par zone">
+            <option value="all">Toutes les zones</option>
+          </select>
+          <select id="pwSousZone" aria-label="Filtrer par sous-zone">
+            <option value="all">Toutes les sous-zones</option>
+          </select>
+          <button class="toggle-btn" id="pwRaz" type="button"
+                  title="Vider la recherche et remettre tous les filtres">&#9851; Tout afficher</button>
+          <!-- L'ADMINISTRATEUR SEUL. Ouvrir ou fermer ce Pok&eacute;dex pour
+               quelqu'un, par son identifiant Discord. Rien d'autre ne se
+               modifie ici : zones, sous-zones et apparitions viennent toutes
+               du relev&eacute; du site de PixelmonWorld. -->
+          <button class="toggle-btn" id="pwAccesBascule" type="button" hidden
+                  aria-expanded="false" aria-controls="pwPanneau"
+                  title="Qui a le droit d&rsquo;ouvrir ce Pok&eacute;dex">&#128273; Acc&egrave;s</button>
+        </div>
+
+        <p class="recherche-jetons" id="pwJetons" hidden></p>
+        <div class="pw-acces" id="pwPanneau" hidden></div>
+        <p class="lieux-resume" id="pwResume"></p>
+        <div class="grid" id="pwGrille"></div>
+        <button class="load-more" id="pwPlus" type="button" style="display:none;">Afficher plus</button>
+      </section>
+
+      <!-- LES LIEUX DU SERVEUR. M&ecirc;me question que la page Lieux des jeux, et
+           donc m&ecirc;me forme : on ne cherche plus un Pok&eacute;mon, on est SUR une
+           zone et on veut savoir ce qu'on y croise. Les blocs, les pastilles
+           d'esp&egrave;ce et le d&eacute;pliage sont ceux de js/lieux.js, r&eacute;utilis&eacute;s tels
+           quels &mdash; voir puceEspece(). -->
+      <section class="page" id="page-pw-lieux">
+        <!-- LA SOUS-BARRE DU SERVEUR, recopi&eacute;e en t&ecirc;te des deux &eacute;crans : chacun
+             doit pouvoir s'afficher seul, exactement comme la barre des Outils.
+             Elle porte les m&ecirc;mes classes, donc le m&ecirc;me gestionnaire de clic et
+             le m&ecirc;me style &mdash; il n'y a pas de second menu &agrave; tenir. -->
+        <div class="outils-nav serveurs-nav" role="tablist" aria-label="PixelmonWorld">
+          <span class="serveurs-nom">🌍 PixelmonWorld</span>
+          <button class="outils-onglet" type="button" data-outils="pixelmonworld">&#128214; Pok&eacute;dex</button>
+          <button class="outils-onglet active" type="button" data-outils="pwlieux">&#128205; Lieux</button>
+        </div>
+        <div class="home-hero">
+          <div class="home-eyebrow">O&ugrave; aller sur le serveur</div>
+          <h2 class="home-title">Les lieux de PixelmonWorld</h2>
+          <p class="home-sub">Chaque zone, ses sous-zones, et qui s'y trouve.
+             La raret&eacute; est celle de l'endroit&nbsp;: le m&ecirc;me Pok&eacute;mon peut &ecirc;tre
+             commun ici et rare deux zones plus loin.</p>
+        </div>
+
+        <div class="lieux-barre" id="pwLieuxBarre" hidden>
+          <input type="search" id="pwLieuxQ" autocomplete="off"
+                 placeholder="Une zone, ou un Pokémon…"
+                 aria-label="Chercher une zone ou un Pokémon">
+          <label class="bascule">
+            <input type="checkbox" id="pwLieuxHorsCarte">
+            <span class="bascule-piste" aria-hidden="true"><span class="bascule-pouce"></span></span>
+            <span class="bascule-texte">Montrer aussi ce qui n'est pas un lieu (&eacute;volution, qu&ecirc;te, Tour de Combat)</span>
+          </label>
+        </div>
+        <p class="lieux-resume" id="pwLieuxResume"></p>
+        <div class="lieux" id="pwLieuxListe"></div>
       </section>
 
       <section class="page" id="page-amis">
@@ -2100,6 +2221,10 @@
 <script src="js/rarete.js"></script>
 <script src="js/lieux.js"></script>
 <script src="js/filtres.js"></script>
+<!-- Le Pokedex de PixelmonWorld : apres dex.js (analyserRecherche, loadTypes)
+     et fiche.js (openPreview), dont il se sert tels quels. -->
+<script src="js/pixelmonworld.js"></script>
+<script src="js/pixelmonworld-panneau.js"></script>
 <script src="js/chasse.js"></script>
 <!-- Apres chasse.js : il se sert de son modele de taux plutot que d'en
      porter une copie, qui divergerait a la premiere correction. -->

@@ -3104,3 +3104,14 @@ html[data-theme="light"] body{ background:#e9e7e0; }
 /* Un lien éteint reste lisible : il dit ce qui a existé, il ne crie pas. */
 .lien-ligne.eteint{ opacity:.55; }
 .lien-ligne.eteint b{ text-decoration:line-through; }
+
+/* Le nom du serveur, en tête de sa sous-barre. Ce n'est pas un onglet : on ne
+   clique pas dessus, il dit de quel serveur on parle. Les deux écrans qui
+   suivent sont des .outils-onglet ordinaires — même style, même gestionnaire
+   de clic, rien de neuf à tenir. */
+.serveurs-nav .serveurs-nom{
+  display:inline-flex; align-items:center;
+  padding:7px 4px 7px 0; margin-right:4px;
+  font-family:var(--font-body); font-size:13px; font-weight:700;
+  color:var(--ink);
+}

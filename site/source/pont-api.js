@@ -118,6 +118,20 @@
     exporter:                 ['GET',    () => '/api/export'],
     importer:                 ['POST',   () => '/api/import', a => a.contenu],
     rarete:                   ['GET',    () => '/api/rarete'],
+
+    // Le Pokedex de PixelmonWorld. `pw_moi` repond a tout le monde ; les
+    // autres n'existent pas pour qui n'a pas l'acces, et l'API rend 404.
+    pw_moi:                   ['GET',    () => '/api/pw/moi'],
+    pw_pokedex:               ['GET',    () => '/api/pw/pokedex'],
+    pw_acces:                 ['GET',    () => '/api/pw/acces'],
+    pw_acces_dresseurs:       ['GET',    a => (a.recherche && a.recherche.trim())
+                                 ? '/api/pw/acces/dresseurs?q=' + enc(a.recherche.trim())
+                                 : '/api/pw/acces/dresseurs'],
+    pw_acces_poser:           ['POST',   () => '/api/pw/acces',
+                               a => ({ discordId: a.discordId, libelle: a.libelle })],
+    pw_acces_basculer:        ['PATCH',  a => '/api/pw/acces/' + a.id,
+                               a => ({ actif: a.actif })],
+    pw_acces_retirer:         ['DELETE', a => '/api/pw/acces/' + a.id],
     retrospective:            ['GET',    () => '/api/retrospective'],
     journal:                  ['GET',    a => avant(a.avant, '/api/journal')],
 

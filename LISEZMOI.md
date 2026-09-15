@@ -33,6 +33,7 @@ PokéPension/
 │       ├── config.js     → lecture de l'environnement
 │       ├── base.js       → pool MySQL, schéma
 │       ├── comptes.js    → dresseurs, sessions, dex
+│       ├── pixelmonworld.js → le Pokédex du serveur : zones, spawns, accès
 │       └── discord.js    → OAuth2
 └── app/                  → l'application Tauri
     ├── src/              → l'interface (HTML, CSS, JS)
@@ -48,6 +49,8 @@ PokéPension/
     │       ├── donnees-attaques.js   → GÉNÉRÉ : capacités apprises (chargé à la demande)
     │       ├── donnees-descriptions.js → RELEVÉ : les notices du Pokédex, par jeu
     │       ├── donnees-cobblemon.js  → RELEVÉ : les biomes d'apparition du mod
+    │       ├── pixelmonworld.js      → le Pokédex du serveur PixelmonWorld
+    │       ├── pixelmonworld-panneau.js → qui a le droit de l'ouvrir
     │       ├── donnees-home.js       → RELEVÉ : ce que HOME accepte, pour le banc
     │       ├── donnees-pokedex.js    → RELEVÉ : les Pokédex de jeux, pour le banc
     │       └── evenements.js         → À LA MAIN : les distributions françaises
@@ -945,6 +948,93 @@ journée.
 
 **Rien ne s'affiche sous cinq collections.** « Un dresseur sur deux » n'est pas
 une rareté, c'est un hasard, et l'API renvoie alors une table vide.
+
+## Le Pokédex de PixelmonWorld
+
+Un onglet **« Serveurs »**, entre Outils et Profil. Il réunit deux écrans —
+**Pokédex** et **Lieux** — sur le modèle de l'onglet « Outils » : un onglet,
+plusieurs pages, une sous-barre recopiée en tête de chacune. Le jour où un
+second serveur arrive, il prend sa place dans cette sous-barre sans rien
+ajouter à la nav du haut, qui débordait déjà sur deux rangées à dix entrées.
+
+### La hiérarchie
+
+```
+Zone  →  Sous-zone  →  Apparition
+```
+
+Celle que le reste de l'application affiche déjà : le relevé des jeux écrit
+« Lac Ouragan • Hautes herbes », et la page Lieux regroupe sur la partie de
+gauche. PixelmonWorld tient la même chose dans une liste plate — « Zone 1 »,
+« Zone 1 Eau », « Zone 1 Forêt » — que le relevé découpe.
+
+**Une même espèce revient autant de fois qu'il le faut**, dans plusieurs zones
+et plusieurs sous-zones. Chaque ligne est une apparition indépendante, avec sa
+rareté : Magicarpe en compte quatre.
+
+### La rareté, en étoiles
+
+PixelmonWorld range ses espèces en **cinq paliers** — Commun, Peu commun, Rare,
+Épique, Légendaire. Cinq paliers, cinq étoiles : la conversion tombe juste, et
+elle est écrite **une fois**, dans `RARETES` (api/src/pixelmonworld.js).
+
+Le nombre d'étoiles est une **donnée** : il est calculé à l'import et stocké
+en base. La page ne fait que le dessiner. Une conversion refaite à l'affichage
+aurait été une seconde vérité, et le jour où le serveur ajoute un palier, une
+seule des deux aurait suivi.
+
+Toujours **cinq crans** — « ★★★☆☆ » et non « ★★★ » : c'est la place vide qui
+dit qu'il y a plus rare ailleurs. **Zéro étoile n'est pas « commun »** : quand
+la base ne sait pas, on ne dessine aucune étoile plutôt que cinq étoiles
+creuses, qui annonceraient un Pokémon banal.
+
+### Une seule source
+
+Zones, sous-zones, raretés et apparitions viennent **entièrement** du Pokédex
+du serveur. Rien ne se saisit à la main, et aucune route d'API ne les écrit :
+une seconde façon de les remplir serait une seconde vérité à tenir d'accord
+avec le relevé.
+
+```
+cd app  && py outils/relever-pixelmonworld.py        → api/releves/pixelmonworld.json
+cd api  && node --env-file=.env outils/importer-pixelmonworld.js
+```
+
+Le relevé lit les 951 fiches du site (une par espèce : numéro, types,
+génération, rareté, zones) et en tire 1 175 apparitions sur 20 zones et 29
+sous-zones. L'import est **rejouable** : au second passage il met à jour et ne
+crée rien. Ajouter `--a-blanc` pour voir ce qu'il ferait sans rien écrire.
+
+**Cinq libellés ne sont pas des lieux** — Évolution, Sites de Fouille, Quête,
+Tour de Combat, Inconnue. Ils gardent leur nom et portent un genre à part :
+la page Lieux les cache par défaut (« Évolution » porte à lui seul 380 espèces
+et noierait les zones) et la fiche les montre en pointillé, parce qu'il n'y a
+nulle part où aller.
+
+### Qui a le droit d'entrer
+
+Une liste tenue à la main, **pas des rôles Discord** : la connexion ne demande
+que `identify` — ni les serveurs, ni les rôles — et l'élargir obligerait chaque
+joueur à re-consentir, pour une vérification qui échouerait de toute façon hors
+du serveur.
+
+L'administrateur (`ADMIN_DISCORD_ID`) ouvre l'accès **par identifiant
+Discord**, depuis le bouton « 🔑 Accès » de la page. Il peut le fermer, le
+rouvrir, le retirer. **Fermer n'efface pas** : la ligne reste, et se rouvre d'un
+clic sans recoller l'identifiant.
+
+L'accès peut être ouvert **avant** la première connexion de la personne — d'où
+l'identifiant Discord en clé, et non l'identifiant de dresseur.
+
+**Avoir accès ne donne pas le droit d'en donner** : la gestion des accès est
+réservée à l'administrateur du service, sans quoi la première personne
+autorisée ouvrirait la porte à toutes les autres.
+
+**La vérification est côté serveur, et c'est la seule qui compte.** La page
+cache son onglet quand l'accès manque, mais cacher un bouton n'a jamais protégé
+une donnée. Toutes les routes `/api/pw/…` passent par `exigerPW()`, et
+répondent **404 et non 403** : un 403 confirmerait que le Pokédex existe et
+inviterait à insister.
 
 ## Les échanges
 

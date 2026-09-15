@@ -2946,6 +2946,9 @@ async function remplirFiche(entry){
   dessinerObtention(entry, detail);
   dessinerLieuxReleves(entry);
   dessinerSpawnsCobblemon(entry);
+  // Le serveur PixelmonWorld, quand on y a droit. Chargé après Cobblemon et
+  // avant les attaques, pour que les deux sources d'apparitions se suivent.
+  if(typeof dessinerSpawnsPW === 'function') dessinerSpawnsPW(entry);
   dessinerAttaques(entry);
 
 
