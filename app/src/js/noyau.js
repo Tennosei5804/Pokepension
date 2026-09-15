@@ -168,6 +168,7 @@ const lieuxTriBascule = document.getElementById('lieuxTriBascule');
 const lieuxListe = document.getElementById('lieuxListe');
 const pagePixelmonWorldEl = document.getElementById('page-pixelmonworld');
 const pagePwLieuxEl = document.getElementById('page-pw-lieux');
+const pageAdminEl = document.getElementById('page-admin');
 const pageProfilEl = document.getElementById('page-profil');
 const pageParametresEl = document.getElementById('page-parametres');
 const pageChasseEl = document.getElementById('page-chasse');

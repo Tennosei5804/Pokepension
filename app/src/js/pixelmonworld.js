@@ -359,26 +359,62 @@ function pwCarte(x){
   nom.textContent = x.entry && typeof nomAffiche === 'function'
     ? nomAffiche(x.entry) : (e.nomFr || e.espece);
 
+  // DEUX LIGNES SOUS LE NOM, ET DANS CET ORDRE : la rareté, puis le lieu.
+  //
+  // Elles étaient côte à côte sur une seule rangée, et le lieu s'y coupait à
+  // l'ellipse dès qu'il avait une sous-zone — « Bull'o • Biome Casc… ». Or le
+  // lieu est la moitié de la réponse : on vient chercher OÙ, et un nom de zone
+  // amputé oblige à ouvrir la fiche pour lire ce qui tenait sur la carte.
   const bas = document.createElement('div');
   bas.className = 'pw-carte-bas';
   const retenus = pwSpawnsRetenus(e);
   const etoiles = pwEtoilesRetenues(e);
-  bas.appendChild(pwEtoiles(etoiles, e.rarete
+
+  // Les étoiles, puis le mot. Les étoiles restent l'indicateur — c'est elles
+  // qu'on compare d'une carte à l'autre —, et le mot ne fait que les nommer
+  // pour qui préfère lire « Épique ».
+  const rarete = document.createElement('div');
+  rarete.className = 'pw-carte-rarete';
+  rarete.appendChild(pwEtoiles(etoiles, e.rarete
     ? e.rarete + ' — ' + etoiles + ' étoile' + (etoiles > 1 ? 's' : '') + ' sur 5'
     : ''));
+  if(e.rarete){
+    const mot = document.createElement('span');
+    mot.className = 'pw-carte-rarete-mot';
+    mot.textContent = e.rarete;
+    rarete.appendChild(mot);
+  }
+  bas.appendChild(rarete);
 
-  const lieux = document.createElement('span');
+  const lieux = document.createElement('div');
   lieux.className = 'pw-carte-lieux';
-  const n = retenus.length || (e.spawns || []).length;
-  // LE PREMIER LIEU EN TOUTES LETTRES quand il n'y en a qu'un : « 1 endroit »
-  // fait relire la fiche pour apprendre un mot qui tenait sur la carte.
-  if(n === 1){
-    const s = (retenus.length ? retenus : e.spawns)[0];
-    lieux.textContent = s.zone + (s.sousZone ? ' • ' + s.sousZone : '');
-  } else if(n > 1){
-    lieux.textContent = n + ' endroits';
-  } else {
+  const liste = retenus.length ? retenus : (e.spawns || []);
+  // LE LIEU EN TOUTES LETTRES, MÊME QUAND IL Y EN A PLUSIEURS. « 4 endroits »
+  // était un compte, pas une réponse : il fallait ouvrir la fiche pour
+  // apprendre un nom qui tenait sur la carte. On nomme donc le premier — le
+  // plus favorable, puisque les apparitions arrivent triées — et on annonce le
+  // reste par un « +3 » qui dit qu'il y a mieux à voir dans la fiche.
+  if(!liste.length){
     lieux.textContent = '—';
+    lieux.classList.add('pw-carte-sans-lieu');
+  } else {
+    const s = liste[0];
+    const nom_ = document.createElement('span');
+    nom_.className = 'pw-carte-lieu-nom';
+    nom_.textContent = s.zone + (s.sousZone ? ' • ' + s.sousZone : '');
+    lieux.appendChild(nom_);
+    if(liste.length > 1){
+      const reste = document.createElement('span');
+      reste.className = 'pw-carte-lieu-reste';
+      reste.textContent = '+' + (liste.length - 1);
+      reste.title = liste.slice(1).map(function(a){
+        return a.zone + (a.sousZone ? ' • ' + a.sousZone : '');
+      }).join(' · ');
+      lieux.appendChild(reste);
+    }
+    lieux.title = liste.map(function(a){
+      return a.zone + (a.sousZone ? ' • ' + a.sousZone : '');
+    }).join(' · ');
   }
   bas.appendChild(lieux);
 
@@ -562,11 +598,15 @@ async function chargerPagePW(){
 }
 
 /**
- * L'onglet, et le bouton des accès.
+ * Les deux onglets que la réponse de l'API décide.
  *
- * L'onglet s'affiche pour qui a le droit de lire ; le bouton des accès, pour
- * le seul administrateur. AVOIR ACCÈS NE DONNE PAS LE DROIT D'EN DONNER —
- * sinon la première personne autorisée ouvrirait la porte à toutes les autres.
+ * « Serveurs » pour qui a le droit de lire ; « Admin » pour le seul
+ * administrateur. AVOIR ACCÈS NE DONNE PAS LE DROIT D'EN DONNER — sinon la
+ * première personne autorisée ouvrirait la porte à toutes les autres.
+ *
+ * Les deux sont CACHÉS, pas désactivés : un onglet qui ne mène qu'à un refus
+ * n'a rien à faire dans la barre. Ce n'est pas une protection — c'est l'API
+ * qui refuse, et elle refuserait tout autant si on le laissait visible.
  */
 function pwMajOngletAdmin(){
   // L'onglet s'appelle « Serveurs » et non « PixelmonWorld » : il réunit les
@@ -574,8 +614,8 @@ function pwMajOngletAdmin(){
   // l'onglet « Outils ».
   const onglet = document.querySelector('.page-tab[data-page="serveurs"]');
   if(onglet) onglet.hidden = !(pwDroits && pwDroits.lire);
-  const bouton = pwEl('pwAccesBascule');
-  if(bouton) bouton.hidden = !(pwDroits && pwDroits.gestionAcces);
+  const admin = document.querySelector('.page-tab[data-page="admin"]');
+  if(admin) admin.hidden = !(pwDroits && pwDroits.gestionAcces);
 }
 
 /**
@@ -587,8 +627,10 @@ function pwMajOngletAdmin(){
  * `invoke` échoue tout de suite et l'onglet reste caché.
  */
 function pwDepart(){
-  const onglet = document.querySelector('.page-tab[data-page="serveurs"]');
-  if(onglet) onglet.hidden = true;
+  ['serveurs', 'admin'].forEach(function(nom){
+    const onglet = document.querySelector('.page-tab[data-page="' + nom + '"]');
+    if(onglet) onglet.hidden = true;
+  });
   pwChargerDroits().then(pwMajOngletAdmin);
 }
 

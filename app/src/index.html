@@ -144,6 +144,11 @@
              n'a rien &agrave; faire dans la barre de qui n'y a pas droit. -->
         <button class="page-tab" type="button" data-page="serveurs" hidden>🖥️ Serveurs</button>
         <button class="page-tab" type="button" data-page="profil">🧑 Profil</button>
+        <!-- EN FIN DE RANG&Eacute;E, ET CACH&Eacute; POUR TOUT LE MONDE SAUF UN. L'API ne
+             r&eacute;pond aux routes d'administration qu'&agrave; ADMIN_DISCORD_ID, et r&eacute;pond
+             404 &agrave; tous les autres : cet onglet ne fait que cesser de proposer
+             une porte qui ne s'ouvrirait pas. Il ne prot&egrave;ge rien lui-m&ecirc;me. -->
+        <button class="page-tab" type="button" data-page="admin" hidden>🔑 Admin</button>
       </nav>
 
       <section class="page active" id="page-home">
@@ -953,17 +958,9 @@
           </select>
           <button class="toggle-btn" id="pwRaz" type="button"
                   title="Vider la recherche et remettre tous les filtres">&#9851; Tout afficher</button>
-          <!-- L'ADMINISTRATEUR SEUL. Ouvrir ou fermer ce Pok&eacute;dex pour
-               quelqu'un, par son identifiant Discord. Rien d'autre ne se
-               modifie ici : zones, sous-zones et apparitions viennent toutes
-               du relev&eacute; du site de PixelmonWorld. -->
-          <button class="toggle-btn" id="pwAccesBascule" type="button" hidden
-                  aria-expanded="false" aria-controls="pwPanneau"
-                  title="Qui a le droit d&rsquo;ouvrir ce Pok&eacute;dex">&#128273; Acc&egrave;s</button>
         </div>
 
         <p class="recherche-jetons" id="pwJetons" hidden></p>
-        <div class="pw-acces" id="pwPanneau" hidden></div>
         <p class="lieux-resume" id="pwResume"></p>
         <div class="grid" id="pwGrille"></div>
         <button class="load-more" id="pwPlus" type="button" style="display:none;">Afficher plus</button>
@@ -1004,6 +1001,24 @@
         </div>
         <p class="lieux-resume" id="pwLieuxResume"></p>
         <div class="lieux" id="pwLieuxListe"></div>
+      </section>
+
+      <!-- L'ADMINISTRATION.
+           Une page, et non un panneau replié dans la barre d'un autre écran :
+           distribuer les cl&eacute;s n'est pas une op&eacute;ration du Pok&eacute;dex, et l'y avoir
+           logé obligeait &agrave; passer par lui pour y arriver.
+
+           Elle ne contient que ce que l'API sait d&eacute;j&agrave; faire. Le jour o&ugrave; une
+           seconde route d'administration existe, elle prend sa section ici. -->
+      <section class="page" id="page-admin">
+        <div class="home-hero">
+          <div class="home-eyebrow">R&eacute;serv&eacute; &agrave; l'administrateur</div>
+          <h2 class="home-title">Administration</h2>
+          <p class="home-sub">Ce que l'API n'accorde qu'&agrave; un seul identifiant
+             Discord. Elle r&eacute;pond 404 &agrave; tous les autres&nbsp;: cette page ne
+             prot&egrave;ge rien, elle donne la main.</p>
+        </div>
+        <div class="admin-section" id="adminPwAcces"></div>
       </section>
 
       <section class="page" id="page-amis">
@@ -2224,7 +2239,7 @@
 <!-- Le Pokedex de PixelmonWorld : apres dex.js (analyserRecherche, loadTypes)
      et fiche.js (openPreview), dont il se sert tels quels. -->
 <script src="js/pixelmonworld.js"></script>
-<script src="js/pixelmonworld-panneau.js"></script>
+<script src="js/admin.js"></script>
 <script src="js/chasse.js"></script>
 <!-- Apres chasse.js : il se sert de son modele de taux plutot que d'en
      porter une copie, qui divergerait a la premiere correction. -->

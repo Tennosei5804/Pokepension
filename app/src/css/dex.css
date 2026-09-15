@@ -1642,24 +1642,56 @@
    étoiles creuses auraient annoncé un Pokémon commun. */
 .pw-etoiles.etoiles-inconnu{ color:var(--ink-faint); font-size:11px; }
 
-/* Le bas de carte : la rareté à gauche, l'endroit à droite. */
+/* Le bas de carte : deux lignes, la rareté puis le lieu.
+   Elles étaient côte à côte, et le lieu s'y coupait à l'ellipse dès qu'il
+   portait une sous-zone. Sur toute la largeur, « Bull'o • Biome Cascade » tient
+   en deux lignes de texte plutôt qu'en un mot tronqué. */
 .pw-carte-bas{
   display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:6px;
+  flex-direction:column;
+  gap:3px;
   margin-top:5px;
 }
-.pw-carte-lieux{
+.pw-carte-rarete{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  min-width:0;
+}
+.pw-carte-rarete-mot{
   font-size:10px;
   color:var(--ink-soft);
-  text-align:right;
-  /* Un nom de zone long ne pousse pas la carte : il se coupe. La carte fait
-     148 px, et « Bull'o • Biome Cascade » en demande le double. */
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
 }
+/* Le lieu peut passer à la ligne — c'est la réponse qu'on vient chercher, et
+   la couper pour gagner six pixels reviendrait à la cacher. Deux lignes au
+   plus : au-delà, les cartes de la rangée ne s'alignent plus. */
+.pw-carte-lieux{
+  display:flex;
+  align-items:baseline;
+  gap:4px;
+  font-size:10px;
+  line-height:1.35;
+  color:var(--ink);
+}
+.pw-carte-lieu-nom{
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+/* « +3 » : il y a d'autres endroits, et la fiche les donne tous. Le compte
+   plutôt que les noms — trois noms de zone sous une carte de 148 px la
+   feraient grandir plus que la grille ne le supporte. */
+.pw-carte-lieu-reste{
+  flex:0 0 auto;
+  font-size:9.5px;
+  color:var(--ink-faint);
+  font-variant-numeric:tabular-nums;
+}
+.pw-carte-lieux.pw-carte-sans-lieu{ color:var(--ink-faint); }
 /* Annoncée par le serveur, inconnue de la réserve : pas de fiche à ouvrir, et
    la carte le dit en restant en retrait plutôt qu'en disparaissant. */
 .pw-carte.pw-inconnue{ opacity:0.72; }
@@ -1701,11 +1733,11 @@
   color:var(--ink-soft);
 }
 
-/* ---- Le panneau des accès ----
-   L'administrateur seul le voit. Il tient sous la barre du Pokédex, replié par
-   défaut : c'est un réglage qu'on pose, pas un outil qu'on garde ouvert — la
-   même règle que la rangée des mods sur la page Lieux. */
-.pw-acces{
+/* ---- La page Admin ----
+   Une section par pouvoir accordé par l'API. Il n'y en a qu'un aujourd'hui —
+   les accès au Pokédex de PixelmonWorld —, et la forme est prévue pour que le
+   suivant se pose à côté sans rien déplacer. */
+.admin-section{
   background:var(--card);
   border:1px solid var(--card-border);
   border-radius:14px;

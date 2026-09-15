@@ -430,7 +430,7 @@ function showPage(name){
      || name === 'verrous' || name === 'strategie' || name === 'reproduction'
      || name === 'transferts' || name === 'obtenir'
      || name === 'amis' || name === 'lieux'
-     || name === 'pixelmonworld' || name === 'pwlieux'
+     || name === 'pixelmonworld' || name === 'pwlieux' || name === 'admin'
      || name === 'parametres' || name === 'cadeaux' || name === 'messages'
      || name === 'galerie' || name === 'releve'){
     currentPage = name;
@@ -448,6 +448,7 @@ function showPage(name){
     if(pageLieuxEl) pageLieuxEl.classList.toggle('active', name === 'lieux');
     if(pagePixelmonWorldEl) pagePixelmonWorldEl.classList.toggle('active', name === 'pixelmonworld');
     if(pagePwLieuxEl) pagePwLieuxEl.classList.toggle('active', name === 'pwlieux');
+    if(pageAdminEl) pageAdminEl.classList.toggle('active', name === 'admin');
     if(pageProfilEl) pageProfilEl.classList.toggle('active', name === 'profil');
     if(pageParametresEl) pageParametresEl.classList.toggle('active', name === 'parametres');
     if(pageChasseEl) pageChasseEl.classList.toggle('active', name === 'chasse');
@@ -472,6 +473,7 @@ function showPage(name){
     if(name === 'lieux' && typeof chargerPageLieux === 'function') chargerPageLieux();
     if(name === 'pixelmonworld' && typeof chargerPagePW === 'function') chargerPagePW();
     if(name === 'pwlieux' && typeof chargerPagePWLieux === 'function') chargerPagePWLieux();
+    if(name === 'admin' && typeof chargerPageAdmin === 'function') chargerPageAdmin();
     if(name === 'profil' && typeof chargerProfil === 'function') chargerProfil();
     // La carte et les données jeux se redessinent en entrant : leur premier
     // dessin a lieu au chargement de parties.js, avant qu'app.js n'ait rempli

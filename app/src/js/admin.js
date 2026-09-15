@@ -1,17 +1,26 @@
-// Qui a le droit d'ouvrir le Pokédex de PixelmonWorld.
+// La page Admin.
 //
 // Script classique (pas de module ES), chargé après pixelmonworld.js dont il
 // lit les droits, et après compte.js pour `invoke`.
 //
-// ─── CE QUE CE PANNEAU FAIT, ET RIEN D'AUTRE ──────────────────────────────────
+// ─── CE QU'ELLE CONTIENT, ET POURQUOI SI PEU ──────────────────────────────────
 //
-// Ouvrir l'accès à quelqu'un, le fermer, le rouvrir, le retirer. C'est tout.
+// Une seule section : qui a le droit d'ouvrir le Pokédex de PixelmonWorld.
+// C'est tout ce que l'API accorde aujourd'hui à l'administrateur, avec le
+// renommage d'un dresseur — qui n'a pas d'écran et s'appelle à la main.
 //
-// Il ne modifie NI zone, NI sous-zone, NI apparition : celles-ci viennent
-// entièrement du Pokédex de PixelmonWorld, relevé par
-// `cd app && py outils/relever-pixelmonworld.py` et versé en base par
-// `api/outils/importer-pixelmonworld.js`. Une seconde façon de les écrire
-// serait une seconde vérité à tenir d'accord avec le relevé.
+// La page existe quand même, plutôt qu'un panneau replié dans la barre du
+// Pokédex : distribuer les clés n'est pas une opération du Pokédex, et l'y
+// avoir logé obligeait à passer par lui pour y arriver. Le jour où une seconde
+// route d'administration existe, elle prend sa section ici au lieu d'aller se
+// cacher dans l'écran qu'elle concerne.
+//
+// ─── LA PAGE NE PROTÈGE RIEN ─────────────────────────────────────────────────
+//
+// L'onglet se cache quand l'API répond que ce compte n'est pas
+// l'administrateur, et c'est une politesse, pas une serrure : toutes les
+// routes d'administration répondent 404 à qui n'est pas ADMIN_DISCORD_ID,
+// qu'on affiche l'onglet ou non.
 //
 // ─── DEUX FAÇONS D'AJOUTER QUELQU'UN ──────────────────────────────────────────
 //
@@ -31,9 +40,8 @@
 
 let pwAccesListe = null;      // ce que l'API a rendu, tel quel
 let pwAccesDresseurs = null;  // les dresseurs connus, chargés à la demande
-let pwAccesOuvert = false;
 
-function pwAccesPanneau(){ return document.getElementById('pwPanneau'); }
+function pwAccesPanneau(){ return document.getElementById('adminPwAcces'); }
 
 /** Jamais de HTML construit à la main : les pseudos viennent des joueurs. */
 function pwTexte(balise, classe, contenu){
@@ -247,7 +255,7 @@ async function pwAccesDessiner(){
   if(!panneau) return;
   panneau.textContent = '';
 
-  const titre = pwTexte('div', 'pw-acces-titre', 'Accès au Pokédex PixelmonWorld');
+  const titre = pwTexte('div', 'pw-acces-titre', '🌍 Accès au Pokédex PixelmonWorld');
   panneau.appendChild(titre);
 
   try{
@@ -276,15 +284,20 @@ async function pwAccesDessiner(){
   panneau.appendChild(liste);
 }
 
-(function(){
-  const bouton = document.getElementById('pwAccesBascule');
-  if(!bouton) return;
-  bouton.addEventListener('click', async function(){
-    const panneau = pwAccesPanneau();
-    if(!panneau) return;
-    pwAccesOuvert = !pwAccesOuvert;
-    panneau.hidden = !pwAccesOuvert;
-    bouton.setAttribute('aria-expanded', String(pwAccesOuvert));
-    if(pwAccesOuvert) await pwAccesDessiner();
-  });
-})();
+/**
+ * L'entrée de la page.
+ *
+ * ON REDESSINE À CHAQUE VISITE, sans garder ce qu'on avait lu. La liste des
+ * accès est courte, elle vient d'un seul appel, et elle peut avoir changé
+ * depuis — on s'est connecté ailleurs, quelqu'un a été retiré. Afficher une
+ * liste périmée sur une page dont le seul but est de la modifier ferait
+ * fermer un accès déjà fermé.
+ */
+async function chargerPageAdmin(){
+  const panneau = pwAccesPanneau();
+  if(!panneau) return;
+  // La liste des dresseurs se recharge aussi : elle sert à proposer qui
+  // ajouter, et quelqu'un s'est peut-être connecté entre-temps.
+  pwAccesDresseurs = null;
+  await pwAccesDessiner();
+}
