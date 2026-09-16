@@ -114,12 +114,12 @@ def horodater(html: str, racine: pathlib.Path) -> str:
 # PixelmonWorld. Leur donner une adresse a eux ferait deux adresses pour le
 # meme ecran, et l'onglet clique n'aurait pas la meme que le lien partage.
 #
-# UN SEUL SEGMENT, jamais « /pixelmonworld/lieux ». La page charge ses scripts
+# UN SEUL SEGMENT, jamais « /pixelmonworld/lieu ». La page charge ses scripts
 # par chemin relatif — « js/donnees.js » — et un second segment les ferait
 # chercher dans « /pixelmonworld/js/ », ou il n'y a rien.
 #
 # Tout en decoule, et rien ne se recopie :
-#   · une page par adresse, « lieux.html », que Caddy sert deja par son
+#   · une page par adresse, « lieu.html », que Caddy sert deja par son
 #     `try_files {path} {path}.html` — la regle qui servait « /dex » ;
 #   · la table, posee dans la page pour adresses.js, qui ouvre l'ecran et
 #     tient la barre d'adresse a jour ;
@@ -127,7 +127,7 @@ def horodater(html: str, racine: pathlib.Path) -> str:
 #     sont l'application quand le reseau manque.
 ADRESSES = {
     "pokedex": "jeux",
-    "lieux": "lieux",
+    "lieu": "lieux",
     "dresseurs": "dresseurs",
     "amis": "amis",
     "messages": "messages",
@@ -138,7 +138,7 @@ ADRESSES = {
     "transferts": "transferts",
     "obtenir": "obtenir",
     "pixelmonworld": "pixelmonworld",
-    "pixelmonworld-lieux": "pwlieux",
+    "pixelmonworld-lieu": "pwlieux",
     "profil": "profil",
     "admin": "admin",
 }
@@ -510,8 +510,8 @@ def batir() -> int:
     print("  %-10s index.html  +  dex.html  +  partage.html" % "+")
 
     # UNE COPIE DE LA PAGE PAR ADRESSE, et c'est delibere. Caddy sert deja
-    # « /dex » par `try_files {path} {path}.html` : poser « lieux.html » a cote
-    # suffit pour que « /lieux » reponde, sans toucher a la configuration du
+    # « /dex » par `try_files {path} {path}.html` : poser « lieu.html » a cote
+    # suffit pour que « /lieu » reponde, sans toucher a la configuration du
     # serveur — qui vit dans le depot du Bureau des Primes et sert les deux
     # sites. Ce sont des produits d'assemblage, jamais ecrits a la main : ils
     # ne peuvent pas diverger de dex.html, ils sont refaits avec lui.

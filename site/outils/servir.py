@@ -55,14 +55,14 @@ class Serveur(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *a, **kw):
         super().__init__(*a, directory=str(PUBLIC), **kw)
 
-    # Les pages sans extension : « /dex » rend dex.html, « /lieux » rend
-    # lieux.html. Une adresse propre vaut mieux qu'un « .html » dans la barre
+    # Les pages sans extension : « /dex » rend dex.html, « /lieu » rend
+    # lieu.html. Une adresse propre vaut mieux qu'un « .html » dans la barre
     # pour une page qu'on met en favori ou qu'on colle dans un salon.
     #
     # LA MEME REGLE QUE CADDY, ET PAS UNE LISTE. En production c'est
     # `try_files {path} {path}.html` : servir « X.html » derriere « /X » des
     # que le fichier existe. Une liste tenue ici — elle ne contenait que
-    # « /dex » — aurait laisse « /lieux » repondre 404 en local et 200 en
+    # « /dex » — aurait laisse « /lieu » repondre 404 en local et 200 en
     # ligne, et l'on aurait cru a un defaut du site la ou il n'y en avait pas.
 
     # L'INSTALLATEUR VIT HORS DE public/, ICI COMME SUR LE SERVEUR.

@@ -1,4 +1,4 @@
-// Une adresse par écran : « /lieux », « /chasse », « /pixelmonworld »…
+// Une adresse par écran : « /lieu », « /chasse », « /pixelmonworld »…
 //
 // Site seulement. L'application de bureau n'a pas de barre d'adresse, et
 // l'assembleur n'injecte ce script que dans les pages du site — voir
@@ -32,7 +32,7 @@
   Object.keys(TABLE).forEach(function(nom){ VERS_ADRESSE[TABLE[nom]] = nom; });
 
   // Le nom qui suit la dernière barre, sans extension ni barre finale :
-  // « /lieux », « /lieux/ » et « /lieux.html » désignent le même écran.
+  // « /lieu », « /lieu/ » et « /lieu.html » désignent le même écran.
   function nomDeLAdresse(){
     const bout = location.pathname.replace(/\/+$/, '').split('/').pop() || '';
     return bout.replace(/\.html$/, '');
@@ -42,7 +42,7 @@
    * L'adresse de l'écran ouvert.
    *
    * UN ÉCRAN SANS ADRESSE RAMÈNE À « /dex ». Le Pokédex d'un jeu, les
-   * paramètres, la galerie n'en ont pas : laisser « /lieux » dans la barre
+   * paramètres, la galerie n'en ont pas : laisser « /lieu » dans la barre
    * pendant qu'on regarde le Pokédex d'Émeraude ferait partager un lien qui
    * ouvre autre chose que ce qu'on montre.
    */

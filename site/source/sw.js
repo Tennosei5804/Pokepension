@@ -36,7 +36,7 @@
 const VERSION = '__VERSION__';
 const CACHE = 'pokepension-' + VERSION;
 const COQUILLE = __COQUILLE__;
-// Les adresses d'écran de l'application — « lieux », « chasse »… Posées par
+// Les adresses d'écran de l'application — « lieu », « chasse »… Posées par
 // l'assembleur depuis sa table ADRESSES, jamais recopiées ici.
 const ADRESSES = __ADRESSES__;
 
@@ -89,7 +89,7 @@ self.addEventListener('fetch', function(e){
         const c = await caches.open(CACHE);
         // DEUX PAGES, DEUX REPLIS. Le site a une page d'accueil sur « / » et
         // l'application sur « /dex » — et sur chacune de ses adresses d'écran,
-        // « /lieux », « /chasse »… Rendre l'accueil a quelqu'un qui rouvre ses
+        // « /lieu », « /chasse »… Rendre l'accueil a quelqu'un qui rouvre ses
         // lieux dans le metro serait lui reprendre l'application pour lui
         // remettre la vitrine — hors ligne, c'est l'application qu'on veut.
         //

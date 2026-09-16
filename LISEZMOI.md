@@ -1416,17 +1416,17 @@ colle dans un salon et qui ouvre directement la bonne page :
 |---|---|
 | `/dex` | l'accueil de l'application |
 | `/pokedex` | le choix du Pokédex |
-| `/lieux` | les lieux des jeux |
+| `/lieu` | les lieux des jeux |
 | `/dresseurs` · `/amis` · `/messages` | la partie sociale |
 | `/chasse` · `/cadeaux` | chasse, Cadeau Mystère |
 | `/strategie` · `/reproduction` · `/transferts` · `/obtenir` | les outils |
-| `/pixelmonworld` · `/pixelmonworld-lieux` | le serveur PixelmonWorld |
+| `/pixelmonworld` · `/pixelmonworld-lieu` | le serveur PixelmonWorld |
 | `/profil` · `/admin` | profil, administration |
 
 La barre d'adresse **suit** la navigation — ce qu'on copie est ce qu'on voit —
 et Précédent revient à l'écran d'avant plutôt que de quitter le site. Un écran
 sans adresse (le Pokédex d'un jeu précis, les paramètres) ramène la barre à
-`/dex` : y laisser `/lieux` ferait partager un lien qui ouvre autre chose que
+`/dex` : y laisser `/lieu` ferait partager un lien qui ouvre autre chose que
 ce qu'on montre.
 
 **Des écrans, pas des onglets.** « Outils » et « Serveurs » mènent à une page
@@ -1434,14 +1434,14 @@ ce qu'on montre.
 une à l'onglet ferait deux adresses pour le même écran.
 
 **Une seule liste** : `ADRESSES`, dans `site/outils/assembler.py`. Tout en
-découle — une page par adresse (`lieux.html`, copie de `dex.html` refaite à
+découle — une page par adresse (`lieu.html`, copie de `dex.html` refaite à
 chaque assemblage), la table posée dans la page pour `site/source/adresses.js`,
 et la liste posée dans le service worker pour le repli hors ligne. **Caddy n'a
 rien à apprendre** : son `try_files {path} {path}.html` servait déjà `/dex`, il
-sert `/lieux` de la même façon. `servir.py` applique maintenant la même règle
+sert `/lieu` de la même façon. `servir.py` applique maintenant la même règle
 au lieu d'une liste qui ne contenait que `/dex`.
 
-**Un seul segment**, jamais `/pixelmonworld/lieux` : la page charge ses
+**Un seul segment**, jamais `/pixelmonworld/lieu` : la page charge ses
 scripts par chemin relatif, et un second segment les ferait chercher dans un
 dossier qui n'existe pas.
 
