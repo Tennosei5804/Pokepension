@@ -28,11 +28,29 @@ Sortie : api/releves/pixelmonworld.json — un relevé, pas une base. C'est
 
 --- Les trois choix de fond -------------------------------------------------
 
-1. LA CLÉ EST LE NUMÉRO + LA FORME. Le site publie « 103 - Noadkoko d'Alola »
-   sous l'adresse /pokedex/103-exeggutor-alola : le numéro national et le nom
-   anglais de la forme y sont tous les deux. C'est ce couple qui sert de clé,
-   jamais le nom français — l'application suit PokeAPI, qui écrit
-   « exeggutor-alola », et un nom français se traduit mal dans les deux sens.
+1. LA CLÉ EST LE NUMÉRO + LA FORME, MAIS ELLE SE RÉSOUT. Le site publie
+   « 103 - Noadkoko d'Alola » sous l'adresse /pokedex/103-exeggutor-alola : le
+   numéro national et le nom anglais de la forme y sont tous les deux. C'est ce
+   couple qui sert de clé, jamais le nom français — l'application suit PokeAPI,
+   et un nom français se traduit mal dans les deux sens.
+
+   MAIS LES DEUX ÉCRITURES NE SE SUPERPOSENT PAS TOUT À FAIT. Quarante-huit
+   espèces sur 951 tombaient à côté, et le défaut se voyait à l'œil : ni sprite,
+   ni fiche à ouvrir — un trou dans la grille. Deux causes, et deux remèdes :
+
+   · LE SITE LAISSE TOMBER LA PONCTUATION. « nidoranf » pour « nidoran-f »,
+     « hooh » pour « ho-oh », « tapukoko » pour « tapu-koko », « mrmime » pour
+     « mr-mime ». Comparer les deux écritures débarrassées de tout ce qui n'est
+     pas une lettre les réconcilie.
+
+   · LE SITE NOMME L'ESPÈCE, L'APPLICATION NE CONNAÎT QUE SES FORMES. « deoxys »
+     n'existe pas chez PokeAPI : il y a deoxys-normal, -attack, -defense,
+     -speed. On retombe alors sur la forme PAR DÉFAUT — celle dont l'identifiant
+     d'entrée est le numéro national lui-même, ce qui est la règle de PokeAPI et
+     non une table écrite à la main.
+
+   Les deux se combinent : « darmanitan-galar » ne vaut pas darmanitan-standard
+   mais darmanitan-galar-standard, et c'est le préfixe qui le dit.
 
 2. « ZONE 1 EAU » EST UNE SOUS-ZONE, ET ON LE DIT. Le site tient une liste
    plate de quarante-huit libellés où la zone et sa sous-zone sont collées :
@@ -259,6 +277,62 @@ def relever_fiche(chemin):
     }
 
 
+# --- Résoudre un nom du site en clé de l'application --------------------------
+#
+# La réserve embarquée EST le référentiel de l'application : la lire ici évite
+# d'écrire une table de correspondance, qui aurait dérivé à la première
+# génération suivante.
+
+def charger_entrees():
+    """Les entrées de l'application : { nom: (id, numéro d'espèce) }."""
+    chemin = os.path.join(RACINE, 'src', 'js', 'donnees-embarquees.js')
+    with io.open(chemin, encoding='utf-8') as f:
+        texte = f.read()
+    marque = 'const DONNEES_EMBARQUEES = '
+    i = texte.index(marque)
+    reserve = json.loads(texte[i + len(marque):texte.rindex('}') + 1])
+    return reserve.get('entrees', [])
+
+
+def lettres(nom):
+    """Le nom réduit à ses lettres et ses chiffres : « ho-oh » → « hooh »."""
+    return re.sub(r'[^a-z0-9]', '', str(nom).lower())
+
+
+def resoudre(nom_site, numero, entrees, par_nom, par_lettres, par_numero):
+    """La clé de l'application pour une fiche du site, ou '' si rien ne colle.
+
+    Quatre passes, de la plus sûre à la plus large. L'ordre compte : la
+    troisième rendrait darmanitan-standard pour « darmanitan-galar », qui est
+    une AUTRE bestiole — le préfixe passe donc avant elle.
+    """
+    if nom_site in par_nom:
+        return nom_site
+
+    nu = lettres(nom_site)
+    if nu in par_lettres:
+        return par_lettres[nu]
+
+    # Les formes de cette espèce, l'application n'en connaissant parfois
+    # aucune sous le nom nu.
+    formes = par_numero.get(numero, [])
+
+    # Le préfixe : « darmanitan-galar » → darmanitan-galar-standard, et pas
+    # darmanitan-standard. On préfère la forme par défaut quand plusieurs
+    # candidates commencent pareil — « deoxys » a les quatre.
+    prefixes = [e for e in formes if lettres(e['name']).startswith(nu)]
+    if prefixes:
+        defaut = [e for e in prefixes if e['id'] == e.get('speciesId', e['id'])]
+        return (defaut or prefixes)[0]['name']
+
+    # La forme par défaut, sans autre indice : chez PokeAPI, c'est celle dont
+    # l'identifiant d'entrée vaut le numéro national.
+    defaut = [e for e in formes if e['id'] == e.get('speciesId', e['id'])]
+    if defaut:
+        return defaut[0]['name']
+    return ''
+
+
 def main():
     limite = None
     if '--limite' in sys.argv:
@@ -324,6 +398,29 @@ def main():
     vues = sorted({f['rarete'] for f in fiches if f['rarete']})
     manquantes = [v for v in vues if v not in par_libelle]
 
+    # 5. La clé de l'application, pour chaque fiche.
+    #
+    #    ELLE EST RÉSOLUE ICI ET NON À L'AFFICHAGE : la base garde alors des
+    #    clés que l'application comprend, et ni l'import ni la page n'ont à
+    #    savoir que les deux écritures diffèrent.
+    entrees = charger_entrees()
+    par_nom = {e['name']: e for e in entrees}
+    par_lettres = {}
+    par_numero = {}
+    for e in entrees:
+        par_lettres.setdefault(lettres(e['name']), e['name'])
+        par_numero.setdefault(e.get('speciesId', e['id']), []).append(e)
+
+    rattrapees = []
+    perdues = []
+    for f in fiches:
+        cle = resoudre(f['nomEn'], f['numero'], entrees, par_nom, par_lettres, par_numero)
+        f['espece'] = cle
+        if not cle:
+            perdues.append(f)
+        elif cle != f['nomEn']:
+            rattrapees.append((f['nomEn'], cle))
+
     releve = {
         'genereLe': time.strftime('%Y-%m-%d'),
         'source': LISTE,
@@ -340,6 +437,19 @@ def main():
     spawns = sum(len(f['zones']) for f in fiches)
     print()
     print('%d espèces, %d zones, %d apparitions.' % (len(fiches), len(zones), spawns))
+    print("%d clés rattrapées sur l'écriture de l'application." % len(rattrapees))
+    for avant, apres in rattrapees[:60]:
+        # « -> » et non « → » : la console Windows est en cp1252, et la
+        # flèche y lève une UnicodeEncodeError qui tue le script APRÈS qu'il
+        # a écrit son fichier — on croit alors le relèvement raté.
+        print('    %-22s -> %s' % (avant, apres))
+    if perdues:
+        # Sans clé, l'espèce entre quand même en base : le Pokédex du serveur
+        # l'annonce, et la taire mentirait. Elle n'aura ni sprite local ni
+        # fiche — d'où cet avertissement, qui est le seul endroit où on peut
+        # encore le corriger.
+        print('SANS CORRESPONDANCE (%d) : %s'
+              % (len(perdues), ', '.join('%d %s' % (f['numero'], f['nomEn']) for f in perdues)))
     print('Zones hors carte : %s'
           % ', '.join(z['libelle'] for z in zones if z['genre'] == 'hors-carte'))
     if manquantes:

@@ -1625,9 +1625,11 @@
    page Pokédex, il vit donc avec elle. */
 
 /* LES ÉTOILES.
-   Les pleines en doré, les creuses dans la couleur du texte effacé : c'est le
-   contraste entre les deux qui se lit d'un coup d'œil, pas leur nombre. Un
-   seul ton aurait obligé à COMPTER. */
+   Seules les gagnées sont dessinées — « ★ » et non « ★☆☆☆☆ ». La règle a
+   changé le 16 septembre 2026 : les creuses ont existé, pour dire qu'il y avait
+   plus rare ailleurs, et quatre d'entre elles derrière chaque Magicarpe
+   faisaient surtout du bruit sur neuf cent cinquante et une cartes.
+   `.pw-etoiles-creuses` n'est plus produit par le JS ; sa règle part avec. */
 .pw-etoiles{
   display:inline-flex;
   gap:1px;
@@ -1637,7 +1639,6 @@
   white-space:nowrap;
 }
 .pw-etoiles-pleines{ color:var(--gold-deep); }
-.pw-etoiles-creuses{ color:var(--ink-faint); opacity:0.55; }
 /* Rareté inconnue : un tiret, dans le gris de ce qu'on ne sait pas. Cinq
    étoiles creuses auraient annoncé un Pokémon commun. */
 .pw-etoiles.etoiles-inconnu{ color:var(--ink-faint); font-size:11px; }

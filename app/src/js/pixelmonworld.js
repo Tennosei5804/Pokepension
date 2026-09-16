@@ -52,13 +52,19 @@ let pwEnVol = null;
 
 // ---- Les étoiles ------------------------------------------------------------
 //
-// CINQ CRANS, TOUJOURS CINQ. Une rareté à trois étoiles s'écrit « ★★★☆☆ » et
-// non « ★★★ » : c'est la place vide qui dit qu'il y a plus rare ailleurs, et
-// sans elle deux lignes voisines ne se comparent plus d'un coup d'œil.
+// ON NE DESSINE QUE LES ÉTOILES GAGNÉES. Un Pokémon à une étoile s'écrit « ★ »,
+// et non « ★☆☆☆☆ ».
+//
+// La forme complète a existé ici, au motif que la place vide dit qu'il y a plus
+// rare ailleurs. Maxime a tranché l'inverse, et il a le dernier mot sur ce qui
+// se lit : quatre étoiles creuses derrière chaque Magicarpe, sur neuf cent
+// cinquante et une cartes, font surtout du bruit. L'échelle reste sur cinq —
+// c'est le titre et l'étiquette accessible qui la rappellent, « 1 étoile sur
+// 5 », plutôt que le dessin.
 //
 // ZÉRO ÉTOILE N'EST PAS « COMMUN ». Quand la base ne sait pas, elle écrit 0, et
-// on ne dessine alors AUCUNE étoile — cinq étoiles creuses annonceraient un
-// Pokémon banal, ce qu'on ignore justement.
+// on affiche un tiret — aucune étoile aurait voulu dire « moins que commun »,
+// ce qui n'existe pas.
 const PW_ETOILES_MAX = 5;
 
 function pwEtoiles(n, titre){
@@ -74,11 +80,7 @@ function pwEtoiles(n, titre){
   const pleines = document.createElement('span');
   pleines.className = 'pw-etoiles-pleines';
   pleines.textContent = '★'.repeat(combien);
-  const creuses = document.createElement('span');
-  creuses.className = 'pw-etoiles-creuses';
-  creuses.textContent = '☆'.repeat(PW_ETOILES_MAX - combien);
   el.appendChild(pleines);
-  el.appendChild(creuses);
   el.title = titre || (combien + ' étoile' + (combien > 1 ? 's' : '') + ' sur ' + PW_ETOILES_MAX);
   el.setAttribute('aria-label', el.title);
   return el;
@@ -606,7 +608,7 @@ function pwRemplirMenus(){
     (pwReserve.raretes || []).slice().reverse().forEach(function(r){
       const o = document.createElement('option');
       o.value = String(r.etoiles);
-      o.textContent = '★'.repeat(r.etoiles) + '☆'.repeat(5 - r.etoiles) + '  ' + r.libelle;
+      o.textContent = '★'.repeat(r.etoiles) + '  ' + r.libelle;
       rareteEl.appendChild(o);
     });
     rareteEl.dataset.rempli = '1';
@@ -896,10 +898,9 @@ function pwLigneSpawn(s){
 
 let pwLieuxOuvert = null;           // la zone dépliée
 
-/** « ★★★☆☆ » — la même échelle à cinq crans que partout ailleurs ici. */
+/** « ★★★ » — que les étoiles gagnées, comme partout ailleurs ici. */
 function pwChaineEtoiles(n){
-  const combien = Math.max(0, Math.min(PW_ETOILES_MAX, Number(n) || 0));
-  return '★'.repeat(combien) + '☆'.repeat(PW_ETOILES_MAX - combien);
+  return '★'.repeat(Math.max(0, Math.min(PW_ETOILES_MAX, Number(n) || 0)));
 }
 
 function pwLieuxIndex(){

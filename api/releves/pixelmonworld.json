@@ -1,5 +1,5 @@
 {
- "genereLe": "2026-09-15",
+ "genereLe": "2026-09-16",
  "source": "https://www.pixelmonworld.fr/pokedex",
  "raretes": [
   {
@@ -430,7 +430,8 @@
    "zones": [
     "Tour de Combat"
    ],
-   "sprite": "bulbasaur.png"
+   "sprite": "bulbasaur.png",
+   "espece": "bulbasaur"
   },
   {
    "chemin": "/pokedex/2-ivysaur",
@@ -447,7 +448,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "ivysaur.png"
+   "sprite": "ivysaur.png",
+   "espece": "ivysaur"
   },
   {
    "chemin": "/pokedex/3-venusaur",
@@ -464,7 +466,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "venusaur.png"
+   "sprite": "venusaur.png",
+   "espece": "venusaur"
   },
   {
    "chemin": "/pokedex/4-charmander",
@@ -480,7 +483,8 @@
    "zones": [
     "Tour de Combat"
    ],
-   "sprite": "charmander.png"
+   "sprite": "charmander.png",
+   "espece": "charmander"
   },
   {
    "chemin": "/pokedex/5-charmeleon",
@@ -496,7 +500,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "charmeleon.png"
+   "sprite": "charmeleon.png",
+   "espece": "charmeleon"
   },
   {
    "chemin": "/pokedex/6-charizard",
@@ -513,7 +518,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "charizard.png"
+   "sprite": "charizard.png",
+   "espece": "charizard"
   },
   {
    "chemin": "/pokedex/7-squirtle",
@@ -529,7 +535,8 @@
    "zones": [
     "Tour de Combat"
    ],
-   "sprite": "squirtle.png"
+   "sprite": "squirtle.png",
+   "espece": "squirtle"
   },
   {
    "chemin": "/pokedex/8-wartortle",
@@ -545,7 +552,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "wartortle.png"
+   "sprite": "wartortle.png",
+   "espece": "wartortle"
   },
   {
    "chemin": "/pokedex/9-blastoise",
@@ -561,7 +569,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "blastoise.png"
+   "sprite": "blastoise.png",
+   "espece": "blastoise"
   },
   {
    "chemin": "/pokedex/10-caterpie",
@@ -577,7 +586,8 @@
    "zones": [
     "Zone 1 Forêt"
    ],
-   "sprite": "caterpie.png"
+   "sprite": "caterpie.png",
+   "espece": "caterpie"
   },
   {
    "chemin": "/pokedex/11-metapod",
@@ -593,7 +603,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "metapod.png"
+   "sprite": "metapod.png",
+   "espece": "metapod"
   },
   {
    "chemin": "/pokedex/12-butterfree",
@@ -611,7 +622,8 @@
     "Bull'o Biome Magique",
     "Zone 3 Clairière"
    ],
-   "sprite": "butterfree.png"
+   "sprite": "butterfree.png",
+   "espece": "butterfree"
   },
   {
    "chemin": "/pokedex/13-weedle",
@@ -628,7 +640,8 @@
    "zones": [
     "Zone 1 Forêt"
    ],
-   "sprite": "weedle.png"
+   "sprite": "weedle.png",
+   "espece": "weedle"
   },
   {
    "chemin": "/pokedex/14-kakuna",
@@ -645,7 +658,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "kakuna.png"
+   "sprite": "kakuna.png",
+   "espece": "kakuna"
   },
   {
    "chemin": "/pokedex/15-beedrill",
@@ -662,7 +676,8 @@
    "zones": [
     "Zone 3 Clairière"
    ],
-   "sprite": "beedrill.png"
+   "sprite": "beedrill.png",
+   "espece": "beedrill"
   },
   {
    "chemin": "/pokedex/16-pidgey",
@@ -679,7 +694,8 @@
    "zones": [
     "Zone 1"
    ],
-   "sprite": "pidgey.png"
+   "sprite": "pidgey.png",
+   "espece": "pidgey"
   },
   {
    "chemin": "/pokedex/17-pidgeotto",
@@ -696,7 +712,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "pidgeotto.png"
+   "sprite": "pidgeotto.png",
+   "espece": "pidgeotto"
   },
   {
    "chemin": "/pokedex/18-pidgeot",
@@ -713,7 +730,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "pidgeot.png"
+   "sprite": "pidgeot.png",
+   "espece": "pidgeot"
   },
   {
    "chemin": "/pokedex/19-rattata",
@@ -729,7 +747,8 @@
    "zones": [
     "Zone 1"
    ],
-   "sprite": "rattata.png"
+   "sprite": "rattata.png",
+   "espece": "rattata"
   },
   {
    "chemin": "/pokedex/19-rattata-alola",
@@ -746,7 +765,8 @@
    "zones": [
     "Zone 2"
    ],
-   "sprite": "rattata-alola.png"
+   "sprite": "rattata-alola.png",
+   "espece": "rattata-alola"
   },
   {
    "chemin": "/pokedex/20-raticate",
@@ -762,7 +782,8 @@
    "zones": [
     "Zone 4"
    ],
-   "sprite": "raticate.png"
+   "sprite": "raticate.png",
+   "espece": "raticate"
   },
   {
    "chemin": "/pokedex/20-raticate-alola",
@@ -779,7 +800,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "raticate-alola.png"
+   "sprite": "raticate-alola.png",
+   "espece": "raticate-alola"
   },
   {
    "chemin": "/pokedex/21-spearow",
@@ -796,7 +818,8 @@
    "zones": [
     "Zone 2"
    ],
-   "sprite": "spearow.png"
+   "sprite": "spearow.png",
+   "espece": "spearow"
   },
   {
    "chemin": "/pokedex/22-fearow",
@@ -813,7 +836,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "fearow.png"
+   "sprite": "fearow.png",
+   "espece": "fearow"
   },
   {
    "chemin": "/pokedex/23-ekans",
@@ -829,7 +853,8 @@
    "zones": [
     "Zone 5"
    ],
-   "sprite": "ekans.png"
+   "sprite": "ekans.png",
+   "espece": "ekans"
   },
   {
    "chemin": "/pokedex/24-arbok",
@@ -846,7 +871,8 @@
     "Evolution",
     "Zone 11"
    ],
-   "sprite": "arbok.png"
+   "sprite": "arbok.png",
+   "espece": "arbok"
   },
   {
    "chemin": "/pokedex/25-pikachu",
@@ -862,7 +888,8 @@
    "zones": [
     "Zone 2"
    ],
-   "sprite": "pikachu.png"
+   "sprite": "pikachu.png",
+   "espece": "pikachu"
   },
   {
    "chemin": "/pokedex/26-raichu",
@@ -878,7 +905,8 @@
    "zones": [
     "Zone 4"
    ],
-   "sprite": "raichu.png"
+   "sprite": "raichu.png",
+   "espece": "raichu"
   },
   {
    "chemin": "/pokedex/26-raichu-alola",
@@ -895,7 +923,8 @@
    "zones": [
     "Zone 8"
    ],
-   "sprite": "raichu-alola.png"
+   "sprite": "raichu-alola.png",
+   "espece": "raichu-alola"
   },
   {
    "chemin": "/pokedex/27-sandshrew",
@@ -911,7 +940,8 @@
    "zones": [
     "Zone 6"
    ],
-   "sprite": "sandshrew.png"
+   "sprite": "sandshrew.png",
+   "espece": "sandshrew"
   },
   {
    "chemin": "/pokedex/27-sandshrew-alola",
@@ -928,7 +958,8 @@
    "zones": [
     "Zone 12"
    ],
-   "sprite": "sandshrew-alola.png"
+   "sprite": "sandshrew-alola.png",
+   "espece": "sandshrew-alola"
   },
   {
    "chemin": "/pokedex/28-sandslash",
@@ -944,7 +975,8 @@
    "zones": [
     "Zone 6"
    ],
-   "sprite": "sandslash.png"
+   "sprite": "sandslash.png",
+   "espece": "sandslash"
   },
   {
    "chemin": "/pokedex/28-sandslash-alola",
@@ -961,7 +993,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "sandslash-alola.png"
+   "sprite": "sandslash-alola.png",
+   "espece": "sandslash-alola"
   },
   {
    "chemin": "/pokedex/29-nidoranf",
@@ -977,7 +1010,8 @@
    "zones": [
     "Zone 5"
    ],
-   "sprite": "nidoranf.png"
+   "sprite": "nidoranf.png",
+   "espece": "nidoran-f"
   },
   {
    "chemin": "/pokedex/30-nidorina",
@@ -993,7 +1027,8 @@
    "zones": [
     "Zone 5"
    ],
-   "sprite": "nidorina.png"
+   "sprite": "nidorina.png",
+   "espece": "nidorina"
   },
   {
    "chemin": "/pokedex/31-nidoqueen",
@@ -1010,7 +1045,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "nidoqueen.png"
+   "sprite": "nidoqueen.png",
+   "espece": "nidoqueen"
   },
   {
    "chemin": "/pokedex/32-nidoranm",
@@ -1026,7 +1062,8 @@
    "zones": [
     "Zone 5"
    ],
-   "sprite": "nidoranm.png"
+   "sprite": "nidoranm.png",
+   "espece": "nidoran-m"
   },
   {
    "chemin": "/pokedex/33-nidorino",
@@ -1042,7 +1079,8 @@
    "zones": [
     "Zone 5"
    ],
-   "sprite": "nidorino.png"
+   "sprite": "nidorino.png",
+   "espece": "nidorino"
   },
   {
    "chemin": "/pokedex/34-nidoking",
@@ -1059,7 +1097,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "nidoking.png"
+   "sprite": "nidoking.png",
+   "espece": "nidoking"
   },
   {
    "chemin": "/pokedex/35-clefairy",
@@ -1075,7 +1114,8 @@
    "zones": [
     "Zone 1 Colline"
    ],
-   "sprite": "clefairy.png"
+   "sprite": "clefairy.png",
+   "espece": "clefairy"
   },
   {
    "chemin": "/pokedex/36-clefable",
@@ -1091,7 +1131,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "clefable.png"
+   "sprite": "clefable.png",
+   "espece": "clefable"
   },
   {
    "chemin": "/pokedex/37-vulpix",
@@ -1107,7 +1148,8 @@
    "zones": [
     "Zone 5"
    ],
-   "sprite": "vulpix.png"
+   "sprite": "vulpix.png",
+   "espece": "vulpix"
   },
   {
    "chemin": "/pokedex/37-vulpix-alola",
@@ -1123,7 +1165,8 @@
    "zones": [
     "Zone 12"
    ],
-   "sprite": "vulpix-alola.png"
+   "sprite": "vulpix-alola.png",
+   "espece": "vulpix-alola"
   },
   {
    "chemin": "/pokedex/38-ninetales",
@@ -1139,7 +1182,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "ninetales.png"
+   "sprite": "ninetales.png",
+   "espece": "ninetales"
   },
   {
    "chemin": "/pokedex/38-ninetales-alola",
@@ -1156,7 +1200,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "ninetales-alola.png"
+   "sprite": "ninetales-alola.png",
+   "espece": "ninetales-alola"
   },
   {
    "chemin": "/pokedex/39-jigglypuff",
@@ -1173,7 +1218,8 @@
    "zones": [
     "Zone 2 Colline"
    ],
-   "sprite": "jigglypuff.png"
+   "sprite": "jigglypuff.png",
+   "espece": "jigglypuff"
   },
   {
    "chemin": "/pokedex/40-wigglytuff",
@@ -1190,7 +1236,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "wigglytuff.png"
+   "sprite": "wigglytuff.png",
+   "espece": "wigglytuff"
   },
   {
    "chemin": "/pokedex/41-zubat",
@@ -1208,7 +1255,8 @@
     "Bull'o Biome Hanté",
     "Zone 11"
    ],
-   "sprite": "zubat.png"
+   "sprite": "zubat.png",
+   "espece": "zubat"
   },
   {
    "chemin": "/pokedex/42-golbat",
@@ -1225,7 +1273,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "golbat.png"
+   "sprite": "golbat.png",
+   "espece": "golbat"
   },
   {
    "chemin": "/pokedex/43-oddish",
@@ -1242,7 +1291,8 @@
    "zones": [
     "Zone 3"
    ],
-   "sprite": "oddish.png"
+   "sprite": "oddish.png",
+   "espece": "oddish"
   },
   {
    "chemin": "/pokedex/44-gloom",
@@ -1259,7 +1309,8 @@
    "zones": [
     "Zone 8"
    ],
-   "sprite": "gloom.png"
+   "sprite": "gloom.png",
+   "espece": "gloom"
   },
   {
    "chemin": "/pokedex/45-vileplume",
@@ -1276,7 +1327,8 @@
    "zones": [
     "Zone 10"
    ],
-   "sprite": "vileplume.png"
+   "sprite": "vileplume.png",
+   "espece": "vileplume"
   },
   {
    "chemin": "/pokedex/46-paras",
@@ -1293,7 +1345,8 @@
    "zones": [
     "Zone 8"
    ],
-   "sprite": "paras.png"
+   "sprite": "paras.png",
+   "espece": "paras"
   },
   {
    "chemin": "/pokedex/47-parasect",
@@ -1311,7 +1364,8 @@
     "Bull'o Biome Hanté",
     "Zone 8"
    ],
-   "sprite": "parasect.png"
+   "sprite": "parasect.png",
+   "espece": "parasect"
   },
   {
    "chemin": "/pokedex/48-venonat",
@@ -1328,7 +1382,8 @@
    "zones": [
     "Zone 11"
    ],
-   "sprite": "venonat.png"
+   "sprite": "venonat.png",
+   "espece": "venonat"
   },
   {
    "chemin": "/pokedex/49-venomoth",
@@ -1345,7 +1400,8 @@
    "zones": [
     "Zone 11"
    ],
-   "sprite": "venomoth.png"
+   "sprite": "venomoth.png",
+   "espece": "venomoth"
   },
   {
    "chemin": "/pokedex/50-diglett",
@@ -1361,7 +1417,8 @@
    "zones": [
     "Zone 6"
    ],
-   "sprite": "diglett.png"
+   "sprite": "diglett.png",
+   "espece": "diglett"
   },
   {
    "chemin": "/pokedex/50-diglett-alola",
@@ -1379,7 +1436,8 @@
     "Bull'o Biome Volcan",
     "Zone 7"
    ],
-   "sprite": "diglett-alola.png"
+   "sprite": "diglett-alola.png",
+   "espece": "diglett-alola"
   },
   {
    "chemin": "/pokedex/51-dugtrio",
@@ -1395,7 +1453,8 @@
    "zones": [
     "Zone 6"
    ],
-   "sprite": "dugtrio.png"
+   "sprite": "dugtrio.png",
+   "espece": "dugtrio"
   },
   {
    "chemin": "/pokedex/51-dugtrio-alola",
@@ -1412,7 +1471,8 @@
    "zones": [
     "Zone 7"
    ],
-   "sprite": "dugtrio-alola.png"
+   "sprite": "dugtrio-alola.png",
+   "espece": "dugtrio-alola"
   },
   {
    "chemin": "/pokedex/52-meowth",
@@ -1428,7 +1488,8 @@
    "zones": [
     "Zone 2"
    ],
-   "sprite": "meowth.png"
+   "sprite": "meowth.png",
+   "espece": "meowth"
   },
   {
    "chemin": "/pokedex/52-meowth-alola",
@@ -1445,7 +1506,8 @@
    "zones": [
     "Zone 2"
    ],
-   "sprite": "meowth-alola.png"
+   "sprite": "meowth-alola.png",
+   "espece": "meowth-alola"
   },
   {
    "chemin": "/pokedex/52-meowth-galar",
@@ -1461,7 +1523,8 @@
    "zones": [
     "Bull'o Biome Hanté"
    ],
-   "sprite": "meowth-galar.png"
+   "sprite": "meowth-galar.png",
+   "espece": "meowth-galar"
   },
   {
    "chemin": "/pokedex/53-persian",
@@ -1477,7 +1540,8 @@
    "zones": [
     "Zone 4"
    ],
-   "sprite": "persian.png"
+   "sprite": "persian.png",
+   "espece": "persian"
   },
   {
    "chemin": "/pokedex/53-persian-alola",
@@ -1494,7 +1558,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "persian-alola.png"
+   "sprite": "persian-alola.png",
+   "espece": "persian-alola"
   },
   {
    "chemin": "/pokedex/54-psyduck",
@@ -1510,7 +1575,8 @@
    "zones": [
     "Zone 10 Eau"
    ],
-   "sprite": "psyduck.png"
+   "sprite": "psyduck.png",
+   "espece": "psyduck"
   },
   {
    "chemin": "/pokedex/55-golduck",
@@ -1526,7 +1592,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "golduck.png"
+   "sprite": "golduck.png",
+   "espece": "golduck"
   },
   {
    "chemin": "/pokedex/56-mankey",
@@ -1542,7 +1609,8 @@
    "zones": [
     "Zone 10"
    ],
-   "sprite": "mankey.png"
+   "sprite": "mankey.png",
+   "espece": "mankey"
   },
   {
    "chemin": "/pokedex/57-primeape",
@@ -1558,7 +1626,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "primeape.png"
+   "sprite": "primeape.png",
+   "espece": "primeape"
   },
   {
    "chemin": "/pokedex/58-growlithe",
@@ -1574,7 +1643,8 @@
    "zones": [
     "Zone 5"
    ],
-   "sprite": "growlithe.png"
+   "sprite": "growlithe.png",
+   "espece": "growlithe"
   },
   {
    "chemin": "/pokedex/58-growlithe-hisui",
@@ -1591,7 +1661,8 @@
    "zones": [
     "Bull'o Biome Volcan"
    ],
-   "sprite": "growlithe-hisui.png"
+   "sprite": "growlithe-hisui.png",
+   "espece": "growlithe-hisui"
   },
   {
    "chemin": "/pokedex/59-arcanine",
@@ -1607,7 +1678,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "arcanine.png"
+   "sprite": "arcanine.png",
+   "espece": "arcanine"
   },
   {
    "chemin": "/pokedex/59-arcanine-hisui",
@@ -1624,7 +1696,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "arcanine-hisui.png"
+   "sprite": "arcanine-hisui.png",
+   "espece": "arcanine-hisui"
   },
   {
    "chemin": "/pokedex/60-poliwag",
@@ -1640,7 +1713,8 @@
    "zones": [
     "Bull'o Biome Cascade"
    ],
-   "sprite": "poliwag.png"
+   "sprite": "poliwag.png",
+   "espece": "poliwag"
   },
   {
    "chemin": "/pokedex/61-poliwhirl",
@@ -1656,7 +1730,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "poliwhirl.png"
+   "sprite": "poliwhirl.png",
+   "espece": "poliwhirl"
   },
   {
    "chemin": "/pokedex/62-poliwrath",
@@ -1673,7 +1748,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "poliwrath.png"
+   "sprite": "poliwrath.png",
+   "espece": "poliwrath"
   },
   {
    "chemin": "/pokedex/63-abra",
@@ -1689,7 +1765,8 @@
    "zones": [
     "Tour de Combat"
    ],
-   "sprite": "abra.png"
+   "sprite": "abra.png",
+   "espece": "abra"
   },
   {
    "chemin": "/pokedex/64-kadabra",
@@ -1705,7 +1782,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "kadabra.png"
+   "sprite": "kadabra.png",
+   "espece": "kadabra"
   },
   {
    "chemin": "/pokedex/65-alakazam",
@@ -1721,7 +1799,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "alakazam.png"
+   "sprite": "alakazam.png",
+   "espece": "alakazam"
   },
   {
    "chemin": "/pokedex/66-machop",
@@ -1737,7 +1816,8 @@
    "zones": [
     "Zone 9"
    ],
-   "sprite": "machop.png"
+   "sprite": "machop.png",
+   "espece": "machop"
   },
   {
    "chemin": "/pokedex/67-machoke",
@@ -1753,7 +1833,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "machoke.png"
+   "sprite": "machoke.png",
+   "espece": "machoke"
   },
   {
    "chemin": "/pokedex/68-machamp",
@@ -1769,7 +1850,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "machamp.png"
+   "sprite": "machamp.png",
+   "espece": "machamp"
   },
   {
    "chemin": "/pokedex/69-bellsprout",
@@ -1786,7 +1868,8 @@
    "zones": [
     "Zone 3"
    ],
-   "sprite": "bellsprout.png"
+   "sprite": "bellsprout.png",
+   "espece": "bellsprout"
   },
   {
    "chemin": "/pokedex/70-weepinbell",
@@ -1803,7 +1886,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "weepinbell.png"
+   "sprite": "weepinbell.png",
+   "espece": "weepinbell"
   },
   {
    "chemin": "/pokedex/71-victreebel",
@@ -1820,7 +1904,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "victreebel.png"
+   "sprite": "victreebel.png",
+   "espece": "victreebel"
   },
   {
    "chemin": "/pokedex/72-tentacool",
@@ -1837,7 +1922,8 @@
    "zones": [
     "Zone 11 Eau"
    ],
-   "sprite": "tentacool.png"
+   "sprite": "tentacool.png",
+   "espece": "tentacool"
   },
   {
    "chemin": "/pokedex/73-tentacruel",
@@ -1854,7 +1940,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "tentacruel.png"
+   "sprite": "tentacruel.png",
+   "espece": "tentacruel"
   },
   {
    "chemin": "/pokedex/74-geodude",
@@ -1871,7 +1958,8 @@
    "zones": [
     "Zone 1 Colline"
    ],
-   "sprite": "geodude.png"
+   "sprite": "geodude.png",
+   "espece": "geodude"
   },
   {
    "chemin": "/pokedex/74-geodude-alola",
@@ -1888,7 +1976,8 @@
    "zones": [
     "Zone 1 Colline"
    ],
-   "sprite": "geodude-alola.png"
+   "sprite": "geodude-alola.png",
+   "espece": "geodude-alola"
   },
   {
    "chemin": "/pokedex/75-graveler",
@@ -1905,7 +1994,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "graveler.png"
+   "sprite": "graveler.png",
+   "espece": "graveler"
   },
   {
    "chemin": "/pokedex/75-graveler-alola",
@@ -1922,7 +2012,8 @@
    "zones": [
     "Zone 8 Colline"
    ],
-   "sprite": "graveler-alola.png"
+   "sprite": "graveler-alola.png",
+   "espece": "graveler-alola"
   },
   {
    "chemin": "/pokedex/76-golem",
@@ -1939,7 +2030,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "golem.png"
+   "sprite": "golem.png",
+   "espece": "golem"
   },
   {
    "chemin": "/pokedex/76-golem-alola",
@@ -1956,7 +2048,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "golem-alola.png"
+   "sprite": "golem-alola.png",
+   "espece": "golem-alola"
   },
   {
    "chemin": "/pokedex/77-ponyta",
@@ -1973,7 +2066,8 @@
     "Bull'o Biome Volcan",
     "Zone 5"
    ],
-   "sprite": "ponyta.png"
+   "sprite": "ponyta.png",
+   "espece": "ponyta"
   },
   {
    "chemin": "/pokedex/77-ponyta-galar",
@@ -1989,7 +2083,8 @@
    "zones": [
     "Bull'o Biome Magique"
    ],
-   "sprite": "ponyta-galar.png"
+   "sprite": "ponyta-galar.png",
+   "espece": "ponyta-galar"
   },
   {
    "chemin": "/pokedex/78-rapidash",
@@ -2005,7 +2100,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "rapidash.png"
+   "sprite": "rapidash.png",
+   "espece": "rapidash"
   },
   {
    "chemin": "/pokedex/78-rapidash-galar",
@@ -2022,7 +2118,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "rapidash-galar.png"
+   "sprite": "rapidash-galar.png",
+   "espece": "rapidash-galar"
   },
   {
    "chemin": "/pokedex/79-slowpoke",
@@ -2040,7 +2137,8 @@
     "Bull'o Biome Cascade",
     "Zone 5 Eau"
    ],
-   "sprite": "slowpoke.png"
+   "sprite": "slowpoke.png",
+   "espece": "slowpoke"
   },
   {
    "chemin": "/pokedex/79-slowpoke-galar",
@@ -2056,7 +2154,8 @@
    "zones": [
     "Zone 6 Eau"
    ],
-   "sprite": "slowpoke-galar.png"
+   "sprite": "slowpoke-galar.png",
+   "espece": "slowpoke-galar"
   },
   {
    "chemin": "/pokedex/80-slowbro",
@@ -2073,7 +2172,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "slowbro.png"
+   "sprite": "slowbro.png",
+   "espece": "slowbro"
   },
   {
    "chemin": "/pokedex/80-slowbro-galar",
@@ -2090,7 +2190,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "slowbro-galar.png"
+   "sprite": "slowbro-galar.png",
+   "espece": "slowbro-galar"
   },
   {
    "chemin": "/pokedex/81-magnemite",
@@ -2107,7 +2208,8 @@
    "zones": [
     "Zone 8"
    ],
-   "sprite": "magnemite.png"
+   "sprite": "magnemite.png",
+   "espece": "magnemite"
   },
   {
    "chemin": "/pokedex/82-magneton",
@@ -2124,7 +2226,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "magneton.png"
+   "sprite": "magneton.png",
+   "espece": "magneton"
   },
   {
    "chemin": "/pokedex/83-farfetchd",
@@ -2141,7 +2244,8 @@
    "zones": [
     "Zone 2"
    ],
-   "sprite": "farfetchd.png"
+   "sprite": "farfetchd.png",
+   "espece": "farfetchd"
   },
   {
    "chemin": "/pokedex/83-farfetchd-galar",
@@ -2157,7 +2261,8 @@
    "zones": [
     "Bull'o Biome Cascade"
    ],
-   "sprite": "farfetchd-galar.png"
+   "sprite": "farfetchd-galar.png",
+   "espece": "farfetchd-galar"
   },
   {
    "chemin": "/pokedex/84-doduo",
@@ -2174,7 +2279,8 @@
    "zones": [
     "Zone 5"
    ],
-   "sprite": "doduo.png"
+   "sprite": "doduo.png",
+   "espece": "doduo"
   },
   {
    "chemin": "/pokedex/85-dodrio",
@@ -2191,7 +2297,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "dodrio.png"
+   "sprite": "dodrio.png",
+   "espece": "dodrio"
   },
   {
    "chemin": "/pokedex/86-seel",
@@ -2208,7 +2315,8 @@
    "zones": [
     "Zone 12 Eau"
    ],
-   "sprite": "seel.png"
+   "sprite": "seel.png",
+   "espece": "seel"
   },
   {
    "chemin": "/pokedex/87-dewgong",
@@ -2225,7 +2333,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "dewgong.png"
+   "sprite": "dewgong.png",
+   "espece": "dewgong"
   },
   {
    "chemin": "/pokedex/88-grimer",
@@ -2242,7 +2351,8 @@
     "Bull'o Biome Hanté",
     "Zone 11"
    ],
-   "sprite": "grimer.png"
+   "sprite": "grimer.png",
+   "espece": "grimer"
   },
   {
    "chemin": "/pokedex/88-grimer-alola",
@@ -2259,7 +2369,8 @@
    "zones": [
     "Bull'o Biome Hanté"
    ],
-   "sprite": "grimer-alola.png"
+   "sprite": "grimer-alola.png",
+   "espece": "grimer-alola"
   },
   {
    "chemin": "/pokedex/89-muk",
@@ -2276,7 +2387,8 @@
     "Bull'o Biome Hanté",
     "Zone 11"
    ],
-   "sprite": "muk.png"
+   "sprite": "muk.png",
+   "espece": "muk"
   },
   {
    "chemin": "/pokedex/89-muk-alola",
@@ -2293,7 +2405,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "muk-alola.png"
+   "sprite": "muk-alola.png",
+   "espece": "muk-alola"
   },
   {
    "chemin": "/pokedex/90-shellder",
@@ -2310,7 +2423,8 @@
    "zones": [
     "Zone 12 Eau"
    ],
-   "sprite": "shellder.png"
+   "sprite": "shellder.png",
+   "espece": "shellder"
   },
   {
    "chemin": "/pokedex/91-cloyster",
@@ -2327,7 +2441,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "cloyster.png"
+   "sprite": "cloyster.png",
+   "espece": "cloyster"
   },
   {
    "chemin": "/pokedex/92-gastly",
@@ -2345,7 +2460,8 @@
     "Bull'o Biome Hanté",
     "Zone 7"
    ],
-   "sprite": "gastly.png"
+   "sprite": "gastly.png",
+   "espece": "gastly"
   },
   {
    "chemin": "/pokedex/93-haunter",
@@ -2362,7 +2478,8 @@
    "zones": [
     "Zone 11"
    ],
-   "sprite": "haunter.png"
+   "sprite": "haunter.png",
+   "espece": "haunter"
   },
   {
    "chemin": "/pokedex/94-gengar",
@@ -2379,7 +2496,8 @@
    "zones": [
     "Zone 11"
    ],
-   "sprite": "gengar.png"
+   "sprite": "gengar.png",
+   "espece": "gengar"
   },
   {
    "chemin": "/pokedex/95-onix",
@@ -2396,7 +2514,8 @@
    "zones": [
     "Zone 6"
    ],
-   "sprite": "onix.png"
+   "sprite": "onix.png",
+   "espece": "onix"
   },
   {
    "chemin": "/pokedex/96-drowzee",
@@ -2412,7 +2531,8 @@
    "zones": [
     "Zone 4"
    ],
-   "sprite": "drowzee.png"
+   "sprite": "drowzee.png",
+   "espece": "drowzee"
   },
   {
    "chemin": "/pokedex/97-hypno",
@@ -2428,7 +2548,8 @@
    "zones": [
     "Zone 4"
    ],
-   "sprite": "hypno.png"
+   "sprite": "hypno.png",
+   "espece": "hypno"
   },
   {
    "chemin": "/pokedex/98-krabby",
@@ -2444,7 +2565,8 @@
    "zones": [
     "Zone 7 Eau"
    ],
-   "sprite": "krabby.png"
+   "sprite": "krabby.png",
+   "espece": "krabby"
   },
   {
    "chemin": "/pokedex/99-kingler",
@@ -2460,7 +2582,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "kingler.png"
+   "sprite": "kingler.png",
+   "espece": "kingler"
   },
   {
    "chemin": "/pokedex/100-voltorb",
@@ -2476,7 +2599,8 @@
    "zones": [
     "Zone 8"
    ],
-   "sprite": "voltorb.png"
+   "sprite": "voltorb.png",
+   "espece": "voltorb"
   },
   {
    "chemin": "/pokedex/100-voltorb-hisui",
@@ -2493,7 +2617,8 @@
    "zones": [
     "Zone 10"
    ],
-   "sprite": "voltorb-hisui.png"
+   "sprite": "voltorb-hisui.png",
+   "espece": "voltorb-hisui"
   },
   {
    "chemin": "/pokedex/101-electrode",
@@ -2509,7 +2634,8 @@
    "zones": [
     "Zone 8"
    ],
-   "sprite": "electrode.png"
+   "sprite": "electrode.png",
+   "espece": "electrode"
   },
   {
    "chemin": "/pokedex/101-electrode-hisui",
@@ -2526,7 +2652,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "electrode-hisui.png"
+   "sprite": "electrode-hisui.png",
+   "espece": "electrode-hisui"
   },
   {
    "chemin": "/pokedex/102-exeggcute",
@@ -2543,7 +2670,8 @@
    "zones": [
     "Zone 10"
    ],
-   "sprite": "exeggcute.png"
+   "sprite": "exeggcute.png",
+   "espece": "exeggcute"
   },
   {
    "chemin": "/pokedex/103-exeggutor",
@@ -2560,7 +2688,8 @@
    "zones": [
     "Zone 10"
    ],
-   "sprite": "exeggutor.png"
+   "sprite": "exeggutor.png",
+   "espece": "exeggutor"
   },
   {
    "chemin": "/pokedex/103-exeggutor-alola",
@@ -2577,7 +2706,8 @@
    "zones": [
     "Zone 6 Eau"
    ],
-   "sprite": "exeggutor-alola.png"
+   "sprite": "exeggutor-alola.png",
+   "espece": "exeggutor-alola"
   },
   {
    "chemin": "/pokedex/104-cubone",
@@ -2594,7 +2724,8 @@
     "Bull'o Biome Volcan",
     "Zone 6"
    ],
-   "sprite": "cubone.png"
+   "sprite": "cubone.png",
+   "espece": "cubone"
   },
   {
    "chemin": "/pokedex/105-marowak",
@@ -2610,7 +2741,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "marowak.png"
+   "sprite": "marowak.png",
+   "espece": "marowak"
   },
   {
    "chemin": "/pokedex/105-marowak-alola",
@@ -2628,7 +2760,8 @@
     "Bull'o Biome Volcan",
     "Zone 7"
    ],
-   "sprite": "marowak-alola.png"
+   "sprite": "marowak-alola.png",
+   "espece": "marowak-alola"
   },
   {
    "chemin": "/pokedex/106-hitmonlee",
@@ -2644,7 +2777,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "hitmonlee.png"
+   "sprite": "hitmonlee.png",
+   "espece": "hitmonlee"
   },
   {
    "chemin": "/pokedex/107-hitmonchan",
@@ -2660,7 +2794,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "hitmonchan.png"
+   "sprite": "hitmonchan.png",
+   "espece": "hitmonchan"
   },
   {
    "chemin": "/pokedex/108-lickitung",
@@ -2676,7 +2811,8 @@
    "zones": [
     "Zone 4"
    ],
-   "sprite": "lickitung.png"
+   "sprite": "lickitung.png",
+   "espece": "lickitung"
   },
   {
    "chemin": "/pokedex/109-koffing",
@@ -2692,7 +2828,8 @@
    "zones": [
     "Zone 11"
    ],
-   "sprite": "koffing.png"
+   "sprite": "koffing.png",
+   "espece": "koffing"
   },
   {
    "chemin": "/pokedex/110-weezing",
@@ -2709,7 +2846,8 @@
     "Bull'o Biome Hanté",
     "Zone 11"
    ],
-   "sprite": "weezing.png"
+   "sprite": "weezing.png",
+   "espece": "weezing"
   },
   {
    "chemin": "/pokedex/110-weezing-galar",
@@ -2726,7 +2864,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "weezing-galar.png"
+   "sprite": "weezing-galar.png",
+   "espece": "weezing-galar"
   },
   {
    "chemin": "/pokedex/111-rhyhorn",
@@ -2743,7 +2882,8 @@
    "zones": [
     "Zone 9"
    ],
-   "sprite": "rhyhorn.png"
+   "sprite": "rhyhorn.png",
+   "espece": "rhyhorn"
   },
   {
    "chemin": "/pokedex/112-rhydon",
@@ -2760,7 +2900,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "rhydon.png"
+   "sprite": "rhydon.png",
+   "espece": "rhydon"
   },
   {
    "chemin": "/pokedex/113-chansey",
@@ -2776,7 +2917,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "chansey.png"
+   "sprite": "chansey.png",
+   "espece": "chansey"
   },
   {
    "chemin": "/pokedex/114-tangela",
@@ -2792,7 +2934,8 @@
    "zones": [
     "Zone 10"
    ],
-   "sprite": "tangela.png"
+   "sprite": "tangela.png",
+   "espece": "tangela"
   },
   {
    "chemin": "/pokedex/115-kangaskhan",
@@ -2808,7 +2951,8 @@
    "zones": [
     "Zone 5"
    ],
-   "sprite": "kangaskhan.png"
+   "sprite": "kangaskhan.png",
+   "espece": "kangaskhan"
   },
   {
    "chemin": "/pokedex/116-horsea",
@@ -2824,7 +2968,8 @@
    "zones": [
     "Zone 3 Eau"
    ],
-   "sprite": "horsea.png"
+   "sprite": "horsea.png",
+   "espece": "horsea"
   },
   {
    "chemin": "/pokedex/117-seadra",
@@ -2840,7 +2985,8 @@
    "zones": [
     "Océan"
    ],
-   "sprite": "seadra.png"
+   "sprite": "seadra.png",
+   "espece": "seadra"
   },
   {
    "chemin": "/pokedex/118-goldeen",
@@ -2856,7 +3002,8 @@
    "zones": [
     "Lac Rime"
    ],
-   "sprite": "goldeen.png"
+   "sprite": "goldeen.png",
+   "espece": "goldeen"
   },
   {
    "chemin": "/pokedex/119-seaking",
@@ -2872,7 +3019,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "seaking.png"
+   "sprite": "seaking.png",
+   "espece": "seaking"
   },
   {
    "chemin": "/pokedex/120-staryu",
@@ -2888,7 +3036,8 @@
    "zones": [
     "Zone 8 Eau"
    ],
-   "sprite": "staryu.png"
+   "sprite": "staryu.png",
+   "espece": "staryu"
   },
   {
    "chemin": "/pokedex/121-starmie",
@@ -2905,7 +3054,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "starmie.png"
+   "sprite": "starmie.png",
+   "espece": "starmie"
   },
   {
    "chemin": "/pokedex/122-mrmime",
@@ -2922,7 +3072,8 @@
    "zones": [
     "Zone 4"
    ],
-   "sprite": "mrmime.png"
+   "sprite": "mrmime.png",
+   "espece": "mr-mime"
   },
   {
    "chemin": "/pokedex/122-mrmime-galar",
@@ -2939,7 +3090,8 @@
    "zones": [
     "Zone 12"
    ],
-   "sprite": "mrmime-galar.png"
+   "sprite": "mrmime-galar.png",
+   "espece": "mr-mime-galar"
   },
   {
    "chemin": "/pokedex/123-scyther",
@@ -2956,7 +3108,8 @@
    "zones": [
     "Tour de Combat"
    ],
-   "sprite": "scyther.png"
+   "sprite": "scyther.png",
+   "espece": "scyther"
   },
   {
    "chemin": "/pokedex/124-jynx",
@@ -2973,7 +3126,8 @@
    "zones": [
     "Zone 12"
    ],
-   "sprite": "jynx.png"
+   "sprite": "jynx.png",
+   "espece": "jynx"
   },
   {
    "chemin": "/pokedex/125-electabuzz",
@@ -2989,7 +3143,8 @@
    "zones": [
     "Zone 5"
    ],
-   "sprite": "electabuzz.png"
+   "sprite": "electabuzz.png",
+   "espece": "electabuzz"
   },
   {
    "chemin": "/pokedex/126-magmar",
@@ -3005,7 +3160,8 @@
    "zones": [
     "Zone 6"
    ],
-   "sprite": "magmar.png"
+   "sprite": "magmar.png",
+   "espece": "magmar"
   },
   {
    "chemin": "/pokedex/127-pinsir",
@@ -3021,7 +3177,8 @@
    "zones": [
     "Zone 10"
    ],
-   "sprite": "pinsir.png"
+   "sprite": "pinsir.png",
+   "espece": "pinsir"
   },
   {
    "chemin": "/pokedex/128-tauros",
@@ -3037,7 +3194,8 @@
    "zones": [
     "Zone 4"
    ],
-   "sprite": "tauros.png"
+   "sprite": "tauros.png",
+   "espece": "tauros"
   },
   {
    "chemin": "/pokedex/129-magikarp",
@@ -3056,7 +3214,8 @@
     "Océan",
     "Zone 1 Eau"
    ],
-   "sprite": "magikarp.png"
+   "sprite": "magikarp.png",
+   "espece": "magikarp"
   },
   {
    "chemin": "/pokedex/130-gyarados",
@@ -3073,7 +3232,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "gyarados.png"
+   "sprite": "gyarados.png",
+   "espece": "gyarados"
   },
   {
    "chemin": "/pokedex/131-lapras",
@@ -3090,7 +3250,8 @@
    "zones": [
     "Zone 12 Eau"
    ],
-   "sprite": "lapras.png"
+   "sprite": "lapras.png",
+   "espece": "lapras"
   },
   {
    "chemin": "/pokedex/132-ditto",
@@ -3146,7 +3307,8 @@
     "Zone 9",
     "Zone 9 Eau"
    ],
-   "sprite": "ditto.png"
+   "sprite": "ditto.png",
+   "espece": "ditto"
   },
   {
    "chemin": "/pokedex/133-eevee",
@@ -3162,7 +3324,8 @@
    "zones": [
     "Zone 3"
    ],
-   "sprite": "eevee.png"
+   "sprite": "eevee.png",
+   "espece": "eevee"
   },
   {
    "chemin": "/pokedex/134-vaporeon",
@@ -3178,7 +3341,8 @@
    "zones": [
     "Bull'o Biome Cascade"
    ],
-   "sprite": "vaporeon.png"
+   "sprite": "vaporeon.png",
+   "espece": "vaporeon"
   },
   {
    "chemin": "/pokedex/135-jolteon",
@@ -3194,7 +3358,8 @@
    "zones": [
     "Zone 5"
    ],
-   "sprite": "jolteon.png"
+   "sprite": "jolteon.png",
+   "espece": "jolteon"
   },
   {
    "chemin": "/pokedex/136-flareon",
@@ -3210,7 +3375,8 @@
    "zones": [
     "Bull'o Biome Volcan"
    ],
-   "sprite": "flareon.png"
+   "sprite": "flareon.png",
+   "espece": "flareon"
   },
   {
    "chemin": "/pokedex/137-porygon",
@@ -3226,7 +3392,8 @@
    "zones": [
     "Zone 8"
    ],
-   "sprite": "porygon.png"
+   "sprite": "porygon.png",
+   "espece": "porygon"
   },
   {
    "chemin": "/pokedex/138-omanyte",
@@ -3243,7 +3410,8 @@
    "zones": [
     "Sites de Fouille"
    ],
-   "sprite": "omanyte.png"
+   "sprite": "omanyte.png",
+   "espece": "omanyte"
   },
   {
    "chemin": "/pokedex/139-omastar",
@@ -3260,7 +3428,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "omastar.png"
+   "sprite": "omastar.png",
+   "espece": "omastar"
   },
   {
    "chemin": "/pokedex/140-kabuto",
@@ -3277,7 +3446,8 @@
    "zones": [
     "Sites de Fouille"
    ],
-   "sprite": "kabuto.png"
+   "sprite": "kabuto.png",
+   "espece": "kabuto"
   },
   {
    "chemin": "/pokedex/141-kabutops",
@@ -3294,7 +3464,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "kabutops.png"
+   "sprite": "kabutops.png",
+   "espece": "kabutops"
   },
   {
    "chemin": "/pokedex/142-aerodactyl",
@@ -3311,7 +3482,8 @@
    "zones": [
     "Sites de Fouille"
    ],
-   "sprite": "aerodactyl.png"
+   "sprite": "aerodactyl.png",
+   "espece": "aerodactyl"
   },
   {
    "chemin": "/pokedex/143-snorlax",
@@ -3327,7 +3499,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "snorlax.png"
+   "sprite": "snorlax.png",
+   "espece": "snorlax"
   },
   {
    "chemin": "/pokedex/144-articuno",
@@ -3347,7 +3520,8 @@
     "Zone 12 Eau",
     "Zone 12 Forêt"
    ],
-   "sprite": "articuno.png"
+   "sprite": "articuno.png",
+   "espece": "articuno"
   },
   {
    "chemin": "/pokedex/144-articuno-galar",
@@ -3366,7 +3540,8 @@
     "Zone 12 Eau",
     "Zone 12 Forêt"
    ],
-   "sprite": "articuno-galar.png"
+   "sprite": "articuno-galar.png",
+   "espece": "articuno-galar"
   },
   {
    "chemin": "/pokedex/145-zapdos",
@@ -3386,7 +3561,8 @@
     "Zone 5 Colline",
     "Zone 5 Eau"
    ],
-   "sprite": "zapdos.png"
+   "sprite": "zapdos.png",
+   "espece": "zapdos"
   },
   {
    "chemin": "/pokedex/145-zapdos-galar",
@@ -3405,7 +3581,8 @@
     "Zone 5 Colline",
     "Zone 5 Eau"
    ],
-   "sprite": "zapdos-galar.png"
+   "sprite": "zapdos-galar.png",
+   "espece": "zapdos-galar"
   },
   {
    "chemin": "/pokedex/146-moltres",
@@ -3426,7 +3603,8 @@
     "Zone 7 Eau",
     "Zone 7 Oasis"
    ],
-   "sprite": "moltres.png"
+   "sprite": "moltres.png",
+   "espece": "moltres"
   },
   {
    "chemin": "/pokedex/146-moltres-galar",
@@ -3446,7 +3624,8 @@
     "Zone 7 Eau",
     "Zone 7 Oasis"
    ],
-   "sprite": "moltres-galar.png"
+   "sprite": "moltres-galar.png",
+   "espece": "moltres-galar"
   },
   {
    "chemin": "/pokedex/147-dratini",
@@ -3462,7 +3641,8 @@
    "zones": [
     "Tour de Combat"
    ],
-   "sprite": "dratini.png"
+   "sprite": "dratini.png",
+   "espece": "dratini"
   },
   {
    "chemin": "/pokedex/148-dragonair",
@@ -3478,7 +3658,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "dragonair.png"
+   "sprite": "dragonair.png",
+   "espece": "dragonair"
   },
   {
    "chemin": "/pokedex/149-dragonite",
@@ -3495,7 +3676,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "dragonite.png"
+   "sprite": "dragonite.png",
+   "espece": "dragonite"
   },
   {
    "chemin": "/pokedex/150-mewtwo",
@@ -3513,7 +3695,8 @@
     "Zone 8 Colline",
     "Zone 8 Eau"
    ],
-   "sprite": "mewtwo.png"
+   "sprite": "mewtwo.png",
+   "espece": "mewtwo"
   },
   {
    "chemin": "/pokedex/151-mew",
@@ -3529,7 +3712,8 @@
    "zones": [
     "Quête"
    ],
-   "sprite": "mew.png"
+   "sprite": "mew.png",
+   "espece": "mew"
   },
   {
    "chemin": "/pokedex/152-chikorita",
@@ -3545,7 +3729,8 @@
    "zones": [
     "Zone 3"
    ],
-   "sprite": "chikorita.png"
+   "sprite": "chikorita.png",
+   "espece": "chikorita"
   },
   {
    "chemin": "/pokedex/153-bayleef",
@@ -3561,7 +3746,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "bayleef.png"
+   "sprite": "bayleef.png",
+   "espece": "bayleef"
   },
   {
    "chemin": "/pokedex/154-meganium",
@@ -3577,7 +3763,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "meganium.png"
+   "sprite": "meganium.png",
+   "espece": "meganium"
   },
   {
    "chemin": "/pokedex/155-cyndaquil",
@@ -3593,7 +3780,8 @@
    "zones": [
     "Bull'o Biome Volcan"
    ],
-   "sprite": "cyndaquil.png"
+   "sprite": "cyndaquil.png",
+   "espece": "cyndaquil"
   },
   {
    "chemin": "/pokedex/156-quilava",
@@ -3609,7 +3797,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "quilava.png"
+   "sprite": "quilava.png",
+   "espece": "quilava"
   },
   {
    "chemin": "/pokedex/157-typhlosion",
@@ -3625,7 +3814,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "typhlosion.png"
+   "sprite": "typhlosion.png",
+   "espece": "typhlosion"
   },
   {
    "chemin": "/pokedex/158-totodile",
@@ -3641,7 +3831,8 @@
    "zones": [
     "Zone 6 Eau"
    ],
-   "sprite": "totodile.png"
+   "sprite": "totodile.png",
+   "espece": "totodile"
   },
   {
    "chemin": "/pokedex/159-croconaw",
@@ -3657,7 +3848,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "croconaw.png"
+   "sprite": "croconaw.png",
+   "espece": "croconaw"
   },
   {
    "chemin": "/pokedex/160-feraligatr",
@@ -3673,7 +3865,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "feraligatr.png"
+   "sprite": "feraligatr.png",
+   "espece": "feraligatr"
   },
   {
    "chemin": "/pokedex/161-sentret",
@@ -3689,7 +3882,8 @@
    "zones": [
     "Zone 1"
    ],
-   "sprite": "sentret.png"
+   "sprite": "sentret.png",
+   "espece": "sentret"
   },
   {
    "chemin": "/pokedex/162-furret",
@@ -3705,7 +3899,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "furret.png"
+   "sprite": "furret.png",
+   "espece": "furret"
   },
   {
    "chemin": "/pokedex/163-hoothoot",
@@ -3722,7 +3917,8 @@
    "zones": [
     "Zone 1"
    ],
-   "sprite": "hoothoot.png"
+   "sprite": "hoothoot.png",
+   "espece": "hoothoot"
   },
   {
    "chemin": "/pokedex/164-noctowl",
@@ -3739,7 +3935,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "noctowl.png"
+   "sprite": "noctowl.png",
+   "espece": "noctowl"
   },
   {
    "chemin": "/pokedex/165-ledyba",
@@ -3756,7 +3953,8 @@
    "zones": [
     "Zone 1"
    ],
-   "sprite": "ledyba.png"
+   "sprite": "ledyba.png",
+   "espece": "ledyba"
   },
   {
    "chemin": "/pokedex/166-ledian",
@@ -3773,7 +3971,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "ledian.png"
+   "sprite": "ledian.png",
+   "espece": "ledian"
   },
   {
    "chemin": "/pokedex/167-spinarak",
@@ -3790,7 +3989,8 @@
    "zones": [
     "Zone 1"
    ],
-   "sprite": "spinarak.png"
+   "sprite": "spinarak.png",
+   "espece": "spinarak"
   },
   {
    "chemin": "/pokedex/168-ariados",
@@ -3807,7 +4007,8 @@
    "zones": [
     "Zone 10"
    ],
-   "sprite": "ariados.png"
+   "sprite": "ariados.png",
+   "espece": "ariados"
   },
   {
    "chemin": "/pokedex/169-crobat",
@@ -3824,7 +4025,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "crobat.png"
+   "sprite": "crobat.png",
+   "espece": "crobat"
   },
   {
    "chemin": "/pokedex/170-chinchou",
@@ -3841,7 +4043,8 @@
    "zones": [
     "Zone 8 Eau"
    ],
-   "sprite": "chinchou.png"
+   "sprite": "chinchou.png",
+   "espece": "chinchou"
   },
   {
    "chemin": "/pokedex/171-lanturn",
@@ -3858,7 +4061,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "lanturn.png"
+   "sprite": "lanturn.png",
+   "espece": "lanturn"
   },
   {
    "chemin": "/pokedex/172-pichu",
@@ -3874,7 +4078,8 @@
    "zones": [
     "Inconnue"
    ],
-   "sprite": "pichu.png"
+   "sprite": "pichu.png",
+   "espece": "pichu"
   },
   {
    "chemin": "/pokedex/173-cleffa",
@@ -3890,7 +4095,8 @@
    "zones": [
     "Bull'o Biome Magique"
    ],
-   "sprite": "cleffa.png"
+   "sprite": "cleffa.png",
+   "espece": "cleffa"
   },
   {
    "chemin": "/pokedex/174-igglybuff",
@@ -3907,7 +4113,8 @@
    "zones": [
     "Bull'o Biome Magique"
    ],
-   "sprite": "igglybuff.png"
+   "sprite": "igglybuff.png",
+   "espece": "igglybuff"
   },
   {
    "chemin": "/pokedex/175-togepi",
@@ -3924,7 +4131,8 @@
     "Bull'o Biome Magique",
     "Zone 3"
    ],
-   "sprite": "togepi.png"
+   "sprite": "togepi.png",
+   "espece": "togepi"
   },
   {
    "chemin": "/pokedex/176-togetic",
@@ -3941,7 +4149,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "togetic.png"
+   "sprite": "togetic.png",
+   "espece": "togetic"
   },
   {
    "chemin": "/pokedex/177-natu",
@@ -3958,7 +4167,8 @@
    "zones": [
     "Zone 6"
    ],
-   "sprite": "natu.png"
+   "sprite": "natu.png",
+   "espece": "natu"
   },
   {
    "chemin": "/pokedex/178-xatu",
@@ -3975,7 +4185,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "xatu.png"
+   "sprite": "xatu.png",
+   "espece": "xatu"
   },
   {
    "chemin": "/pokedex/179-mareep",
@@ -3991,7 +4202,8 @@
    "zones": [
     "Zone 4"
    ],
-   "sprite": "mareep.png"
+   "sprite": "mareep.png",
+   "espece": "mareep"
   },
   {
    "chemin": "/pokedex/180-flaaffy",
@@ -4007,7 +4219,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "flaaffy.png"
+   "sprite": "flaaffy.png",
+   "espece": "flaaffy"
   },
   {
    "chemin": "/pokedex/181-ampharos",
@@ -4023,7 +4236,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "ampharos.png"
+   "sprite": "ampharos.png",
+   "espece": "ampharos"
   },
   {
    "chemin": "/pokedex/182-bellossom",
@@ -4039,7 +4253,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "bellossom.png"
+   "sprite": "bellossom.png",
+   "espece": "bellossom"
   },
   {
    "chemin": "/pokedex/183-marill",
@@ -4056,7 +4271,8 @@
    "zones": [
     "Zone 2 Eau"
    ],
-   "sprite": "marill.png"
+   "sprite": "marill.png",
+   "espece": "marill"
   },
   {
    "chemin": "/pokedex/184-azumarill",
@@ -4073,7 +4289,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "azumarill.png"
+   "sprite": "azumarill.png",
+   "espece": "azumarill"
   },
   {
    "chemin": "/pokedex/185-sudowoodo",
@@ -4089,7 +4306,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "sudowoodo.png"
+   "sprite": "sudowoodo.png",
+   "espece": "sudowoodo"
   },
   {
    "chemin": "/pokedex/186-politoed",
@@ -4105,7 +4323,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "politoed.png"
+   "sprite": "politoed.png",
+   "espece": "politoed"
   },
   {
    "chemin": "/pokedex/187-hoppip",
@@ -4122,7 +4341,8 @@
    "zones": [
     "Zone 1"
    ],
-   "sprite": "hoppip.png"
+   "sprite": "hoppip.png",
+   "espece": "hoppip"
   },
   {
    "chemin": "/pokedex/188-skiploom",
@@ -4139,7 +4359,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "skiploom.png"
+   "sprite": "skiploom.png",
+   "espece": "skiploom"
   },
   {
    "chemin": "/pokedex/189-jumpluff",
@@ -4156,7 +4377,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "jumpluff.png"
+   "sprite": "jumpluff.png",
+   "espece": "jumpluff"
   },
   {
    "chemin": "/pokedex/190-aipom",
@@ -4172,7 +4394,8 @@
    "zones": [
     "Zone 10"
    ],
-   "sprite": "aipom.png"
+   "sprite": "aipom.png",
+   "espece": "aipom"
   },
   {
    "chemin": "/pokedex/191-sunkern",
@@ -4188,7 +4411,8 @@
    "zones": [
     "Zone 1"
    ],
-   "sprite": "sunkern.png"
+   "sprite": "sunkern.png",
+   "espece": "sunkern"
   },
   {
    "chemin": "/pokedex/192-sunflora",
@@ -4204,7 +4428,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "sunflora.png"
+   "sprite": "sunflora.png",
+   "espece": "sunflora"
   },
   {
    "chemin": "/pokedex/193-yanma",
@@ -4222,7 +4447,8 @@
     "Bull'o Biome Hanté",
     "Zone 1"
    ],
-   "sprite": "yanma.png"
+   "sprite": "yanma.png",
+   "espece": "yanma"
   },
   {
    "chemin": "/pokedex/194-wooper",
@@ -4240,7 +4466,8 @@
     "Bull'o Biome Cascade",
     "Zone 2 Eau"
    ],
-   "sprite": "wooper.png"
+   "sprite": "wooper.png",
+   "espece": "wooper"
   },
   {
    "chemin": "/pokedex/195-quagsire",
@@ -4257,7 +4484,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "quagsire.png"
+   "sprite": "quagsire.png",
+   "espece": "quagsire"
   },
   {
    "chemin": "/pokedex/196-espeon",
@@ -4273,7 +4501,8 @@
    "zones": [
     "Bull'o Biome Magique"
    ],
-   "sprite": "espeon.png"
+   "sprite": "espeon.png",
+   "espece": "espeon"
   },
   {
    "chemin": "/pokedex/197-umbreon",
@@ -4289,7 +4518,8 @@
    "zones": [
     "Bull'o Biome Hanté"
    ],
-   "sprite": "umbreon.png"
+   "sprite": "umbreon.png",
+   "espece": "umbreon"
   },
   {
    "chemin": "/pokedex/198-murkrow",
@@ -4306,7 +4536,8 @@
    "zones": [
     "Zone 2"
    ],
-   "sprite": "murkrow.png"
+   "sprite": "murkrow.png",
+   "espece": "murkrow"
   },
   {
    "chemin": "/pokedex/199-slowking",
@@ -4323,7 +4554,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "slowking.png"
+   "sprite": "slowking.png",
+   "espece": "slowking"
   },
   {
    "chemin": "/pokedex/199-slowking-galar",
@@ -4340,7 +4572,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "slowking-galar.png"
+   "sprite": "slowking-galar.png",
+   "espece": "slowking-galar"
   },
   {
    "chemin": "/pokedex/200-misdreavus",
@@ -4356,7 +4589,8 @@
    "zones": [
     "Zone 7"
    ],
-   "sprite": "misdreavus.png"
+   "sprite": "misdreavus.png",
+   "espece": "misdreavus"
   },
   {
    "chemin": "/pokedex/201-unown",
@@ -4372,7 +4606,8 @@
    "zones": [
     "Zone 6 ???"
    ],
-   "sprite": "unown.png"
+   "sprite": "unown.png",
+   "espece": "unown"
   },
   {
    "chemin": "/pokedex/202-wobbuffet",
@@ -4388,7 +4623,8 @@
    "zones": [
     "Zone 4"
    ],
-   "sprite": "wobbuffet.png"
+   "sprite": "wobbuffet.png",
+   "espece": "wobbuffet"
   },
   {
    "chemin": "/pokedex/203-girafarig",
@@ -4405,7 +4641,8 @@
    "zones": [
     "Zone 5"
    ],
-   "sprite": "girafarig.png"
+   "sprite": "girafarig.png",
+   "espece": "girafarig"
   },
   {
    "chemin": "/pokedex/204-pineco",
@@ -4421,7 +4658,8 @@
    "zones": [
     "Zone 2 Forêt"
    ],
-   "sprite": "pineco.png"
+   "sprite": "pineco.png",
+   "espece": "pineco"
   },
   {
    "chemin": "/pokedex/205-forretress",
@@ -4438,7 +4676,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "forretress.png"
+   "sprite": "forretress.png",
+   "espece": "forretress"
   },
   {
    "chemin": "/pokedex/206-dunsparce",
@@ -4454,7 +4693,8 @@
    "zones": [
     "Zone 12"
    ],
-   "sprite": "dunsparce.png"
+   "sprite": "dunsparce.png",
+   "espece": "dunsparce"
   },
   {
    "chemin": "/pokedex/207-gligar",
@@ -4471,7 +4711,8 @@
    "zones": [
     "Zone 7"
    ],
-   "sprite": "gligar.png"
+   "sprite": "gligar.png",
+   "espece": "gligar"
   },
   {
    "chemin": "/pokedex/208-steelix",
@@ -4488,7 +4729,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "steelix.png"
+   "sprite": "steelix.png",
+   "espece": "steelix"
   },
   {
    "chemin": "/pokedex/209-snubbull",
@@ -4504,7 +4746,8 @@
    "zones": [
     "Zone 3"
    ],
-   "sprite": "snubbull.png"
+   "sprite": "snubbull.png",
+   "espece": "snubbull"
   },
   {
    "chemin": "/pokedex/210-granbull",
@@ -4520,7 +4763,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "granbull.png"
+   "sprite": "granbull.png",
+   "espece": "granbull"
   },
   {
    "chemin": "/pokedex/211-qwilfish",
@@ -4537,7 +4781,8 @@
    "zones": [
     "Zone 11 Eau"
    ],
-   "sprite": "qwilfish.png"
+   "sprite": "qwilfish.png",
+   "espece": "qwilfish"
   },
   {
    "chemin": "/pokedex/211-qwilfish-hisui",
@@ -4554,7 +4799,8 @@
    "zones": [
     "Zone 11 Eau"
    ],
-   "sprite": "qwilfish-hisui.png"
+   "sprite": "qwilfish-hisui.png",
+   "espece": "qwilfish-hisui"
   },
   {
    "chemin": "/pokedex/212-scizor",
@@ -4571,7 +4817,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "scizor.png"
+   "sprite": "scizor.png",
+   "espece": "scizor"
   },
   {
    "chemin": "/pokedex/213-shuckle",
@@ -4588,7 +4835,8 @@
    "zones": [
     "Zone 8 Colline"
    ],
-   "sprite": "shuckle.png"
+   "sprite": "shuckle.png",
+   "espece": "shuckle"
   },
   {
    "chemin": "/pokedex/214-heracross",
@@ -4605,7 +4853,8 @@
    "zones": [
     "Zone 10"
    ],
-   "sprite": "heracross.png"
+   "sprite": "heracross.png",
+   "espece": "heracross"
   },
   {
    "chemin": "/pokedex/215-sneasel",
@@ -4622,7 +4871,8 @@
    "zones": [
     "Zone 12"
    ],
-   "sprite": "sneasel.png"
+   "sprite": "sneasel.png",
+   "espece": "sneasel"
   },
   {
    "chemin": "/pokedex/216-teddiursa",
@@ -4638,7 +4888,8 @@
    "zones": [
     "Zone 2"
    ],
-   "sprite": "teddiursa.png"
+   "sprite": "teddiursa.png",
+   "espece": "teddiursa"
   },
   {
    "chemin": "/pokedex/217-ursaring",
@@ -4654,7 +4905,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "ursaring.png"
+   "sprite": "ursaring.png",
+   "espece": "ursaring"
   },
   {
    "chemin": "/pokedex/218-slugma",
@@ -4671,7 +4923,8 @@
     "Bull'o Biome Volcan",
     "Zone 7"
    ],
-   "sprite": "slugma.png"
+   "sprite": "slugma.png",
+   "espece": "slugma"
   },
   {
    "chemin": "/pokedex/219-magcargo",
@@ -4688,7 +4941,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "magcargo.png"
+   "sprite": "magcargo.png",
+   "espece": "magcargo"
   },
   {
    "chemin": "/pokedex/220-swinub",
@@ -4705,7 +4959,8 @@
    "zones": [
     "Zone 12"
    ],
-   "sprite": "swinub.png"
+   "sprite": "swinub.png",
+   "espece": "swinub"
   },
   {
    "chemin": "/pokedex/221-piloswine",
@@ -4722,7 +4977,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "piloswine.png"
+   "sprite": "piloswine.png",
+   "espece": "piloswine"
   },
   {
    "chemin": "/pokedex/222-corsola",
@@ -4739,7 +4995,8 @@
    "zones": [
     "Zone 7 Eau"
    ],
-   "sprite": "corsola.png"
+   "sprite": "corsola.png",
+   "espece": "corsola"
   },
   {
    "chemin": "/pokedex/222-corsola-galar",
@@ -4755,7 +5012,8 @@
    "zones": [
     "Zone 7 Oasis"
    ],
-   "sprite": "corsola-galar.png"
+   "sprite": "corsola-galar.png",
+   "espece": "corsola-galar"
   },
   {
    "chemin": "/pokedex/223-remoraid",
@@ -4771,7 +5029,8 @@
    "zones": [
     "Zone 5 Eau"
    ],
-   "sprite": "remoraid.png"
+   "sprite": "remoraid.png",
+   "espece": "remoraid"
   },
   {
    "chemin": "/pokedex/224-octillery",
@@ -4787,7 +5046,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "octillery.png"
+   "sprite": "octillery.png",
+   "espece": "octillery"
   },
   {
    "chemin": "/pokedex/225-delibird",
@@ -4804,7 +5064,8 @@
    "zones": [
     "Zone 12"
    ],
-   "sprite": "delibird.png"
+   "sprite": "delibird.png",
+   "espece": "delibird"
   },
   {
    "chemin": "/pokedex/226-mantine",
@@ -4821,7 +5082,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "mantine.png"
+   "sprite": "mantine.png",
+   "espece": "mantine"
   },
   {
    "chemin": "/pokedex/227-skarmory",
@@ -4838,7 +5100,8 @@
    "zones": [
     "Zone 9"
    ],
-   "sprite": "skarmory.png"
+   "sprite": "skarmory.png",
+   "espece": "skarmory"
   },
   {
    "chemin": "/pokedex/228-houndour",
@@ -4856,7 +5119,8 @@
     "Bull'o Biome Volcan",
     "Zone 7"
    ],
-   "sprite": "houndour.png"
+   "sprite": "houndour.png",
+   "espece": "houndour"
   },
   {
    "chemin": "/pokedex/229-houndoom",
@@ -4873,7 +5137,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "houndoom.png"
+   "sprite": "houndoom.png",
+   "espece": "houndoom"
   },
   {
    "chemin": "/pokedex/230-kingdra",
@@ -4890,7 +5155,8 @@
    "zones": [
     "Océan"
    ],
-   "sprite": "kingdra.png"
+   "sprite": "kingdra.png",
+   "espece": "kingdra"
   },
   {
    "chemin": "/pokedex/231-phanpy",
@@ -4907,7 +5173,8 @@
     "Bull'o Biome Volcan",
     "Zone 10 Colline"
    ],
-   "sprite": "phanpy.png"
+   "sprite": "phanpy.png",
+   "espece": "phanpy"
   },
   {
    "chemin": "/pokedex/232-donphan",
@@ -4923,7 +5190,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "donphan.png"
+   "sprite": "donphan.png",
+   "espece": "donphan"
   },
   {
    "chemin": "/pokedex/233-porygon2",
@@ -4939,7 +5207,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "porygon2.png"
+   "sprite": "porygon2.png",
+   "espece": "porygon2"
   },
   {
    "chemin": "/pokedex/234-stantler",
@@ -4955,7 +5224,8 @@
    "zones": [
     "Zone 2"
    ],
-   "sprite": "stantler.png"
+   "sprite": "stantler.png",
+   "espece": "stantler"
   },
   {
    "chemin": "/pokedex/235-smeargle",
@@ -4971,7 +5241,8 @@
    "zones": [
     "Zone 4 Colline"
    ],
-   "sprite": "smeargle.png"
+   "sprite": "smeargle.png",
+   "espece": "smeargle"
   },
   {
    "chemin": "/pokedex/236-tyrogue",
@@ -4988,7 +5259,8 @@
     "Bull'o Biome Cascade",
     "Zone 9"
    ],
-   "sprite": "tyrogue.png"
+   "sprite": "tyrogue.png",
+   "espece": "tyrogue"
   },
   {
    "chemin": "/pokedex/237-hitmontop",
@@ -5004,7 +5276,8 @@
    "zones": [
     "Bull'o Biome Cascade"
    ],
-   "sprite": "hitmontop.png"
+   "sprite": "hitmontop.png",
+   "espece": "hitmontop"
   },
   {
    "chemin": "/pokedex/238-smoochum",
@@ -5021,7 +5294,8 @@
    "zones": [
     "Bull'o Biome Magique"
    ],
-   "sprite": "smoochum.png"
+   "sprite": "smoochum.png",
+   "espece": "smoochum"
   },
   {
    "chemin": "/pokedex/239-elekid",
@@ -5037,7 +5311,8 @@
    "zones": [
     "Bull'o Biome Cascade"
    ],
-   "sprite": "elekid.png"
+   "sprite": "elekid.png",
+   "espece": "elekid"
   },
   {
    "chemin": "/pokedex/240-magby",
@@ -5053,7 +5328,8 @@
    "zones": [
     "Bull'o Biome Volcan"
    ],
-   "sprite": "magby.png"
+   "sprite": "magby.png",
+   "espece": "magby"
   },
   {
    "chemin": "/pokedex/241-miltank",
@@ -5069,7 +5345,8 @@
    "zones": [
     "Zone 4"
    ],
-   "sprite": "miltank.png"
+   "sprite": "miltank.png",
+   "espece": "miltank"
   },
   {
    "chemin": "/pokedex/242-blissey",
@@ -5085,7 +5362,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "blissey.png"
+   "sprite": "blissey.png",
+   "espece": "blissey"
   },
   {
    "chemin": "/pokedex/243-raikou",
@@ -5101,7 +5379,8 @@
    "zones": [
     "Quête"
    ],
-   "sprite": "raikou.png"
+   "sprite": "raikou.png",
+   "espece": "raikou"
   },
   {
    "chemin": "/pokedex/244-entei",
@@ -5117,7 +5396,8 @@
    "zones": [
     "Quête"
    ],
-   "sprite": "entei.png"
+   "sprite": "entei.png",
+   "espece": "entei"
   },
   {
    "chemin": "/pokedex/245-suicune",
@@ -5133,7 +5413,8 @@
    "zones": [
     "Quête"
    ],
-   "sprite": "suicune.png"
+   "sprite": "suicune.png",
+   "espece": "suicune"
   },
   {
    "chemin": "/pokedex/246-larvitar",
@@ -5150,7 +5431,8 @@
    "zones": [
     "Tour de Combat"
    ],
-   "sprite": "larvitar.png"
+   "sprite": "larvitar.png",
+   "espece": "larvitar"
   },
   {
    "chemin": "/pokedex/247-pupitar",
@@ -5167,7 +5449,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "pupitar.png"
+   "sprite": "pupitar.png",
+   "espece": "pupitar"
   },
   {
    "chemin": "/pokedex/248-tyranitar",
@@ -5184,7 +5467,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "tyranitar.png"
+   "sprite": "tyranitar.png",
+   "espece": "tyranitar"
   },
   {
    "chemin": "/pokedex/249-lugia",
@@ -5203,7 +5487,8 @@
     "Zone 4 Colline",
     "Zone 4 Eau"
    ],
-   "sprite": "lugia.png"
+   "sprite": "lugia.png",
+   "espece": "lugia"
   },
   {
    "chemin": "/pokedex/250-hooh",
@@ -5222,7 +5507,8 @@
     "Zone 4 Colline",
     "Zone 4 Eau"
    ],
-   "sprite": "hooh.png"
+   "sprite": "hooh.png",
+   "espece": "ho-oh"
   },
   {
    "chemin": "/pokedex/251-celebi",
@@ -5241,7 +5527,8 @@
     "Zone 3 Clairière",
     "Zone 3 Eau"
    ],
-   "sprite": "celebi.png"
+   "sprite": "celebi.png",
+   "espece": "celebi"
   },
   {
    "chemin": "/pokedex/252-treecko",
@@ -5257,7 +5544,8 @@
    "zones": [
     "Tour de Combat"
    ],
-   "sprite": "treecko.png"
+   "sprite": "treecko.png",
+   "espece": "treecko"
   },
   {
    "chemin": "/pokedex/253-grovyle",
@@ -5273,7 +5561,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "grovyle.png"
+   "sprite": "grovyle.png",
+   "espece": "grovyle"
   },
   {
    "chemin": "/pokedex/254-sceptile",
@@ -5289,7 +5578,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "sceptile.png"
+   "sprite": "sceptile.png",
+   "espece": "sceptile"
   },
   {
    "chemin": "/pokedex/255-torchic",
@@ -5305,7 +5595,8 @@
    "zones": [
     "Tour de Combat"
    ],
-   "sprite": "torchic.png"
+   "sprite": "torchic.png",
+   "espece": "torchic"
   },
   {
    "chemin": "/pokedex/256-combusken",
@@ -5322,7 +5613,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "combusken.png"
+   "sprite": "combusken.png",
+   "espece": "combusken"
   },
   {
    "chemin": "/pokedex/257-blaziken",
@@ -5339,7 +5631,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "blaziken.png"
+   "sprite": "blaziken.png",
+   "espece": "blaziken"
   },
   {
    "chemin": "/pokedex/258-mudkip",
@@ -5355,7 +5648,8 @@
    "zones": [
     "Tour de Combat"
    ],
-   "sprite": "mudkip.png"
+   "sprite": "mudkip.png",
+   "espece": "mudkip"
   },
   {
    "chemin": "/pokedex/259-marshtomp",
@@ -5372,7 +5666,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "marshtomp.png"
+   "sprite": "marshtomp.png",
+   "espece": "marshtomp"
   },
   {
    "chemin": "/pokedex/260-swampert",
@@ -5389,7 +5684,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "swampert.png"
+   "sprite": "swampert.png",
+   "espece": "swampert"
   },
   {
    "chemin": "/pokedex/261-poochyena",
@@ -5405,7 +5701,8 @@
    "zones": [
     "Zone 1"
    ],
-   "sprite": "poochyena.png"
+   "sprite": "poochyena.png",
+   "espece": "poochyena"
   },
   {
    "chemin": "/pokedex/262-mightyena",
@@ -5421,7 +5718,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "mightyena.png"
+   "sprite": "mightyena.png",
+   "espece": "mightyena"
   },
   {
    "chemin": "/pokedex/263-zigzagoon",
@@ -5437,7 +5735,8 @@
    "zones": [
     "Zone 1"
    ],
-   "sprite": "zigzagoon.png"
+   "sprite": "zigzagoon.png",
+   "espece": "zigzagoon"
   },
   {
    "chemin": "/pokedex/263-zigzagoon-galar",
@@ -5454,7 +5753,8 @@
    "zones": [
     "Zone 2"
    ],
-   "sprite": "zigzagoon-galar.png"
+   "sprite": "zigzagoon-galar.png",
+   "espece": "zigzagoon-galar"
   },
   {
    "chemin": "/pokedex/264-linoone",
@@ -5470,7 +5770,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "linoone.png"
+   "sprite": "linoone.png",
+   "espece": "linoone"
   },
   {
    "chemin": "/pokedex/264-linoone-galar",
@@ -5487,7 +5788,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "linoone-galar.png"
+   "sprite": "linoone-galar.png",
+   "espece": "linoone-galar"
   },
   {
    "chemin": "/pokedex/265-wurmple",
@@ -5503,7 +5805,8 @@
    "zones": [
     "Zone 1"
    ],
-   "sprite": "wurmple.png"
+   "sprite": "wurmple.png",
+   "espece": "wurmple"
   },
   {
    "chemin": "/pokedex/266-silcoon",
@@ -5519,7 +5822,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "silcoon.png"
+   "sprite": "silcoon.png",
+   "espece": "silcoon"
   },
   {
    "chemin": "/pokedex/267-beautifly",
@@ -5536,7 +5840,8 @@
    "zones": [
     "Bull'o Biome Magique"
    ],
-   "sprite": "beautifly.png"
+   "sprite": "beautifly.png",
+   "espece": "beautifly"
   },
   {
    "chemin": "/pokedex/268-cascoon",
@@ -5552,7 +5857,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "cascoon.png"
+   "sprite": "cascoon.png",
+   "espece": "cascoon"
   },
   {
    "chemin": "/pokedex/269-dustox",
@@ -5569,7 +5875,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "dustox.png"
+   "sprite": "dustox.png",
+   "espece": "dustox"
   },
   {
    "chemin": "/pokedex/270-lotad",
@@ -5586,7 +5893,8 @@
    "zones": [
     "Zone 2 Eau"
    ],
-   "sprite": "lotad.png"
+   "sprite": "lotad.png",
+   "espece": "lotad"
   },
   {
    "chemin": "/pokedex/271-lombre",
@@ -5603,7 +5911,8 @@
    "zones": [
     "Lac Rime"
    ],
-   "sprite": "lombre.png"
+   "sprite": "lombre.png",
+   "espece": "lombre"
   },
   {
    "chemin": "/pokedex/272-ludicolo",
@@ -5620,7 +5929,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "ludicolo.png"
+   "sprite": "ludicolo.png",
+   "espece": "ludicolo"
   },
   {
    "chemin": "/pokedex/273-seedot",
@@ -5636,7 +5946,8 @@
    "zones": [
     "Zone 2"
    ],
-   "sprite": "seedot.png"
+   "sprite": "seedot.png",
+   "espece": "seedot"
   },
   {
    "chemin": "/pokedex/274-nuzleaf",
@@ -5653,7 +5964,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "nuzleaf.png"
+   "sprite": "nuzleaf.png",
+   "espece": "nuzleaf"
   },
   {
    "chemin": "/pokedex/275-shiftry",
@@ -5670,7 +5982,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "shiftry.png"
+   "sprite": "shiftry.png",
+   "espece": "shiftry"
   },
   {
    "chemin": "/pokedex/276-taillow",
@@ -5687,7 +6000,8 @@
    "zones": [
     "Zone 1"
    ],
-   "sprite": "taillow.png"
+   "sprite": "taillow.png",
+   "espece": "taillow"
   },
   {
    "chemin": "/pokedex/277-swellow",
@@ -5704,7 +6018,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "swellow.png"
+   "sprite": "swellow.png",
+   "espece": "swellow"
   },
   {
    "chemin": "/pokedex/278-wingull",
@@ -5721,7 +6036,8 @@
    "zones": [
     "Zone 4 Eau"
    ],
-   "sprite": "wingull.png"
+   "sprite": "wingull.png",
+   "espece": "wingull"
   },
   {
    "chemin": "/pokedex/279-pelipper",
@@ -5738,7 +6054,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "pelipper.png"
+   "sprite": "pelipper.png",
+   "espece": "pelipper"
   },
   {
    "chemin": "/pokedex/280-ralts",
@@ -5755,7 +6072,8 @@
    "zones": [
     "Zone 3"
    ],
-   "sprite": "ralts.png"
+   "sprite": "ralts.png",
+   "espece": "ralts"
   },
   {
    "chemin": "/pokedex/281-kirlia",
@@ -5772,7 +6090,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "kirlia.png"
+   "sprite": "kirlia.png",
+   "espece": "kirlia"
   },
   {
    "chemin": "/pokedex/282-gardevoir",
@@ -5789,7 +6108,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "gardevoir.png"
+   "sprite": "gardevoir.png",
+   "espece": "gardevoir"
   },
   {
    "chemin": "/pokedex/283-surskit",
@@ -5806,7 +6126,8 @@
    "zones": [
     "Zone 1 Eau"
    ],
-   "sprite": "surskit.png"
+   "sprite": "surskit.png",
+   "espece": "surskit"
   },
   {
    "chemin": "/pokedex/284-masquerain",
@@ -5823,7 +6144,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "masquerain.png"
+   "sprite": "masquerain.png",
+   "espece": "masquerain"
   },
   {
    "chemin": "/pokedex/285-shroomish",
@@ -5839,7 +6161,8 @@
    "zones": [
     "Zone 1 Forêt"
    ],
-   "sprite": "shroomish.png"
+   "sprite": "shroomish.png",
+   "espece": "shroomish"
   },
   {
    "chemin": "/pokedex/286-breloom",
@@ -5857,7 +6180,8 @@
     "Bull'o Biome Hanté",
     "Zone 8"
    ],
-   "sprite": "breloom.png"
+   "sprite": "breloom.png",
+   "espece": "breloom"
   },
   {
    "chemin": "/pokedex/287-slakoth",
@@ -5873,7 +6197,8 @@
    "zones": [
     "Zone 2"
    ],
-   "sprite": "slakoth.png"
+   "sprite": "slakoth.png",
+   "espece": "slakoth"
   },
   {
    "chemin": "/pokedex/288-vigoroth",
@@ -5889,7 +6214,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "vigoroth.png"
+   "sprite": "vigoroth.png",
+   "espece": "vigoroth"
   },
   {
    "chemin": "/pokedex/289-slaking",
@@ -5905,7 +6231,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "slaking.png"
+   "sprite": "slaking.png",
+   "espece": "slaking"
   },
   {
    "chemin": "/pokedex/290-nincada",
@@ -5922,7 +6249,8 @@
    "zones": [
     "Zone 2"
    ],
-   "sprite": "nincada.png"
+   "sprite": "nincada.png",
+   "espece": "nincada"
   },
   {
    "chemin": "/pokedex/291-ninjask",
@@ -5939,7 +6267,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "ninjask.png"
+   "sprite": "ninjask.png",
+   "espece": "ninjask"
   },
   {
    "chemin": "/pokedex/292-shedinja",
@@ -5956,7 +6285,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "shedinja.png"
+   "sprite": "shedinja.png",
+   "espece": "shedinja"
   },
   {
    "chemin": "/pokedex/293-whismur",
@@ -5972,7 +6302,8 @@
    "zones": [
     "Zone 5 Colline"
    ],
-   "sprite": "whismur.png"
+   "sprite": "whismur.png",
+   "espece": "whismur"
   },
   {
    "chemin": "/pokedex/294-loudred",
@@ -5988,7 +6319,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "loudred.png"
+   "sprite": "loudred.png",
+   "espece": "loudred"
   },
   {
    "chemin": "/pokedex/295-exploud",
@@ -6004,7 +6336,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "exploud.png"
+   "sprite": "exploud.png",
+   "espece": "exploud"
   },
   {
    "chemin": "/pokedex/296-makuhita",
@@ -6021,7 +6354,8 @@
     "Bull'o Biome Cascade",
     "Zone 4 Colline"
    ],
-   "sprite": "makuhita.png"
+   "sprite": "makuhita.png",
+   "espece": "makuhita"
   },
   {
    "chemin": "/pokedex/297-hariyama",
@@ -6037,7 +6371,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "hariyama.png"
+   "sprite": "hariyama.png",
+   "espece": "hariyama"
   },
   {
    "chemin": "/pokedex/298-azurill",
@@ -6054,7 +6389,8 @@
    "zones": [
     "Bull'o Biome Cascade"
    ],
-   "sprite": "azurill.png"
+   "sprite": "azurill.png",
+   "espece": "azurill"
   },
   {
    "chemin": "/pokedex/299-nosepass",
@@ -6071,7 +6407,8 @@
     "Bull'o Biome Volcan",
     "Zone 7 Colline"
    ],
-   "sprite": "nosepass.png"
+   "sprite": "nosepass.png",
+   "espece": "nosepass"
   },
   {
    "chemin": "/pokedex/300-skitty",
@@ -6087,7 +6424,8 @@
    "zones": [
     "Zone 3"
    ],
-   "sprite": "skitty.png"
+   "sprite": "skitty.png",
+   "espece": "skitty"
   },
   {
    "chemin": "/pokedex/301-delcatty",
@@ -6103,7 +6441,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "delcatty.png"
+   "sprite": "delcatty.png",
+   "espece": "delcatty"
   },
   {
    "chemin": "/pokedex/302-sableye",
@@ -6120,7 +6459,8 @@
    "zones": [
     "Bull'o Biome Hanté"
    ],
-   "sprite": "sableye.png"
+   "sprite": "sableye.png",
+   "espece": "sableye"
   },
   {
    "chemin": "/pokedex/303-mawile",
@@ -6137,7 +6477,8 @@
    "zones": [
     "Zone 7 Colline"
    ],
-   "sprite": "mawile.png"
+   "sprite": "mawile.png",
+   "espece": "mawile"
   },
   {
    "chemin": "/pokedex/304-aron",
@@ -6154,7 +6495,8 @@
    "zones": [
     "Zone 7 Colline"
    ],
-   "sprite": "aron.png"
+   "sprite": "aron.png",
+   "espece": "aron"
   },
   {
    "chemin": "/pokedex/305-lairon",
@@ -6171,7 +6513,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "lairon.png"
+   "sprite": "lairon.png",
+   "espece": "lairon"
   },
   {
    "chemin": "/pokedex/306-aggron",
@@ -6188,7 +6531,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "aggron.png"
+   "sprite": "aggron.png",
+   "espece": "aggron"
   },
   {
    "chemin": "/pokedex/307-meditite",
@@ -6205,7 +6549,8 @@
    "zones": [
     "Bull'o Biome Cascade"
    ],
-   "sprite": "meditite.png"
+   "sprite": "meditite.png",
+   "espece": "meditite"
   },
   {
    "chemin": "/pokedex/308-medicham",
@@ -6222,7 +6567,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "medicham.png"
+   "sprite": "medicham.png",
+   "espece": "medicham"
   },
   {
    "chemin": "/pokedex/309-electrike",
@@ -6238,7 +6584,8 @@
    "zones": [
     "Zone 5"
    ],
-   "sprite": "electrike.png"
+   "sprite": "electrike.png",
+   "espece": "electrike"
   },
   {
    "chemin": "/pokedex/310-manectric",
@@ -6254,7 +6601,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "manectric.png"
+   "sprite": "manectric.png",
+   "espece": "manectric"
   },
   {
    "chemin": "/pokedex/311-plusle",
@@ -6270,7 +6618,8 @@
    "zones": [
     "Zone 5"
    ],
-   "sprite": "plusle.png"
+   "sprite": "plusle.png",
+   "espece": "plusle"
   },
   {
    "chemin": "/pokedex/312-minun",
@@ -6286,7 +6635,8 @@
    "zones": [
     "Zone 5"
    ],
-   "sprite": "minun.png"
+   "sprite": "minun.png",
+   "espece": "minun"
   },
   {
    "chemin": "/pokedex/313-volbeat",
@@ -6302,7 +6652,8 @@
    "zones": [
     "Zone 3"
    ],
-   "sprite": "volbeat.png"
+   "sprite": "volbeat.png",
+   "espece": "volbeat"
   },
   {
    "chemin": "/pokedex/314-illumise",
@@ -6318,7 +6669,8 @@
    "zones": [
     "Zone 3"
    ],
-   "sprite": "illumise.png"
+   "sprite": "illumise.png",
+   "espece": "illumise"
   },
   {
    "chemin": "/pokedex/315-roselia",
@@ -6335,7 +6687,8 @@
    "zones": [
     "Bull'o Biome Magique"
    ],
-   "sprite": "roselia.png"
+   "sprite": "roselia.png",
+   "espece": "roselia"
   },
   {
    "chemin": "/pokedex/316-gulpin",
@@ -6351,7 +6704,8 @@
    "zones": [
     "Zone 11"
    ],
-   "sprite": "gulpin.png"
+   "sprite": "gulpin.png",
+   "espece": "gulpin"
   },
   {
    "chemin": "/pokedex/317-swalot",
@@ -6367,7 +6721,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "swalot.png"
+   "sprite": "swalot.png",
+   "espece": "swalot"
   },
   {
    "chemin": "/pokedex/318-carvanha",
@@ -6384,7 +6739,8 @@
    "zones": [
     "Océan"
    ],
-   "sprite": "carvanha.png"
+   "sprite": "carvanha.png",
+   "espece": "carvanha"
   },
   {
    "chemin": "/pokedex/319-sharpedo",
@@ -6401,7 +6757,8 @@
    "zones": [
     "Océan"
    ],
-   "sprite": "sharpedo.png"
+   "sprite": "sharpedo.png",
+   "espece": "sharpedo"
   },
   {
    "chemin": "/pokedex/320-wailmer",
@@ -6417,7 +6774,8 @@
    "zones": [
     "Océan"
    ],
-   "sprite": "wailmer.png"
+   "sprite": "wailmer.png",
+   "espece": "wailmer"
   },
   {
    "chemin": "/pokedex/321-wailord",
@@ -6433,7 +6791,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "wailord.png"
+   "sprite": "wailord.png",
+   "espece": "wailord"
   },
   {
    "chemin": "/pokedex/322-numel",
@@ -6451,7 +6810,8 @@
     "Bull'o Biome Volcan",
     "Zone 7"
    ],
-   "sprite": "numel.png"
+   "sprite": "numel.png",
+   "espece": "numel"
   },
   {
    "chemin": "/pokedex/323-camerupt",
@@ -6468,7 +6828,8 @@
    "zones": [
     "Bull'o Biome Volcan"
    ],
-   "sprite": "camerupt.png"
+   "sprite": "camerupt.png",
+   "espece": "camerupt"
   },
   {
    "chemin": "/pokedex/324-torkoal",
@@ -6484,7 +6845,8 @@
    "zones": [
     "Bull'o Biome Volcan"
    ],
-   "sprite": "torkoal.png"
+   "sprite": "torkoal.png",
+   "espece": "torkoal"
   },
   {
    "chemin": "/pokedex/325-spoink",
@@ -6500,7 +6862,8 @@
    "zones": [
     "Zone 5 Colline"
    ],
-   "sprite": "spoink.png"
+   "sprite": "spoink.png",
+   "espece": "spoink"
   },
   {
    "chemin": "/pokedex/326-grumpig",
@@ -6516,7 +6879,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "grumpig.png"
+   "sprite": "grumpig.png",
+   "espece": "grumpig"
   },
   {
    "chemin": "/pokedex/327-spinda",
@@ -6532,7 +6896,8 @@
    "zones": [
     "Zone 12"
    ],
-   "sprite": "spinda.png"
+   "sprite": "spinda.png",
+   "espece": "spinda"
   },
   {
    "chemin": "/pokedex/328-trapinch",
@@ -6548,7 +6913,8 @@
    "zones": [
     "Zone 6"
    ],
-   "sprite": "trapinch.png"
+   "sprite": "trapinch.png",
+   "espece": "trapinch"
   },
   {
    "chemin": "/pokedex/329-vibrava",
@@ -6565,7 +6931,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "vibrava.png"
+   "sprite": "vibrava.png",
+   "espece": "vibrava"
   },
   {
    "chemin": "/pokedex/330-flygon",
@@ -6582,7 +6949,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "flygon.png"
+   "sprite": "flygon.png",
+   "espece": "flygon"
   },
   {
    "chemin": "/pokedex/331-cacnea",
@@ -6598,7 +6966,8 @@
    "zones": [
     "Zone 6"
    ],
-   "sprite": "cacnea.png"
+   "sprite": "cacnea.png",
+   "espece": "cacnea"
   },
   {
    "chemin": "/pokedex/332-cacturne",
@@ -6615,7 +6984,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "cacturne.png"
+   "sprite": "cacturne.png",
+   "espece": "cacturne"
   },
   {
    "chemin": "/pokedex/333-swablu",
@@ -6632,7 +7002,8 @@
    "zones": [
     "Zone 12"
    ],
-   "sprite": "swablu.png"
+   "sprite": "swablu.png",
+   "espece": "swablu"
   },
   {
    "chemin": "/pokedex/334-altaria",
@@ -6649,7 +7020,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "altaria.png"
+   "sprite": "altaria.png",
+   "espece": "altaria"
   },
   {
    "chemin": "/pokedex/335-zangoose",
@@ -6665,7 +7037,8 @@
    "zones": [
     "Zone 5"
    ],
-   "sprite": "zangoose.png"
+   "sprite": "zangoose.png",
+   "espece": "zangoose"
   },
   {
    "chemin": "/pokedex/336-seviper",
@@ -6681,7 +7054,8 @@
    "zones": [
     "Zone 5"
    ],
-   "sprite": "seviper.png"
+   "sprite": "seviper.png",
+   "espece": "seviper"
   },
   {
    "chemin": "/pokedex/337-lunatone",
@@ -6699,7 +7073,8 @@
     "Bull'o Biome Hanté",
     "Zone 7"
    ],
-   "sprite": "lunatone.png"
+   "sprite": "lunatone.png",
+   "espece": "lunatone"
   },
   {
    "chemin": "/pokedex/338-solrock",
@@ -6716,7 +7091,8 @@
    "zones": [
     "Zone 7"
    ],
-   "sprite": "solrock.png"
+   "sprite": "solrock.png",
+   "espece": "solrock"
   },
   {
    "chemin": "/pokedex/339-barboach",
@@ -6734,7 +7110,8 @@
     "Bull'o Biome Cascade",
     "Zone 6 Eau"
    ],
-   "sprite": "barboach.png"
+   "sprite": "barboach.png",
+   "espece": "barboach"
   },
   {
    "chemin": "/pokedex/340-whiscash",
@@ -6751,7 +7128,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "whiscash.png"
+   "sprite": "whiscash.png",
+   "espece": "whiscash"
   },
   {
    "chemin": "/pokedex/341-corphish",
@@ -6767,7 +7145,8 @@
    "zones": [
     "Zone 7 Oasis"
    ],
-   "sprite": "corphish.png"
+   "sprite": "corphish.png",
+   "espece": "corphish"
   },
   {
    "chemin": "/pokedex/342-crawdaunt",
@@ -6784,7 +7163,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "crawdaunt.png"
+   "sprite": "crawdaunt.png",
+   "espece": "crawdaunt"
   },
   {
    "chemin": "/pokedex/343-baltoy",
@@ -6801,7 +7181,8 @@
    "zones": [
     "Zone 6 ???"
    ],
-   "sprite": "baltoy.png"
+   "sprite": "baltoy.png",
+   "espece": "baltoy"
   },
   {
    "chemin": "/pokedex/344-claydol",
@@ -6818,7 +7199,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "claydol.png"
+   "sprite": "claydol.png",
+   "espece": "claydol"
   },
   {
    "chemin": "/pokedex/345-lileep",
@@ -6835,7 +7217,8 @@
    "zones": [
     "Sites de Fouille"
    ],
-   "sprite": "lileep.png"
+   "sprite": "lileep.png",
+   "espece": "lileep"
   },
   {
    "chemin": "/pokedex/346-cradily",
@@ -6852,7 +7235,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "cradily.png"
+   "sprite": "cradily.png",
+   "espece": "cradily"
   },
   {
    "chemin": "/pokedex/347-anorith",
@@ -6869,7 +7253,8 @@
    "zones": [
     "Sites de Fouille"
    ],
-   "sprite": "anorith.png"
+   "sprite": "anorith.png",
+   "espece": "anorith"
   },
   {
    "chemin": "/pokedex/348-armaldo",
@@ -6886,7 +7271,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "armaldo.png"
+   "sprite": "armaldo.png",
+   "espece": "armaldo"
   },
   {
    "chemin": "/pokedex/349-feebas",
@@ -6902,7 +7288,8 @@
    "zones": [
     "Zone 9 Eau"
    ],
-   "sprite": "feebas.png"
+   "sprite": "feebas.png",
+   "espece": "feebas"
   },
   {
    "chemin": "/pokedex/350-milotic",
@@ -6918,7 +7305,8 @@
    "zones": [
     "Océan"
    ],
-   "sprite": "milotic.png"
+   "sprite": "milotic.png",
+   "espece": "milotic"
   },
   {
    "chemin": "/pokedex/351-castform",
@@ -6935,7 +7323,8 @@
     "Quête",
     "Zone 8"
    ],
-   "sprite": "castform.png"
+   "sprite": "castform.png",
+   "espece": "castform"
   },
   {
    "chemin": "/pokedex/352-kecleon",
@@ -6951,7 +7340,8 @@
    "zones": [
     "Zone 10"
    ],
-   "sprite": "kecleon.png"
+   "sprite": "kecleon.png",
+   "espece": "kecleon"
   },
   {
    "chemin": "/pokedex/353-shuppet",
@@ -6967,7 +7357,8 @@
    "zones": [
     "Zone 7"
    ],
-   "sprite": "shuppet.png"
+   "sprite": "shuppet.png",
+   "espece": "shuppet"
   },
   {
    "chemin": "/pokedex/354-banette",
@@ -6983,7 +7374,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "banette.png"
+   "sprite": "banette.png",
+   "espece": "banette"
   },
   {
    "chemin": "/pokedex/355-duskull",
@@ -6999,7 +7391,8 @@
    "zones": [
     "Zone 2"
    ],
-   "sprite": "duskull.png"
+   "sprite": "duskull.png",
+   "espece": "duskull"
   },
   {
    "chemin": "/pokedex/356-dusclops",
@@ -7015,7 +7408,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "dusclops.png"
+   "sprite": "dusclops.png",
+   "espece": "dusclops"
   },
   {
    "chemin": "/pokedex/357-tropius",
@@ -7032,7 +7426,8 @@
    "zones": [
     "Zone 10"
    ],
-   "sprite": "tropius.png"
+   "sprite": "tropius.png",
+   "espece": "tropius"
   },
   {
    "chemin": "/pokedex/358-chimecho",
@@ -7048,7 +7443,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "chimecho.png"
+   "sprite": "chimecho.png",
+   "espece": "chimecho"
   },
   {
    "chemin": "/pokedex/359-absol",
@@ -7064,7 +7460,8 @@
    "zones": [
     "Zone 9"
    ],
-   "sprite": "absol.png"
+   "sprite": "absol.png",
+   "espece": "absol"
   },
   {
    "chemin": "/pokedex/360-wynaut",
@@ -7080,7 +7477,8 @@
    "zones": [
     "Zone 4"
    ],
-   "sprite": "wynaut.png"
+   "sprite": "wynaut.png",
+   "espece": "wynaut"
   },
   {
    "chemin": "/pokedex/361-snorunt",
@@ -7096,7 +7494,8 @@
    "zones": [
     "Zone 12"
    ],
-   "sprite": "snorunt.png"
+   "sprite": "snorunt.png",
+   "espece": "snorunt"
   },
   {
    "chemin": "/pokedex/362-glalie",
@@ -7112,7 +7511,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "glalie.png"
+   "sprite": "glalie.png",
+   "espece": "glalie"
   },
   {
    "chemin": "/pokedex/363-spheal",
@@ -7129,7 +7529,8 @@
    "zones": [
     "Zone 12"
    ],
-   "sprite": "spheal.png"
+   "sprite": "spheal.png",
+   "espece": "spheal"
   },
   {
    "chemin": "/pokedex/364-sealeo",
@@ -7146,7 +7547,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "sealeo.png"
+   "sprite": "sealeo.png",
+   "espece": "sealeo"
   },
   {
    "chemin": "/pokedex/365-walrein",
@@ -7163,7 +7565,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "walrein.png"
+   "sprite": "walrein.png",
+   "espece": "walrein"
   },
   {
    "chemin": "/pokedex/366-clamperl",
@@ -7179,7 +7582,8 @@
    "zones": [
     "Zone 5 Eau"
    ],
-   "sprite": "clamperl.png"
+   "sprite": "clamperl.png",
+   "espece": "clamperl"
   },
   {
    "chemin": "/pokedex/367-huntail",
@@ -7195,7 +7599,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "huntail.png"
+   "sprite": "huntail.png",
+   "espece": "huntail"
   },
   {
    "chemin": "/pokedex/368-gorebyss",
@@ -7211,7 +7616,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "gorebyss.png"
+   "sprite": "gorebyss.png",
+   "espece": "gorebyss"
   },
   {
    "chemin": "/pokedex/369-relicanth",
@@ -7228,7 +7634,8 @@
    "zones": [
     "Océan"
    ],
-   "sprite": "relicanth.png"
+   "sprite": "relicanth.png",
+   "espece": "relicanth"
   },
   {
    "chemin": "/pokedex/370-luvdisc",
@@ -7244,7 +7651,8 @@
    "zones": [
     "Océan"
    ],
-   "sprite": "luvdisc.png"
+   "sprite": "luvdisc.png",
+   "espece": "luvdisc"
   },
   {
    "chemin": "/pokedex/371-bagon",
@@ -7260,7 +7668,8 @@
    "zones": [
     "Tour de Combat"
    ],
-   "sprite": "bagon.png"
+   "sprite": "bagon.png",
+   "espece": "bagon"
   },
   {
    "chemin": "/pokedex/372-shelgon",
@@ -7276,7 +7685,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "shelgon.png"
+   "sprite": "shelgon.png",
+   "espece": "shelgon"
   },
   {
    "chemin": "/pokedex/373-salamence",
@@ -7293,7 +7703,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "salamence.png"
+   "sprite": "salamence.png",
+   "espece": "salamence"
   },
   {
    "chemin": "/pokedex/374-beldum",
@@ -7310,7 +7721,8 @@
    "zones": [
     "Tour de Combat"
    ],
-   "sprite": "beldum.png"
+   "sprite": "beldum.png",
+   "espece": "beldum"
   },
   {
    "chemin": "/pokedex/375-metang",
@@ -7327,7 +7739,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "metang.png"
+   "sprite": "metang.png",
+   "espece": "metang"
   },
   {
    "chemin": "/pokedex/376-metagross",
@@ -7344,7 +7757,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "metagross.png"
+   "sprite": "metagross.png",
+   "espece": "metagross"
   },
   {
    "chemin": "/pokedex/377-regirock",
@@ -7363,7 +7777,8 @@
     "Zone 6 ???",
     "Zone 6 Eau"
    ],
-   "sprite": "regirock.png"
+   "sprite": "regirock.png",
+   "espece": "regirock"
   },
   {
    "chemin": "/pokedex/378-regice",
@@ -7382,7 +7797,8 @@
     "Zone 12 Eau",
     "Zone 12 Forêt"
    ],
-   "sprite": "regice.png"
+   "sprite": "regice.png",
+   "espece": "regice"
   },
   {
    "chemin": "/pokedex/379-registeel",
@@ -7400,7 +7816,8 @@
     "Zone 8 Colline",
     "Zone 8 Eau"
    ],
-   "sprite": "registeel.png"
+   "sprite": "registeel.png",
+   "espece": "registeel"
   },
   {
    "chemin": "/pokedex/380-latias",
@@ -7417,7 +7834,8 @@
    "zones": [
     "Inconnue"
    ],
-   "sprite": "latias.png"
+   "sprite": "latias.png",
+   "espece": "latias"
   },
   {
    "chemin": "/pokedex/381-latios",
@@ -7434,7 +7852,8 @@
    "zones": [
     "Inconnue"
    ],
-   "sprite": "latios.png"
+   "sprite": "latios.png",
+   "espece": "latios"
   },
   {
    "chemin": "/pokedex/382-kyogre",
@@ -7450,7 +7869,8 @@
    "zones": [
     "Inconnue"
    ],
-   "sprite": "kyogre.png"
+   "sprite": "kyogre.png",
+   "espece": "kyogre"
   },
   {
    "chemin": "/pokedex/383-groudon",
@@ -7470,7 +7890,8 @@
     "Zone 7 Eau",
     "Zone 7 Oasis"
    ],
-   "sprite": "groudon.png"
+   "sprite": "groudon.png",
+   "espece": "groudon"
   },
   {
    "chemin": "/pokedex/384-rayquaza",
@@ -7488,7 +7909,8 @@
     "Zone 9",
     "Zone 9 Eau"
    ],
-   "sprite": "rayquaza.png"
+   "sprite": "rayquaza.png",
+   "espece": "rayquaza"
   },
   {
    "chemin": "/pokedex/385-jirachi",
@@ -7507,7 +7929,8 @@
     "Zone 3 Clairière",
     "Zone 3 Eau"
    ],
-   "sprite": "jirachi.png"
+   "sprite": "jirachi.png",
+   "espece": "jirachi"
   },
   {
    "chemin": "/pokedex/386-deoxys",
@@ -7524,7 +7947,8 @@
     "Zone 11",
     "Zone 11 Eau"
    ],
-   "sprite": "deoxys.png"
+   "sprite": "deoxys.png",
+   "espece": "deoxys-normal"
   },
   {
    "chemin": "/pokedex/387-turtwig",
@@ -7540,7 +7964,8 @@
    "zones": [
     "Zone 10"
    ],
-   "sprite": "turtwig.png"
+   "sprite": "turtwig.png",
+   "espece": "turtwig"
   },
   {
    "chemin": "/pokedex/388-grotle",
@@ -7556,7 +7981,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "grotle.png"
+   "sprite": "grotle.png",
+   "espece": "grotle"
   },
   {
    "chemin": "/pokedex/389-torterra",
@@ -7573,7 +7999,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "torterra.png"
+   "sprite": "torterra.png",
+   "espece": "torterra"
   },
   {
    "chemin": "/pokedex/390-chimchar",
@@ -7589,7 +8016,8 @@
    "zones": [
     "Zone 9"
    ],
-   "sprite": "chimchar.png"
+   "sprite": "chimchar.png",
+   "espece": "chimchar"
   },
   {
    "chemin": "/pokedex/391-monferno",
@@ -7606,7 +8034,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "monferno.png"
+   "sprite": "monferno.png",
+   "espece": "monferno"
   },
   {
    "chemin": "/pokedex/392-infernape",
@@ -7623,7 +8052,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "infernape.png"
+   "sprite": "infernape.png",
+   "espece": "infernape"
   },
   {
    "chemin": "/pokedex/393-piplup",
@@ -7639,7 +8069,8 @@
    "zones": [
     "Zone 12 Eau"
    ],
-   "sprite": "piplup.png"
+   "sprite": "piplup.png",
+   "espece": "piplup"
   },
   {
    "chemin": "/pokedex/394-prinplup",
@@ -7655,7 +8086,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "prinplup.png"
+   "sprite": "prinplup.png",
+   "espece": "prinplup"
   },
   {
    "chemin": "/pokedex/395-empoleon",
@@ -7672,7 +8104,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "empoleon.png"
+   "sprite": "empoleon.png",
+   "espece": "empoleon"
   },
   {
    "chemin": "/pokedex/396-starly",
@@ -7689,7 +8122,8 @@
    "zones": [
     "Zone 1"
    ],
-   "sprite": "starly.png"
+   "sprite": "starly.png",
+   "espece": "starly"
   },
   {
    "chemin": "/pokedex/397-staravia",
@@ -7706,7 +8140,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "staravia.png"
+   "sprite": "staravia.png",
+   "espece": "staravia"
   },
   {
    "chemin": "/pokedex/398-staraptor",
@@ -7723,7 +8158,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "staraptor.png"
+   "sprite": "staraptor.png",
+   "espece": "staraptor"
   },
   {
    "chemin": "/pokedex/399-bidoof",
@@ -7739,7 +8175,8 @@
    "zones": [
     "Zone 1 Eau"
    ],
-   "sprite": "bidoof.png"
+   "sprite": "bidoof.png",
+   "espece": "bidoof"
   },
   {
    "chemin": "/pokedex/400-bibarel",
@@ -7756,7 +8193,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "bibarel.png"
+   "sprite": "bibarel.png",
+   "espece": "bibarel"
   },
   {
    "chemin": "/pokedex/401-kricketot",
@@ -7772,7 +8210,8 @@
    "zones": [
     "Zone 2"
    ],
-   "sprite": "kricketot.png"
+   "sprite": "kricketot.png",
+   "espece": "kricketot"
   },
   {
    "chemin": "/pokedex/402-kricketune",
@@ -7788,7 +8227,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "kricketune.png"
+   "sprite": "kricketune.png",
+   "espece": "kricketune"
   },
   {
    "chemin": "/pokedex/403-shinx",
@@ -7804,7 +8244,8 @@
    "zones": [
     "Zone 5"
    ],
-   "sprite": "shinx.png"
+   "sprite": "shinx.png",
+   "espece": "shinx"
   },
   {
    "chemin": "/pokedex/404-luxio",
@@ -7820,7 +8261,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "luxio.png"
+   "sprite": "luxio.png",
+   "espece": "luxio"
   },
   {
    "chemin": "/pokedex/405-luxray",
@@ -7836,7 +8278,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "luxray.png"
+   "sprite": "luxray.png",
+   "espece": "luxray"
   },
   {
    "chemin": "/pokedex/406-budew",
@@ -7853,7 +8296,8 @@
    "zones": [
     "Zone 3"
    ],
-   "sprite": "budew.png"
+   "sprite": "budew.png",
+   "espece": "budew"
   },
   {
    "chemin": "/pokedex/407-roserade",
@@ -7870,7 +8314,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "roserade.png"
+   "sprite": "roserade.png",
+   "espece": "roserade"
   },
   {
    "chemin": "/pokedex/408-cranidos",
@@ -7886,7 +8331,8 @@
    "zones": [
     "Sites de Fouille"
    ],
-   "sprite": "cranidos.png"
+   "sprite": "cranidos.png",
+   "espece": "cranidos"
   },
   {
    "chemin": "/pokedex/409-rampardos",
@@ -7902,7 +8348,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "rampardos.png"
+   "sprite": "rampardos.png",
+   "espece": "rampardos"
   },
   {
    "chemin": "/pokedex/410-shieldon",
@@ -7919,7 +8366,8 @@
    "zones": [
     "Sites de Fouille"
    ],
-   "sprite": "shieldon.png"
+   "sprite": "shieldon.png",
+   "espece": "shieldon"
   },
   {
    "chemin": "/pokedex/411-bastiodon",
@@ -7936,7 +8384,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "bastiodon.png"
+   "sprite": "bastiodon.png",
+   "espece": "bastiodon"
   },
   {
    "chemin": "/pokedex/412-burmy",
@@ -7952,7 +8401,8 @@
    "zones": [
     "Zone 1"
    ],
-   "sprite": "burmy.png"
+   "sprite": "burmy.png",
+   "espece": "burmy"
   },
   {
    "chemin": "/pokedex/413-wormadam",
@@ -7968,7 +8418,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "wormadam.png"
+   "sprite": "wormadam.png",
+   "espece": "wormadam-plant"
   },
   {
    "chemin": "/pokedex/414-mothim",
@@ -7985,7 +8436,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "mothim.png"
+   "sprite": "mothim.png",
+   "espece": "mothim"
   },
   {
    "chemin": "/pokedex/415-combee",
@@ -8002,7 +8454,8 @@
    "zones": [
     "Zone 10 Colline"
    ],
-   "sprite": "combee.png"
+   "sprite": "combee.png",
+   "espece": "combee"
   },
   {
    "chemin": "/pokedex/416-vespiquen",
@@ -8019,7 +8472,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "vespiquen.png"
+   "sprite": "vespiquen.png",
+   "espece": "vespiquen"
   },
   {
    "chemin": "/pokedex/417-pachirisu",
@@ -8035,7 +8489,8 @@
    "zones": [
     "Zone 1"
    ],
-   "sprite": "pachirisu.png"
+   "sprite": "pachirisu.png",
+   "espece": "pachirisu"
   },
   {
    "chemin": "/pokedex/418-buizel",
@@ -8051,7 +8506,8 @@
    "zones": [
     "Lac Rime"
    ],
-   "sprite": "buizel.png"
+   "sprite": "buizel.png",
+   "espece": "buizel"
   },
   {
    "chemin": "/pokedex/419-floatzel",
@@ -8067,7 +8523,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "floatzel.png"
+   "sprite": "floatzel.png",
+   "espece": "floatzel"
   },
   {
    "chemin": "/pokedex/420-cherubi",
@@ -8083,7 +8540,8 @@
    "zones": [
     "Zone 3"
    ],
-   "sprite": "cherubi.png"
+   "sprite": "cherubi.png",
+   "espece": "cherubi"
   },
   {
    "chemin": "/pokedex/421-cherrim",
@@ -8099,7 +8557,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "cherrim.png"
+   "sprite": "cherrim.png",
+   "espece": "cherrim"
   },
   {
    "chemin": "/pokedex/422-shellos",
@@ -8115,7 +8574,8 @@
    "zones": [
     "Zone 6 Eau"
    ],
-   "sprite": "shellos.png"
+   "sprite": "shellos.png",
+   "espece": "shellos"
   },
   {
    "chemin": "/pokedex/423-gastrodon",
@@ -8132,7 +8592,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "gastrodon.png"
+   "sprite": "gastrodon.png",
+   "espece": "gastrodon"
   },
   {
    "chemin": "/pokedex/424-ambipom",
@@ -8148,7 +8609,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "ambipom.png"
+   "sprite": "ambipom.png",
+   "espece": "ambipom"
   },
   {
    "chemin": "/pokedex/425-drifloon",
@@ -8165,7 +8627,8 @@
    "zones": [
     "Zone 9"
    ],
-   "sprite": "drifloon.png"
+   "sprite": "drifloon.png",
+   "espece": "drifloon"
   },
   {
    "chemin": "/pokedex/426-drifblim",
@@ -8182,7 +8645,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "drifblim.png"
+   "sprite": "drifblim.png",
+   "espece": "drifblim"
   },
   {
    "chemin": "/pokedex/427-buneary",
@@ -8198,7 +8662,8 @@
    "zones": [
     "Tour de Combat"
    ],
-   "sprite": "buneary.png"
+   "sprite": "buneary.png",
+   "espece": "buneary"
   },
   {
    "chemin": "/pokedex/428-lopunny",
@@ -8214,7 +8679,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "lopunny.png"
+   "sprite": "lopunny.png",
+   "espece": "lopunny"
   },
   {
    "chemin": "/pokedex/429-mismagius",
@@ -8230,7 +8696,8 @@
    "zones": [
     "Zone 11"
    ],
-   "sprite": "mismagius.png"
+   "sprite": "mismagius.png",
+   "espece": "mismagius"
   },
   {
    "chemin": "/pokedex/430-honchkrow",
@@ -8247,7 +8714,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "honchkrow.png"
+   "sprite": "honchkrow.png",
+   "espece": "honchkrow"
   },
   {
    "chemin": "/pokedex/431-glameow",
@@ -8263,7 +8731,8 @@
    "zones": [
     "Zone 2"
    ],
-   "sprite": "glameow.png"
+   "sprite": "glameow.png",
+   "espece": "glameow"
   },
   {
    "chemin": "/pokedex/432-purugly",
@@ -8279,7 +8748,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "purugly.png"
+   "sprite": "purugly.png",
+   "espece": "purugly"
   },
   {
    "chemin": "/pokedex/433-chingling",
@@ -8295,7 +8765,8 @@
    "zones": [
     "Zone 5"
    ],
-   "sprite": "chingling.png"
+   "sprite": "chingling.png",
+   "espece": "chingling"
   },
   {
    "chemin": "/pokedex/434-stunky",
@@ -8312,7 +8783,8 @@
    "zones": [
     "Zone 11"
    ],
-   "sprite": "stunky.png"
+   "sprite": "stunky.png",
+   "espece": "stunky"
   },
   {
    "chemin": "/pokedex/435-skuntank",
@@ -8329,7 +8801,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "skuntank.png"
+   "sprite": "skuntank.png",
+   "espece": "skuntank"
   },
   {
    "chemin": "/pokedex/436-bronzor",
@@ -8346,7 +8819,8 @@
    "zones": [
     "Zone 6 ???"
    ],
-   "sprite": "bronzor.png"
+   "sprite": "bronzor.png",
+   "espece": "bronzor"
   },
   {
    "chemin": "/pokedex/437-bronzong",
@@ -8363,7 +8837,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "bronzong.png"
+   "sprite": "bronzong.png",
+   "espece": "bronzong"
   },
   {
    "chemin": "/pokedex/438-bonsly",
@@ -8379,7 +8854,8 @@
    "zones": [
     "Zone 9"
    ],
-   "sprite": "bonsly.png"
+   "sprite": "bonsly.png",
+   "espece": "bonsly"
   },
   {
    "chemin": "/pokedex/439-mimejr",
@@ -8396,7 +8872,8 @@
    "zones": [
     "Bull'o Biome Magique"
    ],
-   "sprite": "mimejr.png"
+   "sprite": "mimejr.png",
+   "espece": "mime-jr"
   },
   {
    "chemin": "/pokedex/440-happiny",
@@ -8412,7 +8889,8 @@
    "zones": [
     "Zone 4"
    ],
-   "sprite": "happiny.png"
+   "sprite": "happiny.png",
+   "espece": "happiny"
   },
   {
    "chemin": "/pokedex/441-chatot",
@@ -8429,7 +8907,8 @@
    "zones": [
     "Zone 10"
    ],
-   "sprite": "chatot.png"
+   "sprite": "chatot.png",
+   "espece": "chatot"
   },
   {
    "chemin": "/pokedex/442-spiritomb",
@@ -8445,7 +8924,8 @@
    "zones": [
     "Zone 11"
    ],
-   "sprite": "spiritomb.png"
+   "sprite": "spiritomb.png",
+   "espece": "spiritomb"
   },
   {
    "chemin": "/pokedex/443-gible",
@@ -8462,7 +8942,8 @@
    "zones": [
     "Tour de Combat"
    ],
-   "sprite": "gible.png"
+   "sprite": "gible.png",
+   "espece": "gible"
   },
   {
    "chemin": "/pokedex/444-gabite",
@@ -8479,7 +8960,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "gabite.png"
+   "sprite": "gabite.png",
+   "espece": "gabite"
   },
   {
    "chemin": "/pokedex/445-garchomp",
@@ -8496,7 +8978,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "garchomp.png"
+   "sprite": "garchomp.png",
+   "espece": "garchomp"
   },
   {
    "chemin": "/pokedex/446-munchlax",
@@ -8512,7 +8995,8 @@
    "zones": [
     "Zone 3 Clairière"
    ],
-   "sprite": "munchlax.png"
+   "sprite": "munchlax.png",
+   "espece": "munchlax"
   },
   {
    "chemin": "/pokedex/447-riolu",
@@ -8528,7 +9012,8 @@
    "zones": [
     "Zone 4"
    ],
-   "sprite": "riolu.png"
+   "sprite": "riolu.png",
+   "espece": "riolu"
   },
   {
    "chemin": "/pokedex/448-lucario",
@@ -8545,7 +9030,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "lucario.png"
+   "sprite": "lucario.png",
+   "espece": "lucario"
   },
   {
    "chemin": "/pokedex/449-hippopotas",
@@ -8561,7 +9047,8 @@
    "zones": [
     "Zone 6"
    ],
-   "sprite": "hippopotas.png"
+   "sprite": "hippopotas.png",
+   "espece": "hippopotas"
   },
   {
    "chemin": "/pokedex/450-hippowdon",
@@ -8577,7 +9064,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "hippowdon.png"
+   "sprite": "hippowdon.png",
+   "espece": "hippowdon"
   },
   {
    "chemin": "/pokedex/451-skorupi",
@@ -8594,7 +9082,8 @@
    "zones": [
     "Zone 11"
    ],
-   "sprite": "skorupi.png"
+   "sprite": "skorupi.png",
+   "espece": "skorupi"
   },
   {
    "chemin": "/pokedex/452-drapion",
@@ -8611,7 +9100,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "drapion.png"
+   "sprite": "drapion.png",
+   "espece": "drapion"
   },
   {
    "chemin": "/pokedex/453-croagunk",
@@ -8629,7 +9119,8 @@
     "Bull'o Biome Hanté",
     "Zone 11"
    ],
-   "sprite": "croagunk.png"
+   "sprite": "croagunk.png",
+   "espece": "croagunk"
   },
   {
    "chemin": "/pokedex/454-toxicroak",
@@ -8646,7 +9137,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "toxicroak.png"
+   "sprite": "toxicroak.png",
+   "espece": "toxicroak"
   },
   {
    "chemin": "/pokedex/455-carnivine",
@@ -8663,7 +9155,8 @@
     "Bull'o Biome Hanté",
     "Zone 10"
    ],
-   "sprite": "carnivine.png"
+   "sprite": "carnivine.png",
+   "espece": "carnivine"
   },
   {
    "chemin": "/pokedex/456-finneon",
@@ -8679,7 +9172,8 @@
    "zones": [
     "Océan"
    ],
-   "sprite": "finneon.png"
+   "sprite": "finneon.png",
+   "espece": "finneon"
   },
   {
    "chemin": "/pokedex/457-lumineon",
@@ -8695,7 +9189,8 @@
    "zones": [
     "Océan"
    ],
-   "sprite": "lumineon.png"
+   "sprite": "lumineon.png",
+   "espece": "lumineon"
   },
   {
    "chemin": "/pokedex/458-mantyke",
@@ -8712,7 +9207,8 @@
    "zones": [
     "Zone 4 Eau"
    ],
-   "sprite": "mantyke.png"
+   "sprite": "mantyke.png",
+   "espece": "mantyke"
   },
   {
    "chemin": "/pokedex/459-snover",
@@ -8729,7 +9225,8 @@
    "zones": [
     "Zone 12 Forêt"
    ],
-   "sprite": "snover.png"
+   "sprite": "snover.png",
+   "espece": "snover"
   },
   {
    "chemin": "/pokedex/460-abomasnow",
@@ -8746,7 +9243,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "abomasnow.png"
+   "sprite": "abomasnow.png",
+   "espece": "abomasnow"
   },
   {
    "chemin": "/pokedex/461-weavile",
@@ -8763,7 +9261,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "weavile.png"
+   "sprite": "weavile.png",
+   "espece": "weavile"
   },
   {
    "chemin": "/pokedex/462-magnezone",
@@ -8780,7 +9279,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "magnezone.png"
+   "sprite": "magnezone.png",
+   "espece": "magnezone"
   },
   {
    "chemin": "/pokedex/463-lickilicky",
@@ -8796,7 +9296,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "lickilicky.png"
+   "sprite": "lickilicky.png",
+   "espece": "lickilicky"
   },
   {
    "chemin": "/pokedex/464-rhyperior",
@@ -8813,7 +9314,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "rhyperior.png"
+   "sprite": "rhyperior.png",
+   "espece": "rhyperior"
   },
   {
    "chemin": "/pokedex/465-tangrowth",
@@ -8829,7 +9331,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "tangrowth.png"
+   "sprite": "tangrowth.png",
+   "espece": "tangrowth"
   },
   {
    "chemin": "/pokedex/466-electivire",
@@ -8845,7 +9348,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "electivire.png"
+   "sprite": "electivire.png",
+   "espece": "electivire"
   },
   {
    "chemin": "/pokedex/467-magmortar",
@@ -8861,7 +9365,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "magmortar.png"
+   "sprite": "magmortar.png",
+   "espece": "magmortar"
   },
   {
    "chemin": "/pokedex/468-togekiss",
@@ -8878,7 +9383,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "togekiss.png"
+   "sprite": "togekiss.png",
+   "espece": "togekiss"
   },
   {
    "chemin": "/pokedex/469-yanmega",
@@ -8895,7 +9401,8 @@
    "zones": [
     "Zone 10 Colline"
    ],
-   "sprite": "yanmega.png"
+   "sprite": "yanmega.png",
+   "espece": "yanmega"
   },
   {
    "chemin": "/pokedex/470-leafeon",
@@ -8911,7 +9418,8 @@
    "zones": [
     "Zone 10"
    ],
-   "sprite": "leafeon.png"
+   "sprite": "leafeon.png",
+   "espece": "leafeon"
   },
   {
    "chemin": "/pokedex/471-glaceon",
@@ -8927,7 +9435,8 @@
    "zones": [
     "Zone 12"
    ],
-   "sprite": "glaceon.png"
+   "sprite": "glaceon.png",
+   "espece": "glaceon"
   },
   {
    "chemin": "/pokedex/472-gliscor",
@@ -8944,7 +9453,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "gliscor.png"
+   "sprite": "gliscor.png",
+   "espece": "gliscor"
   },
   {
    "chemin": "/pokedex/473-mamoswine",
@@ -8961,7 +9471,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "mamoswine.png"
+   "sprite": "mamoswine.png",
+   "espece": "mamoswine"
   },
   {
    "chemin": "/pokedex/474-porygonz",
@@ -8977,7 +9488,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "porygonz.png"
+   "sprite": "porygonz.png",
+   "espece": "porygon-z"
   },
   {
    "chemin": "/pokedex/475-gallade",
@@ -8994,7 +9506,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "gallade.png"
+   "sprite": "gallade.png",
+   "espece": "gallade"
   },
   {
    "chemin": "/pokedex/476-probopass",
@@ -9011,7 +9524,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "probopass.png"
+   "sprite": "probopass.png",
+   "espece": "probopass"
   },
   {
    "chemin": "/pokedex/477-dusknoir",
@@ -9027,7 +9541,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "dusknoir.png"
+   "sprite": "dusknoir.png",
+   "espece": "dusknoir"
   },
   {
    "chemin": "/pokedex/478-froslass",
@@ -9044,7 +9559,8 @@
    "zones": [
     "Zone 12 Forêt"
    ],
-   "sprite": "froslass.png"
+   "sprite": "froslass.png",
+   "espece": "froslass"
   },
   {
    "chemin": "/pokedex/479-rotom",
@@ -9061,7 +9577,8 @@
    "zones": [
     "Tour de Combat"
    ],
-   "sprite": "rotom.png"
+   "sprite": "rotom.png",
+   "espece": "rotom"
   },
   {
    "chemin": "/pokedex/480-uxie",
@@ -9080,7 +9597,8 @@
     "Zone 1 Eau",
     "Zone 1 Forêt"
    ],
-   "sprite": "uxie.png"
+   "sprite": "uxie.png",
+   "espece": "uxie"
   },
   {
    "chemin": "/pokedex/481-mesprit",
@@ -9099,7 +9617,8 @@
     "Zone 1 Eau",
     "Zone 1 Forêt"
    ],
-   "sprite": "mesprit.png"
+   "sprite": "mesprit.png",
+   "espece": "mesprit"
   },
   {
    "chemin": "/pokedex/482-azelf",
@@ -9118,7 +9637,8 @@
     "Zone 1 Eau",
     "Zone 1 Forêt"
    ],
-   "sprite": "azelf.png"
+   "sprite": "azelf.png",
+   "espece": "azelf"
   },
   {
    "chemin": "/pokedex/483-dialga",
@@ -9136,7 +9656,8 @@
     "Zone 9",
     "Zone 9 Eau"
    ],
-   "sprite": "dialga.png"
+   "sprite": "dialga.png",
+   "espece": "dialga"
   },
   {
    "chemin": "/pokedex/484-palkia",
@@ -9153,7 +9674,8 @@
    "zones": [
     "Inconnue"
    ],
-   "sprite": "palkia.png"
+   "sprite": "palkia.png",
+   "espece": "palkia"
   },
   {
    "chemin": "/pokedex/485-heatran",
@@ -9170,7 +9692,8 @@
    "zones": [
     "Bull'o Biome Volcan"
    ],
-   "sprite": "heatran.png"
+   "sprite": "heatran.png",
+   "espece": "heatran"
   },
   {
    "chemin": "/pokedex/486-regigigas",
@@ -9186,7 +9709,8 @@
    "zones": [
     "Quête"
    ],
-   "sprite": "regigigas.png"
+   "sprite": "regigigas.png",
+   "espece": "regigigas"
   },
   {
    "chemin": "/pokedex/487-giratina",
@@ -9206,7 +9730,8 @@
     "Zone 2 Eau",
     "Zone 2 Forêt"
    ],
-   "sprite": "giratina.png"
+   "sprite": "giratina.png",
+   "espece": "giratina-altered"
   },
   {
    "chemin": "/pokedex/488-cresselia",
@@ -9224,7 +9749,8 @@
     "Zone 3 Clairière",
     "Zone 3 Eau"
    ],
-   "sprite": "cresselia.png"
+   "sprite": "cresselia.png",
+   "espece": "cresselia"
   },
   {
    "chemin": "/pokedex/489-phione",
@@ -9240,7 +9766,8 @@
    "zones": [
     "Inconnue"
    ],
-   "sprite": "phione.png"
+   "sprite": "phione.png",
+   "espece": "phione"
   },
   {
    "chemin": "/pokedex/490-manaphy",
@@ -9256,7 +9783,8 @@
    "zones": [
     "Inconnue"
    ],
-   "sprite": "manaphy.png"
+   "sprite": "manaphy.png",
+   "espece": "manaphy"
   },
   {
    "chemin": "/pokedex/491-darkrai",
@@ -9275,7 +9803,8 @@
     "Zone 2 Eau",
     "Zone 2 Forêt"
    ],
-   "sprite": "darkrai.png"
+   "sprite": "darkrai.png",
+   "espece": "darkrai"
   },
   {
    "chemin": "/pokedex/492-shaymin",
@@ -9293,7 +9822,8 @@
     "Zone 3 Clairière",
     "Zone 3 Eau"
    ],
-   "sprite": "shaymin.png"
+   "sprite": "shaymin.png",
+   "espece": "shaymin-land"
   },
   {
    "chemin": "/pokedex/493-arceus",
@@ -9311,7 +9841,8 @@
     "Zone 12 Eau",
     "Zone 12 Forêt"
    ],
-   "sprite": "arceus.png"
+   "sprite": "arceus.png",
+   "espece": "arceus"
   },
   {
    "chemin": "/pokedex/494-victini",
@@ -9330,7 +9861,8 @@
     "Zone 4 Colline",
     "Zone 4 Eau"
    ],
-   "sprite": "victini.png"
+   "sprite": "victini.png",
+   "espece": "victini"
   },
   {
    "chemin": "/pokedex/495-snivy",
@@ -9346,7 +9878,8 @@
    "zones": [
     "Bull'o Biome Magique"
    ],
-   "sprite": "snivy.png"
+   "sprite": "snivy.png",
+   "espece": "snivy"
   },
   {
    "chemin": "/pokedex/496-servine",
@@ -9362,7 +9895,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "servine.png"
+   "sprite": "servine.png",
+   "espece": "servine"
   },
   {
    "chemin": "/pokedex/497-serperior",
@@ -9378,7 +9912,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "serperior.png"
+   "sprite": "serperior.png",
+   "espece": "serperior"
   },
   {
    "chemin": "/pokedex/498-tepig",
@@ -9394,7 +9929,8 @@
    "zones": [
     "Zone 7"
    ],
-   "sprite": "tepig.png"
+   "sprite": "tepig.png",
+   "espece": "tepig"
   },
   {
    "chemin": "/pokedex/499-pignite",
@@ -9411,7 +9947,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "pignite.png"
+   "sprite": "pignite.png",
+   "espece": "pignite"
   },
   {
    "chemin": "/pokedex/500-emboar",
@@ -9428,7 +9965,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "emboar.png"
+   "sprite": "emboar.png",
+   "espece": "emboar"
   },
   {
    "chemin": "/pokedex/501-oshawott",
@@ -9444,7 +9982,8 @@
    "zones": [
     "Zone 4 Eau"
    ],
-   "sprite": "oshawott.png"
+   "sprite": "oshawott.png",
+   "espece": "oshawott"
   },
   {
    "chemin": "/pokedex/502-dewott",
@@ -9460,7 +9999,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "dewott.png"
+   "sprite": "dewott.png",
+   "espece": "dewott"
   },
   {
    "chemin": "/pokedex/503-samurott",
@@ -9476,7 +10016,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "samurott.png"
+   "sprite": "samurott.png",
+   "espece": "samurott"
   },
   {
    "chemin": "/pokedex/503-samurott-hisui",
@@ -9493,7 +10034,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "samurott-hisui.png"
+   "sprite": "samurott-hisui.png",
+   "espece": "samurott-hisui"
   },
   {
    "chemin": "/pokedex/504-patrat",
@@ -9509,7 +10051,8 @@
    "zones": [
     "Zone 2"
    ],
-   "sprite": "patrat.png"
+   "sprite": "patrat.png",
+   "espece": "patrat"
   },
   {
    "chemin": "/pokedex/505-watchog",
@@ -9525,7 +10068,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "watchog.png"
+   "sprite": "watchog.png",
+   "espece": "watchog"
   },
   {
    "chemin": "/pokedex/506-lillipup",
@@ -9541,7 +10085,8 @@
    "zones": [
     "Zone 1"
    ],
-   "sprite": "lillipup.png"
+   "sprite": "lillipup.png",
+   "espece": "lillipup"
   },
   {
    "chemin": "/pokedex/507-herdier",
@@ -9557,7 +10102,8 @@
    "zones": [
     "Zone 4"
    ],
-   "sprite": "herdier.png"
+   "sprite": "herdier.png",
+   "espece": "herdier"
   },
   {
    "chemin": "/pokedex/508-stoutland",
@@ -9573,7 +10119,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "stoutland.png"
+   "sprite": "stoutland.png",
+   "espece": "stoutland"
   },
   {
    "chemin": "/pokedex/509-purrloin",
@@ -9589,7 +10136,8 @@
    "zones": [
     "Zone 2"
    ],
-   "sprite": "purrloin.png"
+   "sprite": "purrloin.png",
+   "espece": "purrloin"
   },
   {
    "chemin": "/pokedex/510-liepard",
@@ -9605,7 +10153,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "liepard.png"
+   "sprite": "liepard.png",
+   "espece": "liepard"
   },
   {
    "chemin": "/pokedex/511-pansage",
@@ -9621,7 +10170,8 @@
    "zones": [
     "Zone 10"
    ],
-   "sprite": "pansage.png"
+   "sprite": "pansage.png",
+   "espece": "pansage"
   },
   {
    "chemin": "/pokedex/512-simisage",
@@ -9637,7 +10187,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "simisage.png"
+   "sprite": "simisage.png",
+   "espece": "simisage"
   },
   {
    "chemin": "/pokedex/513-pansear",
@@ -9653,7 +10204,8 @@
    "zones": [
     "Zone 10 Colline"
    ],
-   "sprite": "pansear.png"
+   "sprite": "pansear.png",
+   "espece": "pansear"
   },
   {
    "chemin": "/pokedex/514-simisear",
@@ -9669,7 +10221,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "simisear.png"
+   "sprite": "simisear.png",
+   "espece": "simisear"
   },
   {
    "chemin": "/pokedex/515-panpour",
@@ -9685,7 +10238,8 @@
    "zones": [
     "Zone 10 Eau"
    ],
-   "sprite": "panpour.png"
+   "sprite": "panpour.png",
+   "espece": "panpour"
   },
   {
    "chemin": "/pokedex/516-simipour",
@@ -9701,7 +10255,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "simipour.png"
+   "sprite": "simipour.png",
+   "espece": "simipour"
   },
   {
    "chemin": "/pokedex/517-munna",
@@ -9718,7 +10273,8 @@
     "Bull'o Biome Magique",
     "Zone 3"
    ],
-   "sprite": "munna.png"
+   "sprite": "munna.png",
+   "espece": "munna"
   },
   {
    "chemin": "/pokedex/518-musharna",
@@ -9734,7 +10290,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "musharna.png"
+   "sprite": "musharna.png",
+   "espece": "musharna"
   },
   {
    "chemin": "/pokedex/519-pidove",
@@ -9751,7 +10308,8 @@
    "zones": [
     "Zone 1"
    ],
-   "sprite": "pidove.png"
+   "sprite": "pidove.png",
+   "espece": "pidove"
   },
   {
    "chemin": "/pokedex/520-tranquill",
@@ -9768,7 +10326,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "tranquill.png"
+   "sprite": "tranquill.png",
+   "espece": "tranquill"
   },
   {
    "chemin": "/pokedex/521-unfezant",
@@ -9785,7 +10344,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "unfezant.png"
+   "sprite": "unfezant.png",
+   "espece": "unfezant"
   },
   {
    "chemin": "/pokedex/522-blitzle",
@@ -9801,7 +10361,8 @@
    "zones": [
     "Zone 5"
    ],
-   "sprite": "blitzle.png"
+   "sprite": "blitzle.png",
+   "espece": "blitzle"
   },
   {
    "chemin": "/pokedex/523-zebstrika",
@@ -9817,7 +10378,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "zebstrika.png"
+   "sprite": "zebstrika.png",
+   "espece": "zebstrika"
   },
   {
    "chemin": "/pokedex/524-roggenrola",
@@ -9833,7 +10395,8 @@
    "zones": [
     "Zone 2 Colline"
    ],
-   "sprite": "roggenrola.png"
+   "sprite": "roggenrola.png",
+   "espece": "roggenrola"
   },
   {
    "chemin": "/pokedex/525-boldore",
@@ -9849,7 +10412,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "boldore.png"
+   "sprite": "boldore.png",
+   "espece": "boldore"
   },
   {
    "chemin": "/pokedex/526-gigalith",
@@ -9865,7 +10429,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "gigalith.png"
+   "sprite": "gigalith.png",
+   "espece": "gigalith"
   },
   {
    "chemin": "/pokedex/527-woobat",
@@ -9883,7 +10448,8 @@
     "Bull'o Biome Hanté",
     "Zone 9"
    ],
-   "sprite": "woobat.png"
+   "sprite": "woobat.png",
+   "espece": "woobat"
   },
   {
    "chemin": "/pokedex/528-swoobat",
@@ -9900,7 +10466,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "swoobat.png"
+   "sprite": "swoobat.png",
+   "espece": "swoobat"
   },
   {
    "chemin": "/pokedex/529-drilbur",
@@ -9916,7 +10483,8 @@
    "zones": [
     "Zone 6"
    ],
-   "sprite": "drilbur.png"
+   "sprite": "drilbur.png",
+   "espece": "drilbur"
   },
   {
    "chemin": "/pokedex/530-excadrill",
@@ -9933,7 +10501,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "excadrill.png"
+   "sprite": "excadrill.png",
+   "espece": "excadrill"
   },
   {
    "chemin": "/pokedex/531-audino",
@@ -9949,7 +10518,8 @@
    "zones": [
     "Zone 4"
    ],
-   "sprite": "audino.png"
+   "sprite": "audino.png",
+   "espece": "audino"
   },
   {
    "chemin": "/pokedex/532-timburr",
@@ -9965,7 +10535,8 @@
    "zones": [
     "Zone 2"
    ],
-   "sprite": "timburr.png"
+   "sprite": "timburr.png",
+   "espece": "timburr"
   },
   {
    "chemin": "/pokedex/533-gurdurr",
@@ -9981,7 +10552,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "gurdurr.png"
+   "sprite": "gurdurr.png",
+   "espece": "gurdurr"
   },
   {
    "chemin": "/pokedex/534-conkeldurr",
@@ -9997,7 +10569,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "conkeldurr.png"
+   "sprite": "conkeldurr.png",
+   "espece": "conkeldurr"
   },
   {
    "chemin": "/pokedex/535-tympole",
@@ -10013,7 +10586,8 @@
    "zones": [
     "Zone 10 Eau"
    ],
-   "sprite": "tympole.png"
+   "sprite": "tympole.png",
+   "espece": "tympole"
   },
   {
    "chemin": "/pokedex/536-palpitoad",
@@ -10030,7 +10604,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "palpitoad.png"
+   "sprite": "palpitoad.png",
+   "espece": "palpitoad"
   },
   {
    "chemin": "/pokedex/537-seismitoad",
@@ -10047,7 +10622,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "seismitoad.png"
+   "sprite": "seismitoad.png",
+   "espece": "seismitoad"
   },
   {
    "chemin": "/pokedex/538-throh",
@@ -10064,7 +10640,8 @@
     "Bull'o Biome Cascade",
     "Zone 9"
    ],
-   "sprite": "throh.png"
+   "sprite": "throh.png",
+   "espece": "throh"
   },
   {
    "chemin": "/pokedex/539-sawk",
@@ -10081,7 +10658,8 @@
     "Bull'o Biome Cascade",
     "Zone 9"
    ],
-   "sprite": "sawk.png"
+   "sprite": "sawk.png",
+   "espece": "sawk"
   },
   {
    "chemin": "/pokedex/540-sewaddle",
@@ -10098,7 +10676,8 @@
    "zones": [
     "Zone 1 Forêt"
    ],
-   "sprite": "sewaddle.png"
+   "sprite": "sewaddle.png",
+   "espece": "sewaddle"
   },
   {
    "chemin": "/pokedex/541-swadloon",
@@ -10115,7 +10694,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "swadloon.png"
+   "sprite": "swadloon.png",
+   "espece": "swadloon"
   },
   {
    "chemin": "/pokedex/542-leavanny",
@@ -10132,7 +10712,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "leavanny.png"
+   "sprite": "leavanny.png",
+   "espece": "leavanny"
   },
   {
    "chemin": "/pokedex/543-venipede",
@@ -10149,7 +10730,8 @@
    "zones": [
     "Zone 10"
    ],
-   "sprite": "venipede.png"
+   "sprite": "venipede.png",
+   "espece": "venipede"
   },
   {
    "chemin": "/pokedex/544-whirlipede",
@@ -10166,7 +10748,8 @@
    "zones": [
     "Zone 11"
    ],
-   "sprite": "whirlipede.png"
+   "sprite": "whirlipede.png",
+   "espece": "whirlipede"
   },
   {
    "chemin": "/pokedex/545-scolipede",
@@ -10183,7 +10766,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "scolipede.png"
+   "sprite": "scolipede.png",
+   "espece": "scolipede"
   },
   {
    "chemin": "/pokedex/546-cottonee",
@@ -10201,7 +10785,8 @@
     "Bull'o Biome Magique",
     "Zone 3"
    ],
-   "sprite": "cottonee.png"
+   "sprite": "cottonee.png",
+   "espece": "cottonee"
   },
   {
    "chemin": "/pokedex/547-whimsicott",
@@ -10218,7 +10803,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "whimsicott.png"
+   "sprite": "whimsicott.png",
+   "espece": "whimsicott"
   },
   {
    "chemin": "/pokedex/548-petilil",
@@ -10235,7 +10821,8 @@
     "Bull'o Biome Magique",
     "Zone 3"
    ],
-   "sprite": "petilil.png"
+   "sprite": "petilil.png",
+   "espece": "petilil"
   },
   {
    "chemin": "/pokedex/549-lilligant",
@@ -10251,7 +10838,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "lilligant.png"
+   "sprite": "lilligant.png",
+   "espece": "lilligant"
   },
   {
    "chemin": "/pokedex/550-basculin",
@@ -10267,7 +10855,8 @@
    "zones": [
     "Lac Rime"
    ],
-   "sprite": "basculin.png"
+   "sprite": "basculin.png",
+   "espece": "basculin-red-striped"
   },
   {
    "chemin": "/pokedex/551-sandile",
@@ -10284,7 +10873,8 @@
    "zones": [
     "Zone 6"
    ],
-   "sprite": "sandile.png"
+   "sprite": "sandile.png",
+   "espece": "sandile"
   },
   {
    "chemin": "/pokedex/552-krokorok",
@@ -10301,7 +10891,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "krokorok.png"
+   "sprite": "krokorok.png",
+   "espece": "krokorok"
   },
   {
    "chemin": "/pokedex/553-krookodile",
@@ -10318,7 +10909,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "krookodile.png"
+   "sprite": "krookodile.png",
+   "espece": "krookodile"
   },
   {
    "chemin": "/pokedex/554-darumaka",
@@ -10335,7 +10927,8 @@
     "Bull'o Biome Volcan",
     "Zone 6"
    ],
-   "sprite": "darumaka.png"
+   "sprite": "darumaka.png",
+   "espece": "darumaka"
   },
   {
    "chemin": "/pokedex/554-darumaka-galar",
@@ -10351,7 +10944,8 @@
    "zones": [
     "Zone 12"
    ],
-   "sprite": "darumaka-galar.png"
+   "sprite": "darumaka-galar.png",
+   "espece": "darumaka-galar"
   },
   {
    "chemin": "/pokedex/555-darmanitan",
@@ -10367,7 +10961,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "darmanitan.png"
+   "sprite": "darmanitan.png",
+   "espece": "darmanitan-standard"
   },
   {
    "chemin": "/pokedex/555-darmanitan-galar",
@@ -10383,7 +10978,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "darmanitan-galar.png"
+   "sprite": "darmanitan-galar.png",
+   "espece": "darmanitan-galar-standard"
   },
   {
    "chemin": "/pokedex/556-maractus",
@@ -10399,7 +10995,8 @@
    "zones": [
     "Zone 6"
    ],
-   "sprite": "maractus.png"
+   "sprite": "maractus.png",
+   "espece": "maractus"
   },
   {
    "chemin": "/pokedex/557-dwebble",
@@ -10416,7 +11013,8 @@
    "zones": [
     "Zone 7"
    ],
-   "sprite": "dwebble.png"
+   "sprite": "dwebble.png",
+   "espece": "dwebble"
   },
   {
    "chemin": "/pokedex/558-crustle",
@@ -10433,7 +11031,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "crustle.png"
+   "sprite": "crustle.png",
+   "espece": "crustle"
   },
   {
    "chemin": "/pokedex/559-scraggy",
@@ -10450,7 +11049,8 @@
    "zones": [
     "Zone 7"
    ],
-   "sprite": "scraggy.png"
+   "sprite": "scraggy.png",
+   "espece": "scraggy"
   },
   {
    "chemin": "/pokedex/560-scrafty",
@@ -10467,7 +11067,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "scrafty.png"
+   "sprite": "scrafty.png",
+   "espece": "scrafty"
   },
   {
    "chemin": "/pokedex/561-sigilyph",
@@ -10484,7 +11085,8 @@
    "zones": [
     "Zone 6"
    ],
-   "sprite": "sigilyph.png"
+   "sprite": "sigilyph.png",
+   "espece": "sigilyph"
   },
   {
    "chemin": "/pokedex/562-yamask",
@@ -10500,7 +11102,8 @@
    "zones": [
     "Zone 6"
    ],
-   "sprite": "yamask.png"
+   "sprite": "yamask.png",
+   "espece": "yamask"
   },
   {
    "chemin": "/pokedex/562-yamask-galar",
@@ -10517,7 +11120,8 @@
    "zones": [
     "Zone 6 ???"
    ],
-   "sprite": "yamask-galar.png"
+   "sprite": "yamask-galar.png",
+   "espece": "yamask-galar"
   },
   {
    "chemin": "/pokedex/563-cofagrigus",
@@ -10533,7 +11137,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "cofagrigus.png"
+   "sprite": "cofagrigus.png",
+   "espece": "cofagrigus"
   },
   {
    "chemin": "/pokedex/564-tirtouga",
@@ -10550,7 +11155,8 @@
    "zones": [
     "Sites de Fouille"
    ],
-   "sprite": "tirtouga.png"
+   "sprite": "tirtouga.png",
+   "espece": "tirtouga"
   },
   {
    "chemin": "/pokedex/565-carracosta",
@@ -10567,7 +11173,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "carracosta.png"
+   "sprite": "carracosta.png",
+   "espece": "carracosta"
   },
   {
    "chemin": "/pokedex/566-archen",
@@ -10584,7 +11191,8 @@
    "zones": [
     "Sites de Fouille"
    ],
-   "sprite": "archen.png"
+   "sprite": "archen.png",
+   "espece": "archen"
   },
   {
    "chemin": "/pokedex/567-archeops",
@@ -10601,7 +11209,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "archeops.png"
+   "sprite": "archeops.png",
+   "espece": "archeops"
   },
   {
    "chemin": "/pokedex/568-trubbish",
@@ -10617,7 +11226,8 @@
    "zones": [
     "Zone 8"
    ],
-   "sprite": "trubbish.png"
+   "sprite": "trubbish.png",
+   "espece": "trubbish"
   },
   {
    "chemin": "/pokedex/569-garbodor",
@@ -10633,7 +11243,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "garbodor.png"
+   "sprite": "garbodor.png",
+   "espece": "garbodor"
   },
   {
    "chemin": "/pokedex/570-zorua",
@@ -10649,7 +11260,8 @@
    "zones": [
     "Zone 5"
    ],
-   "sprite": "zorua.png"
+   "sprite": "zorua.png",
+   "espece": "zorua"
   },
   {
    "chemin": "/pokedex/570-zorua-hisui",
@@ -10666,7 +11278,8 @@
    "zones": [
     "Zone 12"
    ],
-   "sprite": "zorua-hisui.png"
+   "sprite": "zorua-hisui.png",
+   "espece": "zorua-hisui"
   },
   {
    "chemin": "/pokedex/571-zoroark",
@@ -10682,7 +11295,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "zoroark.png"
+   "sprite": "zoroark.png",
+   "espece": "zoroark"
   },
   {
    "chemin": "/pokedex/571-zoroark-hisui",
@@ -10699,7 +11313,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "zoroark-hisui.png"
+   "sprite": "zoroark-hisui.png",
+   "espece": "zoroark-hisui"
   },
   {
    "chemin": "/pokedex/572-minccino",
@@ -10715,7 +11330,8 @@
    "zones": [
     "Zone 4"
    ],
-   "sprite": "minccino.png"
+   "sprite": "minccino.png",
+   "espece": "minccino"
   },
   {
    "chemin": "/pokedex/573-cinccino",
@@ -10731,7 +11347,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "cinccino.png"
+   "sprite": "cinccino.png",
+   "espece": "cinccino"
   },
   {
    "chemin": "/pokedex/574-gothita",
@@ -10747,7 +11364,8 @@
    "zones": [
     "Zone 4"
    ],
-   "sprite": "gothita.png"
+   "sprite": "gothita.png",
+   "espece": "gothita"
   },
   {
    "chemin": "/pokedex/575-gothorita",
@@ -10763,7 +11381,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "gothorita.png"
+   "sprite": "gothorita.png",
+   "espece": "gothorita"
   },
   {
    "chemin": "/pokedex/576-gothitelle",
@@ -10779,7 +11398,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "gothitelle.png"
+   "sprite": "gothitelle.png",
+   "espece": "gothitelle"
   },
   {
    "chemin": "/pokedex/577-solosis",
@@ -10796,7 +11416,8 @@
     "Bull'o Biome Hanté",
     "Zone 11"
    ],
-   "sprite": "solosis.png"
+   "sprite": "solosis.png",
+   "espece": "solosis"
   },
   {
    "chemin": "/pokedex/578-duosion",
@@ -10812,7 +11433,8 @@
    "zones": [
     "Zone 11"
    ],
-   "sprite": "duosion.png"
+   "sprite": "duosion.png",
+   "espece": "duosion"
   },
   {
    "chemin": "/pokedex/579-reuniclus",
@@ -10828,7 +11450,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "reuniclus.png"
+   "sprite": "reuniclus.png",
+   "espece": "reuniclus"
   },
   {
    "chemin": "/pokedex/580-ducklett",
@@ -10845,7 +11468,8 @@
    "zones": [
     "Zone 3 Eau"
    ],
-   "sprite": "ducklett.png"
+   "sprite": "ducklett.png",
+   "espece": "ducklett"
   },
   {
    "chemin": "/pokedex/581-swanna",
@@ -10862,7 +11486,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "swanna.png"
+   "sprite": "swanna.png",
+   "espece": "swanna"
   },
   {
    "chemin": "/pokedex/582-vanillite",
@@ -10878,7 +11503,8 @@
    "zones": [
     "Zone 12"
    ],
-   "sprite": "vanillite.png"
+   "sprite": "vanillite.png",
+   "espece": "vanillite"
   },
   {
    "chemin": "/pokedex/583-vanillish",
@@ -10894,7 +11520,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "vanillish.png"
+   "sprite": "vanillish.png",
+   "espece": "vanillish"
   },
   {
    "chemin": "/pokedex/584-vanilluxe",
@@ -10910,7 +11537,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "vanilluxe.png"
+   "sprite": "vanilluxe.png",
+   "espece": "vanilluxe"
   },
   {
    "chemin": "/pokedex/585-deerling",
@@ -10928,7 +11556,8 @@
     "Bull'o Biome Magique",
     "Zone 12"
    ],
-   "sprite": "deerling.png"
+   "sprite": "deerling.png",
+   "espece": "deerling"
   },
   {
    "chemin": "/pokedex/586-sawsbuck",
@@ -10945,7 +11574,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "sawsbuck.png"
+   "sprite": "sawsbuck.png",
+   "espece": "sawsbuck"
   },
   {
    "chemin": "/pokedex/587-emolga",
@@ -10962,7 +11592,8 @@
    "zones": [
     "Zone 10"
    ],
-   "sprite": "emolga.png"
+   "sprite": "emolga.png",
+   "espece": "emolga"
   },
   {
    "chemin": "/pokedex/588-karrablast",
@@ -10978,7 +11609,8 @@
    "zones": [
     "Zone 3"
    ],
-   "sprite": "karrablast.png"
+   "sprite": "karrablast.png",
+   "espece": "karrablast"
   },
   {
    "chemin": "/pokedex/589-escavalier",
@@ -10995,7 +11627,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "escavalier.png"
+   "sprite": "escavalier.png",
+   "espece": "escavalier"
   },
   {
    "chemin": "/pokedex/590-foongus",
@@ -11013,7 +11646,8 @@
     "Bull'o Biome Hanté",
     "Zone 8"
    ],
-   "sprite": "foongus.png"
+   "sprite": "foongus.png",
+   "espece": "foongus"
   },
   {
    "chemin": "/pokedex/591-amoonguss",
@@ -11031,7 +11665,8 @@
     "Bull'o Biome Hanté",
     "Zone 8"
    ],
-   "sprite": "amoonguss.png"
+   "sprite": "amoonguss.png",
+   "espece": "amoonguss"
   },
   {
    "chemin": "/pokedex/592-frillish",
@@ -11048,7 +11683,8 @@
    "zones": [
     "Océan"
    ],
-   "sprite": "frillish.png"
+   "sprite": "frillish.png",
+   "espece": "frillish-male"
   },
   {
    "chemin": "/pokedex/593-jellicent",
@@ -11065,7 +11701,8 @@
    "zones": [
     "Océan"
    ],
-   "sprite": "jellicent.png"
+   "sprite": "jellicent.png",
+   "espece": "jellicent-male"
   },
   {
    "chemin": "/pokedex/594-alomomola",
@@ -11081,7 +11718,8 @@
    "zones": [
     "Océan"
    ],
-   "sprite": "alomomola.png"
+   "sprite": "alomomola.png",
+   "espece": "alomomola"
   },
   {
    "chemin": "/pokedex/595-joltik",
@@ -11098,7 +11736,8 @@
    "zones": [
     "Zone 10"
    ],
-   "sprite": "joltik.png"
+   "sprite": "joltik.png",
+   "espece": "joltik"
   },
   {
    "chemin": "/pokedex/596-galvantula",
@@ -11115,7 +11754,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "galvantula.png"
+   "sprite": "galvantula.png",
+   "espece": "galvantula"
   },
   {
    "chemin": "/pokedex/597-ferroseed",
@@ -11132,7 +11772,8 @@
    "zones": [
     "Tour de Combat"
    ],
-   "sprite": "ferroseed.png"
+   "sprite": "ferroseed.png",
+   "espece": "ferroseed"
   },
   {
    "chemin": "/pokedex/598-ferrothorn",
@@ -11149,7 +11790,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "ferrothorn.png"
+   "sprite": "ferrothorn.png",
+   "espece": "ferrothorn"
   },
   {
    "chemin": "/pokedex/599-klink",
@@ -11165,7 +11807,8 @@
    "zones": [
     "Zone 8"
    ],
-   "sprite": "klink.png"
+   "sprite": "klink.png",
+   "espece": "klink"
   },
   {
    "chemin": "/pokedex/600-klang",
@@ -11181,7 +11824,8 @@
    "zones": [
     "Zone 8"
    ],
-   "sprite": "klang.png"
+   "sprite": "klang.png",
+   "espece": "klang"
   },
   {
    "chemin": "/pokedex/601-klinklang",
@@ -11197,7 +11841,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "klinklang.png"
+   "sprite": "klinklang.png",
+   "espece": "klinklang"
   },
   {
    "chemin": "/pokedex/602-tynamo",
@@ -11213,7 +11858,8 @@
    "zones": [
     "Zone 7 Oasis"
    ],
-   "sprite": "tynamo.png"
+   "sprite": "tynamo.png",
+   "espece": "tynamo"
   },
   {
    "chemin": "/pokedex/603-eelektrik",
@@ -11229,7 +11875,8 @@
    "zones": [
     "Zone 11"
    ],
-   "sprite": "eelektrik.png"
+   "sprite": "eelektrik.png",
+   "espece": "eelektrik"
   },
   {
    "chemin": "/pokedex/604-eelektross",
@@ -11245,7 +11892,8 @@
    "zones": [
     "Zone 11"
    ],
-   "sprite": "eelektross.png"
+   "sprite": "eelektross.png",
+   "espece": "eelektross"
   },
   {
    "chemin": "/pokedex/605-elgyem",
@@ -11261,7 +11909,8 @@
    "zones": [
     "Zone 7"
    ],
-   "sprite": "elgyem.png"
+   "sprite": "elgyem.png",
+   "espece": "elgyem"
   },
   {
    "chemin": "/pokedex/606-beheeyem",
@@ -11277,7 +11926,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "beheeyem.png"
+   "sprite": "beheeyem.png",
+   "espece": "beheeyem"
   },
   {
    "chemin": "/pokedex/607-litwick",
@@ -11295,7 +11945,8 @@
     "Bull'o Biome Volcan",
     "Zone 7"
    ],
-   "sprite": "litwick.png"
+   "sprite": "litwick.png",
+   "espece": "litwick"
   },
   {
    "chemin": "/pokedex/608-lampent",
@@ -11312,7 +11963,8 @@
    "zones": [
     "Zone 7"
    ],
-   "sprite": "lampent.png"
+   "sprite": "lampent.png",
+   "espece": "lampent"
   },
   {
    "chemin": "/pokedex/609-chandelure",
@@ -11329,7 +11981,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "chandelure.png"
+   "sprite": "chandelure.png",
+   "espece": "chandelure"
   },
   {
    "chemin": "/pokedex/610-axew",
@@ -11345,7 +11998,8 @@
    "zones": [
     "Zone 9"
    ],
-   "sprite": "axew.png"
+   "sprite": "axew.png",
+   "espece": "axew"
   },
   {
    "chemin": "/pokedex/611-fraxure",
@@ -11361,7 +12015,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "fraxure.png"
+   "sprite": "fraxure.png",
+   "espece": "fraxure"
   },
   {
    "chemin": "/pokedex/612-haxorus",
@@ -11377,7 +12032,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "haxorus.png"
+   "sprite": "haxorus.png",
+   "espece": "haxorus"
   },
   {
    "chemin": "/pokedex/613-cubchoo",
@@ -11393,7 +12049,8 @@
    "zones": [
     "Zone 12"
    ],
-   "sprite": "cubchoo.png"
+   "sprite": "cubchoo.png",
+   "espece": "cubchoo"
   },
   {
    "chemin": "/pokedex/614-beartic",
@@ -11409,7 +12066,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "beartic.png"
+   "sprite": "beartic.png",
+   "espece": "beartic"
   },
   {
    "chemin": "/pokedex/615-cryogonal",
@@ -11425,7 +12083,8 @@
    "zones": [
     "Zone 12"
    ],
-   "sprite": "cryogonal.png"
+   "sprite": "cryogonal.png",
+   "espece": "cryogonal"
   },
   {
    "chemin": "/pokedex/616-shelmet",
@@ -11441,7 +12100,8 @@
    "zones": [
     "Zone 3"
    ],
-   "sprite": "shelmet.png"
+   "sprite": "shelmet.png",
+   "espece": "shelmet"
   },
   {
    "chemin": "/pokedex/617-accelgor",
@@ -11457,7 +12117,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "accelgor.png"
+   "sprite": "accelgor.png",
+   "espece": "accelgor"
   },
   {
    "chemin": "/pokedex/618-stunfisk",
@@ -11474,7 +12135,8 @@
    "zones": [
     "Zone 6"
    ],
-   "sprite": "stunfisk.png"
+   "sprite": "stunfisk.png",
+   "espece": "stunfisk"
   },
   {
    "chemin": "/pokedex/618-stunfisk-galar",
@@ -11491,7 +12153,8 @@
    "zones": [
     "Zone 6"
    ],
-   "sprite": "stunfisk-galar.png"
+   "sprite": "stunfisk-galar.png",
+   "espece": "stunfisk-galar"
   },
   {
    "chemin": "/pokedex/619-mienfoo",
@@ -11508,7 +12171,8 @@
     "Bull'o Biome Cascade",
     "Zone 12"
    ],
-   "sprite": "mienfoo.png"
+   "sprite": "mienfoo.png",
+   "espece": "mienfoo"
   },
   {
    "chemin": "/pokedex/620-mienshao",
@@ -11524,7 +12188,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "mienshao.png"
+   "sprite": "mienshao.png",
+   "espece": "mienshao"
   },
   {
    "chemin": "/pokedex/621-druddigon",
@@ -11541,7 +12206,8 @@
     "Bull'o Biome Volcan",
     "Zone 9"
    ],
-   "sprite": "druddigon.png"
+   "sprite": "druddigon.png",
+   "espece": "druddigon"
   },
   {
    "chemin": "/pokedex/622-golett",
@@ -11558,7 +12224,8 @@
    "zones": [
     "Zone 7"
    ],
-   "sprite": "golett.png"
+   "sprite": "golett.png",
+   "espece": "golett"
   },
   {
    "chemin": "/pokedex/623-golurk",
@@ -11575,7 +12242,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "golurk.png"
+   "sprite": "golurk.png",
+   "espece": "golurk"
   },
   {
    "chemin": "/pokedex/624-pawniard",
@@ -11592,7 +12260,8 @@
    "zones": [
     "Zone 9"
    ],
-   "sprite": "pawniard.png"
+   "sprite": "pawniard.png",
+   "espece": "pawniard"
   },
   {
    "chemin": "/pokedex/625-bisharp",
@@ -11609,7 +12278,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "bisharp.png"
+   "sprite": "bisharp.png",
+   "espece": "bisharp"
   },
   {
    "chemin": "/pokedex/626-bouffalant",
@@ -11625,7 +12295,8 @@
    "zones": [
     "Zone 4"
    ],
-   "sprite": "bouffalant.png"
+   "sprite": "bouffalant.png",
+   "espece": "bouffalant"
   },
   {
    "chemin": "/pokedex/627-rufflet",
@@ -11642,7 +12313,8 @@
    "zones": [
     "Zone 9"
    ],
-   "sprite": "rufflet.png"
+   "sprite": "rufflet.png",
+   "espece": "rufflet"
   },
   {
    "chemin": "/pokedex/628-braviary",
@@ -11659,7 +12331,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "braviary.png"
+   "sprite": "braviary.png",
+   "espece": "braviary"
   },
   {
    "chemin": "/pokedex/628-braviary-hisui",
@@ -11676,7 +12349,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "braviary-hisui.png"
+   "sprite": "braviary-hisui.png",
+   "espece": "braviary-hisui"
   },
   {
    "chemin": "/pokedex/629-vullaby",
@@ -11693,7 +12367,8 @@
    "zones": [
     "Zone 6"
    ],
-   "sprite": "vullaby.png"
+   "sprite": "vullaby.png",
+   "espece": "vullaby"
   },
   {
    "chemin": "/pokedex/630-mandibuzz",
@@ -11710,7 +12385,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "mandibuzz.png"
+   "sprite": "mandibuzz.png",
+   "espece": "mandibuzz"
   },
   {
    "chemin": "/pokedex/631-heatmor",
@@ -11726,7 +12402,8 @@
    "zones": [
     "Zone 9"
    ],
-   "sprite": "heatmor.png"
+   "sprite": "heatmor.png",
+   "espece": "heatmor"
   },
   {
    "chemin": "/pokedex/632-durant",
@@ -11743,7 +12420,8 @@
    "zones": [
     "Zone 9"
    ],
-   "sprite": "durant.png"
+   "sprite": "durant.png",
+   "espece": "durant"
   },
   {
    "chemin": "/pokedex/633-deino",
@@ -11761,7 +12439,8 @@
     "Bull'o Biome Hanté",
     "Zone 9"
    ],
-   "sprite": "deino.png"
+   "sprite": "deino.png",
+   "espece": "deino"
   },
   {
    "chemin": "/pokedex/634-zweilous",
@@ -11778,7 +12457,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "zweilous.png"
+   "sprite": "zweilous.png",
+   "espece": "zweilous"
   },
   {
    "chemin": "/pokedex/635-hydreigon",
@@ -11795,7 +12475,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "hydreigon.png"
+   "sprite": "hydreigon.png",
+   "espece": "hydreigon"
   },
   {
    "chemin": "/pokedex/636-larvesta",
@@ -11812,7 +12493,8 @@
    "zones": [
     "Zone 6"
    ],
-   "sprite": "larvesta.png"
+   "sprite": "larvesta.png",
+   "espece": "larvesta"
   },
   {
    "chemin": "/pokedex/637-volcarona",
@@ -11829,7 +12511,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "volcarona.png"
+   "sprite": "volcarona.png",
+   "espece": "volcarona"
   },
   {
    "chemin": "/pokedex/638-cobalion",
@@ -11846,7 +12529,8 @@
    "zones": [
     "Tour de Combat"
    ],
-   "sprite": "cobalion.png"
+   "sprite": "cobalion.png",
+   "espece": "cobalion"
   },
   {
    "chemin": "/pokedex/639-terrakion",
@@ -11863,7 +12547,8 @@
    "zones": [
     "Tour de Combat"
    ],
-   "sprite": "terrakion.png"
+   "sprite": "terrakion.png",
+   "espece": "terrakion"
   },
   {
    "chemin": "/pokedex/640-virizion",
@@ -11880,7 +12565,8 @@
    "zones": [
     "Tour de Combat"
    ],
-   "sprite": "virizion.png"
+   "sprite": "virizion.png",
+   "espece": "virizion"
   },
   {
    "chemin": "/pokedex/641-tornadus",
@@ -11899,7 +12585,8 @@
     "Zone 10 Colline",
     "Zone 10 Eau"
    ],
-   "sprite": "tornadus.png"
+   "sprite": "tornadus.png",
+   "espece": "tornadus-incarnate"
   },
   {
    "chemin": "/pokedex/642-thundurus",
@@ -11919,7 +12606,8 @@
     "Zone 5 Colline",
     "Zone 5 Eau"
    ],
-   "sprite": "thundurus.png"
+   "sprite": "thundurus.png",
+   "espece": "thundurus-incarnate"
   },
   {
    "chemin": "/pokedex/643-reshiram",
@@ -11936,7 +12624,8 @@
    "zones": [
     "Quête"
    ],
-   "sprite": "reshiram.png"
+   "sprite": "reshiram.png",
+   "espece": "reshiram"
   },
   {
    "chemin": "/pokedex/644-zekrom",
@@ -11953,7 +12642,8 @@
    "zones": [
     "Quête"
    ],
-   "sprite": "zekrom.png"
+   "sprite": "zekrom.png",
+   "espece": "zekrom"
   },
   {
    "chemin": "/pokedex/645-landorus",
@@ -11973,7 +12663,8 @@
     "Zone 6 ???",
     "Zone 6 Eau"
    ],
-   "sprite": "landorus.png"
+   "sprite": "landorus.png",
+   "espece": "landorus-incarnate"
   },
   {
    "chemin": "/pokedex/646-kyurem",
@@ -11990,7 +12681,8 @@
    "zones": [
     "Inconnue"
    ],
-   "sprite": "kyurem.png"
+   "sprite": "kyurem.png",
+   "espece": "kyurem"
   },
   {
    "chemin": "/pokedex/647-keldeo",
@@ -12007,7 +12699,8 @@
    "zones": [
     "Bull'o Biome Cascade"
    ],
-   "sprite": "keldeo.png"
+   "sprite": "keldeo.png",
+   "espece": "keldeo-ordinary"
   },
   {
    "chemin": "/pokedex/648-meloetta",
@@ -12026,7 +12719,8 @@
     "Zone 3 Clairière",
     "Zone 3 Eau"
    ],
-   "sprite": "meloetta.png"
+   "sprite": "meloetta.png",
+   "espece": "meloetta-aria"
   },
   {
    "chemin": "/pokedex/649-genesect",
@@ -12045,7 +12739,8 @@
     "Zone 10 Colline",
     "Zone 10 Eau"
    ],
-   "sprite": "genesect.png"
+   "sprite": "genesect.png",
+   "espece": "genesect"
   },
   {
    "chemin": "/pokedex/650-chespin",
@@ -12061,7 +12756,8 @@
    "zones": [
     "Zone 10"
    ],
-   "sprite": "chespin.png"
+   "sprite": "chespin.png",
+   "espece": "chespin"
   },
   {
    "chemin": "/pokedex/651-quilladin",
@@ -12077,7 +12773,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "quilladin.png"
+   "sprite": "quilladin.png",
+   "espece": "quilladin"
   },
   {
    "chemin": "/pokedex/652-chesnaught",
@@ -12094,7 +12791,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "chesnaught.png"
+   "sprite": "chesnaught.png",
+   "espece": "chesnaught"
   },
   {
    "chemin": "/pokedex/653-fennekin",
@@ -12110,7 +12808,8 @@
    "zones": [
     "Zone 5"
    ],
-   "sprite": "fennekin.png"
+   "sprite": "fennekin.png",
+   "espece": "fennekin"
   },
   {
    "chemin": "/pokedex/654-braixen",
@@ -12126,7 +12825,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "braixen.png"
+   "sprite": "braixen.png",
+   "espece": "braixen"
   },
   {
    "chemin": "/pokedex/655-delphox",
@@ -12143,7 +12843,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "delphox.png"
+   "sprite": "delphox.png",
+   "espece": "delphox"
   },
   {
    "chemin": "/pokedex/656-froakie",
@@ -12159,7 +12860,8 @@
    "zones": [
     "Zone 11 Eau"
    ],
-   "sprite": "froakie.png"
+   "sprite": "froakie.png",
+   "espece": "froakie"
   },
   {
    "chemin": "/pokedex/657-frogadier",
@@ -12175,7 +12877,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "frogadier.png"
+   "sprite": "frogadier.png",
+   "espece": "frogadier"
   },
   {
    "chemin": "/pokedex/658-greninja",
@@ -12192,7 +12895,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "greninja.png"
+   "sprite": "greninja.png",
+   "espece": "greninja"
   },
   {
    "chemin": "/pokedex/659-bunnelby",
@@ -12208,7 +12912,8 @@
    "zones": [
     "Zone 1"
    ],
-   "sprite": "bunnelby.png"
+   "sprite": "bunnelby.png",
+   "espece": "bunnelby"
   },
   {
    "chemin": "/pokedex/660-diggersby",
@@ -12225,7 +12930,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "diggersby.png"
+   "sprite": "diggersby.png",
+   "espece": "diggersby"
   },
   {
    "chemin": "/pokedex/661-fletchling",
@@ -12242,7 +12948,8 @@
    "zones": [
     "Zone 1"
    ],
-   "sprite": "fletchling.png"
+   "sprite": "fletchling.png",
+   "espece": "fletchling"
   },
   {
    "chemin": "/pokedex/662-fletchinder",
@@ -12259,7 +12966,8 @@
    "zones": [
     "Zone 2"
    ],
-   "sprite": "fletchinder.png"
+   "sprite": "fletchinder.png",
+   "espece": "fletchinder"
   },
   {
    "chemin": "/pokedex/663-talonflame",
@@ -12276,7 +12984,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "talonflame.png"
+   "sprite": "talonflame.png",
+   "espece": "talonflame"
   },
   {
    "chemin": "/pokedex/664-scatterbug",
@@ -12292,7 +13001,8 @@
    "zones": [
     "Zone 3"
    ],
-   "sprite": "scatterbug.png"
+   "sprite": "scatterbug.png",
+   "espece": "scatterbug"
   },
   {
    "chemin": "/pokedex/665-spewpa",
@@ -12308,7 +13018,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "spewpa.png"
+   "sprite": "spewpa.png",
+   "espece": "spewpa"
   },
   {
    "chemin": "/pokedex/666-vivillon",
@@ -12325,7 +13036,8 @@
    "zones": [
     "Bull'o Biome Magique"
    ],
-   "sprite": "vivillon.png"
+   "sprite": "vivillon.png",
+   "espece": "vivillon"
   },
   {
    "chemin": "/pokedex/667-litleo",
@@ -12342,7 +13054,8 @@
    "zones": [
     "Zone 5"
    ],
-   "sprite": "litleo.png"
+   "sprite": "litleo.png",
+   "espece": "litleo"
   },
   {
    "chemin": "/pokedex/668-pyroar",
@@ -12359,7 +13072,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "pyroar.png"
+   "sprite": "pyroar.png",
+   "espece": "pyroar-male"
   },
   {
    "chemin": "/pokedex/669-flabebe",
@@ -12375,7 +13089,8 @@
    "zones": [
     "Bull'o Biome Magique"
    ],
-   "sprite": "flabebe.png"
+   "sprite": "flabebe.png",
+   "espece": "flabebe"
   },
   {
    "chemin": "/pokedex/670-floette",
@@ -12391,7 +13106,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "floette.png"
+   "sprite": "floette.png",
+   "espece": "floette"
   },
   {
    "chemin": "/pokedex/671-florges",
@@ -12407,7 +13123,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "florges.png"
+   "sprite": "florges.png",
+   "espece": "florges"
   },
   {
    "chemin": "/pokedex/672-skiddo",
@@ -12423,7 +13140,8 @@
    "zones": [
     "Zone 9"
    ],
-   "sprite": "skiddo.png"
+   "sprite": "skiddo.png",
+   "espece": "skiddo"
   },
   {
    "chemin": "/pokedex/673-gogoat",
@@ -12439,7 +13157,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "gogoat.png"
+   "sprite": "gogoat.png",
+   "espece": "gogoat"
   },
   {
    "chemin": "/pokedex/674-pancham",
@@ -12455,7 +13174,8 @@
    "zones": [
     "Zone 2 Colline"
    ],
-   "sprite": "pancham.png"
+   "sprite": "pancham.png",
+   "espece": "pancham"
   },
   {
    "chemin": "/pokedex/675-pangoro",
@@ -12472,7 +13192,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "pangoro.png"
+   "sprite": "pangoro.png",
+   "espece": "pangoro"
   },
   {
    "chemin": "/pokedex/676-furfrou",
@@ -12488,7 +13209,8 @@
    "zones": [
     "Zone 4"
    ],
-   "sprite": "furfrou.png"
+   "sprite": "furfrou.png",
+   "espece": "furfrou"
   },
   {
    "chemin": "/pokedex/677-espurr",
@@ -12504,7 +13226,8 @@
    "zones": [
     "Zone 4"
    ],
-   "sprite": "espurr.png"
+   "sprite": "espurr.png",
+   "espece": "espurr"
   },
   {
    "chemin": "/pokedex/678-meowstic",
@@ -12520,7 +13243,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "meowstic.png"
+   "sprite": "meowstic.png",
+   "espece": "meowstic-male"
   },
   {
    "chemin": "/pokedex/679-honedge",
@@ -12537,7 +13261,8 @@
    "zones": [
     "Zone 6 ???"
    ],
-   "sprite": "honedge.png"
+   "sprite": "honedge.png",
+   "espece": "honedge"
   },
   {
    "chemin": "/pokedex/680-doublade",
@@ -12554,7 +13279,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "doublade.png"
+   "sprite": "doublade.png",
+   "espece": "doublade"
   },
   {
    "chemin": "/pokedex/681-aegislash",
@@ -12571,7 +13297,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "aegislash.png"
+   "sprite": "aegislash.png",
+   "espece": "aegislash-shield"
   },
   {
    "chemin": "/pokedex/682-spritzee",
@@ -12587,7 +13314,8 @@
    "zones": [
     "Zone 3"
    ],
-   "sprite": "spritzee.png"
+   "sprite": "spritzee.png",
+   "espece": "spritzee"
   },
   {
    "chemin": "/pokedex/683-aromatisse",
@@ -12603,7 +13331,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "aromatisse.png"
+   "sprite": "aromatisse.png",
+   "espece": "aromatisse"
   },
   {
    "chemin": "/pokedex/684-swirlix",
@@ -12619,7 +13348,8 @@
    "zones": [
     "Zone 3 Clairière"
    ],
-   "sprite": "swirlix.png"
+   "sprite": "swirlix.png",
+   "espece": "swirlix"
   },
   {
    "chemin": "/pokedex/685-slurpuff",
@@ -12635,7 +13365,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "slurpuff.png"
+   "sprite": "slurpuff.png",
+   "espece": "slurpuff"
   },
   {
    "chemin": "/pokedex/686-inkay",
@@ -12652,7 +13383,8 @@
    "zones": [
     "Zone 8"
    ],
-   "sprite": "inkay.png"
+   "sprite": "inkay.png",
+   "espece": "inkay"
   },
   {
    "chemin": "/pokedex/687-malamar",
@@ -12669,7 +13401,8 @@
    "zones": [
     "Zone 8"
    ],
-   "sprite": "malamar.png"
+   "sprite": "malamar.png",
+   "espece": "malamar"
   },
   {
    "chemin": "/pokedex/688-binacle",
@@ -12686,7 +13419,8 @@
    "zones": [
     "Zone 9 Eau"
    ],
-   "sprite": "binacle.png"
+   "sprite": "binacle.png",
+   "espece": "binacle"
   },
   {
    "chemin": "/pokedex/689-barbaracle",
@@ -12703,7 +13437,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "barbaracle.png"
+   "sprite": "barbaracle.png",
+   "espece": "barbaracle"
   },
   {
    "chemin": "/pokedex/690-skrelp",
@@ -12720,7 +13455,8 @@
    "zones": [
     "Zone 11 Eau"
    ],
-   "sprite": "skrelp.png"
+   "sprite": "skrelp.png",
+   "espece": "skrelp"
   },
   {
    "chemin": "/pokedex/691-dragalge",
@@ -12737,7 +13473,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "dragalge.png"
+   "sprite": "dragalge.png",
+   "espece": "dragalge"
   },
   {
    "chemin": "/pokedex/692-clauncher",
@@ -12753,7 +13490,8 @@
    "zones": [
     "Zone 1 Eau"
    ],
-   "sprite": "clauncher.png"
+   "sprite": "clauncher.png",
+   "espece": "clauncher"
   },
   {
    "chemin": "/pokedex/693-clawitzer",
@@ -12769,7 +13507,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "clawitzer.png"
+   "sprite": "clawitzer.png",
+   "espece": "clawitzer"
   },
   {
    "chemin": "/pokedex/694-helioptile",
@@ -12786,7 +13525,8 @@
    "zones": [
     "Zone 5"
    ],
-   "sprite": "helioptile.png"
+   "sprite": "helioptile.png",
+   "espece": "helioptile"
   },
   {
    "chemin": "/pokedex/695-heliolisk",
@@ -12803,7 +13543,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "heliolisk.png"
+   "sprite": "heliolisk.png",
+   "espece": "heliolisk"
   },
   {
    "chemin": "/pokedex/696-tyrunt",
@@ -12820,7 +13561,8 @@
    "zones": [
     "Sites de Fouille"
    ],
-   "sprite": "tyrunt.png"
+   "sprite": "tyrunt.png",
+   "espece": "tyrunt"
   },
   {
    "chemin": "/pokedex/697-tyrantrum",
@@ -12837,7 +13579,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "tyrantrum.png"
+   "sprite": "tyrantrum.png",
+   "espece": "tyrantrum"
   },
   {
    "chemin": "/pokedex/698-amaura",
@@ -12854,7 +13597,8 @@
    "zones": [
     "Sites de Fouille"
    ],
-   "sprite": "amaura.png"
+   "sprite": "amaura.png",
+   "espece": "amaura"
   },
   {
    "chemin": "/pokedex/699-aurorus",
@@ -12871,7 +13615,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "aurorus.png"
+   "sprite": "aurorus.png",
+   "espece": "aurorus"
   },
   {
    "chemin": "/pokedex/700-sylveon",
@@ -12887,7 +13632,8 @@
    "zones": [
     "Bull'o Biome Magique"
    ],
-   "sprite": "sylveon.png"
+   "sprite": "sylveon.png",
+   "espece": "sylveon"
   },
   {
    "chemin": "/pokedex/701-hawlucha",
@@ -12904,7 +13650,8 @@
    "zones": [
     "Tour de Combat"
    ],
-   "sprite": "hawlucha.png"
+   "sprite": "hawlucha.png",
+   "espece": "hawlucha"
   },
   {
    "chemin": "/pokedex/702-dedenne",
@@ -12921,7 +13668,8 @@
    "zones": [
     "Zone 4"
    ],
-   "sprite": "dedenne.png"
+   "sprite": "dedenne.png",
+   "espece": "dedenne"
   },
   {
    "chemin": "/pokedex/703-carbink",
@@ -12938,7 +13686,8 @@
    "zones": [
     "Zone 12"
    ],
-   "sprite": "carbink.png"
+   "sprite": "carbink.png",
+   "espece": "carbink"
   },
   {
    "chemin": "/pokedex/704-goomy",
@@ -12954,7 +13703,8 @@
    "zones": [
     "Zone 11"
    ],
-   "sprite": "goomy.png"
+   "sprite": "goomy.png",
+   "espece": "goomy"
   },
   {
    "chemin": "/pokedex/705-sliggoo",
@@ -12970,7 +13720,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "sliggoo.png"
+   "sprite": "sliggoo.png",
+   "espece": "sliggoo"
   },
   {
    "chemin": "/pokedex/705-sliggoo-hisui",
@@ -12987,7 +13738,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "sliggoo-hisui.png"
+   "sprite": "sliggoo-hisui.png",
+   "espece": "sliggoo-hisui"
   },
   {
    "chemin": "/pokedex/706-goodra",
@@ -13003,7 +13755,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "goodra.png"
+   "sprite": "goodra.png",
+   "espece": "goodra"
   },
   {
    "chemin": "/pokedex/706-goodra-hisui",
@@ -13020,7 +13773,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "goodra-hisui.png"
+   "sprite": "goodra-hisui.png",
+   "espece": "goodra-hisui"
   },
   {
    "chemin": "/pokedex/707-klefki",
@@ -13037,7 +13791,8 @@
    "zones": [
     "Zone 3"
    ],
-   "sprite": "klefki.png"
+   "sprite": "klefki.png",
+   "espece": "klefki"
   },
   {
    "chemin": "/pokedex/708-phantump",
@@ -13055,7 +13810,8 @@
     "Bull'o Biome Hanté",
     "Zone 12 Forêt"
    ],
-   "sprite": "phantump.png"
+   "sprite": "phantump.png",
+   "espece": "phantump"
   },
   {
    "chemin": "/pokedex/709-trevenant",
@@ -13072,7 +13828,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "trevenant.png"
+   "sprite": "trevenant.png",
+   "espece": "trevenant"
   },
   {
    "chemin": "/pokedex/710-pumpkaboo",
@@ -13089,7 +13846,8 @@
    "zones": [
     "Zone 2 Forêt"
    ],
-   "sprite": "pumpkaboo.png"
+   "sprite": "pumpkaboo.png",
+   "espece": "pumpkaboo-average"
   },
   {
    "chemin": "/pokedex/711-gourgeist",
@@ -13106,7 +13864,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "gourgeist.png"
+   "sprite": "gourgeist.png",
+   "espece": "gourgeist-average"
   },
   {
    "chemin": "/pokedex/712-bergmite",
@@ -13122,7 +13881,8 @@
    "zones": [
     "Zone 12"
    ],
-   "sprite": "bergmite.png"
+   "sprite": "bergmite.png",
+   "espece": "bergmite"
   },
   {
    "chemin": "/pokedex/713-avalugg",
@@ -13138,7 +13898,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "avalugg.png"
+   "sprite": "avalugg.png",
+   "espece": "avalugg"
   },
   {
    "chemin": "/pokedex/714-noibat",
@@ -13156,7 +13917,8 @@
     "Bull'o Biome Hanté",
     "Zone 9"
    ],
-   "sprite": "noibat.png"
+   "sprite": "noibat.png",
+   "espece": "noibat"
   },
   {
    "chemin": "/pokedex/715-noivern",
@@ -13173,7 +13935,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "noivern.png"
+   "sprite": "noivern.png",
+   "espece": "noivern"
   },
   {
    "chemin": "/pokedex/716-xerneas",
@@ -13189,7 +13952,8 @@
    "zones": [
     "Bull'o Biome Magique"
    ],
-   "sprite": "xerneas.png"
+   "sprite": "xerneas.png",
+   "espece": "xerneas"
   },
   {
    "chemin": "/pokedex/717-yveltal",
@@ -13206,7 +13970,8 @@
    "zones": [
     "Bull'o Biome Hanté"
    ],
-   "sprite": "yveltal.png"
+   "sprite": "yveltal.png",
+   "espece": "yveltal"
   },
   {
    "chemin": "/pokedex/718-zygarde",
@@ -13225,7 +13990,8 @@
     "Zone 6 ???",
     "Zone 6 Eau"
    ],
-   "sprite": "zygarde.png"
+   "sprite": "zygarde.png",
+   "espece": "zygarde-50"
   },
   {
    "chemin": "/pokedex/719-diancie",
@@ -13244,7 +14010,8 @@
     "Zone 6 ???",
     "Zone 6 Eau"
    ],
-   "sprite": "diancie.png"
+   "sprite": "diancie.png",
+   "espece": "diancie"
   },
   {
    "chemin": "/pokedex/720-hoopa",
@@ -13261,7 +14028,8 @@
    "zones": [
     "Inconnue"
    ],
-   "sprite": "hoopa.png"
+   "sprite": "hoopa.png",
+   "espece": "hoopa"
   },
   {
    "chemin": "/pokedex/721-volcanion",
@@ -13281,7 +14049,8 @@
     "Zone 7 Eau",
     "Zone 7 Oasis"
    ],
-   "sprite": "volcanion.png"
+   "sprite": "volcanion.png",
+   "espece": "volcanion"
   },
   {
    "chemin": "/pokedex/722-rowlet",
@@ -13298,7 +14067,8 @@
    "zones": [
     "Zone 12 Forêt"
    ],
-   "sprite": "rowlet.png"
+   "sprite": "rowlet.png",
+   "espece": "rowlet"
   },
   {
    "chemin": "/pokedex/723-dartrix",
@@ -13315,7 +14085,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "dartrix.png"
+   "sprite": "dartrix.png",
+   "espece": "dartrix"
   },
   {
    "chemin": "/pokedex/724-decidueye",
@@ -13332,7 +14103,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "decidueye.png"
+   "sprite": "decidueye.png",
+   "espece": "decidueye"
   },
   {
    "chemin": "/pokedex/724-decidueye-hisui",
@@ -13349,7 +14121,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "decidueye-hisui.png"
+   "sprite": "decidueye-hisui.png",
+   "espece": "decidueye-hisui"
   },
   {
    "chemin": "/pokedex/725-litten",
@@ -13365,7 +14138,8 @@
    "zones": [
     "Zone 4 Colline"
    ],
-   "sprite": "litten.png"
+   "sprite": "litten.png",
+   "espece": "litten"
   },
   {
    "chemin": "/pokedex/726-torracat",
@@ -13381,7 +14155,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "torracat.png"
+   "sprite": "torracat.png",
+   "espece": "torracat"
   },
   {
    "chemin": "/pokedex/727-incineroar",
@@ -13398,7 +14173,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "incineroar.png"
+   "sprite": "incineroar.png",
+   "espece": "incineroar"
   },
   {
    "chemin": "/pokedex/728-popplio",
@@ -13415,7 +14191,8 @@
     "Zone 7 Eau",
     "Zone 7 Oasis"
    ],
-   "sprite": "popplio.png"
+   "sprite": "popplio.png",
+   "espece": "popplio"
   },
   {
    "chemin": "/pokedex/729-brionne",
@@ -13431,7 +14208,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "brionne.png"
+   "sprite": "brionne.png",
+   "espece": "brionne"
   },
   {
    "chemin": "/pokedex/730-primarina",
@@ -13448,7 +14226,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "primarina.png"
+   "sprite": "primarina.png",
+   "espece": "primarina"
   },
   {
    "chemin": "/pokedex/731-pikipek",
@@ -13465,7 +14244,8 @@
    "zones": [
     "Zone 1"
    ],
-   "sprite": "pikipek.png"
+   "sprite": "pikipek.png",
+   "espece": "pikipek"
   },
   {
    "chemin": "/pokedex/732-trumbeak",
@@ -13482,7 +14262,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "trumbeak.png"
+   "sprite": "trumbeak.png",
+   "espece": "trumbeak"
   },
   {
    "chemin": "/pokedex/733-toucannon",
@@ -13499,7 +14280,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "toucannon.png"
+   "sprite": "toucannon.png",
+   "espece": "toucannon"
   },
   {
    "chemin": "/pokedex/734-yungoos",
@@ -13515,7 +14297,8 @@
    "zones": [
     "Zone 2"
    ],
-   "sprite": "yungoos.png"
+   "sprite": "yungoos.png",
+   "espece": "yungoos"
   },
   {
    "chemin": "/pokedex/735-gumshoos",
@@ -13531,7 +14314,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "gumshoos.png"
+   "sprite": "gumshoos.png",
+   "espece": "gumshoos"
   },
   {
    "chemin": "/pokedex/736-grubbin",
@@ -13547,7 +14331,8 @@
    "zones": [
     "Zone 1"
    ],
-   "sprite": "grubbin.png"
+   "sprite": "grubbin.png",
+   "espece": "grubbin"
   },
   {
    "chemin": "/pokedex/737-charjabug",
@@ -13564,7 +14349,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "charjabug.png"
+   "sprite": "charjabug.png",
+   "espece": "charjabug"
   },
   {
    "chemin": "/pokedex/738-vikavolt",
@@ -13581,7 +14367,8 @@
    "zones": [
     "Zone 8"
    ],
-   "sprite": "vikavolt.png"
+   "sprite": "vikavolt.png",
+   "espece": "vikavolt"
   },
   {
    "chemin": "/pokedex/739-crabrawler",
@@ -13598,7 +14385,8 @@
     "Bull'o Biome Cascade",
     "Zone 9"
    ],
-   "sprite": "crabrawler.png"
+   "sprite": "crabrawler.png",
+   "espece": "crabrawler"
   },
   {
    "chemin": "/pokedex/740-crabominable",
@@ -13615,7 +14403,8 @@
    "zones": [
     "Bull'o Biome Cascade"
    ],
-   "sprite": "crabominable.png"
+   "sprite": "crabominable.png",
+   "espece": "crabominable"
   },
   {
    "chemin": "/pokedex/741-oricorio",
@@ -13631,7 +14420,8 @@
    "zones": [
     "Zone 3"
    ],
-   "sprite": "oricorio.png"
+   "sprite": "oricorio.png",
+   "espece": "oricorio-baile"
   },
   {
    "chemin": "/pokedex/742-cutiefly",
@@ -13648,7 +14438,8 @@
    "zones": [
     "Zone 3"
    ],
-   "sprite": "cutiefly.png"
+   "sprite": "cutiefly.png",
+   "espece": "cutiefly"
   },
   {
    "chemin": "/pokedex/743-ribombee",
@@ -13665,7 +14456,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "ribombee.png"
+   "sprite": "ribombee.png",
+   "espece": "ribombee"
   },
   {
    "chemin": "/pokedex/744-rockruff",
@@ -13683,7 +14475,8 @@
     "Bull'o Biome Volcan",
     "Zone 9"
    ],
-   "sprite": "rockruff.png"
+   "sprite": "rockruff.png",
+   "espece": "rockruff"
   },
   {
    "chemin": "/pokedex/745-lycanroc",
@@ -13699,7 +14492,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "lycanroc.png"
+   "sprite": "lycanroc.png",
+   "espece": "lycanroc-midday"
   },
   {
    "chemin": "/pokedex/746-wishiwashi",
@@ -13715,7 +14509,8 @@
    "zones": [
     "Zone 2 Eau"
    ],
-   "sprite": "wishiwashi.png"
+   "sprite": "wishiwashi.png",
+   "espece": "wishiwashi-solo"
   },
   {
    "chemin": "/pokedex/747-mareanie",
@@ -13732,7 +14527,8 @@
    "zones": [
     "Zone 8 Eau"
    ],
-   "sprite": "mareanie.png"
+   "sprite": "mareanie.png",
+   "espece": "mareanie"
   },
   {
    "chemin": "/pokedex/748-toxapex",
@@ -13749,7 +14545,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "toxapex.png"
+   "sprite": "toxapex.png",
+   "espece": "toxapex"
   },
   {
    "chemin": "/pokedex/749-mudbray",
@@ -13765,7 +14562,8 @@
    "zones": [
     "Zone 6"
    ],
-   "sprite": "mudbray.png"
+   "sprite": "mudbray.png",
+   "espece": "mudbray"
   },
   {
    "chemin": "/pokedex/750-mudsdale",
@@ -13781,7 +14579,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "mudsdale.png"
+   "sprite": "mudsdale.png",
+   "espece": "mudsdale"
   },
   {
    "chemin": "/pokedex/751-dewpider",
@@ -13798,7 +14597,8 @@
    "zones": [
     "Zone 10 Eau"
    ],
-   "sprite": "dewpider.png"
+   "sprite": "dewpider.png",
+   "espece": "dewpider"
   },
   {
    "chemin": "/pokedex/752-araquanid",
@@ -13815,7 +14615,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "araquanid.png"
+   "sprite": "araquanid.png",
+   "espece": "araquanid"
   },
   {
    "chemin": "/pokedex/753-fomantis",
@@ -13831,7 +14632,8 @@
    "zones": [
     "Zone 3"
    ],
-   "sprite": "fomantis.png"
+   "sprite": "fomantis.png",
+   "espece": "fomantis"
   },
   {
    "chemin": "/pokedex/754-lurantis",
@@ -13847,7 +14649,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "lurantis.png"
+   "sprite": "lurantis.png",
+   "espece": "lurantis"
   },
   {
    "chemin": "/pokedex/755-morelull",
@@ -13864,7 +14667,8 @@
    "zones": [
     "Zone 8"
    ],
-   "sprite": "morelull.png"
+   "sprite": "morelull.png",
+   "espece": "morelull"
   },
   {
    "chemin": "/pokedex/756-shiinotic",
@@ -13881,7 +14685,8 @@
    "zones": [
     "Zone 8"
    ],
-   "sprite": "shiinotic.png"
+   "sprite": "shiinotic.png",
+   "espece": "shiinotic"
   },
   {
    "chemin": "/pokedex/757-salandit",
@@ -13899,7 +14704,8 @@
     "Bull'o Biome Volcan",
     "Zone 7"
    ],
-   "sprite": "salandit.png"
+   "sprite": "salandit.png",
+   "espece": "salandit"
   },
   {
    "chemin": "/pokedex/758-salazzle",
@@ -13916,7 +14722,8 @@
    "zones": [
     "Bull'o Biome Volcan"
    ],
-   "sprite": "salazzle.png"
+   "sprite": "salazzle.png",
+   "espece": "salazzle"
   },
   {
    "chemin": "/pokedex/759-stufful",
@@ -13933,7 +14740,8 @@
    "zones": [
     "Zone 2"
    ],
-   "sprite": "stufful.png"
+   "sprite": "stufful.png",
+   "espece": "stufful"
   },
   {
    "chemin": "/pokedex/760-bewear",
@@ -13950,7 +14758,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "bewear.png"
+   "sprite": "bewear.png",
+   "espece": "bewear"
   },
   {
    "chemin": "/pokedex/761-bounsweet",
@@ -13967,7 +14776,8 @@
     "Bull'o Biome Magique",
     "Zone 3"
    ],
-   "sprite": "bounsweet.png"
+   "sprite": "bounsweet.png",
+   "espece": "bounsweet"
   },
   {
    "chemin": "/pokedex/762-steenee",
@@ -13983,7 +14793,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "steenee.png"
+   "sprite": "steenee.png",
+   "espece": "steenee"
   },
   {
    "chemin": "/pokedex/763-tsareena",
@@ -13999,7 +14810,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "tsareena.png"
+   "sprite": "tsareena.png",
+   "espece": "tsareena"
   },
   {
    "chemin": "/pokedex/764-comfey",
@@ -14016,7 +14828,8 @@
     "Bull'o Biome Magique",
     "Zone 3"
    ],
-   "sprite": "comfey.png"
+   "sprite": "comfey.png",
+   "espece": "comfey"
   },
   {
    "chemin": "/pokedex/765-oranguru",
@@ -14033,7 +14846,8 @@
    "zones": [
     "Zone 10"
    ],
-   "sprite": "oranguru.png"
+   "sprite": "oranguru.png",
+   "espece": "oranguru"
   },
   {
    "chemin": "/pokedex/766-passimian",
@@ -14049,7 +14863,8 @@
    "zones": [
     "Zone 10"
    ],
-   "sprite": "passimian.png"
+   "sprite": "passimian.png",
+   "espece": "passimian"
   },
   {
    "chemin": "/pokedex/767-wimpod",
@@ -14066,7 +14881,8 @@
    "zones": [
     "Zone 4 Eau"
    ],
-   "sprite": "wimpod.png"
+   "sprite": "wimpod.png",
+   "espece": "wimpod"
   },
   {
    "chemin": "/pokedex/768-golisopod",
@@ -14083,7 +14899,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "golisopod.png"
+   "sprite": "golisopod.png",
+   "espece": "golisopod"
   },
   {
    "chemin": "/pokedex/769-sandygast",
@@ -14100,7 +14917,8 @@
    "zones": [
     "Zone 6"
    ],
-   "sprite": "sandygast.png"
+   "sprite": "sandygast.png",
+   "espece": "sandygast"
   },
   {
    "chemin": "/pokedex/770-palossand",
@@ -14117,7 +14935,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "palossand.png"
+   "sprite": "palossand.png",
+   "espece": "palossand"
   },
   {
    "chemin": "/pokedex/771-pyukumuku",
@@ -14134,7 +14953,8 @@
     "Bull'o Biome Cascade",
     "Zone 9 Eau"
    ],
-   "sprite": "pyukumuku.png"
+   "sprite": "pyukumuku.png",
+   "espece": "pyukumuku"
   },
   {
    "chemin": "/pokedex/772-typenull",
@@ -14153,7 +14973,8 @@
     "Zone 2 Eau",
     "Zone 2 Forêt"
    ],
-   "sprite": "typenull.png"
+   "sprite": "typenull.png",
+   "espece": "type-null"
   },
   {
    "chemin": "/pokedex/773-silvally",
@@ -14173,7 +14994,8 @@
     "Zone 2 Eau",
     "Zone 2 Forêt"
    ],
-   "sprite": "silvally.png"
+   "sprite": "silvally.png",
+   "espece": "silvally"
   },
   {
    "chemin": "/pokedex/774-minior",
@@ -14191,7 +15013,8 @@
     "Bull'o Biome Volcan",
     "Zone 9"
    ],
-   "sprite": "minior.png"
+   "sprite": "minior.png",
+   "espece": "minior-red-meteor"
   },
   {
    "chemin": "/pokedex/775-komala",
@@ -14207,7 +15030,8 @@
    "zones": [
     "Zone 10"
    ],
-   "sprite": "komala.png"
+   "sprite": "komala.png",
+   "espece": "komala"
   },
   {
    "chemin": "/pokedex/776-turtonator",
@@ -14225,7 +15049,8 @@
     "Bull'o Biome Volcan",
     "Zone 7"
    ],
-   "sprite": "turtonator.png"
+   "sprite": "turtonator.png",
+   "espece": "turtonator"
   },
   {
    "chemin": "/pokedex/777-togedemaru",
@@ -14242,7 +15067,8 @@
    "zones": [
     "Zone 12"
    ],
-   "sprite": "togedemaru.png"
+   "sprite": "togedemaru.png",
+   "espece": "togedemaru"
   },
   {
    "chemin": "/pokedex/778-mimikyu",
@@ -14259,7 +15085,8 @@
    "zones": [
     "Zone 7"
    ],
-   "sprite": "mimikyu.png"
+   "sprite": "mimikyu.png",
+   "espece": "mimikyu-disguised"
   },
   {
    "chemin": "/pokedex/779-bruxish",
@@ -14276,7 +15103,8 @@
    "zones": [
     "Océan"
    ],
-   "sprite": "bruxish.png"
+   "sprite": "bruxish.png",
+   "espece": "bruxish"
   },
   {
    "chemin": "/pokedex/780-drampa",
@@ -14293,7 +15121,8 @@
    "zones": [
     "Zone 9"
    ],
-   "sprite": "drampa.png"
+   "sprite": "drampa.png",
+   "espece": "drampa"
   },
   {
    "chemin": "/pokedex/781-dhelmise",
@@ -14310,7 +15139,8 @@
    "zones": [
     "Zone 7 Eau"
    ],
-   "sprite": "dhelmise.png"
+   "sprite": "dhelmise.png",
+   "espece": "dhelmise"
   },
   {
    "chemin": "/pokedex/782-jangmoo",
@@ -14326,7 +15156,8 @@
    "zones": [
     "Zone 9"
    ],
-   "sprite": "jangmoo.png"
+   "sprite": "jangmoo.png",
+   "espece": "jangmo-o"
   },
   {
    "chemin": "/pokedex/783-hakamoo",
@@ -14343,7 +15174,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "hakamoo.png"
+   "sprite": "hakamoo.png",
+   "espece": "hakamo-o"
   },
   {
    "chemin": "/pokedex/784-kommoo",
@@ -14360,7 +15192,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "kommoo.png"
+   "sprite": "kommoo.png",
+   "espece": "kommo-o"
   },
   {
    "chemin": "/pokedex/785-tapukoko",
@@ -14377,7 +15210,8 @@
    "zones": [
     "Quête"
    ],
-   "sprite": "tapukoko.png"
+   "sprite": "tapukoko.png",
+   "espece": "tapu-koko"
   },
   {
    "chemin": "/pokedex/786-tapulele",
@@ -14394,7 +15228,8 @@
    "zones": [
     "Quête"
    ],
-   "sprite": "tapulele.png"
+   "sprite": "tapulele.png",
+   "espece": "tapu-lele"
   },
   {
    "chemin": "/pokedex/787-tapubulu",
@@ -14411,7 +15246,8 @@
    "zones": [
     "Quête"
    ],
-   "sprite": "tapubulu.png"
+   "sprite": "tapubulu.png",
+   "espece": "tapu-bulu"
   },
   {
    "chemin": "/pokedex/788-tapufini",
@@ -14428,7 +15264,8 @@
    "zones": [
     "Quête"
    ],
-   "sprite": "tapufini.png"
+   "sprite": "tapufini.png",
+   "espece": "tapu-fini"
   },
   {
    "chemin": "/pokedex/789-cosmog",
@@ -14445,7 +15282,8 @@
     "Zone 9",
     "Zone 9 Eau"
    ],
-   "sprite": "cosmog.png"
+   "sprite": "cosmog.png",
+   "espece": "cosmog"
   },
   {
    "chemin": "/pokedex/790-cosmoem",
@@ -14463,7 +15301,8 @@
     "Zone 9",
     "Zone 9 Eau"
    ],
-   "sprite": "cosmoem.png"
+   "sprite": "cosmoem.png",
+   "espece": "cosmoem"
   },
   {
    "chemin": "/pokedex/791-solgaleo",
@@ -14481,7 +15320,8 @@
     "Zone 9",
     "Zone 9 Eau"
    ],
-   "sprite": "solgaleo.png"
+   "sprite": "solgaleo.png",
+   "espece": "solgaleo"
   },
   {
    "chemin": "/pokedex/792-lunala",
@@ -14499,7 +15339,8 @@
     "Zone 9",
     "Zone 9 Eau"
    ],
-   "sprite": "lunala.png"
+   "sprite": "lunala.png",
+   "espece": "lunala"
   },
   {
    "chemin": "/pokedex/793-nihilego",
@@ -14516,7 +15357,8 @@
    "zones": [
     "Inconnue"
    ],
-   "sprite": "nihilego.png"
+   "sprite": "nihilego.png",
+   "espece": "nihilego"
   },
   {
    "chemin": "/pokedex/794-buzzwole",
@@ -14533,7 +15375,8 @@
    "zones": [
     "Inconnue"
    ],
-   "sprite": "buzzwole.png"
+   "sprite": "buzzwole.png",
+   "espece": "buzzwole"
   },
   {
    "chemin": "/pokedex/795-pheromosa",
@@ -14550,7 +15393,8 @@
    "zones": [
     "Inconnue"
    ],
-   "sprite": "pheromosa.png"
+   "sprite": "pheromosa.png",
+   "espece": "pheromosa"
   },
   {
    "chemin": "/pokedex/796-xurkitree",
@@ -14566,7 +15410,8 @@
    "zones": [
     "Inconnue"
    ],
-   "sprite": "xurkitree.png"
+   "sprite": "xurkitree.png",
+   "espece": "xurkitree"
   },
   {
    "chemin": "/pokedex/797-celesteela",
@@ -14583,7 +15428,8 @@
    "zones": [
     "Inconnue"
    ],
-   "sprite": "celesteela.png"
+   "sprite": "celesteela.png",
+   "espece": "celesteela"
   },
   {
    "chemin": "/pokedex/798-kartana",
@@ -14600,7 +15446,8 @@
    "zones": [
     "Inconnue"
    ],
-   "sprite": "kartana.png"
+   "sprite": "kartana.png",
+   "espece": "kartana"
   },
   {
    "chemin": "/pokedex/799-guzzlord",
@@ -14617,7 +15464,8 @@
    "zones": [
     "Inconnue"
    ],
-   "sprite": "guzzlord.png"
+   "sprite": "guzzlord.png",
+   "espece": "guzzlord"
   },
   {
    "chemin": "/pokedex/800-necrozma",
@@ -14633,7 +15481,8 @@
    "zones": [
     "Inconnue"
    ],
-   "sprite": "necrozma.png"
+   "sprite": "necrozma.png",
+   "espece": "necrozma"
   },
   {
    "chemin": "/pokedex/801-magearna",
@@ -14652,7 +15501,8 @@
     "Zone 8 Colline",
     "Zone 8 Eau"
    ],
-   "sprite": "magearna.png"
+   "sprite": "magearna.png",
+   "espece": "magearna"
   },
   {
    "chemin": "/pokedex/802-marshadow",
@@ -14669,7 +15519,8 @@
    "zones": [
     "Inconnue"
    ],
-   "sprite": "marshadow.png"
+   "sprite": "marshadow.png",
+   "espece": "marshadow"
   },
   {
    "chemin": "/pokedex/803-poipole",
@@ -14685,7 +15536,8 @@
    "zones": [
     "Inconnue"
    ],
-   "sprite": "poipole.png"
+   "sprite": "poipole.png",
+   "espece": "poipole"
   },
   {
    "chemin": "/pokedex/804-naganadel",
@@ -14702,7 +15554,8 @@
    "zones": [
     "Inconnue"
    ],
-   "sprite": "naganadel.png"
+   "sprite": "naganadel.png",
+   "espece": "naganadel"
   },
   {
    "chemin": "/pokedex/805-stakataka",
@@ -14719,7 +15572,8 @@
    "zones": [
     "Inconnue"
    ],
-   "sprite": "stakataka.png"
+   "sprite": "stakataka.png",
+   "espece": "stakataka"
   },
   {
    "chemin": "/pokedex/806-blacephalon",
@@ -14736,7 +15590,8 @@
    "zones": [
     "Inconnue"
    ],
-   "sprite": "blacephalon.png"
+   "sprite": "blacephalon.png",
+   "espece": "blacephalon"
   },
   {
    "chemin": "/pokedex/807-zeraora",
@@ -14754,7 +15609,8 @@
     "Zone 5 Colline",
     "Zone 5 Eau"
    ],
-   "sprite": "zeraora.png"
+   "sprite": "zeraora.png",
+   "espece": "zeraora"
   },
   {
    "chemin": "/pokedex/808-meltan",
@@ -14770,7 +15626,8 @@
    "zones": [
     "Quête"
    ],
-   "sprite": "meltan.png"
+   "sprite": "meltan.png",
+   "espece": "meltan"
   },
   {
    "chemin": "/pokedex/809-melmetal",
@@ -14786,7 +15643,8 @@
    "zones": [
     "Quête"
    ],
-   "sprite": "melmetal.png"
+   "sprite": "melmetal.png",
+   "espece": "melmetal"
   },
   {
    "chemin": "/pokedex/810-grookey",
@@ -14802,7 +15660,8 @@
    "zones": [
     "Zone 10"
    ],
-   "sprite": "grookey.png"
+   "sprite": "grookey.png",
+   "espece": "grookey"
   },
   {
    "chemin": "/pokedex/811-thwackey",
@@ -14818,7 +15677,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "thwackey.png"
+   "sprite": "thwackey.png",
+   "espece": "thwackey"
   },
   {
    "chemin": "/pokedex/812-rillaboom",
@@ -14834,7 +15694,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "rillaboom.png"
+   "sprite": "rillaboom.png",
+   "espece": "rillaboom"
   },
   {
    "chemin": "/pokedex/813-scorbunny",
@@ -14850,7 +15711,8 @@
    "zones": [
     "Zone 5 Colline"
    ],
-   "sprite": "scorbunny.png"
+   "sprite": "scorbunny.png",
+   "espece": "scorbunny"
   },
   {
    "chemin": "/pokedex/814-raboot",
@@ -14866,7 +15728,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "raboot.png"
+   "sprite": "raboot.png",
+   "espece": "raboot"
   },
   {
    "chemin": "/pokedex/815-cinderace",
@@ -14882,7 +15745,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "cinderace.png"
+   "sprite": "cinderace.png",
+   "espece": "cinderace"
   },
   {
    "chemin": "/pokedex/816-sobble",
@@ -14898,7 +15762,8 @@
    "zones": [
     "Bull'o Biome Cascade"
    ],
-   "sprite": "sobble.png"
+   "sprite": "sobble.png",
+   "espece": "sobble"
   },
   {
    "chemin": "/pokedex/817-drizzile",
@@ -14914,7 +15779,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "drizzile.png"
+   "sprite": "drizzile.png",
+   "espece": "drizzile"
   },
   {
    "chemin": "/pokedex/818-inteleon",
@@ -14930,7 +15796,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "inteleon.png"
+   "sprite": "inteleon.png",
+   "espece": "inteleon"
   },
   {
    "chemin": "/pokedex/819-skwovet",
@@ -14946,7 +15813,8 @@
    "zones": [
     "Zone 2 Forêt"
    ],
-   "sprite": "skwovet.png"
+   "sprite": "skwovet.png",
+   "espece": "skwovet"
   },
   {
    "chemin": "/pokedex/820-greedent",
@@ -14962,7 +15830,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "greedent.png"
+   "sprite": "greedent.png",
+   "espece": "greedent"
   },
   {
    "chemin": "/pokedex/821-rookidee",
@@ -14978,7 +15847,8 @@
    "zones": [
     "Zone 8"
    ],
-   "sprite": "rookidee.png"
+   "sprite": "rookidee.png",
+   "espece": "rookidee"
   },
   {
    "chemin": "/pokedex/822-corvisquire",
@@ -14994,7 +15864,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "corvisquire.png"
+   "sprite": "corvisquire.png",
+   "espece": "corvisquire"
   },
   {
    "chemin": "/pokedex/823-corviknight",
@@ -15011,7 +15882,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "corviknight.png"
+   "sprite": "corviknight.png",
+   "espece": "corviknight"
   },
   {
    "chemin": "/pokedex/824-blipbug",
@@ -15027,7 +15899,8 @@
    "zones": [
     "Zone 8"
    ],
-   "sprite": "blipbug.png"
+   "sprite": "blipbug.png",
+   "espece": "blipbug"
   },
   {
    "chemin": "/pokedex/825-dottler",
@@ -15044,7 +15917,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "dottler.png"
+   "sprite": "dottler.png",
+   "espece": "dottler"
   },
   {
    "chemin": "/pokedex/826-orbeetle",
@@ -15061,7 +15935,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "orbeetle.png"
+   "sprite": "orbeetle.png",
+   "espece": "orbeetle"
   },
   {
    "chemin": "/pokedex/827-nickit",
@@ -15077,7 +15952,8 @@
    "zones": [
     "Zone 2"
    ],
-   "sprite": "nickit.png"
+   "sprite": "nickit.png",
+   "espece": "nickit"
   },
   {
    "chemin": "/pokedex/828-thievul",
@@ -15093,7 +15969,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "thievul.png"
+   "sprite": "thievul.png",
+   "espece": "thievul"
   },
   {
    "chemin": "/pokedex/829-gossifleur",
@@ -15109,7 +15986,8 @@
    "zones": [
     "Bull'o Biome Magique"
    ],
-   "sprite": "gossifleur.png"
+   "sprite": "gossifleur.png",
+   "espece": "gossifleur"
   },
   {
    "chemin": "/pokedex/830-eldegoss",
@@ -15125,7 +16003,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "eldegoss.png"
+   "sprite": "eldegoss.png",
+   "espece": "eldegoss"
   },
   {
    "chemin": "/pokedex/831-wooloo",
@@ -15141,7 +16020,8 @@
    "zones": [
     "Zone 1"
    ],
-   "sprite": "wooloo.png"
+   "sprite": "wooloo.png",
+   "espece": "wooloo"
   },
   {
    "chemin": "/pokedex/832-dubwool",
@@ -15157,7 +16037,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "dubwool.png"
+   "sprite": "dubwool.png",
+   "espece": "dubwool"
   },
   {
    "chemin": "/pokedex/833-chewtle",
@@ -15173,7 +16054,8 @@
    "zones": [
     "Zone 9 Eau"
    ],
-   "sprite": "chewtle.png"
+   "sprite": "chewtle.png",
+   "espece": "chewtle"
   },
   {
    "chemin": "/pokedex/834-drednaw",
@@ -15190,7 +16072,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "drednaw.png"
+   "sprite": "drednaw.png",
+   "espece": "drednaw"
   },
   {
    "chemin": "/pokedex/835-yamper",
@@ -15206,7 +16089,8 @@
    "zones": [
     "Zone 8"
    ],
-   "sprite": "yamper.png"
+   "sprite": "yamper.png",
+   "espece": "yamper"
   },
   {
    "chemin": "/pokedex/836-boltund",
@@ -15222,7 +16106,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "boltund.png"
+   "sprite": "boltund.png",
+   "espece": "boltund"
   },
   {
    "chemin": "/pokedex/837-rolycoly",
@@ -15238,7 +16123,8 @@
    "zones": [
     "Zone 7"
    ],
-   "sprite": "rolycoly.png"
+   "sprite": "rolycoly.png",
+   "espece": "rolycoly"
   },
   {
    "chemin": "/pokedex/838-carkol",
@@ -15255,7 +16141,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "carkol.png"
+   "sprite": "carkol.png",
+   "espece": "carkol"
   },
   {
    "chemin": "/pokedex/839-coalossal",
@@ -15272,7 +16159,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "coalossal.png"
+   "sprite": "coalossal.png",
+   "espece": "coalossal"
   },
   {
    "chemin": "/pokedex/840-applin",
@@ -15289,7 +16177,8 @@
    "zones": [
     "Bull'o Biome Magique"
    ],
-   "sprite": "applin.png"
+   "sprite": "applin.png",
+   "espece": "applin"
   },
   {
    "chemin": "/pokedex/841-flapple",
@@ -15306,7 +16195,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "flapple.png"
+   "sprite": "flapple.png",
+   "espece": "flapple"
   },
   {
    "chemin": "/pokedex/842-appletun",
@@ -15323,7 +16213,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "appletun.png"
+   "sprite": "appletun.png",
+   "espece": "appletun"
   },
   {
    "chemin": "/pokedex/843-silicobra",
@@ -15339,7 +16230,8 @@
    "zones": [
     "Zone 6"
    ],
-   "sprite": "silicobra.png"
+   "sprite": "silicobra.png",
+   "espece": "silicobra"
   },
   {
    "chemin": "/pokedex/844-sandaconda",
@@ -15355,7 +16247,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "sandaconda.png"
+   "sprite": "sandaconda.png",
+   "espece": "sandaconda"
   },
   {
    "chemin": "/pokedex/845-cramorant",
@@ -15372,7 +16265,8 @@
    "zones": [
     "Zone 3 Eau"
    ],
-   "sprite": "cramorant.png"
+   "sprite": "cramorant.png",
+   "espece": "cramorant"
   },
   {
    "chemin": "/pokedex/846-arrokuda",
@@ -15388,7 +16282,8 @@
    "zones": [
     "Bull'o Biome Cascade"
    ],
-   "sprite": "arrokuda.png"
+   "sprite": "arrokuda.png",
+   "espece": "arrokuda"
   },
   {
    "chemin": "/pokedex/847-barraskewda",
@@ -15404,7 +16299,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "barraskewda.png"
+   "sprite": "barraskewda.png",
+   "espece": "barraskewda"
   },
   {
    "chemin": "/pokedex/848-toxel",
@@ -15421,7 +16317,8 @@
    "zones": [
     "Zone 8"
    ],
-   "sprite": "toxel.png"
+   "sprite": "toxel.png",
+   "espece": "toxel"
   },
   {
    "chemin": "/pokedex/849-toxtricity",
@@ -15438,7 +16335,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "toxtricity.png"
+   "sprite": "toxtricity.png",
+   "espece": "toxtricity-amped"
   },
   {
    "chemin": "/pokedex/850-sizzlipede",
@@ -15455,7 +16353,8 @@
    "zones": [
     "Bull'o Biome Volcan"
    ],
-   "sprite": "sizzlipede.png"
+   "sprite": "sizzlipede.png",
+   "espece": "sizzlipede"
   },
   {
    "chemin": "/pokedex/851-centiskorch",
@@ -15472,7 +16371,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "centiskorch.png"
+   "sprite": "centiskorch.png",
+   "espece": "centiskorch"
   },
   {
    "chemin": "/pokedex/852-clobbopus",
@@ -15488,7 +16388,8 @@
    "zones": [
     "Bull'o Biome Cascade"
    ],
-   "sprite": "clobbopus.png"
+   "sprite": "clobbopus.png",
+   "espece": "clobbopus"
   },
   {
    "chemin": "/pokedex/853-grapploct",
@@ -15504,7 +16405,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "grapploct.png"
+   "sprite": "grapploct.png",
+   "espece": "grapploct"
   },
   {
    "chemin": "/pokedex/854-sinistea",
@@ -15520,7 +16422,8 @@
    "zones": [
     "Bull'o Biome Hanté"
    ],
-   "sprite": "sinistea.png"
+   "sprite": "sinistea.png",
+   "espece": "sinistea"
   },
   {
    "chemin": "/pokedex/855-polteageist",
@@ -15536,7 +16439,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "polteageist.png"
+   "sprite": "polteageist.png",
+   "espece": "polteageist"
   },
   {
    "chemin": "/pokedex/856-hatenna",
@@ -15552,7 +16456,8 @@
    "zones": [
     "Bull'o Biome Magique"
    ],
-   "sprite": "hatenna.png"
+   "sprite": "hatenna.png",
+   "espece": "hatenna"
   },
   {
    "chemin": "/pokedex/857-hattrem",
@@ -15568,7 +16473,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "hattrem.png"
+   "sprite": "hattrem.png",
+   "espece": "hattrem"
   },
   {
    "chemin": "/pokedex/858-hatterene",
@@ -15585,7 +16491,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "hatterene.png"
+   "sprite": "hatterene.png",
+   "espece": "hatterene"
   },
   {
    "chemin": "/pokedex/859-impidimp",
@@ -15602,7 +16509,8 @@
    "zones": [
     "Bull'o Biome Hanté"
    ],
-   "sprite": "impidimp.png"
+   "sprite": "impidimp.png",
+   "espece": "impidimp"
   },
   {
    "chemin": "/pokedex/860-morgrem",
@@ -15619,7 +16527,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "morgrem.png"
+   "sprite": "morgrem.png",
+   "espece": "morgrem"
   },
   {
    "chemin": "/pokedex/861-grimmsnarl",
@@ -15636,7 +16545,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "grimmsnarl.png"
+   "sprite": "grimmsnarl.png",
+   "espece": "grimmsnarl"
   },
   {
    "chemin": "/pokedex/862-obstagoon",
@@ -15653,7 +16563,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "obstagoon.png"
+   "sprite": "obstagoon.png",
+   "espece": "obstagoon"
   },
   {
    "chemin": "/pokedex/863-perrserker",
@@ -15669,7 +16580,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "perrserker.png"
+   "sprite": "perrserker.png",
+   "espece": "perrserker"
   },
   {
    "chemin": "/pokedex/864-cursola",
@@ -15685,7 +16597,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "cursola.png"
+   "sprite": "cursola.png",
+   "espece": "cursola"
   },
   {
    "chemin": "/pokedex/865-sirfetchd",
@@ -15701,7 +16614,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "sirfetchd.png"
+   "sprite": "sirfetchd.png",
+   "espece": "sirfetchd"
   },
   {
    "chemin": "/pokedex/866-mrrime",
@@ -15718,7 +16632,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "mrrime.png"
+   "sprite": "mrrime.png",
+   "espece": "mr-rime"
   },
   {
    "chemin": "/pokedex/867-runerigus",
@@ -15734,7 +16649,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "runerigus.png"
+   "sprite": "runerigus.png",
+   "espece": "runerigus"
   },
   {
    "chemin": "/pokedex/868-milcery",
@@ -15750,7 +16666,8 @@
    "zones": [
     "Bull'o Biome Magique"
    ],
-   "sprite": "milcery.png"
+   "sprite": "milcery.png",
+   "espece": "milcery"
   },
   {
    "chemin": "/pokedex/869-alcremie",
@@ -15766,7 +16683,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "alcremie.png"
+   "sprite": "alcremie.png",
+   "espece": "alcremie"
   },
   {
    "chemin": "/pokedex/870-falinks",
@@ -15782,7 +16700,8 @@
    "zones": [
     "Bull'o Biome Cascade"
    ],
-   "sprite": "falinks.png"
+   "sprite": "falinks.png",
+   "espece": "falinks"
   },
   {
    "chemin": "/pokedex/871-pincurchin",
@@ -15798,7 +16717,8 @@
    "zones": [
     "Zone 8 Eau"
    ],
-   "sprite": "pincurchin.png"
+   "sprite": "pincurchin.png",
+   "espece": "pincurchin"
   },
   {
    "chemin": "/pokedex/872-snom",
@@ -15815,7 +16735,8 @@
    "zones": [
     "Zone 12"
    ],
-   "sprite": "snom.png"
+   "sprite": "snom.png",
+   "espece": "snom"
   },
   {
    "chemin": "/pokedex/873-frosmoth",
@@ -15832,7 +16753,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "frosmoth.png"
+   "sprite": "frosmoth.png",
+   "espece": "frosmoth"
   },
   {
    "chemin": "/pokedex/874-stonjourner",
@@ -15848,7 +16770,8 @@
    "zones": [
     "Bull'o Biome Cascade"
    ],
-   "sprite": "stonjourner.png"
+   "sprite": "stonjourner.png",
+   "espece": "stonjourner"
   },
   {
    "chemin": "/pokedex/875-eiscue",
@@ -15864,7 +16787,8 @@
    "zones": [
     "Zone 12"
    ],
-   "sprite": "eiscue.png"
+   "sprite": "eiscue.png",
+   "espece": "eiscue-ice"
   },
   {
    "chemin": "/pokedex/876-indeedee",
@@ -15881,7 +16805,8 @@
    "zones": [
     "Bull'o Biome Magique"
    ],
-   "sprite": "indeedee.png"
+   "sprite": "indeedee.png",
+   "espece": "indeedee-male"
   },
   {
    "chemin": "/pokedex/877-morpeko",
@@ -15898,7 +16823,8 @@
    "zones": [
     "Zone 4"
    ],
-   "sprite": "morpeko.png"
+   "sprite": "morpeko.png",
+   "espece": "morpeko-full-belly"
   },
   {
    "chemin": "/pokedex/878-cufant",
@@ -15914,7 +16840,8 @@
    "zones": [
     "Zone 7"
    ],
-   "sprite": "cufant.png"
+   "sprite": "cufant.png",
+   "espece": "cufant"
   },
   {
    "chemin": "/pokedex/879-copperajah",
@@ -15930,7 +16857,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "copperajah.png"
+   "sprite": "copperajah.png",
+   "espece": "copperajah"
   },
   {
    "chemin": "/pokedex/880-dracozolt",
@@ -15947,7 +16875,8 @@
    "zones": [
     "Sites de Fouille"
    ],
-   "sprite": "dracozolt.png"
+   "sprite": "dracozolt.png",
+   "espece": "dracozolt"
   },
   {
    "chemin": "/pokedex/881-arctozolt",
@@ -15964,7 +16893,8 @@
    "zones": [
     "Sites de Fouille"
    ],
-   "sprite": "arctozolt.png"
+   "sprite": "arctozolt.png",
+   "espece": "arctozolt"
   },
   {
    "chemin": "/pokedex/882-dracovish",
@@ -15981,7 +16911,8 @@
    "zones": [
     "Sites de Fouille"
    ],
-   "sprite": "dracovish.png"
+   "sprite": "dracovish.png",
+   "espece": "dracovish"
   },
   {
    "chemin": "/pokedex/883-arctovish",
@@ -15998,7 +16929,8 @@
    "zones": [
     "Sites de Fouille"
    ],
-   "sprite": "arctovish.png"
+   "sprite": "arctovish.png",
+   "espece": "arctovish"
   },
   {
    "chemin": "/pokedex/884-duraludon",
@@ -16015,7 +16947,8 @@
    "zones": [
     "Tour de Combat"
    ],
-   "sprite": "duraludon.png"
+   "sprite": "duraludon.png",
+   "espece": "duraludon"
   },
   {
    "chemin": "/pokedex/885-dreepy",
@@ -16032,7 +16965,8 @@
    "zones": [
     "Tour de Combat"
    ],
-   "sprite": "dreepy.png"
+   "sprite": "dreepy.png",
+   "espece": "dreepy"
   },
   {
    "chemin": "/pokedex/886-drakloak",
@@ -16049,7 +16983,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "drakloak.png"
+   "sprite": "drakloak.png",
+   "espece": "drakloak"
   },
   {
    "chemin": "/pokedex/887-dragapult",
@@ -16066,7 +17001,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "dragapult.png"
+   "sprite": "dragapult.png",
+   "espece": "dragapult"
   },
   {
    "chemin": "/pokedex/888-zacian",
@@ -16086,7 +17022,8 @@
     "Zone 1 Eau",
     "Zone 1 Forêt"
    ],
-   "sprite": "zacian.png"
+   "sprite": "zacian.png",
+   "espece": "zacian"
   },
   {
    "chemin": "/pokedex/889-zamazenta",
@@ -16106,7 +17043,8 @@
     "Zone 1 Eau",
     "Zone 1 Forêt"
    ],
-   "sprite": "zamazenta.png"
+   "sprite": "zamazenta.png",
+   "espece": "zamazenta"
   },
   {
    "chemin": "/pokedex/890-eternatus",
@@ -16124,7 +17062,8 @@
     "Zone 11",
     "Zone 11 Eau"
    ],
-   "sprite": "eternatus.png"
+   "sprite": "eternatus.png",
+   "espece": "eternatus"
   },
   {
    "chemin": "/pokedex/891-kubfu",
@@ -16142,7 +17081,8 @@
     "Zone 4 Colline",
     "Zone 4 Eau"
    ],
-   "sprite": "kubfu.png"
+   "sprite": "kubfu.png",
+   "espece": "kubfu"
   },
   {
    "chemin": "/pokedex/892-urshifu",
@@ -16160,7 +17100,8 @@
     "Zone 4 Colline",
     "Zone 4 Eau"
    ],
-   "sprite": "urshifu.png"
+   "sprite": "urshifu.png",
+   "espece": "urshifu-single-strike"
   },
   {
    "chemin": "/pokedex/893-zarude",
@@ -16179,7 +17120,8 @@
     "Zone 10 Colline",
     "Zone 10 Eau"
    ],
-   "sprite": "zarude.png"
+   "sprite": "zarude.png",
+   "espece": "zarude"
   },
   {
    "chemin": "/pokedex/894-regieleki",
@@ -16197,7 +17139,8 @@
     "Zone 8 Colline",
     "Zone 8 Eau"
    ],
-   "sprite": "regieleki.png"
+   "sprite": "regieleki.png",
+   "espece": "regieleki"
   },
   {
    "chemin": "/pokedex/895-regidrago",
@@ -16214,7 +17157,8 @@
     "Zone 9",
     "Zone 9 Eau"
    ],
-   "sprite": "regidrago.png"
+   "sprite": "regidrago.png",
+   "espece": "regidrago"
   },
   {
    "chemin": "/pokedex/896-glastrier",
@@ -16232,7 +17176,8 @@
     "Zone 12 Eau",
     "Zone 12 Forêt"
    ],
-   "sprite": "glastrier.png"
+   "sprite": "glastrier.png",
+   "espece": "glastrier"
   },
   {
    "chemin": "/pokedex/897-spectrier",
@@ -16251,7 +17196,8 @@
     "Zone 2 Eau",
     "Zone 2 Forêt"
    ],
-   "sprite": "spectrier.png"
+   "sprite": "spectrier.png",
+   "espece": "spectrier"
   },
   {
    "chemin": "/pokedex/898-calyrex",
@@ -16270,7 +17216,8 @@
     "Zone 10 Colline",
     "Zone 10 Eau"
    ],
-   "sprite": "calyrex.png"
+   "sprite": "calyrex.png",
+   "espece": "calyrex"
   },
   {
    "chemin": "/pokedex/899-wyrdeer",
@@ -16287,7 +17234,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "wyrdeer.png"
+   "sprite": "wyrdeer.png",
+   "espece": "wyrdeer"
   },
   {
    "chemin": "/pokedex/902-basculegion",
@@ -16304,7 +17252,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "basculegion.png"
+   "sprite": "basculegion.png",
+   "espece": "basculegion-male"
   },
   {
    "chemin": "/pokedex/904-overqwil",
@@ -16321,7 +17270,8 @@
    "zones": [
     "Evolution"
    ],
-   "sprite": "overqwil.png"
+   "sprite": "overqwil.png",
+   "espece": "overqwil"
   },
   {
    "chemin": "/pokedex/905-enamorus",
@@ -16339,7 +17289,8 @@
     "Zone 11",
     "Zone 11 Eau"
    ],
-   "sprite": "enamorus.png"
+   "sprite": "enamorus.png",
+   "espece": "enamorus-incarnate"
   }
  ]
 }

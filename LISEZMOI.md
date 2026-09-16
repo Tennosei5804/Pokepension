@@ -983,10 +983,15 @@ en base. La page ne fait que le dessiner. Une conversion refaite à l'affichage
 aurait été une seconde vérité, et le jour où le serveur ajoute un palier, une
 seule des deux aurait suivi.
 
-Toujours **cinq crans** — « ★★★☆☆ » et non « ★★★ » : c'est la place vide qui
-dit qu'il y a plus rare ailleurs. **Zéro étoile n'est pas « commun »** : quand
-la base ne sait pas, on ne dessine aucune étoile plutôt que cinq étoiles
-creuses, qui annonceraient un Pokémon banal.
+**On ne dessine que les étoiles gagnées** : un Pokémon à une étoile s'écrit
+« ★ », pas « ★☆☆☆☆ ». La forme complète a existé, au motif que la place vide
+dit qu'il y a plus rare ailleurs ; quatre étoiles creuses derrière chaque
+Magicarpe, sur 951 cartes, faisaient surtout du bruit. L'échelle sur cinq est
+rappelée par l'infobulle et l'étiquette accessible — « 1 étoile sur 5 ».
+
+**Zéro étoile n'est pas « commun »** : quand la base ne sait pas, la carte
+affiche un tiret. Aucune étoile aurait voulu dire « moins que commun », ce qui
+n'existe pas.
 
 ### Une seule source
 
@@ -1002,8 +1007,17 @@ cd api  && node --env-file=.env outils/importer-pixelmonworld.js
 
 Le relevé lit les 951 fiches du site (une par espèce : numéro, types,
 génération, rareté, zones) et en tire 1 175 apparitions sur 20 zones et 29
-sous-zones. L'import est **rejouable** : au second passage il met à jour et ne
-crée rien. Ajouter `--a-blanc` pour voir ce qu'il ferait sans rien écrire.
+sous-zones. L'import est **rejouable** : au second passage il met à jour, et il
+**retire** ce que le site ne donne plus — espèces comme apparitions. Ajouter
+`--a-blanc` pour voir ce qu'il ferait sans rien écrire.
+
+**Le relevé réconcilie les deux écritures.** Le site laisse tomber la
+ponctuation — « nidoranf » pour `nidoran-f`, « hooh » pour `ho-oh`, « tapukoko »
+pour `tapu-koko` — et nomme l'espèce là où l'application ne connaît que ses
+formes : « deoxys » n'existe pas, il y a `deoxys-normal`. **48 espèces sur 951**
+étaient dans ce cas, et ça se voyait — ni sprite, ni fiche à ouvrir. La
+résolution lit la réserve embarquée de l'application plutôt qu'une table écrite
+à la main, qui aurait dérivé à la première génération suivante.
 
 **Cinq libellés ne sont pas des lieux** — Évolution, Sites de Fouille, Quête,
 Tour de Combat, Inconnue. Ils gardent leur nom et portent un genre à part :

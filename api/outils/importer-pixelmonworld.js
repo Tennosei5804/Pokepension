@@ -44,18 +44,20 @@ const aBlanc = process.argv.includes('--a-blanc');
 const journal = (...m) => console.log(...m);
 
 /**
- * La clé de forme de l'application, depuis le nom anglais du site.
+ * La clé de forme de l'application.
  *
- * Le site écrit « exeggutor-alola », « rattata-alola », « magikarp » — c'est
- * déjà l'écriture de PokeAPI, donc celle de l'application. Le relevé n'a rien
- * à traduire, et c'est la raison pour laquelle il garde le nom de l'adresse
- * plutôt que le nom français : « Noadkoko d'Alola » n'aurait rien retrouvé.
+ * ELLE EST RÉSOLUE PAR LE RELEVÉ, pas ici. Le site écrit « nidoranf » là où
+ * l'application dit « nidoran-f », et « deoxys » là où elle ne connaît que
+ * deoxys-normal : c'est le relevé qui réconcilie les deux, en lisant la
+ * réserve embarquée de l'application. Voir resoudre() dans
+ * app/outils/relever-pixelmonworld.py.
  *
- * QUELQUES-UNS NE TOMBERONT PAS JUSTE, et c'est normal : le site nomme des
- * formes que l'application ne connaît pas, ou l'inverse. On les compte et on
- * les annonce à la fin plutôt que de les corriger en douce.
+ * On retombe sur `nomEn` pour un relevé plus ancien, écrit avant que la
+ * résolution n'existe : la clé y est alors juste dans 903 cas sur 951, et
+ * l'import reste possible plutôt que de refuser un fichier qu'on sait lire.
  */
-const cleEspece = (fiche) => String(fiche.nomEn || '').trim().toLowerCase();
+const cleEspece = (fiche) =>
+  String(fiche.espece || fiche.nomEn || '').trim().toLowerCase();
 
 async function lireReleve() {
   let brut;
@@ -143,15 +145,26 @@ const cleZoneDe = (nom) => String(nom || '').normalize('NFD')
   .replace(/[̀-ͯ]/g, '').toLowerCase()
   .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 64) || 'zone';
 
-/** Les espèces : ce que le serveur dit de chacune, rareté comprise. */
+/**
+ * Les espèces : ce que le serveur dit de chacune, rareté comprise.
+ *
+ * CELLES QUI NE SONT PLUS DANS LE RELEVÉ SONT RETIRÉES, comme les apparitions.
+ * Ce n'est pas une précaution théorique : le jour où le relevé a appris à
+ * résoudre « nidoranf » en « nidoran-f », les quarante-huit anciennes clés sont
+ * restées en base à côté des neuves, et le Pokédex a montré neuf cent
+ * quatre-vingt-dix-neuf espèces dont quarante-huit doublons sans sprite ni
+ * fiche. Un import qui ajoute sans retirer finit toujours par là.
+ */
 async function poserEspeces(releve) {
   const maintenant = horodatage();
   let neuves = 0;
   let majs = 0;
+  const attendues = new Set();
 
   for (const f of releve.especes) {
     const espece = cleEspece(f);
     if (!espece) continue;
+    attendues.add(espece);
     const rarete = libelleDeRarete(f.rarete);
     const etoiles = etoilesDeRarete(f.rarete);
     const deja = await une('SELECT espece FROM pa_pw_especes WHERE espece = ?', [espece]);
@@ -172,7 +185,14 @@ async function poserEspeces(releve) {
     }
     if (deja) majs += 1; else neuves += 1;
   }
-  return { neuves, majs };
+
+  let retirees = 0;
+  for (const l of await lire('SELECT espece FROM pa_pw_especes')) {
+    if (attendues.has(l.espece)) continue;
+    if (!aBlanc) await ecrire('DELETE FROM pa_pw_especes WHERE espece = ?', [l.espece]);
+    retirees += 1;
+  }
+  return { neuves, majs, retirees };
 }
 
 /**
@@ -258,7 +278,8 @@ async function main() {
   journal(`zones     : ${z.zonesCreees} créées, ${z.sousCreees} sous-zones créées`);
 
   const e = await poserEspeces(releve);
-  journal(`espèces   : ${e.neuves} nouvelles, ${e.majs} mises à jour`);
+  journal(`espèces   : ${e.neuves} nouvelles, ${e.majs} mises à jour, `
+    + `${e.retirees} retirées (absentes du relevé)`);
 
   const s = await poserSpawns(releve, z.parLibelle);
   journal(`apparitions : ${s.neuves} nouvelles, ${s.majs} mises à jour, `
