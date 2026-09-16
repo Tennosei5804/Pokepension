@@ -55,11 +55,15 @@ class Serveur(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *a, **kw):
         super().__init__(*a, directory=str(PUBLIC), **kw)
 
-    # Les pages sans extension : « /dex » rend dex.html. Le site a deux pages,
-    # l'accueil sur la racine et le Pokedex a cote, et une adresse propre vaut
-    # mieux qu'un « .html » dans la barre pour une page qu'on met en favori.
-    # Caddy fait la meme chose en production, par try_files.
-    SANS_EXTENSION = {"/dex": "/dex.html"}
+    # Les pages sans extension : « /dex » rend dex.html, « /lieux » rend
+    # lieux.html. Une adresse propre vaut mieux qu'un « .html » dans la barre
+    # pour une page qu'on met en favori ou qu'on colle dans un salon.
+    #
+    # LA MEME REGLE QUE CADDY, ET PAS UNE LISTE. En production c'est
+    # `try_files {path} {path}.html` : servir « X.html » derriere « /X » des
+    # que le fichier existe. Une liste tenue ici — elle ne contenait que
+    # « /dex » — aurait laisse « /lieux » repondre 404 en local et 200 en
+    # ligne, et l'on aurait cru a un defaut du site la ou il n'y en avait pas.
 
     # L'INSTALLATEUR VIT HORS DE public/, ICI COMME SUR LE SERVEUR.
     # L'assemblage efface public/ en entier a chaque passage : un binaire de
@@ -70,7 +74,9 @@ class Serveur(http.server.SimpleHTTPRequestHandler):
 
     def _reecrire(self):
         chemin = self.path.split("?")[0].rstrip("/") or "/"
-        cible = self.SANS_EXTENSION.get(chemin)
+        cible = None
+        if chemin != "/" and "." not in chemin.rsplit("/", 1)[-1]                 and (PUBLIC / (chemin.lstrip("/") + ".html")).is_file():
+            cible = chemin + ".html"
         # UN LIEN DE PARTAGE : « /p/K7M2-QX4P » rend la meme page pour tous les
         # codes, et c'est elle qui lit le code dans l'adresse. Caddy fait la
         # meme reecriture en production.

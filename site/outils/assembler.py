@@ -102,6 +102,47 @@ def horodater(html: str, racine: pathlib.Path) -> str:
 # seules : les precharger triplerait l'installation pour des panneaux qu'on
 # n'ouvre pas toujours — c'est exactement le raisonnement qui les avait sorties
 # du demarrage. Le service worker les prend en cache a leur premier usage.
+# LES ADRESSES DE L'APPLICATION, ET LA SEULE LISTE QUI LES TIENNE.
+#
+# « /dex » ouvrait l'application sur son accueil, et c'etait la seule adresse :
+# pour montrer les lieux a quelqu'un, il fallait lui dire « va sur /dex, puis
+# clique sur Lieux ». Chaque ecran a maintenant la sienne, qu'on colle dans un
+# salon et qui ouvre directement la bonne page.
+#
+# DES ECRANS, PAS DES ONGLETS. « Outils » et « Serveurs » ne sont pas des pages :
+# ce sont des onglets qui MENENT a une page — Strategie, le Pokedex de
+# PixelmonWorld. Leur donner une adresse a eux ferait deux adresses pour le
+# meme ecran, et l'onglet clique n'aurait pas la meme que le lien partage.
+#
+# UN SEUL SEGMENT, jamais « /pixelmonworld/lieux ». La page charge ses scripts
+# par chemin relatif — « js/donnees.js » — et un second segment les ferait
+# chercher dans « /pixelmonworld/js/ », ou il n'y a rien.
+#
+# Tout en decoule, et rien ne se recopie :
+#   · une page par adresse, « lieux.html », que Caddy sert deja par son
+#     `try_files {path} {path}.html` — la regle qui servait « /dex » ;
+#   · la table, posee dans la page pour adresses.js, qui ouvre l'ecran et
+#     tient la barre d'adresse a jour ;
+#   · la liste, posee dans le service worker, qui sait alors quelles adresses
+#     sont l'application quand le reseau manque.
+ADRESSES = {
+    "pokedex": "jeux",
+    "lieux": "lieux",
+    "dresseurs": "dresseurs",
+    "amis": "amis",
+    "messages": "messages",
+    "chasse": "chasse",
+    "cadeaux": "cadeaux",
+    "strategie": "strategie",
+    "reproduction": "reproduction",
+    "transferts": "transferts",
+    "obtenir": "obtenir",
+    "pixelmonworld": "pixelmonworld",
+    "pixelmonworld-lieux": "pwlieux",
+    "profil": "profil",
+    "admin": "admin",
+}
+
 A_LA_DEMANDE = ("donnees-lieux.js", "donnees-attaques.js",
                 "donnees-descriptions.js", "donnees-cobblemon.js")
 
@@ -269,7 +310,8 @@ def poser_pwa(html: str, accueil: str) -> tuple:
 
     gabarit = (SOURCE / "sw.js").read_text(encoding="utf-8")
     gabarit = (gabarit.replace("__VERSION__", version)
-                      .replace("__COQUILLE__", json.dumps(liste, ensure_ascii=False)))
+                      .replace("__COQUILLE__", json.dumps(liste, ensure_ascii=False))
+                      .replace("__ADRESSES__", json.dumps(sorted(ADRESSES))))
     # A LA RACINE, et non dans js/ : un service worker ne controle que les
     # adresses situees SOUS la sienne. Depose dans js/, il ne verrait ni
     # index.html ni les feuilles de style, et ne servirait donc a rien.
@@ -319,6 +361,11 @@ def poser_pwa(html: str, accueil: str) -> tuple:
     html = html.replace("</body>",
                         '<script src="js/barre-mobile.js"></script>' + chr(10)
                         + "</body>", 1)
+    # LES ADRESSES, EN DERNIER. Le script enveloppe showPage() : il doit donc
+    # passer apres tous ceux qui la definissent ou l'appellent au chargement.
+    html = html.replace("</body>",
+                        '<script src="js/adresses.js"></script>' + chr(10)
+                        + "</body>", 1)
     html = html.replace("</body>", inscription + "</body>", 1)
     accueil = accueil.replace("</body>", inscription + "</body>", 1)
     return html, accueil
@@ -364,6 +411,7 @@ def batir() -> int:
                          ("partage-site.css", PUBLIC / "css" / "partage-site.css"),
                          ("partage-site.js", PUBLIC / "js" / "partage-site.js"),
                          ("barre-mobile.js", PUBLIC / "js" / "barre-mobile.js"),
+                         ("adresses.js", PUBLIC / "js" / "adresses.js"),
                          ("essai.html", PUBLIC / "essai.html")]:
         f = SOURCE / source
         if not f.is_file():
@@ -388,6 +436,13 @@ def batir() -> int:
     balise_api = '<script>window.POKEPENSION_API = %s;</script>' % json.dumps(api)
     injection = balise_api + chr(10) + '<script src="js/pont-api.js"></script>' + chr(10)
     html = html.replace(ancre, injection + ancre, 1)
+    # La table des adresses, lue par adresses.js. Posee dans la page plutot
+    # qu'ecrite dans le script : elle vient d'ADRESSES, et une copie a la main
+    # dans le JavaScript aurait fini par ne plus dire la meme chose.
+    html = html.replace(
+        ancre,
+        '<script>window.POKEPENSION_ADRESSES = %s;</script>' % json.dumps(ADRESSES) + chr(10) + ancre,
+        1)
     print("  %-10s API visee : %s" % ("=", api))
 
     # 2. La feuille du site en DERNIER, pour qu'elle l'emporte a specificite
@@ -453,6 +508,19 @@ def batir() -> int:
     (PUBLIC / "dex.html").write_text(html, encoding="utf-8")
     (PUBLIC / "index.html").write_text(accueil, encoding="utf-8")
     print("  %-10s index.html  +  dex.html  +  partage.html" % "+")
+
+    # UNE COPIE DE LA PAGE PAR ADRESSE, et c'est delibere. Caddy sert deja
+    # « /dex » par `try_files {path} {path}.html` : poser « lieux.html » a cote
+    # suffit pour que « /lieux » reponde, sans toucher a la configuration du
+    # serveur — qui vit dans le depot du Bureau des Primes et sert les deux
+    # sites. Ce sont des produits d'assemblage, jamais ecrits a la main : ils
+    # ne peuvent pas diverger de dex.html, ils sont refaits avec lui.
+    #
+    # Le poids est celui d'une page HTML — les scripts, eux, restent partages
+    # et en cache. Un visiteur n'en charge qu'une.
+    for nom in ADRESSES:
+        (PUBLIC / (nom + ".html")).write_text(html, encoding="utf-8")
+    print("  %-10s %d adresses : /%s" % ("+", len(ADRESSES), ", /".join(ADRESSES)))
 
     print()
     print("public/ bati en %.1f s — %.1f Mo, les deux pages comprises."

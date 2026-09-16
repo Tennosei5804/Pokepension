@@ -36,6 +36,9 @@
 const VERSION = '__VERSION__';
 const CACHE = 'pokepension-' + VERSION;
 const COQUILLE = __COQUILLE__;
+// Les adresses d'écran de l'application — « lieux », « chasse »… Posées par
+// l'assembleur depuis sa table ADRESSES, jamais recopiées ici.
+const ADRESSES = __ADRESSES__;
 
 self.addEventListener('install', function(e){
   e.waitUntil((async function(){
@@ -84,11 +87,16 @@ self.addEventListener('fetch', function(e){
         return await fetch(req);
       }catch(err){
         const c = await caches.open(CACHE);
-        // DEUX PAGES, DEUX REPLIS. Le site a une page d'accueil sur « / » et le
-        // Pokedex sur « /dex ». Rendre l'accueil a quelqu'un qui rouvre son
-        // Pokedex dans le metro serait lui reprendre l'application pour lui
-        // remettre la vitrine — hors ligne, c'est le Pokedex qu'on veut.
-        const versLeDex = url.pathname.indexOf('/dex') !== -1;
+        // DEUX PAGES, DEUX REPLIS. Le site a une page d'accueil sur « / » et
+        // l'application sur « /dex » — et sur chacune de ses adresses d'écran,
+        // « /lieux », « /chasse »… Rendre l'accueil a quelqu'un qui rouvre ses
+        // lieux dans le metro serait lui reprendre l'application pour lui
+        // remettre la vitrine — hors ligne, c'est l'application qu'on veut.
+        //
+        // La liste vient de l'assembleur (ADRESSES) : une adresse ajoutee la
+        // bas est connue ici sans qu'on y touche.
+        const nom = url.pathname.replace(/\/+$/, '').split('/').pop().replace(/\.html$/, '');
+        const versLeDex = nom === 'dex' || ADRESSES.indexOf(nom) !== -1;
         const replis = versLeDex
           ? ['./dex.html', './dex', './index.html']
           : ['./index.html', './'];

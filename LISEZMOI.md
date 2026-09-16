@@ -1407,6 +1407,44 @@ par joueur coûterait bien plus que trois requêtes à l'heure sur un hébergeme
 gratuit, et deux minutes de retard sur une proposition d'échange ne gênent
 personne : on n'échange pas à la seconde.
 
+## Une adresse par écran
+
+`pokepension.fr/dex` n'est plus la seule porte. Chaque écran a la sienne, qu'on
+colle dans un salon et qui ouvre directement la bonne page :
+
+| Adresse | Écran |
+|---|---|
+| `/dex` | l'accueil de l'application |
+| `/pokedex` | le choix du Pokédex |
+| `/lieux` | les lieux des jeux |
+| `/dresseurs` · `/amis` · `/messages` | la partie sociale |
+| `/chasse` · `/cadeaux` | chasse, Cadeau Mystère |
+| `/strategie` · `/reproduction` · `/transferts` · `/obtenir` | les outils |
+| `/pixelmonworld` · `/pixelmonworld-lieux` | le serveur PixelmonWorld |
+| `/profil` · `/admin` | profil, administration |
+
+La barre d'adresse **suit** la navigation — ce qu'on copie est ce qu'on voit —
+et Précédent revient à l'écran d'avant plutôt que de quitter le site. Un écran
+sans adresse (le Pokédex d'un jeu précis, les paramètres) ramène la barre à
+`/dex` : y laisser `/lieux` ferait partager un lien qui ouvre autre chose que
+ce qu'on montre.
+
+**Des écrans, pas des onglets.** « Outils » et « Serveurs » mènent à une page
+— Stratégie, le Pokédex du serveur — et c'est elle qui a une adresse. En donner
+une à l'onglet ferait deux adresses pour le même écran.
+
+**Une seule liste** : `ADRESSES`, dans `site/outils/assembler.py`. Tout en
+découle — une page par adresse (`lieux.html`, copie de `dex.html` refaite à
+chaque assemblage), la table posée dans la page pour `site/source/adresses.js`,
+et la liste posée dans le service worker pour le repli hors ligne. **Caddy n'a
+rien à apprendre** : son `try_files {path} {path}.html` servait déjà `/dex`, il
+sert `/lieux` de la même façon. `servir.py` applique maintenant la même règle
+au lieu d'une liste qui ne contenait que `/dex`.
+
+**Un seul segment**, jamais `/pixelmonworld/lieux` : la page charge ses
+scripts par chemin relatif, et un second segment les ferait chercher dans un
+dossier qui n'existe pas.
+
 ## Le site installable
 
 C'est sur le téléphone posé à côté de la Switch qu'on coche. Le site s'adaptait
