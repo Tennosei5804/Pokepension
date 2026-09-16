@@ -20,6 +20,25 @@ const NOUVEAUTES_VUES_KEY = 'pokearchive-nouveautes-vues';
 
 const NOUVEAUTES = [
   {
+    version: '0.44.1', date: '2026-09-16',
+    titre: 'PixelmonWorld : les Pokémon qui manquaient, et des étoiles plus sobres',
+    points: [
+      '**🕳 Quarante-huit Pokémon revenaient sans image ni fiche.** Nidoran mâle '
+      + 'et femelle, Deoxys, Ho-Oh, les Tokorico et quarante-trois autres : le '
+      + 'site du serveur les nomme autrement que l’application, et le lien ne '
+      + 'se faisait pas. Leur carte était un trou dans la grille. Les 951 '
+      + 'espèces ont maintenant leur sprite et leur fiche.',
+
+      '**⭐ On ne dessine plus que les étoiles gagnées.** Un Pokémon commun '
+      + 's’écrit « ★ » et non « ★☆☆☆☆ ». L’échelle reste sur cinq — l’infobulle '
+      + 'la rappelle.',
+
+      '**🗂 La grille se parcourt comme les autres.** Elle s’étirait sur toute '
+      + 'la page au lieu de défiler dans son cadre, et l’écran se vidait sous '
+      + 'la première rangée. Elle affiche 53 Pokémon à la fois.',
+    ]
+  },
+  {
     version: '0.44.0', date: '2026-09-16',
     titre: 'Le Pokédex de PixelmonWorld',
     points: [

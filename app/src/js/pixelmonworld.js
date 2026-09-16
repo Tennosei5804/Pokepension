@@ -888,7 +888,7 @@ function pwLigneSpawn(s){
 // lettres à la fin de son fichier.
 //
 // LES ÉTOILES PRENNENT LA PLACE DU TAUX, comme la rareté de Cobblemon le fait
-// déjà : PixelmonWorld ne publie pas de pourcentage, et « ★★★☆☆ » décide de la
+// déjà : PixelmonWorld ne publie pas de pourcentage, et « ★★★ » décide de la
 // même chose — rester ici, ou passer son chemin.
 //
 // AUCUNE COLLECTION N'EST COCHÉE ICI, et c'est voulu. Les collections de
