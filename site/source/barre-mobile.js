@@ -137,24 +137,34 @@
 
     document.body.append(voile, menu, barre);
 
-    // ---- L'état actif suit celui des onglets -----------------------------
+    // ---- L'état actif, et la visibilité, suivent ceux des onglets --------
     //
-    // On ne le déduit pas : on le RECOPIE. La navigation change de page pour
+    // On ne les déduit pas : on les RECOPIE. La navigation change de page pour
     // dix raisons qui ne passent pas toutes par un clic — showPage() appelée
     // depuis une carte, un retour d'échange, l'ouverture d'un jeu. Observer
     // l'onglet, c'est suivre la vérité au lieu d'en tenir une seconde.
+    //
+    // LA VISIBILITÉ AUSSI, ET C'EST UN DÉFAUT QUI A EU LIEU. « Serveurs » et
+    // « Admin » sont cachés dans la rangée du haut, et ne se montrent qu'une
+    // fois que l'API a répondu qui a le droit de les voir. La barre ne
+    // recopiait que la classe active : elle construisait son menu au
+    // chargement, à partir de TOUS les onglets, et les deux entrées
+    // s'affichaient donc dans « Plus » pour tout le monde, sur tout téléphone —
+    // un « Admin » qui ne menait qu'à « la liste des accès n'a pas pu être
+    // lue ». Et le jour où un onglet visible se cache, elle ne l'aurait pas su.
     function suivre(){
       var actif = nav.querySelector('.page-tab.active');
       var cle = actif && actif.dataset.page;
       Object.keys(boutons).forEach(function(k){
         boutons[k].classList.toggle('actif', k === cle);
+        if(parCle[k]) boutons[k].hidden = parCle[k].hidden;
       });
       // Une page atteinte par le menu allume « Plus » : sans cela, la barre
       // n'indique plus rien dès qu'on quitte les quatre du bas.
       plus.classList.toggle('actif', Boolean(cle) && EN_BAS.indexOf(cle) === -1);
     }
     new MutationObserver(suivre).observe(nav, {
-      subtree: true, attributes: true, attributeFilter: ['class'],
+      subtree: true, attributes: true, attributeFilter: ['class', 'hidden'],
     });
     suivre();
   }
