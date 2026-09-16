@@ -37,7 +37,10 @@
 // est une ligne indépendante : c'est le cas Minidraco, surface et profondeurs
 // du même lac, deux raretés.
 
-const PW_LOT = 60;                 // cartes par lot, comme BATCH_SIZE au Pokédex
+// Combien de cartes par lot, au premier dessin comme à chaque « Afficher plus ».
+// Cinquante-trois, demandés tels quels — le Pokédex des jeux en pose 55, et il
+// n'y a aucune raison technique pour que les deux soient d'accord.
+const PW_LOT = 53;
 
 let pwDroits = null;               // { lire, admin, gestionAcces }
 let pwReserve = null;              // ce que l'API rend : zones + espèces + spawns

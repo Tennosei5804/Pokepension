@@ -1646,11 +1646,16 @@
    carte porte autre chose. Là-bas une carte tient en un nom et une case à
    cocher, et 148 px suffisent ; ici elle liste des endroits — « Bull'o · Biome
    Cascade » en demande le double. Élargir la cellule vaut mieux que couper les
-   noms : c'est la réponse qu'on vient chercher. */
+   noms : c'est la réponse qu'on vient chercher.
+
+   ELLE NE TOUCHE QU'À LA LARGEUR, et surtout pas à la hauteur. Elle l'a fait :
+   `max-height:none` avait été posé ici, et la grille cessait alors d'être la
+   boîte qui défile qu'est chaque grille de l'application. La page s'étirait sur
+   cinq mille pixels, l'écran se vidait sous la première rangée, et le bas de
+   page partait hors de vue. Le lot de cinquante-trois cartes ne remplissait
+   plus rien. C'est `.grid` qui décide de la hauteur, pour tous les Pokédex. */
 #pwGrille{
   grid-template-columns:repeat(auto-fill, minmax(186px, 1fr));
-  max-height:none;
-  overflow-y:visible;
 }
 
 /* Le bas de carte : la rareté, puis les endroits, les uns sous les autres.
