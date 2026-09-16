@@ -1,6 +1,6 @@
 [package]
 name = "pokepension"
-version = "0.43.0"
+version = "0.44.0"
 description = "PokéPension — suivi de collection Pokémon"
 authors = ["Tennosei_"]
 edition = "2021"

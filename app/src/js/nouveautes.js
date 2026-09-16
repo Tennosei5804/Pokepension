@@ -20,6 +20,36 @@ const NOUVEAUTES_VUES_KEY = 'pokearchive-nouveautes-vues';
 
 const NOUVEAUTES = [
   {
+    version: '0.44.0', date: '2026-09-16',
+    titre: 'Le Pokédex de PixelmonWorld',
+    points: [
+      '**🌍 Un onglet « Serveurs », et le Pokédex de PixelmonWorld dedans.** '
+      + 'Il dit ce que le serveur fait apparaître, et où : 951 Pokémon, '
+      + '1 175 apparitions, 20 zones et leurs sous-zones. On y cherche comme '
+      + 'dans le Pokédex des jeux — un nom, un numéro, « feu », « gen3 » — et '
+      + 'on y filtre par type, par rareté, par zone et par sous-zone.',
+
+      '**⭐ La rareté se lit en étoiles.** Les cinq paliers du serveur — de '
+      + 'Commun à Légendaire — deviennent une à cinq étoiles, sur la carte '
+      + 'comme dans la fiche. Toujours cinq crans : la place vide dit qu’il y '
+      + 'a plus rare ailleurs.',
+
+      '**📍 Une page « Lieux » pour le serveur.** La question à l’envers : on '
+      + 'est sur une zone, et on veut savoir ce qu’on y croise. Chaque zone '
+      + 'déplie ses sous-zones et les Pokémon qui s’y trouvent.',
+
+      '**🔑 L’accès se donne par identifiant Discord.** Ce Pokédex est '
+      + 'réservé : l’administrateur ouvre l’accès depuis la page Admin, et '
+      + 'peut le fermer sans l’effacer. Sans accès, l’onglet ne s’affiche pas.',
+
+      '**ℹ️ La fiche ne parle que du serveur.** Ouverte depuis PixelmonWorld, '
+      + 'elle laisse de côté la première apparition, les jeux où l’espèce est '
+      + 'disponible, la reproduction et les Pokédex régionaux : un serveur '
+      + 'Minecraft n’y répond pas. Les statistiques, les talents, la lignée et '
+      + 'les attaques, eux, restent — ils valent pour l’espèce.',
+    ]
+  },
+  {
     version: '0.43.0', date: '2026-09-11',
     titre: 'Sur téléphone, les croix de fermeture se visent au doigt',
     points: [
