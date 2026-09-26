@@ -1961,12 +1961,19 @@ ssh -i ~/.ssh/bdp_vps root@<vps> "docker restart deploiement-pokepension-api-1"
 > démarrage : la lire après chaque changement.
 
 Le site — **assemblé avec l'adresse de production**, sinon la page part avec
-`window.POKEPENSION_API = http://127.0.0.1:8787` et n'appelle rien :
+`window.POKEPENSION_API = http://127.0.0.1:8787` et n'appelle rien. Une
+commande, depuis la racine du dépôt, dans n'importe quel terminal :
 
 ```
-cd site && POKEPENSION_API=https://api.pokepension.fr py outils/assembler.py
-tar czf /tmp/pp.tgz -C public . && scp … && ssh … "tar xzf … -C /opt/pokepension/site/public"
+py outils/deployer-site.py            # assemble, envoie, relit le site en ligne
+py outils/deployer-site.py --essai    # assemble et prépare, n'envoie rien
 ```
+
+Elle refuse d'envoyer une page qui ne porte pas l'adresse de production, monte
+l'archive entière avant de la déplier, et vérifie ensuite que
+https://pokepension.fr sert bien la version qu'elle vient d'assembler. Elle
+ajoute et écrase, **elle ne supprime jamais** : une page retirée de la table
+`ADRESSES` s'efface du serveur à la main.
 
 Le schéma se crée seul : `creerSchema()` tourne au démarrage et ajoute les
 tables et colonnes manquantes. Rien à migrer à la main.
