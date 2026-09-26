@@ -1,28 +1,32 @@
-//! Le mod « PokéPension Bridge », posé tout seul dans l'instance PixelmonWorld.
+//! Le mod « PokéPension Bridge », posé dans l'instance PixelmonWorld — quand
+//! le joueur le demande.
 //!
 //! POURQUOI L'APPLICATION S'EN CHARGE. Le mod n'a de sens qu'avec elle, et elle
 //! est déjà installée et tenue à jour chez le joueur. Lui confier la pose du
 //! mod, c'est n'avoir ni installeur de plus, ni fichier à copier à la main, ni
 //! version à suivre : une nouvelle PokéPension apporte le mod qui lui répond.
 //!
-//! CE QU'ON TOUCHE, ET RIEN D'AUTRE. Un seul fichier, `pokepensionbridge-*.jar`,
-//! dans le dossier `mods` des seules instances qui sont à la fois en
-//! Minecraft 1.16.5, sous Forge 36, et reconnues comme PixelmonWorld. Aucun
-//! autre mod n'est lu au-delà de son nom, aucun n'est déplacé ni supprimé ;
-//! aucun monde, aucune configuration n'est ouvert.
+//! RIEN SANS UN CLIC. Installer un mod dans le Minecraft de quelqu'un est une
+//! décision à lui : le bouton « Installer dans Minecraft » des Paramètres est
+//! le seul chemin qui en ajoute un. Au lancement, l'application ne fait que
+//! METTRE À JOUR un mod déjà posé — jamais en poser un là où il n'est pas.
 //!
-//! TROIS DÉCISIONS DU JOUEUR SONT RESPECTÉES :
+//! CE QU'ON TOUCHE, ET RIEN D'AUTRE. Un seul fichier, `pokepensionbridge-*.jar`,
+//! dans le dossier `mods` des instances Minecraft 1.16.5 sous Forge 36 — celles
+//! reconnues comme PixelmonWorld pour une pose, celles qui l'ont déjà pour une
+//! mise à jour ou un retrait. Aucun autre mod n'est lu au-delà de son nom,
+//! aucun n'est déplacé ni supprimé ; aucun monde, aucune configuration n'est
+//! ouvert.
+//!
+//! DEUX DÉCISIONS DU JOUEUR SONT RESPECTÉES :
 //!   · un mod qu'il a DÉSACTIVÉ dans Prism (renommé en `.jar.disabled`) le
-//!     reste ;
-//!   · un mod qu'il a RETIRÉ après que nous l'avions posé n'est pas remis — on
-//!     le sait par le registre des poses, à côté de `session.json` ;
+//!     reste — on le dit, sans le réactiver ;
 //!   · un mod EN COURS D'USAGE (Minecraft ouvert : Windows verrouille le
-//!     fichier) n'est pas remplacé à moitié. On réessaiera au prochain
-//!     lancement, et en attendant il reste une seule version dans le dossier —
+//!     fichier) n'est pas remplacé à moitié. On le dit, ou l'on réessaiera au
+//!     prochain lancement, et il reste une seule version dans le dossier —
 //!     deux feraient refuser le démarrage à Forge.
 
 use serde_json::{json, Value};
-use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
 
 /// Le mod, embarqué dans l'application. Il est construit par
@@ -32,9 +36,6 @@ const VERSION: &str = include_str!("../minecraft/version.txt");
 
 /// Le préfixe qui désigne NOTRE fichier, et seulement lui.
 const PREFIXE: &str = "pokepensionbridge";
-
-/// Le registre des poses : quel dossier `mods` a reçu quelle version.
-pub const REGISTRE: &str = "pont-minecraft-installations.json";
 
 fn version() -> &'static str {
     VERSION.trim()
@@ -244,16 +245,46 @@ pub fn cibles(toutes: Vec<Instance>) -> Vec<Instance> {
     }
 }
 
-// --- Poser le fichier ---------------------------------------------------------
+// --- Poser, mettre à jour, retirer ------------------------------------------
+
+/// Ce que le joueur demande, ou ce que le lancement fait de lui-même.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Geste {
+    /// Regarder, sans rien toucher : pour afficher l'état dans les Paramètres.
+    Etat,
+    /// Le bouton : poser le mod, ou le mettre à jour.
+    Installer,
+    /// Le lancement : mettre à jour un mod déjà posé, et rien d'autre.
+    MettreAJour,
+    /// Le bouton : retirer le mod.
+    Retirer,
+}
+
+impl Geste {
+    fn depuis(code: &str) -> Option<Self> {
+        match code {
+            "etat" => Some(Geste::Etat),
+            "installer" => Some(Geste::Installer),
+            "mettre-a-jour" => Some(Geste::MettreAJour),
+            "retirer" => Some(Geste::Retirer),
+            _ => None,
+        }
+    }
+}
 
 /// Ce qui est arrivé à une instance, en un mot que l'interface traduit.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Action {
+    /// Le mod n'y est pas (et on n'y a rien mis).
+    Absent,
+    /// Il y est, à la version embarquée.
+    AJour,
+    /// Il y est, dans une autre version.
+    Different,
     Installe,
     MisAJour,
-    AJour,
+    Retire,
     Desactive,
-    RetireParLeJoueur,
     Occupe,
     Erreur,
 }
@@ -261,59 +292,84 @@ pub enum Action {
 impl Action {
     pub fn code(self) -> &'static str {
         match self {
+            Action::Absent => "absent",
+            Action::AJour => "a-jour",
+            Action::Different => "different",
             Action::Installe => "installe",
             Action::MisAJour => "mis-a-jour",
-            Action::AJour => "a-jour",
+            Action::Retire => "retire",
             Action::Desactive => "desactive",
-            Action::RetireParLeJoueur => "retire",
             Action::Occupe => "occupe",
             Action::Erreur => "erreur",
         }
     }
 }
 
-/// Pose `octets` sous `nom` dans `mods`, en remplaçant nos versions précédentes.
-///
-/// `deja_pose` : le registre dit que nous l'avions déjà posé ici.
-pub fn poser(mods: &Path, nom: &str, octets: &[u8], deja_pose: bool) -> Action {
-    if !mods.is_dir() {
-        // Une instance qui n'a jamais été lancée n'a pas encore de dossier
-        // `mods`. Le créer est sans risque : c'est celui que Forge lira.
-        if std::fs::create_dir_all(mods).is_err() {
-            return Action::Erreur;
+/// Nos fichiers dans un dossier `mods` : les actifs, et les désactivés.
+fn nos_fichiers(mods: &Path) -> (Vec<PathBuf>, Vec<PathBuf>) {
+    let mut actifs = Vec::new();
+    let mut desactives = Vec::new();
+    if let Ok(entrees) = std::fs::read_dir(mods) {
+        for e in entrees.filter_map(|e| e.ok()) {
+            let n = e.file_name().to_string_lossy().to_lowercase();
+            if !n.starts_with(PREFIXE) {
+                continue;
+            }
+            if n.ends_with(".jar") {
+                actifs.push(e.path());
+            } else if n.ends_with(".jar.disabled") {
+                desactives.push(e.path());
+            }
         }
     }
-    let Ok(entrees) = std::fs::read_dir(mods) else {
-        return Action::Erreur;
-    };
-    let mut nos_jars = Vec::new();
-    let mut desactive = false;
-    for e in entrees.filter_map(|e| e.ok()) {
-        let n = e.file_name().to_string_lossy().to_lowercase();
-        if !n.starts_with(PREFIXE) {
-            continue;
-        }
-        if n.ends_with(".jar") {
-            nos_jars.push(e.path());
-        } else if n.ends_with(".jar.disabled") {
-            desactive = true;
-        }
-    }
-    if desactive {
+    (actifs, desactives)
+}
+
+/// « pokepensionbridge-1.0.0.jar » → « 1.0.0 ».
+fn version_du_fichier(chemin: &Path) -> String {
+    let nom = chemin.file_name().map(|n| n.to_string_lossy().into_owned()).unwrap_or_default();
+    nom.strip_prefix(&format!("{PREFIXE}-"))
+        .and_then(|r| r.strip_suffix(".jar").or_else(|| r.strip_suffix(".jar.disabled")))
+        .unwrap_or("")
+        .to_string()
+}
+
+/// Où en est une instance, sans rien toucher.
+pub fn constater(mods: &Path, nom: &str, octets: &[u8]) -> Action {
+    let (actifs, desactives) = nos_fichiers(mods);
+    if !desactives.is_empty() && actifs.is_empty() {
         return Action::Desactive;
     }
-    if nos_jars.is_empty() && deja_pose {
-        return Action::RetireParLeJoueur;
-    }
-
-    let cible = mods.join(nom);
     let voulu = empreinte(octets);
-    if nos_jars.len() == 1
-        && nos_jars[0] == cible
-        && std::fs::read(&cible).map(|o| empreinte(&o) == voulu).unwrap_or(false)
-    {
-        return Action::AJour;
+    match actifs.as_slice() {
+        [] => Action::Absent,
+        [seul] if seul.file_name().map(|n| n == nom).unwrap_or(false)
+            && std::fs::read(seul).map(|o| empreinte(&o) == voulu).unwrap_or(false) =>
+        {
+            Action::AJour
+        }
+        _ => Action::Different,
     }
+}
+
+/// Pose `octets` sous `nom` dans `mods`, en remplaçant nos versions précédentes.
+///
+/// `seulement_si_present` : la mise à jour du lancement, qui ne pose jamais un
+/// mod là où il n'était pas.
+pub fn poser(mods: &Path, nom: &str, octets: &[u8], seulement_si_present: bool) -> Action {
+    match constater(mods, nom, octets) {
+        Action::Desactive => return Action::Desactive,
+        Action::AJour => return Action::AJour,
+        Action::Absent if seulement_si_present => return Action::Absent,
+        _ => {}
+    }
+    if !mods.is_dir() && std::fs::create_dir_all(mods).is_err() {
+        // Une instance jamais lancée n'a pas encore de dossier `mods` : le
+        // créer est sans risque, c'est celui que Forge lira.
+        return Action::Erreur;
+    }
+    let (anciens, _) = nos_fichiers(mods);
+    let cible = mods.join(nom);
 
     // Le nouveau d'abord, sous un nom que Forge ne lit pas (il ne prend que
     // les « .jar ») : s'il reste là après une panne, il ne gêne rien.
@@ -324,7 +380,7 @@ pub fn poser(mods: &Path, nom: &str, octets: &[u8], deja_pose: bool) -> Action {
     }
     // Les anciens ensuite. Un seul refus (fichier verrouillé par un Minecraft
     // ouvert) et l'on renonce : mieux vaut l'ancienne version seule que deux.
-    for ancien in &nos_jars {
+    for ancien in &anciens {
         if std::fs::remove_file(ancien).is_err() {
             let _ = std::fs::remove_file(&partiel);
             return Action::Occupe;
@@ -334,69 +390,79 @@ pub fn poser(mods: &Path, nom: &str, octets: &[u8], deja_pose: bool) -> Action {
         let _ = std::fs::remove_file(&partiel);
         return Action::Erreur;
     }
-    if nos_jars.is_empty() {
+    if anciens.is_empty() {
         Action::Installe
     } else {
         Action::MisAJour
     }
 }
 
-fn lire_registre(chemin: &Path) -> BTreeMap<String, Value> {
-    std::fs::read_to_string(chemin)
-        .ok()
-        .and_then(|t| serde_json::from_str(&t).ok())
-        .unwrap_or_default()
+/// Retire nos fichiers, actifs ou désactivés — et seulement eux.
+pub fn retirer(mods: &Path) -> Action {
+    let (actifs, desactives) = nos_fichiers(mods);
+    if actifs.is_empty() && desactives.is_empty() {
+        return Action::Absent;
+    }
+    for f in actifs.iter().chain(desactives.iter()) {
+        if std::fs::remove_file(f).is_err() {
+            return Action::Occupe;
+        }
+    }
+    Action::Retire
 }
 
-/// Tout le parcours : trouver, poser, retenir, rendre compte.
-pub fn installer(registre: &Path) -> Value {
-    let racines = racines_lanceurs();
-    let cibles = cibles(instances(&racines));
-    let mut memoire = lire_registre(registre);
-    let nom = nom_fichier();
-    let mut rapport = Vec::new();
-
-    for inst in &cibles {
-        let cle = inst.mods.to_string_lossy().into_owned();
-        let action = poser(&inst.mods, &nom, JAR, memoire.contains_key(&cle));
-        if matches!(action, Action::Installe | Action::MisAJour | Action::AJour) {
-            memoire.insert(cle, json!({ "version": version() }));
+/// Tout le parcours d'un geste : trouver les instances, agir, rendre compte.
+///
+/// Une pose vise les instances reconnues comme PixelmonWorld ; l'état, la mise
+/// à jour et le retrait visent aussi toute instance 1.16.5 qui porte déjà le
+/// mod — un mod posé à la main ailleurs se retire comme les autres.
+pub fn executer(geste: Geste, racines: &[PathBuf]) -> Value {
+    let toutes = instances(racines);
+    let mut visees = cibles(toutes.clone());
+    if geste != Geste::Installer {
+        for i in toutes {
+            let (a, d) = nos_fichiers(&i.mods);
+            if (!a.is_empty() || !d.is_empty()) && !visees.iter().any(|v| v.mods == i.mods) {
+                visees.push(i);
+            }
         }
-        rapport.push(json!({
-            "instance": inst.nom,
-            "mods": inst.mods.to_string_lossy(),
-            "forge": inst.forge,
-            "pixelmon": inst.pixelmon,
-            "action": action.code(),
-        }));
     }
-
-    if let Some(parent) = registre.parent() {
-        let _ = std::fs::create_dir_all(parent);
-    }
-    if let Ok(brut) = serde_json::to_string_pretty(&memoire) {
-        let _ = std::fs::write(registre, brut);
-    }
+    let nom = nom_fichier();
+    let rapport: Vec<Value> = visees
+        .iter()
+        .map(|inst| {
+            let action = match geste {
+                Geste::Etat => constater(&inst.mods, &nom, JAR),
+                Geste::Installer => poser(&inst.mods, &nom, JAR, false),
+                Geste::MettreAJour => poser(&inst.mods, &nom, JAR, true),
+                Geste::Retirer => retirer(&inst.mods),
+            };
+            let (actifs, desactives) = nos_fichiers(&inst.mods);
+            let installee = actifs.first().or(desactives.first()).map(|f| version_du_fichier(f));
+            json!({
+                "instance": inst.nom,
+                "mods": inst.mods.to_string_lossy(),
+                "forge": inst.forge,
+                "pixelmon": inst.pixelmon,
+                "action": action.code(),
+                "versionInstallee": installee,
+            })
+        })
+        .collect();
 
     json!({
         "version": version(),
-        "lanceurs": racines.iter().map(|r| r.to_string_lossy().into_owned()).collect::<Vec<_>>(),
+        "prism": !racines.is_empty(),
         "instances": rapport,
     })
 }
 
-/// Appelé par l'interface une fois qu'elle sait que le compte a accès au
-/// Pokédex de PixelmonWorld — voir js/minecraft.js. Le parcours touche au
+/// Le geste demandé par l'interface — voir js/minecraft.js. Il touche au
 /// disque : il tourne hors du fil de l'interface.
 #[tauri::command]
-pub async fn pont_minecraft_installer(app: tauri::AppHandle) -> Result<Value, String> {
-    use tauri::Manager;
-    let registre = app
-        .path()
-        .app_config_dir()
-        .map_err(|e| e.to_string())?
-        .join(REGISTRE);
-    tauri::async_runtime::spawn_blocking(move || installer(&registre))
+pub async fn pont_minecraft_mod(action: String) -> Result<Value, String> {
+    let geste = Geste::depuis(&action).ok_or_else(|| "geste inconnu".to_string())?;
+    tauri::async_runtime::spawn_blocking(move || executer(geste, &racines_lanceurs()))
         .await
         .map_err(|e| e.to_string())
 }
@@ -472,26 +538,73 @@ mod tests {
         let mods = dossier_test("pose");
         std::fs::write(mods.join("pixelmon.jar"), b"pixelmon").unwrap();
         std::fs::write(mods.join("jei.jar"), b"jei").unwrap();
+        let v1 = "pokepensionbridge-1.0.0.jar";
+        let v2 = "pokepensionbridge-1.1.0.jar";
 
-        assert_eq!(poser(&mods, "pokepensionbridge-1.0.0.jar", b"v1", false), Action::Installe);
-        assert_eq!(poser(&mods, "pokepensionbridge-1.0.0.jar", b"v1", true), Action::AJour);
-        assert_eq!(poser(&mods, "pokepensionbridge-1.1.0.jar", b"v2", true), Action::MisAJour);
-        let mut noms: Vec<_> = std::fs::read_dir(&mods)
-            .unwrap()
-            .map(|e| e.unwrap().file_name().to_string_lossy().into_owned())
-            .collect();
-        noms.sort();
+        // Le lancement ne pose rien là où le joueur n'a rien demandé.
+        assert_eq!(poser(&mods, v1, b"v1", true), Action::Absent);
+        assert_eq!(constater(&mods, v1, b"v1"), Action::Absent);
+        // Le bouton pose ; le lancement met à jour ce qui est posé.
+        assert_eq!(poser(&mods, v1, b"v1", false), Action::Installe);
+        assert_eq!(constater(&mods, v1, b"v1"), Action::AJour);
+        assert_eq!(constater(&mods, v2, b"v2"), Action::Different);
+        assert_eq!(poser(&mods, v2, b"v2", true), Action::MisAJour);
+        assert_eq!(poser(&mods, v2, b"v2", true), Action::AJour);
+        let noms = |d: &Path| {
+            let mut n: Vec<_> = std::fs::read_dir(d)
+                .unwrap()
+                .map(|e| e.unwrap().file_name().to_string_lossy().into_owned())
+                .collect();
+            n.sort();
+            n
+        };
         // Une seule version, et les autres mods intacts.
-        assert_eq!(noms, vec!["jei.jar", "pixelmon.jar", "pokepensionbridge-1.1.0.jar"]);
+        assert_eq!(noms(&mods), vec!["jei.jar", "pixelmon.jar", v2]);
         assert_eq!(std::fs::read(mods.join("jei.jar")).unwrap(), b"jei");
 
-        // Retiré par le joueur : on ne le remet pas.
-        std::fs::remove_file(mods.join("pokepensionbridge-1.1.0.jar")).unwrap();
-        assert_eq!(poser(&mods, "pokepensionbridge-1.1.0.jar", b"v2", true), Action::RetireParLeJoueur);
-        // Désactivé dans Prism : on ne le réactive pas.
-        std::fs::write(mods.join("pokepensionbridge-1.1.0.jar.disabled"), b"v2").unwrap();
-        assert_eq!(poser(&mods, "pokepensionbridge-1.1.0.jar", b"v2", false), Action::Desactive);
+        // Retirer n'enlève que le nôtre, et un second retrait ne trouve rien.
+        assert_eq!(retirer(&mods), Action::Retire);
+        assert_eq!(noms(&mods), vec!["jei.jar", "pixelmon.jar"]);
+        assert_eq!(retirer(&mods), Action::Absent);
+
+        // Désactivé dans Prism : ni réactivé, ni doublé — mais retirable.
+        std::fs::write(mods.join(format!("{v2}.disabled")), b"v2").unwrap();
+        assert_eq!(poser(&mods, v2, b"v2", false), Action::Desactive);
+        assert_eq!(poser(&mods, v2, b"v2", true), Action::Desactive);
+        assert_eq!(retirer(&mods), Action::Retire);
+        assert_eq!(noms(&mods), vec!["jei.jar", "pixelmon.jar"]);
         let _ = std::fs::remove_dir_all(&mods);
+    }
+
+    #[test]
+    fn les_gestes_par_instance() {
+        let racine = dossier_test("gestes");
+        let pw = instance(&racine, "PixelmonWorld", "1.16.5", "36.2.42", "minecraft");
+        std::fs::write(pw.join("Pixelmon-1.16.5-9.1.12-universal.jar"), b"x").unwrap();
+        let autre = instance(&racine, "Autre", "1.16.5", "36.2.42", "minecraft");
+        let racines = vec![racine.clone()];
+        let actions = |v: &Value| -> Vec<(String, String)> {
+            v["instances"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .map(|i| (i["instance"].as_str().unwrap().to_string(), i["action"].as_str().unwrap().to_string()))
+                .collect()
+        };
+
+        assert_eq!(actions(&executer(Geste::Etat, &racines)), vec![("PixelmonWorld".into(), "absent".into())]);
+        assert_eq!(actions(&executer(Geste::MettreAJour, &racines)), vec![("PixelmonWorld".into(), "absent".into())]);
+        assert!(!pw.join(nom_fichier()).exists(), "le lancement n'installe rien");
+        assert_eq!(actions(&executer(Geste::Installer, &racines)), vec![("PixelmonWorld".into(), "installe".into())]);
+        let etat = executer(Geste::Etat, &racines);
+        assert_eq!(etat["instances"][0]["versionInstallee"], version());
+        // Un mod posé à la main dans une autre instance se voit, et se retire.
+        std::fs::write(autre.join("pokepensionbridge-0.9.0.jar"), b"vieux").unwrap();
+        let apres = actions(&executer(Geste::Retirer, &racines));
+        assert_eq!(apres, vec![("PixelmonWorld".into(), "retire".into()), ("Autre".into(), "retire".into())]);
+        assert!(!autre.join("pokepensionbridge-0.9.0.jar").exists());
+        assert!(Geste::depuis("n-importe-quoi").is_none());
+        let _ = std::fs::remove_dir_all(&racine);
     }
 
     #[test]

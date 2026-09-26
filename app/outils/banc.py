@@ -299,6 +299,21 @@ const REPONSES = {
   // retrouver, et le bouton doit proposer de la demarrer. Une verification
   // force une adresse par __forcer pour eprouver l'autre cas.
   overlay_adresse: () => '',
+
+  // --- Le mod Minecraft --------------------------------------------------------
+  // Une instance PixelmonWorld dans Prism, sans le mod. Rien ne doit y être posé
+  // tant que personne n'a cliqué : c'est ce que la vérification surveille.
+  pont_minecraft_mod: (a) => {
+    const m = window.__mcMod = window.__mcMod || { pose: false };
+    const geste = a && a.action;
+    let action = m.pose ? 'a-jour' : 'absent';
+    if(geste === 'installer'){ action = m.pose ? 'a-jour' : 'installe'; m.pose = true; }
+    if(geste === 'retirer'){ action = m.pose ? 'retire' : 'absent'; m.pose = false; }
+    return { version: '1.0.0', prism: true, instances: [{
+      instance: 'PixelmonWorld', mods: '/prism/instances/PixelmonWorld/minecraft/mods',
+      forge: '36.2.42', pixelmon: 'Pixelmon-1.16.5-9.1.12-universal.jar', action: action,
+      versionInstallee: m.pose ? '1.0.0' : null }] };
+  },
 };
 
 // Le journal des appels : sans lui, on ne peut pas distinguer « la fenetre s'est

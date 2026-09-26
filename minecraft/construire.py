@@ -7,9 +7,9 @@
                                             et de Forge contre leurs sources
 
 Le .jar produit est copié dans app/src-tauri/minecraft/ : l'application
-l'embarque, et le pose elle-même dans l'instance PixelmonWorld de Prism
-Launcher (voir app/src-tauri/src/minecraft_installation.rs). Il n'y a rien à
-copier à la main.
+l'embarque, et le pose dans l'instance PixelmonWorld de Prism Launcher quand le
+joueur clique « Installer dans Minecraft » dans ses Paramètres (voir
+app/src-tauri/src/minecraft_installation.rs). Il n'y a rien à copier à la main.
 
 POURQUOI PAS FORGEGRADLE. La chaîne habituelle (ForgeGradle 5) télécharge
 Minecraft et ses correspondances de noms depuis les serveurs de Mojang et de

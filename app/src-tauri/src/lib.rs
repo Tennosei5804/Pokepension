@@ -1489,7 +1489,7 @@ pub fn run() {
             overlay::overlay_adresse,
             minecraft::pont_minecraft_pret,
             minecraft::pont_minecraft_reponse,
-            minecraft_installation::pont_minecraft_installer
+            minecraft_installation::pont_minecraft_mod
         ])
         .run(contexte)
         .expect("erreur au lancement de PokéPension");

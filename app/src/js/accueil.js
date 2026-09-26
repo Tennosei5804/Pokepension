@@ -480,6 +480,7 @@ function showPage(name){
     // allEntries, et il sort donc sans les vignettes d'équipe.
     if(name === 'profil' && typeof partiesToutDessiner === 'function') partiesToutDessiner();
     if(name === 'parametres' && typeof chargerParametres === 'function') chargerParametres();
+    if(name === 'parametres' && typeof chargerMinecraftParametres === 'function') chargerMinecraftParametres();
     if(name === 'chasse' && typeof dessinerChasses === 'function') dessinerChasses();
     if(name === 'cadeaux' && typeof chargerCadeaux === 'function') chargerCadeaux();
     if(name === 'verrous' && typeof dessinerVerrousPage === 'function') dessinerVerrousPage();

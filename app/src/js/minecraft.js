@@ -3,7 +3,8 @@
 // Script classique (pas de module ES), chargé APRÈS pixelmonworld.js
 // (pwChargerDroits, pwChargerReserve, pwPreparer, pwOuvrirSur, pwCatalogue,
 // pwLieux, pwParEspece), grille.js (openPreview, closePreview), accueil.js
-// (showPage) et amis.js (pontNotif, bullePermise).
+// (showPage, qui appelle chargerMinecraftParametres) et amis.js (pontNotif,
+// bullePermise).
 //
 // ─── CE QUI SE PASSE ───────────────────────────────────────────────────────────
 //
@@ -245,39 +246,145 @@ async function mcOuvrir(d){
   return { ok: false, erreur: 'cible' };
 }
 
-// ---- Le mod, posé tout seul -------------------------------------------------
+// ---- Le mod dans Minecraft : un bouton, pas un automatisme -------------------
 //
-// Une fois par lancement, et seulement pour un compte qui a accès au Pokédex du
-// serveur : le mod n'a de sens que pour qui joue sur PixelmonWorld. Le cœur
-// Rust trouve l'instance dans Prism Launcher et y pose le mod — voir
-// minecraft_installation.rs, qui dit ce qu'il touche et ce qu'il respecte.
+// RIEN SANS UN CLIC. Poser un mod dans le Minecraft de quelqu'un est une
+// décision à lui : la section « Minecraft » des Paramètres l'installe et le
+// retire. Au lancement, l'application ne fait que METTRE À JOUR un mod déjà
+// posé — jamais en poser un là où il n'est pas. Le cœur Rust trouve les
+// instances de Prism Launcher : voir minecraft_installation.rs, qui dit ce qu'il
+// touche et ce qu'il respecte.
 //
-// ON NE LE DIT QUE QUAND ÇA CHANGE : une bulle du système à la première pose et
-// à chaque mise à jour, rien quand il était déjà à jour.
+// La section ne se montre qu'à qui a accès au Pokédex de PixelmonWorld, dans
+// l'application de bureau : ailleurs, il n'y a ni Minecraft à relier ni pont.
 
-async function mcInstallerLeMod(invoke){
-  // Les droits seulement : la réserve du serveur n'est pas nécessaire pour
-  // poser un fichier, et la télécharger à chaque lancement pour ça serait du
-  // réseau pour rien.
-  const droits = typeof pwChargerDroits === 'function' ? await pwChargerDroits() : null;
-  if(!droits || !droits.lire) return;
+/** Le pont vers Rust, ou null hors de l'application de bureau. */
+function mcInvoke(){
+  const T = window.__TAURI__;
+  if(!T || !T.core || typeof T.core.invoke !== 'function' || window.PONT_HTTP || window.PONT_WEB) return null;
+  return T.core.invoke;
+}
+
+function mcNoms(instances){
+  return instances.map(function(i){ return '« ' + i.instance + ' »'; }).join(', ');
+}
+
+/** Ce que les Paramètres disent et proposent, d'après l'état des instances. */
+function mcDessinerEtat(rapport, message){
+  const etat = document.getElementById('mcEtat');
+  const installer = document.getElementById('mcInstaller');
+  const retirer = document.getElementById('mcRetirer');
+  if(!etat || !installer || !retirer) return;
+  const instances = (rapport && rapport.instances) || [];
+  const posees = instances.filter(function(i){ return i.versionInstallee && i.action !== 'desactive'; });
+  const desactivees = instances.filter(function(i){ return i.action === 'desactive'; });
+  const absentes = instances.filter(function(i){ return i.action === 'absent'; });
+  const anciennes = posees.filter(function(i){ return i.action === 'different'; });
+
+  let texte;
+  if(!instances.length){
+    texte = rapport && rapport.prism
+      ? 'Aucune instance PixelmonWorld (Minecraft 1.16.5, Forge) trouvée dans Prism Launcher.'
+      : 'Prism Launcher est introuvable sur cet ordinateur.';
+  }else if(posees.length){
+    texte = 'Installé dans ' + mcNoms(posees) + ' — version '
+      + posees[0].versionInstallee + '. Au prochain lancement de Minecraft, tape /ps dans le chat.';
+    if(anciennes.length) texte += ' Une mise à jour est prête.';
+  }else if(desactivees.length){
+    texte = 'Désactivé dans Prism Launcher pour ' + mcNoms(desactivees)
+      + ' : réactive-le dans Prism, ou retire-le ici.';
+  }else{
+    texte = 'Pas installé. Instance trouvée : ' + mcNoms(absentes) + '.';
+  }
+  etat.textContent = message ? message + ' ' + texte : texte;
+
+  installer.hidden = !(absentes.length || anciennes.length);
+  installer.textContent = anciennes.length && !absentes.length
+    ? '⬆ Mettre à jour le mod' : '⬇ Installer dans Minecraft';
+  retirer.hidden = !(posees.length || desactivees.length);
+}
+
+/** Ce qui vient de se passer, en une phrase. */
+function mcPhrase(rapport, geste){
+  const instances = (rapport && rapport.instances) || [];
+  const avec = function(code){ return instances.filter(function(i){ return i.action === code; }); };
+  if(avec('occupe').length){
+    return 'Minecraft est ouvert sur ' + mcNoms(avec('occupe')) + ' : ferme-le, puis réessaie.';
+  }
+  if(avec('erreur').length) return 'Impossible d’écrire dans le dossier mods de ' + mcNoms(avec('erreur')) + '.';
+  if(geste === 'installer' && (avec('installe').length || avec('mis-a-jour').length)){
+    return 'C’est fait.';
+  }
+  if(geste === 'retirer' && avec('retire').length) return 'Retiré.';
+  return '';
+}
+
+async function mcGeste(geste){
+  const invoke = mcInvoke();
+  if(!invoke) return;
+  const installer = document.getElementById('mcInstaller');
+  const retirer = document.getElementById('mcRetirer');
+  if(installer) installer.disabled = true;
+  if(retirer) retirer.disabled = true;
+  try{
+    const fait = await invoke('pont_minecraft_mod', { action: geste });
+    const message = mcPhrase(fait, geste);
+    // L'état relu après coup : c'est lui qui décide des boutons à montrer.
+    mcDessinerEtat(await invoke('pont_minecraft_mod', { action: 'etat' }), message);
+  }catch(e){
+    const etat = document.getElementById('mcEtat');
+    if(etat) etat.textContent = 'Échec : ' + e;
+  }finally{
+    if(installer) installer.disabled = false;
+    if(retirer) retirer.disabled = false;
+  }
+}
+
+/** À l'ouverture des Paramètres — voir showPage(). */
+async function chargerMinecraftParametres(){
+  const section = document.getElementById('mcSection');
+  const invoke = mcInvoke();
+  if(!section) return;
+  const droits = invoke && typeof pwChargerDroits === 'function' ? await pwChargerDroits() : null;
+  section.hidden = !(droits && droits.lire);
+  if(section.hidden) return;
+  const etat = document.getElementById('mcEtat');
+  if(etat) etat.textContent = 'Recherche de Prism Launcher…';
+  try{
+    mcDessinerEtat(await invoke('pont_minecraft_mod', { action: 'etat' }));
+  }catch(e){
+    if(etat) etat.textContent = 'Impossible de lire les instances de Minecraft.';
+  }
+}
+
+/**
+ * Au lancement : un mod déjà posé suit la version de l'application. On ne le
+ * dit que s'il a changé — une bulle du système, rien quand il était à jour.
+ */
+async function mcMettreAJourLeMod(){
+  const invoke = mcInvoke();
+  if(!invoke) return;
   let rapport;
-  try{ rapport = await invoke('pont_minecraft_installer'); }
+  try{ rapport = await invoke('pont_minecraft_mod', { action: 'mettre-a-jour' }); }
   catch(e){ return; }
-  const poses = (rapport && rapport.instances || []).filter(function(i){
-    return i.action === 'installe' || i.action === 'mis-a-jour';
-  });
-  if(!poses.length || typeof pontNotif !== 'function') return;
+  const faites = ((rapport && rapport.instances) || []).filter(function(i){ return i.action === 'mis-a-jour'; });
+  if(!faites.length || typeof pontNotif !== 'function') return;
   const pont = pontNotif();
   if(!pont || !(await bullePermise(pont))) return;
-  const noms = poses.map(function(i){ return '« ' + i.instance + ' »'; }).join(', ');
   try{
     pont.sendNotification({
-      title: 'PokéPension Bridge ' + (poses[0].action === 'installe' ? 'installé' : 'mis à jour'),
-      body: 'Dans ' + noms + '. Au prochain lancement de Minecraft, tape /ps dans le chat.',
+      title: 'PokéPension Bridge mis à jour',
+      body: 'Dans ' + mcNoms(faites) + ', en version ' + rapport.version + '.',
     });
-  }catch(e){ /* une bulle refusée ne change rien à la pose */ }
+  }catch(e){ /* une bulle refusée ne change rien à la mise à jour */ }
 }
+
+(function(){
+  const installer = document.getElementById('mcInstaller');
+  const retirer = document.getElementById('mcRetirer');
+  if(installer) installer.addEventListener('click', function(){ mcGeste('installer'); });
+  if(retirer) retirer.addEventListener('click', function(){ mcGeste('retirer'); });
+})();
 
 // ---- Le branchement ---------------------------------------------------------
 
@@ -306,6 +413,6 @@ async function mcInstallerLeMod(invoke){
     console.warn('Pont Minecraft indisponible :', e);
   });
 
-  // Après le démarrage : ni la session ni la réserve ne sont là avant.
-  setTimeout(function(){ mcInstallerLeMod(invoke); }, 8000);
+  // Après le démarrage, pour ne pas lui disputer le disque.
+  setTimeout(mcMettreAJourLeMod, 8000);
 })();

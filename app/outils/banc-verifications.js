@@ -3600,3 +3600,43 @@ verifier('Pont Minecraft',
       }
     });
   });
+
+verifier('Pont Minecraft',
+  'Le mod ne s’installe que sur un clic : Installer le pose, Retirer l’enlève',
+  async function(){
+    const gestes = function(nom){
+      return window.__appels.filter(function(a){
+        return a.cmd === 'pont_minecraft_mod' && a.args && a.args.action === nom;
+      }).length;
+    };
+    // Depuis le chargement de la page, et quoi qu'aient fait les autres
+    // vérifications : personne n'a demandé de pose.
+    if(gestes('installer')) return 'échec : une installation est partie sans clic';
+    const pageAvant = currentPage;
+    try{
+      showPage('parametres');
+      await chargerMinecraftParametres();
+      const section = document.getElementById('mcSection');
+      const etat = document.getElementById('mcEtat');
+      const installer = document.getElementById('mcInstaller');
+      const retirer = document.getElementById('mcRetirer');
+      if(section.hidden) return 'échec : la section Minecraft reste cachée';
+      if(installer.hidden || !retirer.hidden) return 'échec : boutons avant la pose';
+      if(etat.textContent.indexOf('Pas installé') !== 0) return 'échec : ' + etat.textContent;
+      if(gestes('installer')) return 'échec : ouvrir les Paramètres a installé le mod';
+      installer.click();
+      for(let i = 0; i < 40 && installer.disabled !== false || i < 2; i++) await attendre(50);
+      await attendre(100);
+      if(gestes('installer') !== 1) return 'échec : ' + gestes('installer') + ' installation(s) après un clic';
+      if(!installer.hidden || retirer.hidden) return 'échec : boutons après la pose';
+      const apres = etat.textContent;
+      retirer.click();
+      for(let i = 0; i < 40 && retirer.disabled !== false || i < 2; i++) await attendre(50);
+      await attendre(100);
+      if(etat.textContent.indexOf('Retiré.') !== 0 || installer.hidden) return 'échec : ' + etat.textContent;
+      return 'rien sans clic · « ' + apres + ' » · puis « ' + etat.textContent + ' »';
+    }finally{
+      window.__mcMod = { pose: false };
+      showPage(pageAvant === 'dex' ? currentTab : (pageAvant || 'home'));
+    }
+  });
