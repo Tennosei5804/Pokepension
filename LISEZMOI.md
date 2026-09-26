@@ -1025,6 +1025,114 @@ la page Lieux les cache par défaut (« Évolution » porte à lui seul 380 esp�
 et noierait les zones) et la fiche les montre en pointillé, parce qu'il n'y a
 nulle part où aller.
 
+### Deux Pokédex : celui du serveur, et le tien
+
+Deux onglets en tête de page — **Pokédex PixelmonWorld** et **Pokédex du
+joueur**. Même liste, mêmes filtres, même grille : le second regarde le
+Pokédex du serveur depuis ta collection. Il ajoute une jauge (`523 / 951`,
+`55 % complété`), une case sur chaque carte, et le filtre **Statut** — Tous,
+Capturés, Manquants. Ce qu'on a prend le vert des Pokédex de jeux ; ce qui
+manque passe en gris.
+
+**Ce n'est pas une collection de plus, c'est un Pokédex de plus.** PokéPension
+tient déjà une collection par Pokédex — un seau de `allProgress` par clé, que la
+sauvegarde de l'aventure emporte au serveur. PixelmonWorld y prend sa place sous
+la clé `pixelmonworld`, exactement comme Écarlate ou Cobblemon : même stockage
+(`pa_dex`), même synchronisation, même journal (`pa_historique`, que le fil des
+amis lit déjà), **et pas une table ni une route d'API de plus**. On la remplit
+en cochant, comme partout ailleurs.
+
+**Pas la collection HOME.** On n'a pas attrapé sur le serveur ce qu'on a
+attrapé dans Écarlate : tenir pour « obtenu » ici tout ce que HOME contient
+dirait quelque chose de faux. C'est la raison pour laquelle ce Pokédex ne
+cochait rien jusqu'ici, et c'est elle qui lui donne son propre seau.
+
+**Une case par forme.** Rattata et Rattata d'Alola partagent le numéro 19 et
+restent deux cases — la clé est la forme (`rattata-alola`), jamais le numéro.
+Le total de la jauge est celui du relevé, formes comprises : jamais un nombre
+écrit dans le code.
+
+**Le mot suit l'aventure** : « Capturés » sur un Pokédex ordinaire, « Vus »
+sur un dex de rencontres, « En boîte » sur un Living Dex. Aucun autre état
+n'est proposé — PokéPension ne saurait pas le déterminer.
+
+Ouverte depuis le serveur, la fiche lit cette collection-là : ses états
+« Normal » et « Shiny », et, dans le Pokédex du joueur, un « ✓ Capturé sur le
+serveur » en tête du bloc des apparitions.
+
+### Les filtres : OU dans une catégorie, ET entre elles
+
+Un bouton **🧲 Filtres** ouvre le panneau — celui de « Plus de filtres », en
+plus grand —, et chaque catégorie accepte plusieurs valeurs :
+
+| Catégorie | Valeurs | D'où elles viennent |
+|---|---|---|
+| Statut | Tous, Capturés, Manquants | le Pokédex du joueur seulement |
+| Types | les 18, dans l'ordre alphabétique | `TYPES_FR`, filtrés sur la réserve |
+| Rareté | Commun → Légendaire | la table `RARETES` de l'API |
+| Génération | celles que le relevé contient (1 à 8) | le relevé |
+| Lieux | chaque zone suivie de ses sous-zones, puis les autres moyens d'obtention | le relevé |
+
+```
+(Eau OU Glace) ET (Gén. 3 OU Gén. 4) ET (Rare OU Épique) ET (Océan OU Lac Rime) ET manquant
+```
+
+Cocher une valeur de plus dans une catégorie montre **plus** de Pokémon ;
+cocher une catégorie de plus en montre moins. Un double type sort sous chacun
+de ses types ; un Pokémon à plusieurs lieux sous chacun — Karaclée sort pour
+Zone 9 comme pour Bull'o Biome Cascade. **Une zone couvre ses sous-zones** :
+cocher « Zone 1 » retient aussi Zone 1 Eau, comme le faisait le menu des zones.
+
+**Évolution, Quête, Tour de Combat restent dans les lieux**, sous leur propre
+titre : ils répondent à la même question — où l'obtient-on ? —, et les cocher
+avec « Océan » veut dire l'un OU l'autre. Leur genre (`hors-carte`) existait
+déjà dans les données ; rien n'a été changé au relevé.
+
+**Les types sont ceux de la réserve, pas ceux du serveur.** Sur les 951
+entrées, douze diffèrent — Otaria y est Eau/Glace, Spiritomb y perd Ténèbres.
+La réserve suit PokeAPI forme par forme, et c'est elle que la fiche affiche.
+**La génération, elle, est celle du serveur** : il range les formes d'Alola en
+septième, et la recherche « gen7 » le lisait déjà ainsi.
+
+Chaque pastille porte **le nombre de Pokémon qu'elle rendrait**, le reste des
+filtres tel qu'il est ; à zéro, elle s'éteint sans disparaître. Les valeurs
+cochées se lisent sous la barre, une pastille par valeur, chacune avec sa croix,
+et **Tout réinitialiser** au bout de la ligne. Le compteur dit « 42 Pokémon
+trouvés », et dans le Pokédex du joueur combien de ceux-là on a déjà.
+
+La recherche garde son champ et son analyseur — celui du Pokédex des jeux — et
+se cumule aux filtres, en ET. Ses états (« manquants ») parlent ici de la
+collection du serveur.
+
+**Tout se filtre en mémoire**, sur la réserve rendue par l'unique appel
+`pw_pokedex` : génération, lieux et texte cherchable sont indexés une fois par
+session, et un filtrage complet, compteurs compris, prend moins d'une
+milliseconde. Un filtre qui change ramène au premier lot de 53 cartes.
+
+L'ancien menu des types, enfin, **ne filtrait rien** : `pwFiltrer()` lisait la
+zone, la sous-zone et la rareté, et jamais lui. Le banc le vérifie désormais.
+
+### L'adresse des filtres
+
+Sur le site, l'adresse dit tout ce qui filtre :
+
+```
+/pixelmonworld?vue=joueur&types=eau,glace&generations=3,4&raretes=rare,epique&lieux=lac-rime,ocean&statut=manquants
+```
+
+Les mots sont ceux qu'on taperait — « eau » comme dans la recherche,
+« peu-commun » comme sur la pastille — et les lieux gardent la clé du relevé
+(`zone-1-eau`, `bull-o-biome-cascade`). Un rafraîchissement garde tout, un lien
+collé ouvre les mêmes filtres, et **chaque geste est une étape de l'historique**
+: Précédent retire la dernière pastille, comme sur le site du serveur où chaque
+filtre est un lien. La frappe dans la recherche, elle, corrige l'étape en cours
+au lieu d'en empiler une par lettre.
+
+Une valeur que les données ne connaissent pas est ignorée, et l'adresse se
+réécrit sans elle : un vieux lien ne vide pas la grille sans dire pourquoi.
+L'application de bureau n'a pas de barre d'adresse ; ses filtres vivent en
+mémoire le temps de la session.
+
 ### Qui a le droit d'entrer
 
 Une liste tenue à la main, **pas des rôles Discord** : la connexion ne demande
@@ -1445,6 +1553,13 @@ au lieu d'une liste qui ne contenait que `/dex`.
 scripts par chemin relatif, et un second segment les ferait chercher dans un
 dossier qui n'existe pas.
 
+**La requête appartient à l'écran qui la porte.** `adresses.js` ne gère que le
+chemin ; un écran qui a des paramètres — les filtres du Pokédex de
+PixelmonWorld, voir plus haut — les lit et les écrit lui-même, et son écouteur
+de Précédent passe avant celui d'`adresses.js`, chargé en dernier. En changeant
+d'écran, la requête reste derrière : recopiée derrière `/lieu`, elle ferait
+partager un lien chargé de paramètres qui n'y veulent rien dire.
+
 ## Le site installable
 
 C'est sur le téléphone posé à côté de la Switch qu'on coche. Le site s'adaptait
@@ -1619,6 +1734,12 @@ purification (voir plus bas) » d'un commentaire français passe pour un appel �
 des réponses en dur. Aucune connexion Discord, aucune écriture en base : on peut
 supprimer, vider et renommer sans qu'une seule requête parte. Le rapport
 s'affiche en haut de la page.
+
+**Le banc sert aussi le Pokédex de PixelmonWorld** — le vrai relevé,
+`api/releves/pixelmonworld.json`, rangé par `banc.py` dans la forme que l'API
+rend et servi sur `/banc/pw-pokedex.json`. Un Pokédex inventé de dix espèces
+aurait validé les filtres sur des cas qui n'existent pas ; celui-ci a ses 951
+entrées, ses formes qui partagent un numéro, et Karaclée dans deux zones.
 
 Pourquoi un banc plutôt que des tests unitaires : l'interface est faite de
 scripts classiques qui se parlent par des variables globales, sans modules ni

@@ -32,6 +32,10 @@ function updateProgress(){
   // sur ses anciens chiffres, à côté d'une grille qui, elle, avait suivi.
   // (partage.js est chargé après ce fichier ; l'appel, lui, est tardif.)
   if(typeof majBarreComparaison === 'function') majBarreComparaison();
+  // Le Pokédex du joueur de PixelmonWorld lit la collection de l'aventure : en
+  // ouvrir une autre depuis le menu du compte doit le repeindre, pas seulement
+  // la grille des jeux. (pixelmonworld.js, chargé après ; appel tardif.)
+  if(currentPage === 'pixelmonworld' && typeof pwRafraichir === 'function') pwRafraichir();
 }
 
 // ---- Loads French species names in bulk from PokeAPI's open dataset

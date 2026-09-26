@@ -3190,3 +3190,236 @@ verifier('Données jeux',
     }
     return 'rien saisi ne dit rien, « 0 h » se dit, et l’année ne s’écrit qu’une fois';
   });
+
+// ---------------------------------------------------------------------------
+// Le Pokédex de PixelmonWorld. Le banc sert le vrai relevé, dans la forme que
+// l'API rend (voir pokedex_pw() dans banc.py) : 951 entrées, les formes qui
+// partagent un numéro, Karaclée dans deux zones.
+
+/**
+ * Ouvre la page, rend la main, et remet tout comme avant — filtres, vue,
+ * recherche, collection du serveur, page affichée. Chaque vérification part
+ * ainsi d'un Pokédex sans filtre et d'une collection vide, quel que soit
+ * l'ordre dans lequel elles passent.
+ */
+async function surPixelmonWorld(fn){
+  if(typeof chargerPagePW !== 'function') return 'ignoré : le Pokédex du serveur n’est pas chargé';
+  const pageAvant = currentPage;
+  const seau = bucketFor(PW_COLLECTION);
+  const avant = {
+    etat: JSON.stringify({ vue: pwEtat.vue, statut: pwEtat.statut, types: [...pwEtat.types],
+      raretes: [...pwEtat.raretes], generations: [...pwEtat.generations], lieux: [...pwEtat.lieux] }),
+    caught: new Set(seau.caught), shiny: new Set(seau.shiny),
+    q: document.getElementById('pwRecherche').value,
+    tri: document.getElementById('pwTri').value,
+  };
+  const remettre = function(){
+    const e = JSON.parse(avant.etat);
+    pwEtat.vue = e.vue; pwEtat.statut = e.statut;
+    pwEtat.types = new Set(e.types); pwEtat.raretes = new Set(e.raretes);
+    pwEtat.generations = new Set(e.generations); pwEtat.lieux = new Set(e.lieux);
+    seau.caught = avant.caught; seau.shiny = avant.shiny;
+    document.getElementById('pwRecherche').value = avant.q;
+    document.getElementById('pwTri').value = avant.tri;
+  };
+  try{
+    showPage('pixelmonworld');
+    await chargerPagePW();
+    if(!pwCatalogue) return 'ignoré : le relevé n’a pas été servi';
+    pwEtat.vue = 'serveur'; pwEtat.statut = 'tous';
+    pwEtat.types.clear(); pwEtat.raretes.clear(); pwEtat.generations.clear(); pwEtat.lieux.clear();
+    seau.caught = new Set(); seau.shiny = new Set();
+    document.getElementById('pwRecherche').value = '';
+    document.getElementById('pwTri').value = 'numero';
+    return await fn();
+  }finally{
+    remettre();
+    showPage(pageAvant === 'dex' ? currentTab : (pageAvant || 'home'));
+  }
+}
+
+const pwCles = function(){ return pwEvaluer().resultats.map(function(x){ return x.cle; }); };
+
+verifier('Pokédex PixelmonWorld',
+  'Le type filtre vraiment — le menu des types n’était lu par personne jusqu’au 26 septembre 2026',
+  function(){
+    return surPixelmonWorld(function(){
+      // LE DÉFAUT. pwFiltrer() lisait la zone, la sous-zone et la rareté, et pas
+      // le menu des types : choisir « Dragon » redessinait la grille entière,
+      // inchangée. Le filtre existait à l'écran et nulle part ailleurs.
+      pwEtat.types.add(16);
+      const r = pwEvaluer().resultats;
+      if(r.length === pwEntreesConnues.length) return 'échec : Dragon ne retire rien';
+      const intrus = r.filter(function(x){ return pwTypesDe(x).indexOf(16) === -1; });
+      if(intrus.length) return 'échec : ' + intrus.length + ' sans le type, dont ' + intrus[0].cle;
+      return r.length + ' Dragon sur ' + pwEntreesConnues.length + ', et que des Dragon';
+    });
+  });
+
+verifier('Pokédex PixelmonWorld',
+  'OU dans une catégorie, ET entre elles — l’exemple complet, recompté à la main',
+  function(){
+    return surPixelmonWorld(function(){
+      // (Eau OU Glace) ET (Gén. 3 OU Gén. 4) ET (Rare OU Épique) ET
+      // (Océan OU Lac Rime). Le décompte attendu est refait ici sur la réserve
+      // brute de l'API, sans passer par pwEvaluer() : c'est lui qu'on juge.
+      pwEtat.types = new Set([11, 15]);
+      pwEtat.generations = new Set([3, 4]);
+      pwEtat.raretes = new Set([3, 4]);
+      pwEtat.lieux = new Set(['ocean', 'lac-rime']);
+      const typesDe = function(nom){
+        const en = allEntries.find(function(x){ return x.name === nom; });
+        return en ? (typesByPokemonId.get(en.id) || []) : [];
+      };
+      const attendu = pwReserve.especes.filter(function(e){
+        const t = typesDe(e.espece);
+        return (t.indexOf(11) !== -1 || t.indexOf(15) !== -1)
+          && (e.generation === 3 || e.generation === 4)
+          && (e.etoiles === 3 || e.etoiles === 4)
+          && e.spawns.some(function(s){ return s.zoneCle === 'ocean' || s.zoneCle === 'lac-rime'; });
+      }).map(function(e){ return e.espece; }).sort();
+      const obtenu = pwCles().sort();
+      if(obtenu.join() !== attendu.join()){
+        return 'échec : ' + obtenu.join(', ') + ' au lieu de ' + attendu.join(', ');
+      }
+      // Une valeur de plus dans une catégorie montre PLUS ; une catégorie de
+      // plus montre moins.
+      pwEtat.generations.clear(); pwEtat.raretes.clear(); pwEtat.lieux.clear();
+      const eau = (pwEtat.types = new Set([11]), pwCles().length);
+      const eauGlace = (pwEtat.types = new Set([11, 15]), pwCles().length);
+      pwEtat.generations = new Set([3]);
+      const eauGlaceG3 = pwCles().length;
+      if(!(eauGlace > eau)) return 'échec : cocher Glace à côté d’Eau n’ajoute rien';
+      if(!(eauGlaceG3 < eauGlace)) return 'échec : ajouter la génération ne restreint rien';
+      return obtenu.length + ' Pokémon (' + obtenu.join(', ') + ') · Eau ' + eau
+        + ' → Eau|Glace ' + eauGlace + ' → et Gén. 3 : ' + eauGlaceG3;
+    });
+  });
+
+verifier('Pokédex PixelmonWorld',
+  'Un Pokémon à deux lieux sort pour chacun, un double type pour chacun de ses types',
+  function(){
+    return surPixelmonWorld(function(){
+      const dedans = function(){ return pwCles().indexOf('sawk') !== -1; };
+      pwEtat.lieux = new Set(['zone-9']);
+      if(!dedans()) return 'échec : Karaclée manque sous Zone 9';
+      pwEtat.lieux = new Set(['bull-o-biome-cascade']);
+      if(!dedans()) return 'échec : Karaclée manque sous Bull’o Biome Cascade';
+      pwEtat.lieux = new Set(['bull-o']);
+      if(!dedans()) return 'échec : la zone Bull’o ne couvre pas sa sous-zone';
+      pwEtat.lieux.clear();
+      // Axoloto, Eau/Sol : sous Eau comme sous Sol.
+      pwEtat.types = new Set([11]);
+      const sousEau = pwCles().indexOf('wooper') !== -1;
+      pwEtat.types = new Set([5]);
+      const sousSol = pwCles().indexOf('wooper') !== -1;
+      if(!sousEau || !sousSol) return 'échec : Axoloto manque sous ' + (sousEau ? 'Sol' : 'Eau');
+      return 'Karaclée sous Zone 9, Bull’o Biome Cascade et Bull’o ; Axoloto sous Eau et sous Sol';
+    });
+  });
+
+verifier('Pokédex PixelmonWorld',
+  'Les formes restent deux cases : cocher Rattata ne donne pas Rattata d’Alola',
+  function(){
+    return surPixelmonWorld(async function(){
+      const recherche = document.getElementById('pwRecherche');
+      recherche.value = '19';
+      if(pwCles().sort().join() !== 'rattata,rattata-alola'){
+        return 'échec : « 19 » rend ' + pwCles().join(', ');
+      }
+      pwEtat.vue = 'joueur';
+      pwDessiner(true);
+      const cartes = Array.prototype.slice.call(document.querySelectorAll('#pwGrille .card'));
+      const carte = cartes.find(function(c){
+        return c.querySelector('.card-name').textContent === 'Rattata';
+      });
+      if(!carte) return 'échec : pas de carte « Rattata »';
+      window.__appels = [];
+      carte.querySelector('.chip-check input').click();
+      await attendre(700);
+      const seau = bucketFor(PW_COLLECTION).caught;
+      if(!seau.has('rattata') || seau.has('rattata-alola')){
+        return 'échec : collection du serveur = ' + [...seau].join(', ');
+      }
+      pwEtat.statut = 'manquants';
+      if(pwCles().join() !== 'rattata-alola') return 'échec : « manquants » rend ' + pwCles().join(', ');
+      const envoi = window.__appels.filter(function(a){ return a.cmd === 'ecrire_dex'; }).pop();
+      const parti = envoi && envoi.args.donnees.dex[PW_COLLECTION];
+      if(!parti || parti.caught.indexOf('rattata') === -1){
+        return 'échec : la case n’est pas partie avec la sauvegarde de l’aventure';
+      }
+      return 'Rattata coché, Rattata d’Alola manquant, et dex.' + PW_COLLECTION + ' part au serveur';
+    });
+  });
+
+verifier('Pokédex PixelmonWorld',
+  'La progression mesure le Pokédex du serveur, sur son total réel',
+  function(){
+    return surPixelmonWorld(function(){
+      pwEtat.vue = 'joueur';
+      const seau = bucketFor(PW_COLLECTION).caught;
+      // Une espèce que le serveur ne donne pas — retirée depuis, par exemple —
+      // ne doit pas gonfler la jauge.
+      ['sawk', 'dratini', 'ceci-n-existe-pas'].forEach(function(n){ seau.add(n); });
+      pwDessiner(true);
+      const n = document.getElementById('pwProgresNombre').textContent;
+      const total = document.getElementById('pwProgresTotal').textContent;
+      if(total !== String(pwReserve.especes.length)){
+        return 'échec : total ' + total + ' au lieu de ' + pwReserve.especes.length;
+      }
+      if(n !== '2') return 'échec : ' + n + ' possédés au lieu de 2';
+      // Le statut filtre la grille, jamais la jauge.
+      pwEtat.statut = 'manquants';
+      pwDessiner(true);
+      if(document.getElementById('pwProgresNombre').textContent !== '2'){
+        return 'échec : le filtre « manquants » a changé la jauge';
+      }
+      return n + ' / ' + total + ' — ' + document.getElementById('pwProgresPct').textContent;
+    });
+  });
+
+verifier('Pokédex PixelmonWorld',
+  'Un filtre qui change ramène au premier lot, jamais sur un lot disparu',
+  function(){
+    return surPixelmonWorld(function(){
+      pwDessiner(true);
+      pwDessiner(false);
+      pwDessiner(false);
+      const deroulees = document.querySelectorAll('#pwGrille .card').length;
+      if(deroulees !== 3 * PW_LOT) return 'échec : ' + deroulees + ' cartes après deux « Afficher plus »';
+      pwEtat.types.add(16);
+      pwDessiner(true);
+      const apres = document.querySelectorAll('#pwGrille .card').length;
+      if(apres !== Math.min(PW_LOT, pwFiltrees.length)){
+        return 'échec : ' + apres + ' cartes après le filtre';
+      }
+      return deroulees + ' cartes déroulées, puis ' + apres + ' au premier lot du filtre';
+    });
+  });
+
+verifier('Pokédex PixelmonWorld',
+  'L’adresse relit ce qu’elle écrit, et ignore ce que les données ne connaissent pas',
+  function(){
+    return surPixelmonWorld(function(){
+      pwEtat.vue = 'joueur';
+      pwEtat.types = new Set([11, 15]);
+      pwEtat.generations = new Set([3, 4]);
+      pwEtat.raretes = new Set([3, 4]);
+      pwEtat.lieux = new Set(['ocean', 'lac-rime', 'zone-1-eau']);
+      pwEtat.statut = 'manquants';
+      document.getElementById('pwRecherche').value = 'dra ko';
+      const ecrit = pwRequete();
+      const cles = pwCles().join();
+      pwToutReinitialiser();
+      pwAppliquerRequete(ecrit);
+      if(pwRequete() !== ecrit) return 'échec : relue, l’adresse devient ' + pwRequete();
+      if(pwCles().join() !== cles) return 'échec : la même adresse ne rend pas la même grille';
+      // Des valeurs d'un autre monde : elles s'en vont sans vider la grille.
+      pwAppliquerRequete('?types=eau,xyz&generations=2,99&lieux=nulle-part,Zone 7&raretes=epic');
+      const propre = pwRequete();
+      if(propre !== '?types=eau&generations=2&raretes=epique&lieux=zone-7'){
+        return 'échec : ' + propre;
+      }
+      return ecrit;
+    });
+  });
