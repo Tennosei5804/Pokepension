@@ -31,6 +31,11 @@
   color:var(--dex-red-deep);
   box-shadow:0 2px 6px -3px rgba(20,20,30,0.35);
 }
+/* EN SOMBRE, LE ROUGE DE L'ONGLET OUVERT NE SE LISAIT PAS. --dex-red-deep y
+   vaut #671b1b, soit un contraste de 1,5 contre --card : l'onglet ouvert était
+   le seul de la rangée qu'on ne pouvait pas lire. Son fond, son filet et son
+   ombre le distinguent déjà ; son texte reprend l'encre. */
+html[data-theme="dark"] .strat-onglet.active{ color:var(--ink); }
 .strat-onglet:focus-visible{ outline:2.5px solid var(--dex-red); }
 
 .strat-outil{ display:none; }

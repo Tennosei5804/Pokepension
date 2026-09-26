@@ -1935,6 +1935,9 @@ function nomJournal(slug){
 
 function libelleDex(cle){
   if(cle === 'national') return 'Pokémon HOME';
+  // Le serveur a sa collection comme un jeu a la sienne, sans être un jeu :
+  // sans cette ligne, le journal et le fil des amis écrivaient sa clé brute.
+  if(typeof PW_COLLECTION !== 'undefined' && cle === PW_COLLECTION) return 'PixelmonWorld';
   const jeu = gameByKey[cle];
   return jeu ? jeu.title : cle;
 }

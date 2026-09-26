@@ -903,11 +903,11 @@
 
       <!-- LE POK&Eacute;DEX DE PIXELMONWORLD.
            La barre reprend celle du Pok&eacute;dex des jeux &mdash; m&ecirc;mes classes, m&ecirc;me
-           champ de recherche, m&ecirc;mes menus &mdash; parce que c'est le m&ecirc;me geste :
-           on cherche un Pok&eacute;mon, on restreint, on ouvre sa fiche. Les deux
-           menus de plus, zone et sous-zone, sont ce que ce Pok&eacute;dex-ci a en
-           propre : ses lieux sont dans sa barre, l&agrave; o&ugrave; ceux des jeux ont leur
-           page &agrave; eux. -->
+           champ de recherche, m&ecirc;me tri &mdash; parce que c'est le m&ecirc;me geste :
+           on cherche un Pok&eacute;mon, on restreint, on ouvre sa fiche. Ce que ce
+           Pok&eacute;dex-ci a en propre tient dans le panneau des filtres : des
+           pastilles &agrave; valeurs multiples, lieux compris, l&agrave; o&ugrave; les jeux ont
+           des menus &agrave; une valeur et leurs lieux sur une page &agrave; eux. -->
       <section class="page" id="page-pixelmonworld">
         <!-- LA SOUS-BARRE DU SERVEUR, recopi&eacute;e en t&ecirc;te des deux &eacute;crans : chacun
              doit pouvoir s'afficher seul, exactement comme la barre des Outils.
@@ -926,11 +926,50 @@
              &eacute;toiles.</p>
         </div>
 
+        <!-- LES DEUX POK&Eacute;DEX : celui du serveur, et le tien. Les onglets de la
+             Strat&eacute;gie et non deux pages : c'est la m&ecirc;me liste, les m&ecirc;mes
+             filtres, regard&eacute;s depuis ta collection. -->
+        <div class="strat-onglets pw-vues" id="pwVues" role="tablist" aria-label="Quel Pokédex" hidden>
+          <button class="strat-onglet active" id="pwVueServeur" type="button"
+                  role="tab" aria-selected="true"
+                  title="Tout ce que le serveur fait apparaître">&#127757; Pok&eacute;dex PixelmonWorld</button>
+          <button class="strat-onglet" id="pwVueJoueur" type="button"
+                  role="tab" aria-selected="false"
+                  title="Le même Pokédex, avec ce que tu as déjà sur le serveur">&#127890; Pok&eacute;dex du joueur</button>
+        </div>
+
+        <!-- LA PROGRESSION DU JOUEUR : la jauge du Pok&eacute;dex des jeux, sur la
+             collection du serveur. Remplie par pwMajProgression() ; le total est
+             celui du relev&eacute;, jamais un nombre &eacute;crit ici. -->
+        <div class="stat-bar pw-progression" id="pwProgression" hidden>
+          <div class="gauge">
+            <svg viewBox="0 0 74 74">
+              <circle class="track" cx="37" cy="37" r="31"></circle>
+              <circle class="fill" id="pwJauge" cx="37" cy="37" r="31" stroke-dasharray="194.8" stroke-dashoffset="194.8"></circle>
+            </svg>
+            <div class="gauge-value" id="pwJaugeValeur">0%</div>
+          </div>
+          <div class="stat-readout">
+            <div class="stat-status" id="pwProgressionTitre">Ta collection PixelmonWorld</div>
+            <div class="stat-numbers">
+              <div class="stat-line active">
+                <span class="stat-dot">&#11044;</span>
+                <strong id="pwProgresNombre">0</strong>
+                <span>/ <span id="pwProgresTotal">0</span> <span id="pwProgresMot">capturé</span></span>
+              </div>
+            </div>
+            <p class="pw-progression-pct" id="pwProgresPct">0&nbsp;% complété</p>
+            <p class="pw-progression-aide" id="pwProgresAide" hidden>Coche sur chaque carte ce que
+               tu as attrapé sur le serveur : ta progression se remplit ici, et suit ton
+               aventure d'un appareil à l'autre.</p>
+          </div>
+        </div>
+
         <div class="toolbar filters-row" id="pwBarre" hidden>
           <input type="search" id="pwRecherche" list="pwNoms"
-                 placeholder="Un nom, un n°, « eau », « gen3 », « legendaire »…"
+                 placeholder="Rechercher un Pokémon… un nom, un n°, « eau », « gen3 »"
                  aria-label="Rechercher : un nom, un numéro, un type, une génération ou un mot-clé"
-                 title="Se cumulent : un nom, un n° national, un type (feu, eau…), une génération (gen3, kanto…), un état (manquants, capturés) et un mot-clé (légendaire, fabuleux, starter…). Tout mot inconnu cherche dans le nom."
+                 title="Se cumulent : un nom, un n° national, un type (feu, eau…), une génération (gen3, kanto…), un état (manquants, capturés) et un mot-clé (légendaire, fabuleux, starter…). Tout mot inconnu cherche dans le nom. La recherche s'ajoute aux filtres."
                  autocomplete="off">
           <!-- L'autocompl&eacute;tion native : le navigateur filtre et navigue au
                clavier tout seul, et rien ne se dessine au-dessus de la grille. -->
@@ -941,27 +980,26 @@
             <option value="rarete">Tri : Rareté</option>
             <option value="zones">Tri : Nombre d'endroits</option>
           </select>
-          <select id="pwType" aria-label="Filtrer par type">
-            <option value="all">Tous les types</option>
-          </select>
-          <!-- Raret&eacute;s et zones sont remplies par pixelmonworld.js depuis la
-               r&eacute;ponse de l'API : aucune liste &eacute;crite ici, sinon elle d&eacute;riverait
-               d&egrave;s que le serveur ajoute une zone. -->
-          <select id="pwRarete" aria-label="Filtrer par rareté">
-            <option value="all">Toutes les raretés</option>
-          </select>
-          <select id="pwZone" aria-label="Filtrer par zone">
-            <option value="all">Toutes les zones</option>
-          </select>
-          <select id="pwSousZone" aria-label="Filtrer par sous-zone">
-            <option value="all">Toutes les sous-zones</option>
-          </select>
-          <button class="toggle-btn" id="pwRaz" type="button"
-                  title="Vider la recherche et remettre tous les filtres">&#9851; Tout afficher</button>
+          <button class="toggle-btn" id="pwFiltresBascule" type="button"
+                  aria-expanded="false" aria-controls="pwFiltres"
+                  title="Types, raretés, générations, lieux : plusieurs valeurs par catégorie, cumulables entre elles">&#129522; Filtres</button>
+        </div>
+
+        <!-- LE PANNEAU DES FILTRES, b&acirc;ti par pixelmonworld.js &agrave; partir des
+             donn&eacute;es : aucune liste ici, sinon elle d&eacute;riverait d&egrave;s que le serveur
+             ajoute une zone. OU &agrave; l'int&eacute;rieur d'une cat&eacute;gorie, ET entre elles. -->
+        <div class="pw-filtres" id="pwFiltres" hidden></div>
+
+        <!-- Ce qui filtre, une pastille par valeur, chacune retirable. -->
+        <div class="recherche-jetons pw-actifs" id="pwActifs" hidden>
+          <span class="jeton-titre">Filtres actifs</span>
+          <span class="pw-actifs-liste" id="pwActifsListe"></span>
+          <button class="pw-actifs-raz" id="pwRaz" type="button"
+                  title="Vider la recherche et retirer tous les filtres">&#9851; Tout r&eacute;initialiser</button>
         </div>
 
         <p class="recherche-jetons" id="pwJetons" hidden></p>
-        <p class="lieux-resume" id="pwResume"></p>
+        <p class="lieux-resume" id="pwResume" aria-live="polite"></p>
         <div class="grid" id="pwGrille"></div>
         <button class="load-more" id="pwPlus" type="button" style="display:none;">Afficher plus</button>
       </section>

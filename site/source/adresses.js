@@ -20,6 +20,14 @@
 // La table vient de l'assembleur (window.POKEPENSION_ADRESSES). Elle n'est pas
 // recopiée ici : une seconde liste aurait fini par ne plus dire la même chose,
 // et une adresse aurait ouvert une page que la barre ne savait plus nommer.
+//
+// ─── ET LA REQUÊTE, À L'ÉCRAN QUI LA PORTE ────────────────────────────────────
+//
+// Ce script ne gère que le chemin. Un écran qui a des paramètres — les filtres
+// du Pokédex de PixelmonWorld, « ?types=eau&lieux=ocean » — les lit et les
+// écrit lui-même, et son écouteur de Précédent passe avant celui-ci, chargé en
+// dernier. En changeant d'écran, la requête reste derrière : elle décrivait
+// celui qu'on quitte.
 
 (function(){
   'use strict';
@@ -62,8 +70,13 @@
     if(enRestitution || typeof currentPage === 'undefined') return r;
     const voulue = adresseDe(currentPage);
     if(location.pathname !== voulue){
+      // LA REQUÊTE APPARTIENT À L'ÉCRAN QU'ON QUITTE. « ?types=eau&lieux=ocean »
+      // décrit les filtres du Pokédex de PixelmonWorld : la recopier derrière
+      // « /lieu » ferait partager un lien chargé de paramètres qui n'y veulent
+      // rien dire. L'écran qui en a — pixelmonworld.js — réécrit les siens en
+      // s'ouvrant, et Précédent retrouve ceux de l'étape d'avant.
       try{
-        history.pushState({ page: currentPage }, '', voulue + location.search);
+        history.pushState({ page: currentPage }, '', voulue);
       }catch(e){ /* adresse refusée : l'écran s'ouvre quand même */ }
     }
     return r;

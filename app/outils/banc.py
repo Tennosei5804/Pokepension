@@ -258,6 +258,16 @@ const REPONSES = {
   image_supprimer: (a) => { IMAGES.delete(a && a.id); return { ok:true, id:(a&&a.id) }; },
   images_place:    () => ({ combien: IMAGES.size, octets: 0,
                             combienMax: 60, octetsMax: 41943040 }),
+
+  // --- Le Pokedex de PixelmonWorld ------------------------------------------
+  //
+  // Le VRAI releve, mis dans la forme que l'API rend : banc.py le lit dans
+  // api/releves/pixelmonworld.json et le sert sur /banc/pw-pokedex.json. Un
+  // Pokedex invente de dix especes aurait valide des filtres sur des cas qui
+  // n'existent pas ; celui-ci a ses 951 entrees, ses formes regionales qui
+  // partagent un numero, et Karaclee dans deux zones.
+  pw_moi:          () => ({ lire:true, admin:false, gestionAcces:false }),
+  pw_pokedex:      () => fetch('/banc/pw-pokedex.json').then(r => r.json()),
 };
 
 // Le journal des appels : sans lui, on ne peut pas distinguer « la fenetre s'est
@@ -292,6 +302,80 @@ window.__TAURI__ = { core: { invoke: async function(cmd, args){
   return f(args);
 } } };
 """
+
+# --- Le Pokedex de PixelmonWorld, tel que l'API le rendrait -----------------
+#
+# Le releve est la seule source de ces tables (voir importer-pixelmonworld.js) :
+# on le range ici exactement comme l'import puis GET /api/pw/pokedex le feraient
+# — une zone par nom, ses sous-zones, une apparition par couple espece-libelle.
+# Les cles suivent la meme regle que l'import, sans quoi l'adresse d'un filtre
+# eprouvee ici ne vaudrait pas sur le site.
+RELEVE_PW = OUTILS.parent.parent / "api" / "releves" / "pixelmonworld.json"
+
+
+def cle_zone(nom):
+    """cleZoneDe() de l'import, a l'identique."""
+    import unicodedata
+    nu = "".join(c for c in unicodedata.normalize("NFD", str(nom or ""))
+                 if unicodedata.category(c) != "Mn").lower()
+    nu = re.sub(r"[^a-z0-9]+", "-", nu).strip("-")[:64]
+    return nu or "zone"
+
+
+@functools.lru_cache(maxsize=1)
+def pokedex_pw():
+    import json
+    releve = json.loads(RELEVE_PW.read_text(encoding="utf-8"))
+    etoiles = {r["libelle"]: r["etoiles"] for r in releve["raretes"]}
+
+    zones, par_nom, par_libelle = [], {}, {}
+    for z in releve["zones"]:
+        cle = z["cle"] if z["cle"] and not z["sousZone"] else cle_zone(z["zone"])
+        zone = par_nom.get(z["zone"])
+        if zone is None:
+            zone = {"id": len(zones) + 1, "cle": cle, "nom": z["zone"],
+                    "genre": z.get("genre") or "lieu", "description": z.get("note") or "",
+                    "image": "", "spawns": 0, "sousZones": []}
+            zones.append(zone)
+            par_nom[z["zone"]] = zone
+        sous = None
+        if z["sousZone"]:
+            sous = {"id": 100 + sum(len(x["sousZones"]) for x in zones) + 1,
+                    "cle": cle_zone(z["sousZone"]), "nom": z["sousZone"],
+                    "description": "", "spawns": 0}
+            zone["sousZones"].append(sous)
+        par_libelle[z["libelle"]] = (zone, sous)
+
+    especes, n = [], 0
+    for f in releve["especes"]:
+        cle = (f.get("espece") or f.get("nomEn") or "").strip().lower()
+        spawns = []
+        for libelle in f.get("zones") or []:
+            if libelle not in par_libelle:
+                continue
+            zone, sous = par_libelle[libelle]
+            n += 1
+            zone["spawns"] += 1
+            if sous:
+                sous["spawns"] += 1
+            spawns.append({"id": n, "espece": cle, "zoneId": zone["id"], "zone": zone["nom"],
+                           "zoneCle": zone["cle"], "zoneGenre": zone["genre"],
+                           "sousZoneId": sous["id"] if sous else None,
+                           "sousZone": sous["nom"] if sous else "",
+                           "etoiles": etoiles.get(f.get("rarete"), 0),
+                           "rarete": f.get("rarete") or ""})
+        # L'ordre de l'API : celui des zones sur la carte, pas celui de la fiche.
+        spawns.sort(key=lambda s: (s["zoneId"], s["id"]))
+        especes.append({"espece": cle, "numero": f.get("numero") or 0,
+                        "nomFr": f.get("nomFr") or "", "nomEn": f.get("nomEn") or "",
+                        "generation": f.get("generation") or 0, "types": f.get("types") or [],
+                        "etoiles": etoiles.get(f.get("rarete"), 0),
+                        "rarete": f.get("rarete") or "", "sprite": f.get("sprite") or "",
+                        "spawns": spawns})
+    especes.sort(key=lambda e: (e["numero"], e["espece"]))
+    return json.dumps({"majLe": "", "raretes": releve["raretes"], "zones": zones,
+                       "especes": especes}, ensure_ascii=False).encode("utf-8")
+
 
 class Serveur(http.server.SimpleHTTPRequestHandler):
 
@@ -328,6 +412,14 @@ class Serveur(http.server.SimpleHTTPRequestHandler):
             corps = html.encode("utf-8")
             self.send_response(200)
             self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.send_header("Content-Length", str(len(corps)))
+            self.end_headers()
+            self.wfile.write(corps)
+            return
+        if self.path.split("?")[0] == "/banc/pw-pokedex.json":
+            corps = pokedex_pw()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
             self.send_header("Content-Length", str(len(corps)))
             self.end_headers()
             self.wfile.write(corps)

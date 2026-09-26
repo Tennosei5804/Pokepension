@@ -1729,6 +1729,158 @@
    la carte le dit en restant en retrait plutôt qu'en disparaissant. */
 .pw-carte.pw-inconnue{ opacity:0.72; }
 
+/* ---- Les deux Pokédex, la progression, les filtres ------------------------
+   Rien n'est dessiné à neuf : les onglets sont ceux de la Stratégie, la jauge
+   celle du Pokédex des jeux, les pastilles celles de « Plus de filtres », la
+   ligne des filtres actifs celle des jetons de la recherche. Ne restent ici que
+   leurs réglages de place. */
+
+.pw-vues{ margin-bottom:12px; }
+
+/* La jauge du joueur. Une seule ligne de score — il n'y a pas de vue shiny sur
+   le serveur —, donc toujours pleine plutôt qu'estompée comme l'est, au
+   Pokédex des jeux, celle du mode qu'on ne remplit pas. */
+.pw-progression .stat-line{ opacity:1; }
+.pw-progression-pct{
+  margin:3px 0 0;
+  font-family:var(--font-data); font-size:11.5px; letter-spacing:.02em;
+  color:var(--ink-soft); font-variant-numeric:tabular-nums;
+}
+.pw-progression-aide{
+  margin:6px 0 0; max-width:64ch;
+  font-size:11.5px; line-height:1.45; color:var(--ink-faint);
+}
+
+/* Un seul menu dans cette barre, le tri : étiré comme les quatre menus de la
+   barre des jeux, il prenait autant de place que la recherche pour afficher
+   trois mots. Sur un téléphone, la règle de .filters-row reprend la main. */
+@media (min-width:821px){
+  #pwBarre .select-wrap{ flex:0 1 240px; }
+}
+
+/* Le bouton « Filtres » porte la marque rouge des menus qui filtrent : la
+   grille est restreinte, et ça doit se voir panneau fermé. */
+.toolbar .toggle-btn.filtering{
+  border-color:var(--dex-red);
+  box-shadow:0 0 0 2px rgba(238,58,58,.14);
+  font-weight:700;
+}
+
+/* Le panneau : une rangée par catégorie, son nom à gauche et ses pastilles à
+   droite. Il se lit comme un formulaire, de haut en bas. */
+.pw-filtres{
+  display:flex; flex-direction:column; gap:10px;
+  margin:-4px 0 12px; padding:12px 14px;
+  background:var(--card);
+  border:1px solid var(--card-border); border-radius:12px;
+}
+.pw-filtres-groupe{
+  display:grid; grid-template-columns:88px minmax(0, 1fr);
+  gap:6px 12px; align-items:start;
+}
+.pw-filtres-titre{
+  padding-top:7px;
+  font-family:var(--font-data); font-size:9.5px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-faint);
+}
+.pw-filtres-valeurs{ display:flex; flex-wrap:wrap; align-items:center; gap:6px; min-width:0; }
+/* « Autres moyens d'obtention » : dans la même catégorie que les lieux — les
+   cocher ensemble veut dire l'un OU l'autre —, mais sur sa propre ligne,
+   puisqu'on ne s'y rend pas. */
+.pw-filtres-sous-titre{
+  flex-basis:100%; margin-top:4px;
+  font-family:var(--font-data); font-size:9.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ink-faint);
+}
+
+/* Une pastille : son nom, puis combien de Pokémon elle rendrait. */
+.pw-puce{ display:inline-flex; align-items:center; gap:6px; }
+.pw-puce-n{
+  font-size:9.5px; color:var(--ink-faint);
+  font-variant-numeric:tabular-nums;
+}
+.filtre-chip[aria-pressed="true"] .pw-puce-n{ color:rgba(255,255,255,.82); }
+/* À zéro, elle s'éteint sans disparaître : la cocher reste possible, mais on
+   voit d'avance qu'elle ne rendrait rien avec le reste des filtres. */
+.filtre-chip.vide{ opacity:.45; }
+.filtre-chip.vide:hover, .filtre-chip.vide:focus-visible{ opacity:.85; }
+
+/* Le type se reconnaît à sa couleur, celle des puces de la fiche. */
+.pw-puce-type::before{
+  content:''; flex:none;
+  width:8px; height:8px; border-radius:50%;
+  background:var(--pw-type, var(--ink-faint));
+  box-shadow:0 0 0 1px rgba(0,0,0,.14);
+}
+.pw-puce-type[aria-pressed="true"]::before{ box-shadow:0 0 0 1.5px #fff; }
+
+/* Une zone et ses sous-zones se tiennent : « Zone 1 · Colline · Eau · Forêt »
+   est UN endroit où se rendre, comme sur les cartes. */
+.pw-zone{
+  display:inline-flex; flex-wrap:wrap; align-items:center; gap:3px;
+  padding:2px; border:1px dashed var(--card-border); border-radius:14px;
+}
+.pw-puce-zone{ font-weight:700; }
+.pw-puce-sous{ padding:4px 9px; font-size:10.5px; }
+/* Ce qui n'est pas un endroit, en italique comme sur les cartes. */
+.pw-puce-autre{ font-style:italic; }
+
+/* Les filtres actifs : la ligne des jetons de la recherche, dont chaque jeton
+   devient un bouton qui se retire. */
+.pw-actifs{ margin:0 0 10px; }
+.pw-actifs-liste{ display:contents; }
+.recherche-jetons .pw-jeton-actif{
+  display:inline-flex; align-items:center; gap:6px;
+  cursor:pointer;
+  transition:border-color 120ms, color 120ms;
+}
+.recherche-jetons .pw-jeton-actif:hover{ border-color:var(--dex-red); color:var(--ink); }
+.pw-jeton-croix{ font-size:12px; line-height:1; color:var(--ink-faint); }
+.pw-jeton-actif:hover .pw-jeton-croix{ color:var(--dex-red); }
+/* Un lien plutôt qu'un bouton plein : il ferme la ligne sans lui disputer
+   l'œil. L'encre et non le rouge, que le thème sombre assombrit au point de ne
+   plus se lire sur --screen. */
+.pw-actifs-raz{
+  padding:5px 4px;
+  background:none; border:none; cursor:pointer;
+  font-family:var(--font-data); font-size:11px;
+  color:var(--ink-soft);
+  text-decoration:underline; text-underline-offset:2px;
+}
+.pw-actifs-raz:hover{ color:var(--ink); }
+
+/* L'impasse, et sa sortie juste dessous. */
+.state-msg.pw-vide{ display:flex; flex-direction:column; align-items:center; gap:12px; }
+
+/* Le Pokédex du joueur. Ce qu'on a prend le vert de .is-owned, comme dans les
+   Pokédex de jeux ; ce qui manque passe en gris, comme sur la page d'un lien
+   de partage (.pt-grille). Un coup d'œil suffit à voir les trous. */
+.pw-carte.pw-manquant .card-sprite img{ filter:grayscale(1); opacity:.45; }
+.pw-carte.pw-manquant:hover .card-sprite img{ opacity:.75; }
+.pw-carte.pw-manquant .card-name{ color:var(--ink-soft); }
+.pw-carte .card-actions{ margin-top:8px; }
+
+/* Dans la fiche : l'avoir ou non, en tête du bloc du serveur. */
+.pw-fiche-etat{
+  display:inline-flex; align-items:center;
+  margin:2px 0 8px; padding:4px 10px;
+  border:1px solid var(--card-border); border-radius:999px;
+  font-size:11.5px; font-weight:700; color:var(--ink-soft);
+}
+.pw-fiche-etat.obtenu{
+  color:var(--caught); border-color:var(--caught); background:var(--caught-soft);
+}
+
+/* Sur un téléphone, le panneau se plafonne et défile chez lui, comme « Plus de
+   filtres » : entier, il pousserait la grille à trois écrans plus bas. Les
+   titres passent au-dessus de leurs pastilles, faute de place à côté. */
+@media (max-width:560px){
+  .pw-filtres{ max-height:55vh; overflow-y:auto; padding:10px; gap:12px; }
+  .pw-filtres-groupe{ grid-template-columns:minmax(0, 1fr); gap:5px; }
+  .pw-filtres-titre{ padding-top:0; }
+  .pw-puce{ gap:4px; }
+}
+
 /* ---- Le bloc des apparitions, dans la fiche ----
    Même forme que le relevé des jeux et que les biomes de Cobblemon : liseré de
    gauche coloré, une ligne par apparition. Le vert d'ici n'est pas celui de

@@ -324,11 +324,16 @@ function dessinerPreviewImage(resolvedSrc){
 function dessinerPreviewEtats(){
   previewStates.innerHTML = '';
   const modeApercu = infoMode(modeCourant());
+  // La collection de l'onglet ouvert — sauf depuis PixelmonWorld, dont la fiche
+  // ne parle que du serveur : elle lit alors la collection du serveur. Voir
+  // pwSeauDeLaFiche() dans pixelmonworld.js.
+  const seau = (typeof pwSeauDeLaFiche === 'function' && pwSeauDeLaFiche())
+    || { caught: caughtSet, shiny: shinySet };
   [
     { cle:'normal', label:'Normal', ic:'disque',
-      on: caughtSet.has(previewEntry.name), gold:false },
+      on: seau.caught.has(previewEntry.name), gold:false },
     { cle:'shiny',  label:'Shiny',  ic:'etincelle',
-      on: shinySet.has(previewEntry.name),  gold:true }
+      on: seau.shiny.has(previewEntry.name),  gold:true }
   ].forEach(function(s){
     const el = document.createElement('button');
     el.type = 'button';
