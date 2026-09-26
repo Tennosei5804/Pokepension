@@ -20,6 +20,46 @@ const NOUVEAUTES_VUES_KEY = 'pokearchive-nouveautes-vues';
 
 const NOUVEAUTES = [
   {
+    version: '0.45.0', date: '2026-09-26',
+    titre: 'PixelmonWorld : ton Pokédex, et des filtres qui se cumulent',
+    points: [
+      '**🎒 Le Pokédex du joueur.** Un second onglet dans le Pokédex de '
+      + 'PixelmonWorld : la même liste, vue depuis ta collection. Coche ce que tu '
+      + 'as attrapé sur le serveur — ce que tu as passe au vert, ce qui te manque '
+      + 'en gris — et la jauge dit où tu en es sur les 951 entrées. Ta collection '
+      + 'du serveur suit ton aventure d’un appareil à l’autre, comme celle de '
+      + 'chaque jeu, et Rattata d’Alola y garde sa propre case.',
+
+      '**🧲 Des filtres qui se cumulent.** Types, raretés, générations, lieux : '
+      + 'chaque catégorie prend plusieurs valeurs. Eau et Glace, c’est l’un OU '
+      + 'l’autre ; Eau et Gén. 3, les deux à la fois. Chaque pastille dit combien '
+      + 'de Pokémon elle donnerait, les filtres posés se retirent un par un, et '
+      + '« Tout réinitialiser » repart de zéro. Dans ton Pokédex, un filtre de '
+      + 'plus : Capturés ou Manquants.',
+
+      '**📍 Tous les lieux d’un Pokémon comptent.** Présent dans deux zones, il '
+      + 'sort pour chacune — Karaclée pour Zone 9 comme pour Bull’o Biome '
+      + 'Cascade. Évolution, Quête et Tour de Combat ont leur ligne à part, sous '
+      + '« Autres moyens d’obtention ».',
+
+      '**🔗 Sur le site, l’adresse garde tes filtres.** Un rafraîchissement ne '
+      + 'les perd plus, un lien collé dans un salon rouvre exactement la même '
+      + 'recherche, et Précédent retire le dernier filtre posé.',
+
+      '**🐛 Le filtre de type filtre enfin.** Choisir « Dragon » dans le Pokédex '
+      + 'de PixelmonWorld ne retirait rien : le menu existait à l’écran, et nulle '
+      + 'part ailleurs.',
+
+      '**📺 Le bouton de l’overlay OBS s’affiche.** Dans l’application de bureau, '
+      + 'une erreur au démarrage l’empêchait d’apparaître : la page Chasse ne le '
+      + 'proposait jamais.',
+
+      '**👁️ L’onglet ouvert se lit en thème sombre.** Dans la Stratégie et la '
+      + 'Reproduction, il était écrit en rouge foncé sur fond sombre, presque '
+      + 'invisible.',
+    ]
+  },
+  {
     version: '0.44.1', date: '2026-09-16',
     titre: 'PixelmonWorld : les Pokémon qui manquaient, et des étoiles plus sobres',
     points: [
