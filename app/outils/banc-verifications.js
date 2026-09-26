@@ -3112,10 +3112,27 @@ verifier('Données jeux',
       }
 
       // --- L'equipe plafonne a six -----------------------------------------
+      //
+      // TOUT SE CHERCHE DANS partiesListe, JAMAIS DANS LA PAGE. La carte de
+      // dresseur, juste au-dessus, a son propre champ « Ajouter un Pokémon… »
+      // pour les préférés (#identiteCherche), avec la même classe
+      // .partie-cherche, et ses préférés sont des .partie-membre. Cherché dans
+      // tout le document, c'est lui qu'on trouvait : le banc criait au
+      // septième membre alors que l'équipe avait bien perdu son champ.
       const sept = ['pikachu', 'venusaur', 'charizard', 'blastoise',
                     'snorlax', 'vaporeon', 'mewtwo'];
+
+      // A cinq, le champ est là. Sans ce témoin, « pas de champ à six » passe
+      // aussi quand le champ n'est jamais dessiné.
+      parties.jaune.equipe = sept.slice(0, PARTIES_EQUIPE_MAX - 1);
+      dessinerParties();
+      if(!partiesListe.querySelector('.partie-cherche')){
+        rendre(); return 'échec : à cinq membres, plus de champ pour ajouter le sixième';
+      }
+
       sept.forEach(function(n){
-        if(parties.jaune.equipe.length < PARTIES_EQUIPE_MAX){
+        if(parties.jaune.equipe.length < PARTIES_EQUIPE_MAX
+           && parties.jaune.equipe.indexOf(n) === -1){
           parties.jaune.equipe.push(n);
         }
       });
@@ -3126,10 +3143,10 @@ verifier('Données jeux',
       dessinerParties();
       // Le champ de recherche disparait a six : un champ qui refuse vaut moins
       // qu'un champ qui n'est pas la.
-      if(document.querySelector('.partie-cherche')){
+      if(partiesListe.querySelector('.partie-cherche')){
         rendre(); return 'échec : on peut encore chercher un septième membre';
       }
-      if(document.querySelectorAll('.partie-membre').length !== PARTIES_EQUIPE_MAX){
+      if(partiesListe.querySelectorAll('.partie-membre').length !== PARTIES_EQUIPE_MAX){
         rendre(); return 'échec : l’équipe dessinée ne compte pas six membres';
       }
 
@@ -3164,7 +3181,7 @@ verifier('Données jeux',
 
       // --- Retirer un jeu ---------------------------------------------------
       parties = { jaune: parties.jaune }; partieOuverte = 'jaune'; dessinerParties();
-      const retirer = document.querySelector('.partie-retirer');
+      const retirer = partiesListe.querySelector('.partie-retirer');
       if(!retirer){ rendre(); return 'échec : aucun moyen de retirer un jeu'; }
       retirer.click();
       if(parties.jaune){ rendre(); return 'échec : le jeu retiré est toujours là'; }
