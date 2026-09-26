@@ -42,6 +42,31 @@ PORT = 8125
 # Sans ca, on ne verrait pas si l'ecran retombe bien sur une autre — le seul
 # point qui merite d'etre verifie apres une suppression.
 STUB = r"""
+// LES ERREURS DU CHARGEMENT, recueillies avant que le premier script ne tourne.
+// Une exception levee par un script pendant qu'il se charge ne casse pas la
+// page : elle arrete CE script, en silence, et la console la garde pour elle.
+// chasse.js en levait une a sa derniere ligne — invoke() appele avant que
+// compte.js ne le declare — et le bouton de l'overlay OBS ne s'affichait
+// jamais dans l'application de bureau, pendant que le banc, qui la simule
+// justement, passait au vert. Voir « Le chargement » dans banc-verifications.js.
+//
+// `quand` dit a quel moment : pendant le chargement, readyState vaut
+// « loading » (les scripts) puis « interactive » (DOMContentLoaded). Ce qui
+// casse apres — pendant les verifications elles-memes — vaut « complete ».
+window.__erreursChargement = [];
+window.addEventListener('error', function(e){
+  // Sans message, ce n'est pas une exception de script mais une ressource qui
+  // n'est pas venue (une image) : sans capture, elle n'arrive pas jusqu'ici, et
+  // ce garde tient le jour ou elle y arriverait.
+  if(!e || !e.message) return;
+  window.__erreursChargement.push({
+    message: e.message,
+    fichier: String(e.filename || '').replace(/^.*\//, '').replace(/\?.*$/, ''),
+    ligne: e.lineno || 0,
+    quand: document.readyState,
+  });
+});
+
 const MOI = { captures:['bulbasaur','ivysaur','charmander','squirtle','mew','celebi',
                         'pikachu-original-cap','zarude','meltan'],
               shiny:['bulbasaur','celebi'] };
@@ -268,6 +293,12 @@ const REPONSES = {
   // partagent un numero, et Karaclee dans deux zones.
   pw_moi:          () => ({ lire:true, admin:false, gestionAcces:false }),
   pw_pokedex:      () => fetch('/banc/pw-pokedex.json').then(r => r.json()),
+
+  // --- L'overlay OBS ---------------------------------------------------------
+  // Aucune ecoute ouverte au demarrage : la relecture de chasse.js n'a rien a
+  // retrouver, et le bouton doit proposer de la demarrer. Une verification
+  // force une adresse par __forcer pour eprouver l'autre cas.
+  overlay_adresse: () => '',
 };
 
 // Le journal des appels : sans lui, on ne peut pas distinguer « la fenetre s'est

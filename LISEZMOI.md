@@ -1741,6 +1741,16 @@ rend et servi sur `/banc/pw-pokedex.json`. Un Pokédex inventé de dix espèces
 aurait validé les filtres sur des cas qui n'existent pas ; celui-ci a ses 951
 entrées, ses formes qui partagent un numéro, et Karaclée dans deux zones.
 
+**Il recueille aussi les exceptions du chargement**, par un écouteur posé avant
+le premier script. Un script qui lève en se chargeant ne casse pas la page : il
+s'arrête, en silence. La dernière ligne de `chasse.js` appelait `invoke()` avant
+que `compte.js` ne le déclare, et le bouton de l'overlay OBS ne s'affichait
+jamais dans l'application de bureau — pendant que « Chaque script a survécu à son
+chargement » passait au vert : son témoin pour `chasse.js` est une fonction, et
+une déclaration de fonction répond même quand le fichier meurt en route. La
+vérification « Aucune exception pendant le chargement » regarde les exceptions
+elles-mêmes, et ne compte que celles du chargement.
+
 Pourquoi un banc plutôt que des tests unitaires : l'interface est faite de
 scripts classiques qui se parlent par des variables globales, sans modules ni
 exports. Il n'y a rien à importer isolément — le seul endroit où le câblage

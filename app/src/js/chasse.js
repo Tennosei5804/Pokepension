@@ -1067,11 +1067,34 @@ if(overlayBtn) overlayBtn.addEventListener('click', basculerOverlay);
 // À l'ouverture : le serveur tourne peut-être déjà — on a pu changer d'onglet
 // entre-temps. Sans cette relecture, le bouton proposait de démarrer une
 // écoute déjà ouverte.
-if(overlayPossible()){
+//
+// C'EST AUSSI ELLE QUI MONTRE LE BOUTON, caché dans le HTML : majBoutonOverlay()
+// est le seul endroit qui le découvre, et le clic sur ce même bouton son seul
+// autre appelant. Une relecture qui n'aboutit pas, c'est un overlay que
+// l'application de bureau n'affiche jamais.
+//
+// Le garde vaut pour les pages de génération, qui retirent compte.js : sans
+// `invoke`, il n'y a rien à relire — le bouton se règle quand même.
+function relireOverlay(){
+  if(!overlayPossible() || typeof invoke !== 'function'){
+    majBoutonOverlay();
+    return;
+  }
   invoke('overlay_adresse').then(function(a){
     overlayAdresse = a || '';
     majBoutonOverlay();
   }).catch(function(){ majBoutonOverlay(); });
+}
+
+// APRÈS LE CHARGEMENT, ET PAS TOUT DE SUITE. `invoke` est déclaré dans
+// compte.js, qui est chargé APRÈS ce fichier. L'appeler ici levait « invoke is
+// not defined » dans l'application de bureau — une erreur SYNCHRONE, levée
+// avant que la promesse n'existe, que son .catch() ne pouvait donc pas voir :
+// majBoutonOverlay() n'était jamais appelé, et le bouton de l'overlay restait
+// caché. Le banc vérifie maintenant que la page se charge sans erreur. C'est
+// l'idiome de pixelmonworld.js, qui attend de même pour son premier appel.
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', relireOverlay);
 } else {
-  majBoutonOverlay();
+  relireOverlay();
 }

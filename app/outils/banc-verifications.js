@@ -1663,6 +1663,69 @@ verifier('Le chargement',
     return TEMOINS.length + ' scripts, tous allés au bout';
   });
 
+verifier('Le chargement',
+  'Aucune exception pendant le chargement — chasse.js appelait invoke() avant que compte.js ne le déclare',
+  function(){
+    // LE DÉFAUT, ET POURQUOI LES TÉMOINS NE L'ONT PAS VU. La dernière ligne de
+    // chasse.js relisait l'adresse de l'overlay par invoke(), déclaré dans
+    // compte.js — chargé APRÈS lui. « invoke is not defined » : une erreur
+    // synchrone, que le .catch() de la promesse ne pouvait pas voir, et le bouton
+    // de l'overlay OBS, que seule cette relecture découvre, restait caché dans
+    // l'application de bureau.
+    //
+    // La vérification d'au-dessus ne pouvait rien y faire. Son témoin pour
+    // chasse.js est une FONCTION, et une déclaration de fonction existe dès
+    // l'entrée dans le script : elle répond même si le fichier meurt à sa
+    // première ligne. Et l'erreur tombait sur la dernière instruction — il n'y
+    // avait rien après elle à trouver manquant.
+    //
+    // On regarde donc les exceptions elles-mêmes, recueillies par banc.py avant
+    // que le premier script ne tourne. Seules comptent celles du chargement
+    // (« loading », puis DOMContentLoaded en « interactive ») : ce que les
+    // vérifications cassent ensuite n'est pas son affaire.
+    const toutes = window.__erreursChargement;
+    if(!Array.isArray(toutes)) return 'échec : le collecteur de banc.py n’est pas posé';
+    const erreurs = toutes.filter(function(e){ return e.quand !== 'complete'; });
+    if(erreurs.length){
+      return 'échec : ' + erreurs.length + ' exception(s), dont « ' + erreurs[0].message + ' » ('
+        + erreurs[0].fichier + ':' + erreurs[0].ligne + ', ' + erreurs[0].quand + ')';
+    }
+    return 'aucune, sur ' + document.querySelectorAll('script[src]').length + ' scripts';
+  });
+
+verifier('L’overlay OBS',
+  'Le bouton apparaît dans l’application de bureau, et relit une écoute déjà ouverte',
+  async function(){
+    // Le banc simule l'application de bureau : window.__TAURI__ existe, et aucun
+    // pont web ne déclare l'écoute impossible. C'est là que le bouton doit être.
+    if(!overlayPossible()) return 'échec : le banc ne passe plus pour l’application de bureau';
+    const bouton = document.getElementById('overlayBtn');
+
+    // LE SYMPTÔME, EN PREMIER, et sans rien supposer du code qui l'évite :
+    // caché dans le HTML, le bouton n'est découvert que par la relecture du
+    // démarrage ; quand elle mourait sur invoke(), il restait caché.
+    if(bouton.hidden) return 'échec : le bouton de l’overlay est resté caché au chargement';
+
+    if(typeof relireOverlay !== 'function') return 'échec : relireOverlay() introuvable';
+    // ET LE COMPORTEMENT QU'ELLE PROTÈGE : une écoute déjà ouverte — l'overlay
+    // survit à un rechargement de la page — se relit, et le bouton propose de
+    // l'arrêter plutôt que d'en démarrer une seconde.
+    const avant = overlayAdresse;
+    window.__forcer.overlay_adresse = 'http://127.0.0.1:8760/';
+    let dit = '';
+    try{
+      relireOverlay();
+      await attendre(80);
+      dit = bouton.textContent;
+    }finally{
+      delete window.__forcer.overlay_adresse;
+      overlayAdresse = avant;
+      majBoutonOverlay();
+    }
+    if(dit.indexOf('Arrêter') === -1) return 'échec : écoute ouverte, le bouton dit « ' + dit + ' »';
+    return 'visible au chargement, et « ' + dit + ' » quand l’écoute tourne déjà';
+  });
+
 verifier('Cadeau Mystère',
   'Le détail relevé pointe toujours dans sa table',
   function(){
