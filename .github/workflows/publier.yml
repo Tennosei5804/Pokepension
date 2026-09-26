@@ -234,7 +234,17 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          fichiers=$(gh release view "${GITHUB_REF_NAME}" --json assets --jq '.assets[].name')
+          # L'étiquette de la release : celle qu'on a poussée, ou — lancé à la
+          # main depuis l'onglet Actions — celle que tauri-action vient de créer
+          # d'après le numéro de version. GITHUB_REF_NAME vaut alors « main »,
+          # et la vérification échouait sur une release pourtant complète.
+          if [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            etiquette="${GITHUB_REF_NAME}"
+          else
+            etiquette="v$(node -p "require('./app/src-tauri/tauri.conf.json').version")"
+          fi
+          echo "Release vérifiée : ${etiquette}"
+          fichiers=$(gh release view "${etiquette}" --json assets --jq '.assets[].name')
           echo "Fichiers de la release :"
           echo "${fichiers:-  (aucun)}"
 
