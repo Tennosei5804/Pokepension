@@ -1216,14 +1216,16 @@ lieu d'être doublée — sans quoi la seconde réécrirait le fichier et le mod
 parlerait à celle qu'on ne regarde pas. En version publiée seulement : `cargo
 tauri dev` tourne à côté de l'application installée.
 
-**Le mod se pose tout seul.** Le `.jar` est embarqué dans l'application
-(`src-tauri/minecraft/`). Pour un compte qui a accès au Pokédex du serveur,
-`minecraft_installation.rs` trouve Prism Launcher, retient les seules instances
-Minecraft 1.16.5 sous Forge 36 reconnues comme PixelmonWorld (nom de l'instance,
-ou `servers.dat`), et y pose — ou y met à jour — `pokepensionbridge-*.jar`. Aucun
-autre fichier n'est touché. Un mod désactivé dans Prism le reste, un mod retiré
-à la main n'est pas remis, et un mod verrouillé par un Minecraft ouvert est
-remplacé au lancement suivant plutôt qu'à moitié.
+**Le mod ne s'installe que sur un clic.** Le `.jar` est embarqué dans
+l'application (`src-tauri/minecraft/`). Dans les **Paramètres**, la section
+« Minecraft » — montrée à qui a accès au Pokédex du serveur — dit où il en est
+et propose **Installer dans Minecraft** ou **Retirer de Minecraft**.
+`minecraft_installation.rs` trouve Prism Launcher et ne vise que les instances
+Minecraft 1.16.5 sous Forge 36 reconnues comme PixelmonWorld (nom de
+l'instance, ou `servers.dat`) ; il n'y touche qu'à `pokepensionbridge-*.jar`.
+Au lancement, l'application ne fait que **mettre à jour** un mod déjà posé —
+jamais en poser un là où il n'est pas. Un mod désactivé dans Prism le reste, et
+un mod verrouillé par un Minecraft ouvert n'est pas remplacé à moitié.
 
 ```
 cd minecraft && py construire.py            → compile, teste, range le .jar dans l'application

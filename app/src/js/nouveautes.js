@@ -40,11 +40,12 @@ const NOUVEAUTES = [
       + 'Minecraft : la première commande la démarre, et la page s’ouvre dès '
       + 'qu’elle est prête.',
 
-      '**🧩 Le mod s’installe tout seul.** Si ton compte a accès au Pokédex de '
-      + 'PixelmonWorld, PokéPension pose « PokéPension Bridge » dans ton instance '
-      + 'PixelmonWorld de Prism Launcher, et le tient à jour. Rien d’autre n’est '
-      + 'touché ; un mod que tu désactives ou retires le reste. Le serveur ne '
-      + 'voit rien passer, et les autres joueurs n’ont besoin de rien.',
+      '**🧩 Un bouton pour l’installer.** Dans les Paramètres, section '
+      + '« Minecraft » : « Installer dans Minecraft » pose le mod PokéPension '
+      + 'Bridge dans ton instance PixelmonWorld de Prism Launcher. Rien ne '
+      + 's’installe sans ce clic, tes autres mods ne bougent pas, et « Retirer '
+      + 'de Minecraft » l’enlève. Une fois posé, PokéPension le tient à jour. Le '
+      + 'serveur ne voit rien passer, et les autres joueurs n’ont besoin de rien.',
 
       '**🪟 Une seule fenêtre.** Relancer PokéPension quand elle est déjà '
       + 'ouverte la ramène devant, au lieu d’en ouvrir une seconde.',

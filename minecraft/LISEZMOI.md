@@ -9,9 +9,11 @@ PokéPension sur la bonne page.
 - aucune API de Pixelmon, aucune dépendance à Pixelmon : il marche à côté de
   n'importe quelle version.
 
-Il n'y a **rien à installer à la main** : PokéPension embarque ce mod et le pose
-elle-même dans l'instance PixelmonWorld de Prism Launcher (voir
-`app/src-tauri/src/minecraft_installation.rs`).
+Il n'y a **rien à copier à la main**, et rien ne s'installe sans toi :
+PokéPension embarque ce mod, et le bouton **Installer dans Minecraft** de ses
+Paramètres le pose dans l'instance PixelmonWorld de Prism Launcher (voir
+`app/src-tauri/src/minecraft_installation.rs`). Une fois posé, l'application le
+tient à jour ; **Retirer de Minecraft** l'enlève.
 
 ## Les commandes
 
@@ -103,7 +105,7 @@ catalogue réel que les essais utilisent, depuis le banc de l'application.
 |---|---|
 | 45 essais JUnit | la syntaxe, la recherche, la complétion et l'orchestration, sur le catalogue réel (1 351 Pokémon, 20 zones) et contre un pont qui parle le protocole — lancement quand PokéPension est fermée, pas encore prête, jeton périmé, autre protocole, délai dépassé, liens cliquables |
 | `--verifier` | les 14 membres de Minecraft appelés : nom SRG, classe et descripteur recoupés entre MCPConfig 1.16.5, intermediary et yarn ; les 18 références à Forge trouvées dans les sources de 36.2.42 |
-| bout en bout | le code du mod, sans Minecraft, contre la vraie PokéPension (Rust + interface) et l'API locale : lancement automatique, fiches, formes, zones et filtres combinés, hors ligne puis réseau revenu, pose et mise à jour du mod dans une instance Prism |
+| bout en bout | le code du mod, sans Minecraft, contre la vraie PokéPension (Rust + interface) et l'API locale : lancement automatique, fiches, formes, zones et filtres combinés, hors ligne puis réseau revenu ; au démarrage, rien de posé sans clic, et une ancienne version mise à jour dans une instance Prism |
 
 **Ce qui ne l'a pas été** : le mod n'a pas tourné dans un vrai Minecraft
 1.16.5, ni sous Windows — l'environnement de construction n'a accès ni aux

@@ -777,6 +777,26 @@
           <span class="profil-bloc-etat" id="presenceEtat"></span>
         </div>
 
+        <!-- Montré par minecraft.js à qui a accès au Pokédex de PixelmonWorld,
+             dans l'application de bureau seulement. -->
+        <div id="mcSection" hidden>
+          <div class="home-section-title">Minecraft</div>
+          <div class="profil-bloc">
+            <p class="profil-bloc-note"><b>Rien n'est installé sans toi.</b> Le mod
+              PokéPension Bridge ajoute <b>/ps</b> au chat de PixelmonWorld :
+              « /ps pokemon Dracaufeu » ouvre la fiche ici, « /ps zone Zone 1 rare
+              Rare » le Pokédex du serveur filtré, et Tab complète chaque mot.</p>
+            <p class="profil-bloc-note">Il se pose dans ton instance PixelmonWorld de
+              Prism Launcher, à côté de tes autres mods, qui ne bougent pas. Il ne
+              tourne que chez toi : le serveur ne voit rien passer. Une fois
+              installé, PokéPension le tient à jour ; le retirer l'enlève pour de
+              bon.</p>
+            <button class="toggle-btn" id="mcInstaller" type="button" hidden>⬇ Installer dans Minecraft</button>
+            <button class="toggle-btn" id="mcRetirer" type="button" hidden>Retirer de Minecraft</button>
+            <span class="profil-bloc-etat" id="mcEtat"></span>
+          </div>
+        </div>
+
         <div class="home-section-title">Notifications</div>
         <div class="profil-bloc">
           <p class="profil-bloc-note">Quand un ami avance, une bulle apparaît. Un lot de
