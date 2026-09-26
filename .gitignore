@@ -64,3 +64,8 @@ api/donnees/
 # jamais ecrite a la main, et sa version commitee servirait a signer avec la
 # commande de quelqu'un d'autre.
 app/ci-signature.json
+
+# Le mod Minecraft : ses dépendances téléchargées et sa construction. Le .jar
+# qui compte est copié dans app/src-tauri/minecraft/, lui versionné.
+minecraft/.cache/
+minecraft/build/
