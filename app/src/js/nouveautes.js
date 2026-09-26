@@ -20,6 +20,37 @@ const NOUVEAUTES_VUES_KEY = 'pokearchive-nouveautes-vues';
 
 const NOUVEAUTES = [
   {
+    version: '0.46.0', date: '2026-09-26',
+    titre: 'Minecraft : /ps ouvre PokéPension depuis le chat',
+    points: [
+      '**⛏️ /ps dans le chat de Minecraft.** Sur PixelmonWorld, tape '
+      + '« /ps pokemon Dracaufeu » : PokéPension passe devant, sur la fiche. '
+      + '« /ps zone Zone 1 rare Rare Épique type Feu generation 1 3 » ouvre le '
+      + 'Pokédex du serveur avec ces filtres déjà cochés. Les formes se trouvent '
+      + 'aussi — « Méga Dracaufeu X », « Rattata d’Alola » —, sans se soucier '
+      + 'des accents ni des majuscules. « /ps aide » résume le tout.',
+
+      '**⌨️ Tab complète chaque mot.** Les noms de Pokémon, ceux du serveur en '
+      + 'premier, puis les zones, les raretés, les types et les générations — '
+      + 'avec les données de PokéPension, jamais une liste à part. Plusieurs '
+      + 'Pokémon possibles ? Ils s’affichent en liens à cliquer, et une faute de '
+      + 'frappe te demande si tu voulais dire Dracaufeu.',
+
+      '**🚀 Fermée, elle se lance.** Pas besoin d’ouvrir PokéPension avant '
+      + 'Minecraft : la première commande la démarre, et la page s’ouvre dès '
+      + 'qu’elle est prête.',
+
+      '**🧩 Le mod s’installe tout seul.** Si ton compte a accès au Pokédex de '
+      + 'PixelmonWorld, PokéPension pose « PokéPension Bridge » dans ton instance '
+      + 'PixelmonWorld de Prism Launcher, et le tient à jour. Rien d’autre n’est '
+      + 'touché ; un mod que tu désactives ou retires le reste. Le serveur ne '
+      + 'voit rien passer, et les autres joueurs n’ont besoin de rien.',
+
+      '**🪟 Une seule fenêtre.** Relancer PokéPension quand elle est déjà '
+      + 'ouverte la ramène devant, au lieu d’en ouvrir une seconde.',
+    ]
+  },
+  {
     version: '0.45.0', date: '2026-09-26',
     titre: 'PixelmonWorld : ton Pokédex, et des filtres qui se cumulent',
     points: [
