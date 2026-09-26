@@ -15,6 +15,8 @@ use std::sync::Mutex;
 use std::time::Duration;
 use tauri::{Manager, State};
 
+mod minecraft;
+mod minecraft_installation;
 mod overlay;
 mod presence;
 
@@ -1371,6 +1373,14 @@ fn poser_raccourcis(app: &tauri::AppHandle) {
 fn poser_raccourcis(_app: &tauri::AppHandle) {}
 
 pub fn run() {
+    let contexte = tauri::generate_context!();
+    // Une PokéPension déjà ouverte est ramenée devant, et l'on s'arrête là :
+    // voir minecraft::instance_deja_ouverte, qui dit pourquoi le pont Minecraft
+    // en fait une nécessité.
+    if minecraft::instance_deja_ouverte(&contexte.config().identifier) {
+        return;
+    }
+
     tauri::Builder::default()
         .plugin(tauri_plugin_process::init())
         .plugin(tauri_plugin_updater::Builder::new().build())
@@ -1391,6 +1401,7 @@ pub fn run() {
 
             app.manage(presence::Presence::new());
             app.manage(overlay::Overlay::new());
+            app.manage(minecraft::Pont::new());
 
             app.manage(Etat {
                 session: Mutex::new(session),
@@ -1398,6 +1409,9 @@ pub fn run() {
             });
 
             poser_raccourcis(app.handle());
+            // Le pont Minecraft écoute dès le lancement : `/ps` doit marcher
+            // que le jeu ait été ouvert avant ou après PokéPension.
+            minecraft::demarrer(app.handle());
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
@@ -1472,8 +1486,11 @@ pub fn run() {
             overlay::overlay_demarrer,
             overlay::overlay_arreter,
             overlay::overlay_etat,
-            overlay::overlay_adresse
+            overlay::overlay_adresse,
+            minecraft::pont_minecraft_pret,
+            minecraft::pont_minecraft_reponse,
+            minecraft_installation::pont_minecraft_installer
         ])
-        .run(tauri::generate_context!())
+        .run(contexte)
         .expect("erreur au lancement de PokéPension");
 }

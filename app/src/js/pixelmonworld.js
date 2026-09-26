@@ -1499,22 +1499,14 @@ function pwMontrerRefus(message){
   const plus = pwEl('pwPlus'); if(plus) plus.style.display = 'none';
 }
 
-async function chargerPagePW(){
-  const droits = await pwChargerDroits();
-  if(!droits || !droits.lire){
-    pwMontrerRefus('Ce Pokédex est réservé. Demande l’accès à l’administrateur : '
-      + 'il l’ouvre par identifiant Discord.');
-    pwMajOngletAdmin();
-    return;
-  }
-
-  try{
-    await pwChargerReserve();
-  }catch(e){
-    pwMontrerRefus('Le Pokédex du serveur n’a pas répondu. Réessaie dans un moment.');
-    return;
-  }
-
+/**
+ * La réserve reliée aux entrées de l'application, et le catalogue du panneau.
+ *
+ * À PART DE LA PAGE, parce que la page n'est pas seule à en avoir besoin : le
+ * pont Minecraft (minecraft.js) répond aux suggestions de `/ps` avec ce même
+ * catalogue, sans qu'on ait ouvert l'écran. Suppose la réserve chargée.
+ */
+async function pwPreparer(){
   // LA TABLE DES TYPES AVANT LE PREMIER DESSIN. Elle vient de la réserve
   // embarquée (cacheLire y retombe) : aucun aller-retour réseau, et le filtre
   // marche hors ligne. L'attendre évite une grille dessinée une fois sans types,
@@ -1531,6 +1523,43 @@ async function chargerPagePW(){
     pwIndexer();
   }
   if(!pwCatalogue) pwConstruireCatalogue();
+}
+
+/**
+ * Ouvre le Pokédex du serveur sur un état donné, écrit comme son adresse.
+ *
+ * C'EST LE CHEMIN D'UN LIEN COLLÉ, et le pont Minecraft l'emprunte tel quel :
+ * `/ps zone Zone 1 rare Rare type Feu` devient `?lieux=zone-1&raretes=rare&
+ * types=feu`, que pwAppliquerRequete() lit comme n'importe quelle adresse. Il
+ * n'y a pas de second système de filtres.
+ *
+ * Le tri n'est pas un filtre : on garde celui que le joueur avait choisi.
+ */
+function pwOuvrirSur(recherche){
+  const tri = pwEl('pwTri');
+  const garde = tri && tri.value && tri.value !== 'numero'
+    ? (recherche ? '&' : '?') + 'tri=' + encodeURIComponent(tri.value) : '';
+  pwRequeteEnAttente = (recherche || '') + garde;
+  showPage('pixelmonworld');
+}
+
+async function chargerPagePW(){
+  const droits = await pwChargerDroits();
+  if(!droits || !droits.lire){
+    pwMontrerRefus('Ce Pokédex est réservé. Demande l’accès à l’administrateur : '
+      + 'il l’ouvre par identifiant Discord.');
+    pwMajOngletAdmin();
+    return;
+  }
+
+  try{
+    await pwChargerReserve();
+  }catch(e){
+    pwMontrerRefus('Le Pokédex du serveur n’a pas répondu. Réessaie dans un moment.');
+    return;
+  }
+
+  await pwPreparer();
   pwConstruirePanneau();
 
   // L'adresse d'arrivée, maintenant que les lieux et les raretés se

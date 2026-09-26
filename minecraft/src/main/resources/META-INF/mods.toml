@@ -1,0 +1,31 @@
+# PokéPension Bridge — le mod qui relie le chat de Minecraft à PokéPension.
+# 100 % côté client : ni PixelmonWorld ni les autres joueurs n'en ont besoin.
+modLoader="javafml"
+loaderVersion="[36,)"
+license="Tous droits réservés — Tennosei_"
+issueTrackerURL="https://github.com/Tennosei5804/Pokepension/issues"
+
+[[mods]]
+modId="pokepensionbridge"
+version="${version}"
+displayName="PokéPension Bridge"
+authors="Tennosei_"
+description='''
+Tape /ps dans le chat : PokéPension s'ouvre sur la fiche du Pokémon, ou sur une zone de PixelmonWorld avec ses filtres.
+/ps pokemon Dracaufeu · /ps zone Zone 1 rare Rare Épique type Feu · /ps aide
+Côté client uniquement : le serveur ne reçoit jamais /ps.
+'''
+
+[[dependencies.pokepensionbridge]]
+    modId="forge"
+    mandatory=true
+    versionRange="[36.2,)"
+    ordering="NONE"
+    side="CLIENT"
+
+[[dependencies.pokepensionbridge]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.16.5,1.17)"
+    ordering="NONE"
+    side="CLIENT"

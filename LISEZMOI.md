@@ -35,6 +35,9 @@ PokéPension/
 │       ├── comptes.js    → dresseurs, sessions, dex
 │       ├── pixelmonworld.js → le Pokédex du serveur : zones, spawns, accès
 │       └── discord.js    → OAuth2
+├── minecraft/            → le mod « PokéPension Bridge » : /ps dans le chat du jeu
+│   ├── construire.py     → compile, teste, et range le .jar dans l'application
+│   └── src/              → Java 8, Forge 1.16.5 — voir minecraft/LISEZMOI.md
 └── app/                  → l'application Tauri
     ├── src/              → l'interface (HTML, CSS, JS)
     │   ├── types/        → les 18 logos de type, 200 × 44 chacun
@@ -50,6 +53,7 @@ PokéPension/
     │       ├── donnees-descriptions.js → RELEVÉ : les notices du Pokédex, par jeu
     │       ├── donnees-cobblemon.js  → RELEVÉ : les biomes d'apparition du mod
     │       ├── pixelmonworld.js      → le Pokédex du serveur PixelmonWorld
+    │       ├── minecraft.js          → ce que /ps demande depuis le jeu
     │       ├── pixelmonworld-panneau.js → qui a le droit de l'ouvrir
     │       ├── donnees-home.js       → RELEVÉ : ce que HOME accepte, pour le banc
     │       ├── donnees-pokedex.js    → RELEVÉ : les Pokédex de jeux, pour le banc
@@ -59,6 +63,9 @@ PokéPension/
     │                       banc.py (le verdict) et verif.py (le rendu)
     └── src-tauri/        → le cœur Rust
         ├── src/lib.rs    → commandes, connexion Discord, appels à l'API
+        ├── src/minecraft.rs → le pont local que le mod Minecraft appelle
+        ├── src/minecraft_installation.rs → la pose du mod dans Prism Launcher
+        ├── minecraft/    → le mod construit, embarqué tel quel
         └── tauri.conf.json
 ```
 
@@ -1157,6 +1164,71 @@ cache son onglet quand l'accès manque, mais cacher un bouton n'a jamais protég
 une donnée. Toutes les routes `/api/pw/…` passent par `exigerPW()`, et
 répondent **404 et non 403** : un 403 confirmerait que le Pokédex existe et
 inviterait à insister.
+
+## `/ps` dans Minecraft : PokéPension Bridge
+
+En jeu sur PixelmonWorld, on tape dans le chat :
+
+```
+/ps pokemon Dracaufeu
+/ps zone Zone 1 rare Rare Épique type Feu Dragon generation 1 3
+```
+
+et PokéPension passe au premier plan, sur la fiche ou sur le Pokédex du serveur
+filtré. Fermée, elle est lancée. Tab complète chaque mot — noms de Pokémon,
+zones, raretés, types, générations — avec les données de l'application.
+
+```
+Minecraft ──HTTP 127.0.0.1──► minecraft.rs ──événement──► minecraft.js
+ (le mod)   jeton + port lus       (le pont)   ◄──commande──  (catalogue, ouvrir)
+            dans un fichier
+```
+
+**Trois pièces, et chacune ne fait que sa part :**
+
+| | |
+|---|---|
+| `minecraft/` | le mod Forge 1.16.5, 100 % client : lit `/ps` dans le chat, le consomme avant l'envoi, complète, résout les noms en clés, demande l'ouverture. Voir `minecraft/LISEZMOI.md` |
+| `src-tauri/src/minecraft.rs` | le pont : une écoute sur `127.0.0.1:8790-8799`, un jeton tiré au sort à chaque lancement, et le relais vers l'interface. Il écrit `pont-minecraft.json` (port, jeton, exécutable) à côté de `session.json` |
+| `src/js/minecraft.js` | les deux réponses : le **catalogue** (tiré de la réserve et du relevé du serveur) et l'**ouverture** — `openPreview()` pour une fiche, `pwOuvrirSur()` pour les filtres |
+
+**Pas de second système de filtres.** `/ps zone …` devient l'adresse du Pokédex
+du serveur — `?lieux=zone-1&raretes=rare,epique&types=feu,dragon` — que
+`pwAppliquerRequete()` lit comme un lien collé. Une valeur inconnue fait refuser
+toute l'ouverture plutôt que d'ouvrir une page qui ne montre pas ce qu'on a
+demandé.
+
+**Le mod n'embarque aucune liste.** Pokémon, formes, zones, raretés, types et
+générations viennent du catalogue de l'application ; le mod en garde une copie
+de quelques minutes pour que Tab réponde instantanément, et une petite copie des
+noms sur le disque pour compléter quand PokéPension est fermée.
+
+**Le pont n'est pas une porte.** Boucle locale seulement ; refus de toute requête
+sans le jeton du fichier, avec un en-tête `Origin` (un site ouvert dans le
+navigateur) ou un `Host` étranger (DNS rebinding). Trois gestes et pas un de
+plus : dire si l'on est là, rendre le catalogue, ouvrir une page prévue. Rien
+de ce qu'on tape en jeu ne devient une commande du système ; ce qui est lancé
+quand l'application est fermée, c'est l'exécutable qu'elle a elle-même écrit
+dans son fichier, et seulement s'il s'appelle PokéPension.
+
+**Une instance, pas deux.** Une PokéPension déjà ouverte est ramenée devant au
+lieu d'être doublée — sans quoi la seconde réécrirait le fichier et le mod
+parlerait à celle qu'on ne regarde pas. En version publiée seulement : `cargo
+tauri dev` tourne à côté de l'application installée.
+
+**Le mod se pose tout seul.** Le `.jar` est embarqué dans l'application
+(`src-tauri/minecraft/`). Pour un compte qui a accès au Pokédex du serveur,
+`minecraft_installation.rs` trouve Prism Launcher, retient les seules instances
+Minecraft 1.16.5 sous Forge 36 reconnues comme PixelmonWorld (nom de l'instance,
+ou `servers.dat`), et y pose — ou y met à jour — `pokepensionbridge-*.jar`. Aucun
+autre fichier n'est touché. Un mod désactivé dans Prism le reste, un mod retiré
+à la main n'est pas remis, et un mod verrouillé par un Minecraft ouvert est
+remplacé au lancement suivant plutôt qu'à moitié.
+
+```
+cd minecraft && py construire.py            → compile, teste, range le .jar dans l'application
+cd minecraft && py construire.py --verifier → et recoupe chaque nom de Minecraft et de Forge
+```
 
 ## Les échanges
 

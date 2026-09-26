@@ -3503,3 +3503,100 @@ verifier('Pokédex PixelmonWorld',
       return ecrit;
     });
   });
+
+// ---------------------------------------------------------------------------
+// Le pont Minecraft (minecraft.js) : ce que `/ps` obtient de l'application. Le
+// banc n'a pas d'événements Tauri, le pont ne s'y branche donc pas ; on appelle
+// directement les deux réponses qu'il relaie, sur le vrai relevé du serveur.
+
+/** Attend que l'adresse posée par pwOuvrirSur() ait été lue par chargerPagePW(). */
+async function mcAppliquee(){
+  for(let i = 0; i < 60 && pwRequeteEnAttente !== null; i++) await attendre(50);
+  await attendre(50);
+}
+
+verifier('Pont Minecraft',
+  'Le catalogue vient de la réserve et du relevé, sans liste écrite dans le mod',
+  function(){
+    return surPixelmonWorld(async function(){
+      const c = await mcCatalogue();
+      if(!c.pixelmonworld) return 'échec : le Pokédex du serveur n’est pas annoncé';
+      const par = new Map(c.pokemon.map(function(p){ return [p[1], p]; }));
+      const mega = par.get('charizard-mega-x');
+      if(!mega || mega[0] !== 'Dracaufeu (Méga X)') return 'échec : Méga-Dracaufeu X = ' + JSON.stringify(mega);
+      const rattata = par.get('rattata-alola');
+      if(!rattata || rattata[2] !== 1 || rattata.indexOf('Rattata d\'Alola') < 3){
+        return 'échec : Rattata d’Alola = ' + JSON.stringify(rattata);
+      }
+      if(c.pokemon.length < allEntries.length) return 'échec : ' + c.pokemon.length + ' Pokémon seulement';
+      const zone1 = c.zones.find(function(z){ return z.cle === 'zone-1'; });
+      if(!zone1 || !zone1.sous.some(function(s){ return s.cle === 'zone-1-eau' && s.nom === 'Eau'; })){
+        return 'échec : Zone 1 = ' + JSON.stringify(zone1);
+      }
+      const slugs = c.raretes.map(function(r){ return r.slug; }).join();
+      if(slugs.indexOf('commun,peu-commun,rare,epique,legendaire') !== 0) return 'échec : raretés ' + slugs;
+      if(c.types.length !== 18 || c.types.indexOf('Électrik') === -1) return 'échec : types ' + c.types.join();
+      if(c.generations.join() !== pwCatalogue.generations.join()) return 'échec : générations ' + c.generations;
+      return c.pokemon.length + ' Pokémon, ' + c.zones.length + ' zones, ' + c.raretes.length + ' raretés, '
+        + c.types.length + ' types, générations ' + c.generations.join('-');
+    });
+  });
+
+verifier('Pont Minecraft',
+  '/ps zone Zone 1 rare Rare Épique type Feu Dragon generation 1 3 — les filtres du Pokédex, par son adresse',
+  function(){
+    return surPixelmonWorld(async function(){
+      const r = await mcOuvrir({ cible: 'filtres', lieux: ['zone-1'], raretes: ['rare', 'epique'],
+        types: ['Feu', 'Dragon'], generations: [1, 3] });
+      if(!r.ok) return 'échec : ' + JSON.stringify(r);
+      await mcAppliquee();
+      const e = pwEtat;
+      const vu = [...e.lieux].join() + ' | ' + [...e.raretes].sort().join() + ' | '
+        + [...e.types].sort(function(a, b){ return a - b; }).join() + ' | ' + [...e.generations].sort().join();
+      if(vu !== 'zone-1 | 3,4 | 10,16 | 1,3') return 'échec : état ' + vu;
+      if(currentPage !== 'pixelmonworld') return 'échec : page ' + currentPage;
+      // La grille rendue est bien celle de ces filtres, recomptée sur la réserve.
+      const attendu = pwEvaluer().resultats.length;
+      return '« ' + r.titre + ' » → ' + attendu + ' Pokémon · ' + pwRequete();
+    });
+  });
+
+verifier('Pont Minecraft',
+  'Une valeur inconnue fait refuser toute l’ouverture, sans toucher aux filtres',
+  function(){
+    return surPixelmonWorld(async function(){
+      pwEtat.types.add(11);
+      const r = await mcOuvrir({ cible: 'filtres', lieux: ['zone-1', 'nulle-part'], raretes: ['epiqeu'] });
+      if(r.ok || r.erreur !== 'inconnu') return 'échec : ' + JSON.stringify(r);
+      if(r.valeurs.join() !== 'nulle-part,epiqeu') return 'échec : valeurs ' + r.valeurs.join();
+      if([...pwEtat.types].join() !== '11' || pwEtat.lieux.size) return 'échec : les filtres ont bougé';
+      return 'refusé : ' + r.valeurs.join(', ');
+    });
+  });
+
+verifier('Pont Minecraft',
+  '/ps pokemon ouvre la vraie fiche depuis le Pokédex du serveur — formes comprises',
+  function(){
+    return surPixelmonWorld(async function(){
+      try{
+        const r = await mcOuvrir({ cible: 'pokemon', cle: 'charizard' });
+        if(!r.ok || r.titre !== 'Dracaufeu') return 'échec : ' + JSON.stringify(r);
+        if(previewOverlay.style.display !== 'flex' || previewName.textContent !== 'Dracaufeu'){
+          return 'échec : fiche « ' + previewName.textContent + ' » ' + previewOverlay.style.display;
+        }
+        if(currentPage !== 'pixelmonworld') return 'échec : ouverte depuis ' + currentPage;
+        // Le bloc « où il apparaît sur PixelmonWorld » arrive après la fiche.
+        let bloc = null;
+        for(let i = 0; i < 40 && !bloc; i++){ await attendre(50); bloc = document.querySelector('.obt-pw'); }
+        if(!bloc) return 'échec : pas de bloc PixelmonWorld dans la fiche';
+        const mega = await mcOuvrir({ cible: 'pokemon', cle: 'charizard-mega-x' });
+        if(!mega.ok || previewName.textContent !== 'Dracaufeu (Méga X)') return 'échec : Méga ' + JSON.stringify(mega);
+        const faux = await mcOuvrir({ cible: 'pokemon', cle: 'dracofeu' });
+        if(faux.ok) return 'échec : une clé inconnue ouvre quelque chose';
+        return 'Dracaufeu avec « ' + bloc.querySelector('.obt-jeu-titre').textContent.trim()
+          + ' », puis Dracaufeu (Méga X) ; « dracofeu » refusé';
+      }finally{
+        closePreview();
+      }
+    });
+  });
