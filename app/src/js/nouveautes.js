@@ -20,6 +20,23 @@ const NOUVEAUTES_VUES_KEY = 'pokearchive-nouveautes-vues';
 
 const NOUVEAUTES = [
   {
+    version: '0.47.0', date: '2026-09-27',
+    titre: 'PixelmonWorld : le Pokédex de Kaura 2.0',
+    points: [
+      '**🆕 Paldea arrive sur le serveur.** Le Pokédex de PixelmonWorld suit '
+      + 'celui de Kaura 2.0 : 1 080 Pokémon au lieu de 951. Les 129 nouveaux — '
+      + 'la 9ᵉ génération, de Poussacha à Pêchaminus, et sept Pokémon de Hisui — '
+      + 'ont leurs lieux et leur rareté, et la jauge de ton Pokédex va désormais '
+      + 'jusqu’à 1 080.',
+
+      '**⭐ Des raretés à jour.** 122 Pokémon ont changé de palier avec la mise '
+      + 'à jour du serveur, et leurs étoiles avec eux.',
+
+      '**📍 Les lieux suivent le site.** « Zone 0 » et « Fossile » font leur '
+      + 'entrée, et les sous-zones « Colline » deviennent « Collines ».',
+    ]
+  },
+  {
     version: '0.46.0', date: '2026-09-26',
     titre: 'Minecraft : /ps ouvre PokéPension depuis le chat',
     points: [
