@@ -199,9 +199,10 @@ function pwChargerReserve(){
  * Relier ce que dit le serveur à ce que l'application connaît.
  *
  * LA CLÉ EST LE NOM DE FORME DE POKEAPI — « magikarp », « exeggutor-alola ».
- * C'est celui que le site de PixelmonWorld écrit dans ses adresses, et celui
- * que porte `entry.name` ici : les deux tombent juste sans traduction. Un nom
- * français aurait demandé une table, et une table aurait dérivé.
+ * C'est celui que le site de PixelmonWorld écrit dans le nom de ses images
+ * (ses adresses sont en français depuis Kaura 2.0), et celui que porte
+ * `entry.name` ici : le relevé les accorde, sans traduction. Un nom français
+ * aurait demandé une table, et une table aurait dérivé.
  *
  * UNE ESPÈCE QUE L'APPLICATION NE CONNAÎT PAS EST GARDÉE QUAND MÊME, avec ce
  * que le serveur en dit. Elle n'aura ni sprite local ni fiche — c'est mieux
@@ -631,7 +632,9 @@ function pwSprite(x){
 
   if(!entry){
     // Inconnue de la réserve : il reste le rendu du serveur, qui la connaît.
-    img.src = 'https://www.pixelmonworld.fr/images/pokedex/still/' + (x.pw.sprite || '');
+    // Le relevé donne son chemin sous /media/pokedex/pokemon/ — « sprite/… »
+    // ou « image/… » ; le www du site répond 500 depuis Kaura 2.0.
+    img.src = 'https://pixelmonworld.fr/media/pokedex/pokemon/' + (x.pw.sprite || '');
     return img;
   }
 
